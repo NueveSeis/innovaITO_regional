@@ -18,7 +18,7 @@ class FondoAcceso extends StatelessWidget {
                   width: double.infinity,
                   height: 250,
                   child: Image.asset(
-                    'assets/imagenes/logo_innovaITO.png',
+                    'assets/imagenes/logo_innovaITO_blanco.png',
                   )),
             ),
             child
