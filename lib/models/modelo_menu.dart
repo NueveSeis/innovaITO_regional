@@ -21,6 +21,10 @@ List<ModeloMenu> itemsMenu = const [
       titulo: "Resultado de evaluación",
       icono: Icons.playlist_add_check_circle_rounded,
       pantalla: 'detalles'),
+  ModeloMenu(
+      titulo: "Proyectos",
+      icono: Icons.document_scanner_rounded,
+      pantalla: 'proyectos'),
 ];
 
 List<ModeloMenu> itemsConfig = const [

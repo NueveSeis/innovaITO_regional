@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
         'detalles': (_) => const DetallesScreen(),
         'acceso': (_) => const AccesoScreen(),
         'menu_lateral': (_) => const MenuLateral(),
+        'proyectos': (_) => const ProyectosPendientesScreen(),
       },
     );
   }

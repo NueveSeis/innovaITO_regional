@@ -6,7 +6,7 @@ class DetallesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: Center(
+        child: const Center(
           child: Text(
             'detalles',
             style: TextStyle(color: Colors.red),
