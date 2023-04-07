@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/theme/cambiar_tema.dart';
 import 'package:provider/provider.dart';
-
-import '../models/models.dart';
 
 class MenuLateralItem extends StatelessWidget {
   final ModeloMenu menu;

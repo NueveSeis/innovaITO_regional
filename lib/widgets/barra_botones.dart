@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:innova_ito/theme/cambiar_tema.dart';
+import 'package:provider/provider.dart';
 
 class BarraBotones extends StatelessWidget {
   const BarraBotones({
@@ -8,12 +9,18 @@ class BarraBotones extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool pendiente = true;
+
+    final temaApp = Provider.of<CambiarTema>(context);
     return Padding(
       padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            color: CambiarTema.balticSea),
+          borderRadius: BorderRadius.circular(15),
+          color: (temaApp.temaOscuro)
+              ? CambiarTema.balticSea
+              : CambiarTema.indigo50,
+        ),
         width: double.infinity,
         height: 50,
         child: Row(
@@ -23,18 +30,25 @@ class BarraBotones extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
-                disabledColor: CambiarTema.emperor,
+                disabledColor: (temaApp.temaOscuro)
+                    ? CambiarTema.emperor
+                    : CambiarTema.grey100,
                 elevation: 10,
                 height: 30,
                 color: CambiarTema.pizazz,
                 child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 12),
-                    child: const Text(
+                    child: Text(
                       'Aprobados',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(
+                          color: (temaApp.temaOscuro)
+                              ? Colors.white
+                              : CambiarTema.bluegrey700),
                     )),
-                onPressed: null),
+                onPressed: () {
+                  pendiente = false;
+                }),
             MaterialButton(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
@@ -50,7 +64,9 @@ class BarraBotones extends StatelessWidget {
                       'Pendientes',
                       style: TextStyle(color: Colors.white),
                     )),
-                onPressed: () {})
+                onPressed: () {
+                  pendiente = true;
+                })
           ],
         ),
       ),

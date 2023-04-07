@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:innova_ito/models/models.dart';
 import 'package:provider/provider.dart';
 
 import 'package:innova_ito/theme/cambiar_tema.dart';
 
-class AceptarProVinculacion extends StatelessWidget {
-  const AceptarProVinculacion({super.key});
+class ProyectoAceptado extends StatelessWidget {
+  final ProyectoModelo proyecto;
+
+  const ProyectoAceptado({super.key, required this.proyecto});
 
   @override
   Widget build(BuildContext context) {
+    //ProyectoModelo proyectoModelo = itemsProyecto.first;
     final temaApp = Provider.of<CambiarTema>(context);
 
     return Card(
@@ -31,7 +35,7 @@ class AceptarProVinculacion extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Nieves inalámbricas',
+                  proyecto.titulo,
                   style: TextStyle(
                       color: (temaApp.temaOscuro)
                           ? Colors.white
@@ -40,7 +44,7 @@ class AceptarProVinculacion extends StatelessWidget {
                       fontSize: 20),
                 ),
                 Text(
-                  'Categoria: Industria creativa',
+                  'Categoria: ${proyecto.categoria}',
                   style: TextStyle(
                       color: (temaApp.temaOscuro)
                           ? Colors.white
@@ -76,7 +80,10 @@ class AceptarProVinculacion extends StatelessWidget {
                 children: [
                   IconButton(
                     icon: Icon(Icons.trip_origin_rounded,
-                        color: Colors.red, size: 30),
+                        color: (proyecto.asesorCheck)
+                            ? CambiarTema.greenS400
+                            : CambiarTema.redA400,
+                        size: 30),
                     onPressed: null,
                   ),
                   //SizedBox(zi),
@@ -92,13 +99,16 @@ class AceptarProVinculacion extends StatelessWidget {
               ),
               Column(
                 children: [
-                  Switch(
-                    value: true,
-                    onChanged: (value) => print('hola'),
-                    activeColor: CambiarTema.pizazz,
+                  IconButton(
+                    icon: Icon(Icons.trip_origin_rounded,
+                        color: (proyecto.vinculacionCheck)
+                            ? CambiarTema.greenS400
+                            : CambiarTema.redA400,
+                        size: 30),
+                    onPressed: null,
                   ),
                   Text(
-                    'Aceptar',
+                    'Vinculación',
                     style: TextStyle(
                       color: (temaApp.temaOscuro)
                           ? Colors.white

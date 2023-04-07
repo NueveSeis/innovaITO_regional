@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:innova_ito/widgets/widgets.dart';
+import 'package:innova_ito/models/models.dart';
 import 'package:provider/provider.dart';
 
+import 'package:innova_ito/widgets/widgets.dart';
 import 'package:innova_ito/theme/cambiar_tema.dart';
 
 class ProyectosPendientesScreen extends StatelessWidget {
@@ -9,6 +10,7 @@ class ProyectosPendientesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ProyectoModelo proyectoModelo = itemsProyecto.first;
     final temaApp = Provider.of<CambiarTema>(context);
 
     return Scaffold(
@@ -27,7 +29,9 @@ class ProyectosPendientesScreen extends StatelessWidget {
                   IconButton(
                       iconSize: 45,
                       color: Colors.white,
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, 'menu_lateral');
+                      },
                       icon: Icon(Icons.clear_all_rounded)),
                   Text(
                     'Proyecto',
@@ -46,7 +50,9 @@ class ProyectosPendientesScreen extends StatelessWidget {
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: CambiarTema.balticSea,
+                    color: (temaApp.temaOscuro)
+                        ? CambiarTema.balticSea
+                        : CambiarTema.indigo50,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(25),
                         topRight: Radius.circular(25)),
@@ -55,14 +61,13 @@ class ProyectosPendientesScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         SizedBox(height: 15),
-                        AceptarProVinculacion(),
-                        AceptarProVinculacion(),
-                        AceptarProVinculacion(),
-                        AceptarProVinculacion(),
-                        AceptarProVinculacion(),
-                        AceptarProVinculacion(),
-                        AceptarProVinculacion(),
-                        AceptarProVinculacion(),
+                        ...itemsProyecto.map(
+                          (proyecto) => ProyectoAceptado(
+                            proyecto: proyecto,
+                          ),
+                        ),
+                        //ProyectoAceptado(proyecto: ),
+                        //AceptarProVinculacion()
                       ],
                     ),
                   ),

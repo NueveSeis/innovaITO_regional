@@ -8,6 +8,8 @@ class CambiarTema with ChangeNotifier {
   static const Color indigo50 = Color(0xFFE4EBF5); //Indigo50
   static const Color grey100 = Color(0xFFF4F8FB); //Grey100
   static const Color bluegrey700 = Color(0xFF4B597B);
+  static const Color redA400 = Color(0xFFEF003B);
+  static const Color greenS400 = Color(0xFF66BB6A);
 
   bool _temaLuz = false;
   bool _temaOscuro = false;
