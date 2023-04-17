@@ -9,7 +9,8 @@ class BarraBotones extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool pendiente = true;
+    bool pendiente = false;
+    bool aprobados = false;
 
     final temaApp = Provider.of<CambiarTema>(context);
     return Padding(
@@ -35,7 +36,13 @@ class BarraBotones extends StatelessWidget {
                     : CambiarTema.grey100,
                 elevation: 10,
                 height: 30,
-                color: CambiarTema.pizazz,
+                color: (temaApp.temaOscuro)
+                    ? (aprobados)
+                        ? CambiarTema.pizazz
+                        : CambiarTema.emperor
+                    : (aprobados)
+                        ? CambiarTema.pizazz
+                        : CambiarTema.grey100,
                 child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 12),
@@ -44,7 +51,9 @@ class BarraBotones extends StatelessWidget {
                       style: TextStyle(
                           color: (temaApp.temaOscuro)
                               ? Colors.white
-                              : CambiarTema.bluegrey700),
+                              : (aprobados)
+                                  ? Colors.white
+                                  : CambiarTema.bluegrey700),
                     )),
                 onPressed: () {
                   pendiente = false;
@@ -56,13 +65,24 @@ class BarraBotones extends StatelessWidget {
                 disabledColor: CambiarTema.emperor,
                 elevation: 10,
                 height: 30,
-                color: CambiarTema.pizazz,
+                color: (temaApp.temaOscuro)
+                    ? (pendiente)
+                        ? CambiarTema.pizazz
+                        : CambiarTema.emperor
+                    : (pendiente)
+                        ? CambiarTema.pizazz
+                        : CambiarTema.grey100,
                 child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 12),
-                    child: const Text(
+                    child: Text(
                       'Pendientes',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(
+                          color: (temaApp.temaOscuro)
+                              ? Colors.white
+                              : (pendiente)
+                                  ? Colors.white
+                                  : CambiarTema.bluegrey700),
                     )),
                 onPressed: () {
                   pendiente = true;
