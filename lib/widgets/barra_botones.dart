@@ -2,15 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:innova_ito/theme/cambiar_tema.dart';
 import 'package:provider/provider.dart';
 
-class BarraBotones extends StatelessWidget {
+class BarraBotones extends StatefulWidget {
   const BarraBotones({
     super.key,
   });
 
   @override
+  State<BarraBotones> createState() => _BarraBotonesState();
+}
+
+class _BarraBotonesState extends State<BarraBotones> {
+  bool pendiente = false;
+  bool aprobados = false;
+  @override
   Widget build(BuildContext context) {
-    bool pendiente = false;
-    bool aprobados = false;
+    //bool pendiente = false;
+    // bool aprobados = false;
 
     final temaApp = Provider.of<CambiarTema>(context);
     return Padding(
@@ -56,7 +63,10 @@ class BarraBotones extends StatelessWidget {
                                   : CambiarTema.bluegrey700),
                     )),
                 onPressed: () {
-                  pendiente = false;
+                  setState(() {
+                    aprobados = true;
+                    pendiente = false;
+                  });
                 }),
             MaterialButton(
                 shape: RoundedRectangleBorder(
@@ -85,7 +95,10 @@ class BarraBotones extends StatelessWidget {
                                   : CambiarTema.bluegrey700),
                     )),
                 onPressed: () {
-                  pendiente = true;
+                  setState(() {
+                    pendiente = true;
+                    aprobados = false;
+                  });
                 })
           ],
         ),
