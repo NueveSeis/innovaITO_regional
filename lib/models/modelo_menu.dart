@@ -12,7 +12,7 @@ List<ModeloMenu> itemsMenu = const [
   ModeloMenu(
       titulo: "Registro de usuario",
       icono: Icons.group_add_rounded,
-      pantalla: 'detalles'),
+      pantalla: 'registro_usuario'),
   ModeloMenu(
       titulo: "Registro de horario",
       icono: Icons.calendar_month_rounded,

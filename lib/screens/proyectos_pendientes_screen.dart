@@ -14,7 +14,7 @@ class ProyectosPendientesScreen extends StatefulWidget {
 }
 
 class _ProyectosPendientesScreenState extends State<ProyectosPendientesScreen> {
-  bool pendiente = false;
+  bool pendiente = true;
   bool aprobados = false;
 
   @override
@@ -154,16 +154,18 @@ class _ProyectosPendientesScreenState extends State<ProyectosPendientesScreen> {
                     child: Column(
                       children: [
                         SizedBox(height: 15),
-                        ...itemsProyecto.map(
-                          (proyecto) => (pendiente)
-                              ? AceptarProVinculacion(proyecto: proyecto)
-                              : ProyectoAceptado(
-                                  proyecto: proyecto,
-                                ),
-                        ),
-
-                        //ProyectoAceptado(proyecto: ),
-                        //AceptarProVinculacion()
+                        if (aprobados)
+                          ...itemsProyecto
+                              .map((proyecto) => (proyecto.vinculacionCheck)
+                                  ? (proyecto.asesorCheck)
+                                      ? ProyectoAceptado(proyecto: proyecto)
+                                      : SizedBox()
+                                  : SizedBox()),
+                        if (pendiente)
+                          ...itemsProyecto.map((proyecto) =>
+                              (proyecto.vinculacionCheck == false)
+                                  ? AceptarProVinculacion(proyecto: proyecto)
+                                  : SizedBox()),
                       ],
                     ),
                   ),

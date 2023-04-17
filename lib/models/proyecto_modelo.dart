@@ -34,4 +34,14 @@ List<ProyectoModelo> itemsProyecto = [
       categoria: "innovacion",
       asesorCheck: false,
       vinculacionCheck: false),
+  ProyectoModelo(
+      titulo: "InnovaIto",
+      categoria: "innovacion",
+      asesorCheck: true,
+      vinculacionCheck: true),
+  ProyectoModelo(
+      titulo: "Agua de piña",
+      categoria: "innovacion",
+      asesorCheck: true,
+      vinculacionCheck: true),
 ];
