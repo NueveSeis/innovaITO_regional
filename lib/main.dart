@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
         'menu_lateral': (_) => const MenuLateral(),
         'proyectos': (_) => const ProyectosPendientesScreen(),
         'registro_usuario': (_) => const RegistroUsuarioScreen(),
+        'registro_usuario_lider': (_) => const RegistroUsuarioLiderScreen(),
       },
     );
   }
