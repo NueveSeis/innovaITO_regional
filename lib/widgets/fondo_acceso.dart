@@ -8,7 +8,7 @@ class FondoAcceso extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: const Color.fromRGBO(46, 45, 47, 1),
+        color: const Color(0xFFFA7A1E),
         width: double.infinity,
         height: double.infinity,
         child: Stack(
