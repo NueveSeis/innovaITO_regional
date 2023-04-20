@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/theme/cambiar_tema.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/widgets/widgets.dart';
@@ -16,7 +17,7 @@ class RegistroUsuarioLiderScreen extends StatelessWidget {
             fontSize: 20,
             widget: Column(
               children: [
-                SizedBox(height: 50),
+                const SizedBox(height: 50),
                 Text(
                   'Ingrese datos del estudiante',
                   style: TextStyle(
@@ -27,27 +28,48 @@ class RegistroUsuarioLiderScreen extends StatelessWidget {
                       fontSize: 20),
                 ),
                 SingleChildScrollView(
-                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                   child: Form(
                       child: Column(
                     children: [
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
+                      DropdownButtonFormField(
+                          value: 'Licenciatura',
+                          style: const TextStyle(
+                              color: CambiarTema.bluegrey700,
+                              fontWeight: FontWeight.bold),
+                          items: const [
+                            DropdownMenuItem(
+                              value: 'Licenciatura',
+                              child: Text('Licenciatura'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'Postgrado',
+                              child: Text('Postgrado'),
+                            ),
+                          ],
+                          onChanged: (value) {
+                            print(value);
+                          }),
+                      const SizedBox(height: 20),
                       TextFormField(
-                        style: TextStyle(
-                            color: CambiarTema.bluegrey700,
-                            fontWeight: FontWeight.bold),
                         autocorrect: false,
                         keyboardType: TextInputType.emailAddress,
+                        style: const TextStyle(
+                            color: CambiarTema.bluegrey700,
+                            fontWeight: FontWeight.bold),
                         decoration: InputDecorations.registroLiderDecoration(
                           hintText: 'Ingrese matricula',
                           labelText: 'Matricula',
+
                           //prefixIcon: Icons.person
                         ),
                         //onChanged: (value) => accesoFormulario.correo = value,
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       TextFormField(
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: CambiarTema.bluegrey700,
                             fontWeight: FontWeight.bold),
                         autocorrect: false,
@@ -59,9 +81,9 @@ class RegistroUsuarioLiderScreen extends StatelessWidget {
                         ),
                         //onChanged: (value) => accesoFormulario.correo = value,
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       TextFormField(
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: CambiarTema.bluegrey700,
                             fontWeight: FontWeight.bold),
                         autocorrect: false,
@@ -73,9 +95,9 @@ class RegistroUsuarioLiderScreen extends StatelessWidget {
                         ),
                         //onChanged: (value) => accesoFormulario.correo = value,
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       TextFormField(
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: CambiarTema.bluegrey700,
                             fontWeight: FontWeight.bold),
                         autocorrect: false,
@@ -87,9 +109,9 @@ class RegistroUsuarioLiderScreen extends StatelessWidget {
                         ),
                         //onChanged: (value) => accesoFormulario.correo = value,
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       TextFormField(
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: CambiarTema.bluegrey700,
                             fontWeight: FontWeight.bold),
                         autocorrect: false,
@@ -101,29 +123,25 @@ class RegistroUsuarioLiderScreen extends StatelessWidget {
                         ),
                         //onChanged: (value) => accesoFormulario.correo = value,
                       ),
-                      SizedBox(height: 20),
+//                      SizedBox(height: 20),
                       Container(
+                        height: 50,
                         width: double.infinity,
-                        margin:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                        child: MaterialButton(
-                            splashColor: CambiarTema.grey100,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            height: 60,
-                            elevation: 15.0,
-                            color: CambiarTema.pizazz,
-                            child: Container(
-                                child: Text(
-                              'Registrar',
-                              style: TextStyle(
-                                  color: CambiarTema.grey100, fontSize: 25),
-                            )),
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                  context, 'registro_usuario_lider');
-                            }),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 10),
+                        child: ElevatedButton(
+                          child: Center(
+                              //height: 50,
+                              child: Text(
+                            'Registrar',
+                            style: TextStyle(
+                                color: CambiarTema.grey100, fontSize: 25),
+                          )),
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, 'registro_usuario_lider');
+                          },
+                        ),
                       ),
                     ],
                   )),

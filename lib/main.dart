@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     final temaActua = Provider.of<CambiarTema>(context).temaActual;
 
     return MaterialApp(
-      theme: temaActua,
+      theme: AppTema.modoLuz,
       debugShowCheckedModeBanner: false,
       title: 'Innova ITO',
       initialRoute: 'menu_lateral',

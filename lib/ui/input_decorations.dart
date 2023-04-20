@@ -34,26 +34,8 @@ class InputDecorations {
       required String labelText,
       IconData? prefixIcon}) {
     return InputDecoration(
-        filled: true,
-        fillColor: CambiarTema.grey100,
-        enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: CambiarTema.bluegrey700,
-              width: 0.3,
-            ),
-            borderRadius: BorderRadius.circular(10.0)),
-        focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-            color: Color.fromRGBO(250, 122, 30, 1),
-            width: 1,
-          ),
-          borderRadius: BorderRadius.circular(10.0),
-        ),
         hintText: hintText,
-        hintStyle: TextStyle(
-            color: CambiarTema.bluegrey700, fontWeight: FontWeight.normal),
         labelText: labelText,
-        labelStyle: const TextStyle(color: CambiarTema.bluegrey700),
         prefixIcon: prefixIcon != null
             ? Icon(prefixIcon, color: const Color.fromRGBO(28, 27, 31, 0.9))
             : null);
