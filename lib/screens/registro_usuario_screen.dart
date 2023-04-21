@@ -87,7 +87,8 @@ class RegistroUsuarioScreen extends StatelessWidget {
                                 fontSize: 25),
                           )),
                           onPressed: () {
-                            Navigator.pushNamed(context, 'inicio');
+                            Navigator.pushNamed(
+                                context, 'registro_usuario_asesor');
                           }),
                     ),
                   ],

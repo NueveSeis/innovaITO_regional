@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
         'proyectos': (_) => const ProyectosPendientesScreen(),
         'registro_usuario': (_) => const RegistroUsuarioScreen(),
         'registro_usuario_lider': (_) => const RegistroUsuarioLiderScreen(),
+        'registro_usuario_asesor': (_) => const RegistroUsuarioAsesorScreen(),
       },
     );
   }

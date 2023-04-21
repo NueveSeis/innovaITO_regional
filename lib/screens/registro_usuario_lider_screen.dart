@@ -130,7 +130,7 @@ class RegistroUsuarioLiderScreen extends StatelessWidget {
                         margin: const EdgeInsets.symmetric(
                             vertical: 20, horizontal: 10),
                         child: ElevatedButton(
-                          child: Center(
+                          child: const Center(
                               //height: 50,
                               child: Text(
                             'Registrar',
