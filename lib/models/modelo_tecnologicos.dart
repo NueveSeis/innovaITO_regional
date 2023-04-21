@@ -311,6 +311,96 @@ class ModeloTecnologicos {
     'Ing. en Biotecnología',
     'Técnico Superior en Minería',
     'Ing. en Diseño Industrial',
-    'Técnico Superior en Buceo Industrial',
+    'Técnico Superior en Buceo Industrial'
+  ];
+
+  List<String> categorias = [
+    'Sector Agroalimentario',
+    'Industria Eléctrica y Electrónica',
+    'Electromovilidad y Ciudades Inteligentes',
+    'Servicios para la Salud',
+    'Industrias Creativas',
+    'Cambio Climático',
+  ];
+
+  List<String> sectorAlimentario = [
+    'Industria alimentaria',
+    'Tecnificación de la producción agrícola',
+    'Producción pecuaria',
+    'Insumos (semillas, fertilizantes, abonos, maquinaria y equipo)',
+    'Nuevos modelos de agricultura',
+    'Agricultura urbana',
+    'Alimentos del futuro',
+    'Ingeniería genética verde',
+    'Granjas verticales',
+    'Autonomía alimentaria',
+    'Otro...'
+  ];
+
+  List<String> indElectrica = [
+    'Electrodomésticos',
+    'Equipos de comunicación y medición',
+    'Equipo de cómputo',
+    'Manufacturas para exportación',
+    'Semiconductores',
+    'Internet de las cosas (IoT)',
+    'Dispositivos eléctricos, electrónicos, mecatrónicos',
+    'Tecnología 5G',
+    'Robótica y automatización',
+    'Otro...',
+  ];
+
+  List<String> electromovilidad = [
+    'Autopartes',
+    'Batería y sus componentes',
+    'Vehículos ligeros y de carga',
+    'Vehículos de transporte público',
+    'Movilidad social',
+    'Desarrollo urbano',
+    'Otro...',
+  ];
+
+  List<String> serviciosSalud = [
+    'Equipamiento y dispositivos médicos (rehabilitación, prótesis, etc.)',
+    'Biotecnología, nanotecnología, biomedicina',
+    'Sistemas de atención médica inteligentes',
+    'Medicamentos y productos relacionados',
+    'Salud mental',
+    'Otro...',
+  ];
+
+  List<String> industriasCreativas = [
+    'Industria fílmica',
+    'Industria televisiva',
+    'Videojuegos',
+    'Entretenimiento en vivo',
+    'Plataformas virtuales',
+    'Producción cultural',
+    'Aplicaciones tecnológicas para moda y derivados (vestido, calzado, etc.)',
+    'Otro...',
+  ];
+
+  List<String> cambioClimatico = [
+    'Energía verde (eólica, solar, hidrógeno, etc.)',
+    'Desalinización',
+    'Tecnología aplicada al reciclaje, transformación o tratamiento de agua, sólidos, plásticos y residuos peligrosos',
+    'Proyectos que propongan estrategias para mitigar el cambio climático',
+    'Ecotecnologías',
+    'Transición energética',
+    'Sistemas de ahorro y aprovechamiento de agua pluvial',
+    'Educación ambiental',
+    'Otro...',
+  ];
+
+  List<String> naturalezaTecnica = [
+    'Energía verde (eólica, solar, hidrógeno, etc.)',
+    'Desalinización',
+    'Tecnología aplicada al reciclaje, transformación o tratamiento de agua, sólidos, plásticos y residuos peligrosos',
+    'Proyectos que propongan estrategias para mitigar el cambio climático',
+    'Ecotecnologías',
+    'Transición energética',
+    'Sistemas de ahorro y aprovechamiento de agua pluvial',
+    'Educación ambiental',
+    'Otro...',
   ];
 }
