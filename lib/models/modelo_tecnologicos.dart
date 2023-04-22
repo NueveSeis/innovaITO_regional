@@ -1,11 +1,19 @@
 class ModeloTecnologicos {
-  List<String> tecnologicos = [
+  List<String> institutos = [
+    'Centros de investigación',
+    'Institutos tecnológicos federales',
+    'Institutos Tecnológicos Descentralizados'
+  ];
+
+  List<String> centros = [
     'Centro Nacional de Investigación y Desarrollo Tecnológico',
     'Centro Interdisciplinario de Investigación y Docencia en Educación Técnica',
     'Centro Regional de Optimización y Desarrollo de Equipo Celaya',
     'Centro Regional de Optimización y Desarrollo de Equipo Chihuahua',
     'Centro Regional de Optimización y Desarrollo de Equipo Mérida',
     'Centro Regional de Optimización y Desarrollo de Equipo Orizaba',
+  ];
+  List<String> tecnologicosF = [
     'Instituto Tecnológico de Acapulco',
     'Instituto Tecnológico de Agua Prieta',
     'Instituto Tecnológico de Aguascalientes',
@@ -132,6 +140,9 @@ class ModeloTecnologicos {
     'Instituto Tecnológico de Zacatecas',
     'Instituto Tecnológico de Zacatepec',
     'Instituto Tecnológico de Zitácuaro',
+  ];
+
+  List<String> tecnologicosD = [
     'Instituto Tecnológico Superior de Acatlán de Osorio',
     'Instituto Tecnológico Superior de Acayucan',
     'Instituto Tecnológico Superior de Álamo Temapache',

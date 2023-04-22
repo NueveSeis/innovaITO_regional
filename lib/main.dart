@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: AppTema.modoLuz,
       debugShowCheckedModeBanner: false,
       title: 'Innova ITO',
-      initialRoute: 'menu_lateral',
+      initialRoute: 'proyectos',
       routes: {
         'inicio': (_) => const InicioScreen(),
         'detalles': (_) => const DetallesScreen(),
@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
         'registro_usuario': (_) => const RegistroUsuarioScreen(),
         'registro_usuario_lider': (_) => const RegistroUsuarioLiderScreen(),
         'registro_usuario_asesor': (_) => const RegistroUsuarioAsesorScreen(),
+        'ficha_tecnica': (_) => const FichaTecnicaScreen(),
       },
     );
   }

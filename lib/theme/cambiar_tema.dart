@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CambiarTema with ChangeNotifier {
-  static const Color primario = Color(0xFFFA7A1E); //Ecstaszy
+  static const Color primario = Color.fromRGBO(250, 122, 30, 1); //Ecstaszy
   static const Color pizazz = Color(0xFFFF9500); //Pizazz
   static const Color balticSea = Color(0xFF2E2D2F); //Baltic Sea
   static const Color emperor = Color(0xFF4E4B4D); //Emperor

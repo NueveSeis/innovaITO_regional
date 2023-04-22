@@ -13,10 +13,9 @@ List<ModeloMenu> itemsMenu = const [
       titulo: "Registro de usuario",
       icono: Icons.group_add_rounded,
       pantalla: 'registro_usuario'),
-  ModeloMenu(
-      titulo: "Registro de horario",
-      icono: Icons.calendar_month_rounded,
-      pantalla: 'acceso'),
+  /////   titulo: "Registro de horario",
+  //icono: Icons.calendar_month_rounded,
+  //pantalla: 'acceso'),
   ModeloMenu(
       titulo: "Resultado de evaluación",
       icono: Icons.playlist_add_check_circle_rounded,
@@ -25,6 +24,14 @@ List<ModeloMenu> itemsMenu = const [
       titulo: "Proyectos",
       icono: Icons.document_scanner_rounded,
       pantalla: 'proyectos'),
+  ModeloMenu(
+      titulo: "Inicio de sesión",
+      icono: Icons.not_started_rounded,
+      pantalla: 'acceso'),
+  ModeloMenu(
+      titulo: "Ficha tecnica",
+      icono: Icons.note_add_rounded,
+      pantalla: 'ficha_tecnica'),
 ];
 
 List<ModeloMenu> itemsConfig = const [

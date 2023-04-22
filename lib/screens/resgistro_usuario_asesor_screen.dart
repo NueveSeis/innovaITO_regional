@@ -9,7 +9,10 @@ class RegistroUsuarioAsesorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> tecs = ModeloTecnologicos().tecnologicos;
+    List<String> tipoInst = ModeloTecnologicos().institutos;
+    List<String> centros = ModeloTecnologicos().centros;
+    List<String> tecsF = ModeloTecnologicos().tecnologicosF;
+    List<String> tecsD = ModeloTecnologicos().tecnologicosD;
     List<String> carreras = ModeloTecnologicos().carrera;
 
     return Scaffold(
@@ -36,7 +39,41 @@ class RegistroUsuarioAsesorScreen extends StatelessWidget {
                   // padding: EdgeInsets.only(right: 2.0),
                   alignment: Alignment.topLeft,
                   child: const Text(
-                    'Instituto pertenecione',
+                    'Tipo de instituto o centro de investigación',
+                    style: TextStyle(
+                        color: AppTema.bluegrey700,
+                        fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.right,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+
+                DropdownButtonFormField(
+                  isExpanded: true,
+                  style: const TextStyle(
+                      color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+                  onChanged: (value) {
+                    print(value);
+                  },
+                  items: tipoInst.map((itemone) {
+                    return DropdownMenuItem(
+                      alignment: Alignment.centerLeft,
+                      value: itemone,
+                      child: Text(
+                        itemone,
+                        overflow: TextOverflow.visible,
+                      ),
+                    );
+                  }).toList(),
+                ),
+                const SizedBox(height: 20),
+                Container(
+                  // padding: EdgeInsets.only(right: 2.0),
+                  alignment: Alignment.topLeft,
+                  child: const Text(
+                    'Instituto de pertenecia',
                     style: TextStyle(
                         color: AppTema.bluegrey700,
                         fontWeight: FontWeight.bold),
@@ -55,7 +92,7 @@ class RegistroUsuarioAsesorScreen extends StatelessWidget {
                   onChanged: (value) {
                     print(value);
                   },
-                  items: tecs.map((itemone) {
+                  items: tecsF.map((itemone) {
                     return DropdownMenuItem(
                       alignment: Alignment.centerLeft,
                       value: itemone,

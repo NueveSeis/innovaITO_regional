@@ -1,9 +1,11 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 import 'package:innova_ito/providers/acceso_formulario_prov.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
+import 'package:innova_ito/theme/app_tema.dart';
 
 class AccesoScreen extends StatelessWidget {
   const AccesoScreen({Key? key}) : super(key: key);
@@ -28,7 +30,7 @@ class AccesoScreen extends StatelessWidget {
                   const Text(
                     'Acceso',
                     style: TextStyle(
-                        color: Color.fromRGBO(46, 45, 47, 0.8),
+                        color: AppTema.balticSea,
                         fontSize: 28,
                         fontWeight: FontWeight.bold),
                   ),
@@ -40,8 +42,25 @@ class AccesoScreen extends StatelessWidget {
                     child: _formularioAcceso(),
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 5,
                   ),
+                  TextButton(
+                      child: const Text(
+                        'Registrar',
+                        style: TextStyle(
+                            color: AppTema.primario,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () async {
+                        String barcodeScanRes =
+                            await FlutterBarcodeScanner.scanBarcode(
+                                '#fa7a1e', 'Cancelar', false, ScanMode.QR);
+                        if (barcodeScanRes == '20230422') {
+                          //print(barcodeScanRes);
+                          Navigator.pushReplacementNamed(
+                              context, 'registro_usuario_asesor');
+                        }
+                      }),
                   TextButton(
                       child: const Text(
                         '¿Olvidó su contraseña?',
@@ -50,9 +69,6 @@ class AccesoScreen extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                       ),
                       onPressed: () {}),
-                  const SizedBox(
-                    height: 30,
-                  ),
                 ],
               ),
             ),

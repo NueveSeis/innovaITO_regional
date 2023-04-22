@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:innova_ito/theme/app_tema.dart';
 
 class FondoAcceso extends StatelessWidget {
   final Widget child;
@@ -8,17 +9,17 @@ class FondoAcceso extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: const Color(0xFFFA7A1E),
+        color: AppTema.primario,
         width: double.infinity,
         height: double.infinity,
         child: Stack(
           children: [
             SafeArea(
-              child: Container(
+              child: SizedBox(
                   width: double.infinity,
                   height: 250,
                   child: Image.asset(
-                    'assets/imagenes/logo_innovaITO_blanco.png',
+                    'assets/imagenes/logo_innovaITO_negro.png',
                   )),
             ),
             child
