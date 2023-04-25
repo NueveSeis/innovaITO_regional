@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:innova_ito/widgets/widgets.dart';
 
 class InicioScreen extends StatelessWidget {
   const InicioScreen({super.key});
@@ -7,12 +8,7 @@ class InicioScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: Center(
-          child: Text(
-            'inicio',
-            style: TextStyle(color: Colors.red),
-          ),
-        ),
+        child: EditorTexto(),
       ),
     );
   }

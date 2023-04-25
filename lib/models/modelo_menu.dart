@@ -32,6 +32,12 @@ List<ModeloMenu> itemsMenu = const [
       titulo: "Ficha tecnica",
       icono: Icons.note_add_rounded,
       pantalla: 'ficha_tecnica'),
+  ModeloMenu(
+      titulo: "Carreras", icono: Icons.note_add_rounded, pantalla: 'carrera'),
+  ModeloMenu(
+      titulo: "Departamentos",
+      icono: Icons.note_add_rounded,
+      pantalla: 'departamento'),
 ];
 
 List<ModeloMenu> itemsConfig = const [

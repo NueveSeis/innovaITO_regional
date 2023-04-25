@@ -6,3 +6,4 @@ export 'package:innova_ito/widgets/info_usuario.dart';
 export 'package:innova_ito/widgets/menu_lateral_item.dart';
 export 'package:innova_ito/widgets/proyecto_aceptado.dart';
 export 'package:innova_ito/widgets/fondo.dart';
+export 'package:innova_ito/widgets/editor_texto.dart';

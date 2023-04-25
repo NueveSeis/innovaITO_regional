@@ -404,14 +404,16 @@ class ModeloTecnologicos {
   ];
 
   List<String> naturalezaTecnica = [
-    'Energía verde (eólica, solar, hidrógeno, etc.)',
-    'Desalinización',
-    'Tecnología aplicada al reciclaje, transformación o tratamiento de agua, sólidos, plásticos y residuos peligrosos',
-    'Proyectos que propongan estrategias para mitigar el cambio climático',
-    'Ecotecnologías',
-    'Transición energética',
-    'Sistemas de ahorro y aprovechamiento de agua pluvial',
-    'Educación ambiental',
-    'Otro...',
+    'Agronómicas',
+    'Ciencias del Mar',
+    'Ciencias de la Tierra',
+    'Ciencias Computacionales',
+    'Ciencias Ambientales',
+    'Ciencias Químicas',
+    'Ciencias Mecánicas',
+    'Ciencias Eléctricas',
+    'Ciencias de los Materiales',
+    'Ciencias de Ingeniería Inductriales',
+    'Ciencias Económico-Administrativas'
   ];
 }

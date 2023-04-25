@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:innova_ito/screens/screens.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/theme/cambiar_tema.dart';
-import 'package:innova_ito/widgets/widgets.dart';
 
 void main() => runApp(ChangeNotifierProvider(
     create: (_) => CambiarTema(1), child: const MyApp()));
@@ -14,8 +13,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final temaActua = Provider.of<CambiarTema>(context).temaActual;
-
     return MaterialApp(
       theme: AppTema.modoLuz,
       debugShowCheckedModeBanner: false,
@@ -31,6 +28,8 @@ class MyApp extends StatelessWidget {
         'registro_usuario_lider': (_) => const RegistroUsuarioLiderScreen(),
         'registro_usuario_asesor': (_) => const RegistroUsuarioAsesorScreen(),
         'ficha_tecnica': (_) => const FichaTecnicaScreen(),
+        'carrera': (_) => const CarreraScreen(),
+        'departamento': (_) => const DepartamentoScreen(),
       },
     );
   }
