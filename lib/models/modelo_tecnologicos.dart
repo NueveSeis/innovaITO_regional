@@ -322,7 +322,8 @@ class ModeloTecnologicos {
     'Ing. en Biotecnología',
     'Técnico Superior en Minería',
     'Ing. en Diseño Industrial',
-    'Técnico Superior en Buceo Industrial'
+    'Técnico Superior en Buceo Industrial',
+    'Otra...'
   ];
 
   List<String> categorias = [

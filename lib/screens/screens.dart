@@ -9,3 +9,4 @@ export 'package:innova_ito/screens/resgistro_usuario_asesor_screen.dart';
 export 'package:innova_ito/screens/ficha_tecnica_screen.dart';
 export 'package:innova_ito/screens/carrera_screen.dart';
 export 'package:innova_ito/screens/departamento_screen.dart';
+export 'package:innova_ito/screens/agregar_carrera_screen.dart';

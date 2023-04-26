@@ -43,7 +43,6 @@ class AppTema {
           const TextStyle(color: bluegrey700, fontWeight: FontWeight.normal),
       labelStyle: const TextStyle(color: bluegrey700),
     ),
-
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
       primary: pizazz,
@@ -52,5 +51,13 @@ class AppTema {
         borderRadius: BorderRadius.circular(15),
       ),
     )),
+
+    //ListTile
+    listTileTheme: const ListTileThemeData(
+      iconColor: AppTema.bluegrey700,
+      textColor: AppTema.bluegrey700,
+    ),
+
+    //
   );
 }
