@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:innova_ito/theme/app_tema.dart';
 
 import 'package:innova_ito/theme/cambiar_tema.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:quickalert/quickalert.dart';
 
 class RegistroUsuarioLiderScreen extends StatelessWidget {
   const RegistroUsuarioLiderScreen({super.key});
@@ -138,8 +140,15 @@ class RegistroUsuarioLiderScreen extends StatelessWidget {
                                 color: CambiarTema.grey100, fontSize: 25),
                           )),
                           onPressed: () {
-                            Navigator.pushNamed(
-                                context, 'registro_usuario_lider');
+                            //Navigator.pushNamed(context, 'registro_usuario_lider');
+                            QuickAlert.show(
+                              context: context,
+                              type: QuickAlertType.success,
+                              title: 'Agregado correctamente',
+                              autoCloseDuration: Duration(seconds: 7),
+                              confirmBtnText: 'Hecho',
+                              confirmBtnColor: AppTema.pizazz,
+                            );
                           },
                         ),
                       ),

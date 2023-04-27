@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:quickalert/quickalert.dart';
+
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
@@ -105,7 +107,16 @@ class _AgregarCarreraScreenState extends State<AgregarCarreraScreen> {
                                 style: TextStyle(
                                     color: AppTema.grey100, fontSize: 25),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                QuickAlert.show(
+                                  context: context,
+                                  type: QuickAlertType.success,
+                                  title: 'Agregado correctamente',
+                                  autoCloseDuration: Duration(seconds: 7),
+                                  confirmBtnText: 'Hecho',
+                                  confirmBtnColor: AppTema.pizazz,
+                                );
+                              },
                             ),
                           ],
                         )

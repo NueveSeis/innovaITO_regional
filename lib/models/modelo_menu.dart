@@ -38,6 +38,10 @@ List<ModeloMenu> itemsMenu = const [
       titulo: "Departamentos",
       icono: Icons.note_add_rounded,
       pantalla: 'departamento'),
+  ModeloMenu(
+      titulo: "Fechas",
+      icono: Icons.note_add_rounded,
+      pantalla: 'asignacion_fechas'),
 ];
 
 List<ModeloMenu> itemsConfig = const [

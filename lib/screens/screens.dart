@@ -10,3 +10,4 @@ export 'package:innova_ito/screens/ficha_tecnica_screen.dart';
 export 'package:innova_ito/screens/carrera_screen.dart';
 export 'package:innova_ito/screens/departamento_screen.dart';
 export 'package:innova_ito/screens/agregar_carrera_screen.dart';
+export 'package:innova_ito/screens/asignacion_fechas_screen.dart';

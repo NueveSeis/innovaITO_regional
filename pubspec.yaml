@@ -34,6 +34,8 @@ dependencies:
   provider: ^6.0.5
   flutter_barcode_scanner: ^2.0.0
   flutter_quill: ^7.1.10
+  quickalert: ^1.0.1
+  calendar_date_picker2: ^0.5.2
   
   
 
