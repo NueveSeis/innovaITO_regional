@@ -43,6 +43,9 @@ class AppTema {
           const TextStyle(color: bluegrey700, fontWeight: FontWeight.normal),
       labelStyle: const TextStyle(color: bluegrey700),
     ),
+
+    //elevatedButton
+
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
       primary: pizazz,
