@@ -1,17 +1,25 @@
+import 'dart:convert';
+
+import 'package:innova_ito/models/models.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:mysql1/mysql1.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:innova_ito/providers/acceso_formulario_prov.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 
+
+
 class AccesoScreen extends StatelessWidget {
   const AccesoScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         body: FondoAcceso(
       child: SingleChildScrollView(
@@ -79,16 +87,52 @@ class AccesoScreen extends StatelessWidget {
   }
 }
 
-class _formularioAcceso extends StatelessWidget {
+
+class _formularioAcceso extends StatefulWidget {
+
+  @override
+  State<_formularioAcceso> createState() => _formularioAccesoState();
+}
+
+class _formularioAccesoState extends State<_formularioAcceso> {
+  
+
+  TextEditingController correo = TextEditingController();
+  TextEditingController contrasena = TextEditingController();
+
+  Future acceso()async{
+    String  url = 'https://evarafael.com/Aplicacion/rest/login.php';
+    var response = await http.post(Uri.parse(url), body: {
+      "Nombre_usuario": correo.text,
+      "Contrasena": contrasena.text,
+    });
+
+    var data = json.decode(response.body);
+    if(data == "Realizado"){
+      print(data.toString());
+      print('Logeado correctamente');
+      Navigator.pushReplacementNamed(context, 'menu_lateral');
+
+    }else{
+      print(data.toString());
+      print('Error al realizar el acceso');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+
+
+    
     final accesoFormulario = Provider.of<AccesoFormularioProv>(context);
+
     return Container(
       child: Form(
           key: accesoFormulario.formKey,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(children: [
             TextFormField(
+              controller: correo,
               autocorrect: false,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecorations.accesoInputDecoration(
@@ -109,6 +153,7 @@ class _formularioAcceso extends StatelessWidget {
               height: 30,
             ),
             TextFormField(
+              controller: contrasena,
               autocorrect: false,
               obscureText: true,
               keyboardType: TextInputType.emailAddress,
@@ -139,9 +184,19 @@ class _formularioAcceso extends StatelessWidget {
                       'Ingresar',
                       style: TextStyle(color: Colors.white),
                     )),
-                onPressed: () {
+                onPressed: ()  {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  //var results = await db.getConnection().then('select Nombre_persona from persona where Id_persona = PER01');
+          
                   if (!accesoFormulario.esValidoFormulario()) return;
-                  Navigator.pushReplacementNamed(context, 'menu_lateral');
+                  
+                  acceso();
+                  print(correo.text);
+                  print(contrasena.text);
+                  
+                 // Navigator.pushReplacementNamed(context, 'menu_lateral');
+                 // print(accesoFormulario.contrasena);
+                  //print(accesoFormulario.correo);
                 }),
           ])),
     );

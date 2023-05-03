@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:innova_ito/models/models.dart';
+import 'package:innova_ito/screens/detalles_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:innova_ito/theme/cambiar_tema.dart';
@@ -14,6 +18,24 @@ class ProyectosPendientesScreen extends StatefulWidget {
 }
 
 class _ProyectosPendientesScreenState extends State<ProyectosPendientesScreen> {
+
+  List lista = [];
+  
+  Future<void> getProyectos() async {
+    String url = 'https://evarafael.com/Aplicacion/rest/verProyectos.php';  
+    var response = await http.get(Uri.parse(url));
+    setState(() {
+      lista = json.decode(response.body);
+    });
+    //return json.decode(response.body);
+  }
+
+  @override
+  void initState(){
+    getProyectos();
+    super.initState();
+  }
+
   bool pendiente = true;
   bool aprobados = false;
 
@@ -139,6 +161,7 @@ class _ProyectosPendientesScreenState extends State<ProyectosPendientesScreen> {
                   ),
                 ),
               ),
+              SizedBox(height: 2,),
               Expanded(
                 child: Container(
                   width: double.infinity,
@@ -151,23 +174,7 @@ class _ProyectosPendientesScreenState extends State<ProyectosPendientesScreen> {
                         topRight: Radius.circular(25)),
                   ),
                   child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        SizedBox(height: 15),
-                        if (aprobados)
-                          ...itemsProyecto
-                              .map((proyecto) => (proyecto.vinculacionCheck)
-                                  ? (proyecto.asesorCheck)
-                                      ? ProyectoAceptado(proyecto: proyecto)
-                                      : SizedBox()
-                                  : SizedBox()),
-                        if (pendiente)
-                          ...itemsProyecto.map((proyecto) =>
-                              (proyecto.vinculacionCheck == false)
-                                  ? AceptarProVinculacion(proyecto: proyecto)
-                                  : SizedBox()),
-                      ],
-                    ),
+                    child: (aprobados)? DetallesScreen():Text('No')
                   ),
                 ),
               )
@@ -178,3 +185,5 @@ class _ProyectosPendientesScreenState extends State<ProyectosPendientesScreen> {
     );
   }
 }
+
+

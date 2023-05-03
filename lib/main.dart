@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: AppTema.modoLuz,
       debugShowCheckedModeBanner: false,
       title: 'Innova ITO',
-      initialRoute: 'proyectos',
+      initialRoute: 'menu_lateral',
       routes: {
         'inicio': (_) => const InicioScreen(),
         'detalles': (_) => const DetallesScreen(),
