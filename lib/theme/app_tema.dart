@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AppTema {
-  static const Color primario = Color(0xFFFA7A1E); //Ecstaszy
-  static const Color pizazz = Color(0xFFFF9500); //Pizazz
+  static const Color primario = Color.fromRGBO(250, 122, 30, 1); //Ecstaszy
+  static const Color pizazz = Color.fromRGBO(255, 149, 0, 1); //Pizazz
   static const Color balticSea = Color(0xFF2E2D2F); //Baltic Sea
   static const Color emperor = Color(0xFF4E4B4D); //Emperor
   static const Color indigo50 = Color(0xFFE4EBF5); //Indigo50

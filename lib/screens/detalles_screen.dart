@@ -16,7 +16,7 @@ class _DetallesScreenState extends State<DetallesScreen> {
   List lista = [];
   
   Future<void> getProyectos() async {
-    String url = 'https://evarafael.com/Aplicacion/rest/verProyectos.php';  
+    String url = 'https://evarafael.com/Aplicacion/rest/verProyectosPendientes.php';  
     var response = await http.get(Uri.parse(url));
     setState(() {
       lista = json.decode(response.body);
@@ -65,7 +65,7 @@ class _DetallesScreenState extends State<DetallesScreen> {
                         fontSize: 20),
                   ),
                   Text(
-                    'Categoria: ${lista[index]["Objetivo"]}',
+                    'Categoria: ${lista[index]["Nombre_categoria"]}',
                     style: TextStyle(
                         color: CambiarTema.bluegrey700,
                         fontSize: 12),
