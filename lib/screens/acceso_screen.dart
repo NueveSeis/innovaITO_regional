@@ -149,10 +149,7 @@ class _formularioAccesoState extends State<_formularioAcceso> {
                   prefixIcon: Icons.person),
               onChanged: (value) => accesoFormulario.correo = value,
               validator: (value) {
-                String pattern =
-                    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                RegExp regExp = RegExp(pattern);
-                return regExp.hasMatch(value ?? '')
+                return RegexUtil.correo.hasMatch(value ?? '')
                     ? null
                     : 'El valor ingresado no es un correo.';
               },
@@ -171,8 +168,9 @@ class _formularioAccesoState extends State<_formularioAcceso> {
                   prefixIcon: Icons.key),
               onChanged: (value) => accesoFormulario.contrasena = value,
               validator: (value) {
-                if (value != null && value.length >= 8) return null;
-                return 'Contraseña debe contener minimo 8 caracteres.';
+                return RegexUtil.contrasena.hasMatch(value ?? '')
+                    ? null
+                    : 'No es una contraseña valida.';
               },
             ),
             const SizedBox(
@@ -194,7 +192,7 @@ class _formularioAccesoState extends State<_formularioAcceso> {
                     )),
                 onPressed: ()  {
                   FocusScope.of(context).requestFocus(FocusNode());       
-                  if (!accesoFormulario.esValidoFormulario()) return;
+                  if (!accesoFormulario.esValidoFormulario()) return print('novalido');
                   getUsuario();
                   bool comparado = Generar.compararContrasena(contrasena.text.toString(),lista[0]['Contrasena'].toString());
                   print(comparado);
