@@ -1,16 +1,75 @@
 import 'package:flutter/material.dart';
-import 'package:innova_ito/theme/app_tema.dart';
-import 'package:mailer/mailer.dart';
+import 'dart:convert';
+import 'package:provider/provider.dart';
+import 'package:quickalert/quickalert.dart';
+import 'package:http/http.dart' as http;
 
+
+
+import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/theme/cambiar_tema.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/widgets/widgets.dart';
-import 'package:mailer/smtp_server.dart';
-import 'package:provider/provider.dart';
-import 'package:quickalert/quickalert.dart';
+import 'package:innova_ito/helpers/helpers.dart';
 
-class RegistroUsuarioLiderScreen extends StatelessWidget {
+
+class RegistroUsuarioLiderScreen extends StatefulWidget {
   const RegistroUsuarioLiderScreen({super.key});
+
+  @override
+  State<RegistroUsuarioLiderScreen> createState() => _RegistroUsuarioLiderScreenState();
+}
+
+class _RegistroUsuarioLiderScreenState extends State<RegistroUsuarioLiderScreen> {
+
+  TextEditingController nivel = TextEditingController();
+  TextEditingController matricula = TextEditingController();
+  TextEditingController nombre = TextEditingController();
+  TextEditingController apellidoP = TextEditingController();
+  TextEditingController apellidoM = TextEditingController();
+  TextEditingController correo = TextEditingController();
+  String contrasena = '';
+  String id = '';
+  String contrasenaHash = '';
+  bool existePersona=false;
+
+  Future agregarPersona()async {
+    var url = 'https://evarafael.com/Aplicacion/rest/agregarLider.php';
+    await http.post(Uri.parse(url),body: {
+      'Id_persona' : id,
+      'Nombre_persona' : nombre.text.toUpperCase(),
+      'Apellido1' : apellidoP.text.toUpperCase(),
+      'Apellido2' : apellidoM.text.toUpperCase(),
+      'Correo_electronico' : correo.text.toUpperCase(),
+      'Id_usuario': id,
+      'Nombre_usuario' : correo.text.toUpperCase(),
+      'Contrasena': contrasenaHash,
+      'Id_rol': 'ROL02',
+      'Matricula' : matricula.text.toUpperCase(),
+    });
+  }
+
+  Future existente() async{
+    String  url = 'https://evarafael.com/Aplicacion/rest/existePersona.php';
+    var response = await http.post(Uri.parse(url), body: {
+      'Id_persona': id,
+    });
+
+    var data = json.decode(response.body);
+    if(data == "Realizado"){
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        title: 'Usuario existente',
+        confirmBtnText: 'Hecho',
+        confirmBtnColor: AppTema.pizazz,
+      );
+    }else{
+      agregarPersona();
+      Correo.registroLider(context, correo.text.toUpperCase(), contrasena, nombre.text.toUpperCase(), apellidoP.text.toUpperCase(), apellidoM.text.toUpperCase());
+    }
+  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +98,7 @@ class RegistroUsuarioLiderScreen extends StatelessWidget {
                     children: [
                       const SizedBox(height: 20),
                       DropdownButtonFormField(
+                            
                           value: 'Licenciatura',
                           style: const TextStyle(
                               color: CambiarTema.bluegrey700,
@@ -54,10 +114,15 @@ class RegistroUsuarioLiderScreen extends StatelessWidget {
                             ),
                           ],
                           onChanged: (value) {
-                            print(value);
+                            setState(() {
+                              nivel.text = value.toString();
+                            });
+                            
+                            print(nivel);
                           }),
                       const SizedBox(height: 20),
                       TextFormField(
+                        controller: matricula,
                         autocorrect: false,
                         keyboardType: TextInputType.emailAddress,
                         style: const TextStyle(
@@ -73,6 +138,7 @@ class RegistroUsuarioLiderScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
+                        controller: nombre,
                         style: const TextStyle(
                             color: CambiarTema.bluegrey700,
                             fontWeight: FontWeight.bold),
@@ -87,6 +153,7 @@ class RegistroUsuarioLiderScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
+                        controller: apellidoP,
                         style: const TextStyle(
                             color: CambiarTema.bluegrey700,
                             fontWeight: FontWeight.bold),
@@ -101,6 +168,7 @@ class RegistroUsuarioLiderScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
+                        controller: apellidoM,
                         style: const TextStyle(
                             color: CambiarTema.bluegrey700,
                             fontWeight: FontWeight.bold),
@@ -115,6 +183,7 @@ class RegistroUsuarioLiderScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
+                        controller: correo,
                         style: const TextStyle(
                             color: CambiarTema.bluegrey700,
                             fontWeight: FontWeight.bold),
@@ -142,9 +211,11 @@ class RegistroUsuarioLiderScreen extends StatelessWidget {
                                 color: CambiarTema.grey100, fontSize: 25),
                           )),
                           onPressed: () {
-                            //Navigator.pushNamed(context, 'registro_usuario_lider');
-                            sendEmail();
-                            siAlerta(context);
+                             FocusScope.of(context).requestFocus(FocusNode());
+                            id = Generar.idPersona(nombre.text.toUpperCase(), apellidoP.text.toUpperCase(), apellidoM.text.toLowerCase(), correo.text.toUpperCase());
+                            contrasena = Generar.contrasenaAleatoria();
+                            contrasenaHash = Generar.hashContrasena(contrasena);
+                            existente();
                           },
                         ),
                       ),
@@ -153,41 +224,5 @@ class RegistroUsuarioLiderScreen extends StatelessWidget {
                 ),
               ],
             )));
-  }
-
-  void siAlerta(BuildContext context) {
-    QuickAlert.show(
-      context: context,
-      type: QuickAlertType.success,
-      title: 'Agregado correctamente',
-      autoCloseDuration: Duration(seconds: 7),
-      confirmBtnText: 'Hecho',
-      confirmBtnColor: AppTema.pizazz,
-    );
-  }
-
-  Future sendEmail() async{
-    final email = 'nueveseisss@gmail.com';
-    final pass = 'wwhxyufesxbankzc';
-    final st = '<!DOCTYPE html> <html> <head> <title>Bienvenido(a) a InnovaITO</title> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <style type="text/css"> body { font-family: ''Segoe UI'', Tahoma, Geneva, Verdana, sans-serif; background-color: #F9B74E; background-image: linear-gradient(315deg, #F9B74E 0%, #FF9500 74%); } .container { max-width: 600px; margin: 0 auto; padding: 20px; background-color: #FFF; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); } .header { text-align: center; margin-bottom: 30px; } .header img { width: 150px; height: 150px; margin-bottom: 20px; } .header h1 { font-size: 36px; color: #FA7A1E; margin-bottom: 5px; } .header p { font-size: 18px; color: #333; margin-bottom: 0; } .info { font-size: 18px; color: #333; margin-bottom: 20px; } .info p { margin-bottom: 10px; } .cta { text-align: center; } .cta a { display: inline-block; background-color: #FA7A1E; color: #FFF; text-decoration: none; font-size: 18px; padding: 10px 20px; border-radius: 5px; transition: all 0.2s ease-in-out; } .cta a:hover { background-color: #F9B74E; color: #FFF; } .footer { text-align: center; margin-top: 50px; font-size: 14px; color: #333; } </style> </head> <body> <div class="container"> <div class="header"> <img src="https://evarafael.com/Aplicacion/logo_innovaITO_negro.png" alt="InnovaITO"> <h1>Bienvenido(a) a InnovaITO</h1> <p>¡Gracias por crear tu cuenta!</p> </div> <div class="info"> <p>Tu cuenta ha sido creada con éxito. A continuación, te proporcionamos la información de inicio de sesión:</p> <p><strong>Correo electrónico:</strong> correo@innovaito.com</p> <p><strong>Contraseña:</strong> *********</p> <p>Te recomendamos cambiar tu contraseña al iniciar sesión por primera vez para asegurarte de que tu cuenta esté protegida.</p> </div> <div class="cta"> <a href="#">Iniciar sesión</a> </div> <div class="footer"> <p>Este mensaje se envió automáticamente. Por favor, no respondas a este correo electrónico.</p> ';
-    final smtpServer = gmail(email, pass);
-    final message = Message()
-     ..from = Address(email,'Kevin')
-     ..recipients = ['L17161164@oaxaca.tecnm.mx']
-     ..subject = 'Registro de lider de proyecto ${DateTime.now()}'
-     ..html=st;
-
-     try{
-      await send(message,smtpServer);
-      print('email enviado');
-      //siAlerta(context);
-     }on MailerException catch (e) {
-      print(e);
-      print('no enviado');
-     }
-     
-
-
-
-  }
+  }  
 }

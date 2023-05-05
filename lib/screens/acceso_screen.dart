@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:innova_ito/helpers/helpers.dart';
 import 'package:innova_ito/models/models.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,8 @@ import 'package:innova_ito/providers/acceso_formulario_prov.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/theme/app_tema.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 
 
@@ -99,23 +102,28 @@ class _formularioAccesoState extends State<_formularioAcceso> {
 
   TextEditingController correo = TextEditingController();
   TextEditingController contrasena = TextEditingController();
+  List lista = [];
+  String contrasenaHash= '';
+
+  Future<void> getUsuario() async {
+    String url = 'https://evarafael.com/Aplicacion/rest/obtenerUsuario.php';  
+    var response = await http.post(Uri.parse(url),body:{
+      'Nombre_usuario' : correo.text,
+    });
+    setState(() {
+      lista = json.decode(response.body);
+    });
+  }
 
   Future acceso()async{
     String  url = 'https://evarafael.com/Aplicacion/rest/login.php';
     var response = await http.post(Uri.parse(url), body: {
       "Nombre_usuario": correo.text,
-      "Contrasena": contrasena.text,
     });
 
     var data = json.decode(response.body);
     if(data == "Realizado"){
-      print(data.toString());
-      print('Logeado correctamente');
       Navigator.pushReplacementNamed(context, 'menu_lateral');
-
-    }else{
-      print(data.toString());
-      print('Error al realizar el acceso');
     }
   }
 
@@ -185,18 +193,23 @@ class _formularioAccesoState extends State<_formularioAcceso> {
                       style: TextStyle(color: Colors.white),
                     )),
                 onPressed: ()  {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                  //var results = await db.getConnection().then('select Nombre_persona from persona where Id_persona = PER01');
-          
+                  FocusScope.of(context).requestFocus(FocusNode());       
                   if (!accesoFormulario.esValidoFormulario()) return;
-                  
-                  acceso();
-                  print(correo.text);
-                  print(contrasena.text);
-                  
-                 // Navigator.pushReplacementNamed(context, 'menu_lateral');
-                 // print(accesoFormulario.contrasena);
-                  //print(accesoFormulario.correo);
+                  getUsuario();
+                  bool comparado = Generar.compararContrasena(contrasena.text.toString(),lista[0]['Contrasena'].toString());
+                  print(comparado);
+                  if(comparado == true){
+                    acceso();
+                  }else{
+                    QuickAlert.show(
+                      context: context,
+                      type: QuickAlertType.error,
+                      title: 'Datos incorrectos',
+                      text: 'Verifique su correo electronico y contraseña',
+                      confirmBtnText: 'Hecho',
+                      confirmBtnColor: AppTema.pizazz,
+                    );
+                  }
                 }),
           ])),
     );
