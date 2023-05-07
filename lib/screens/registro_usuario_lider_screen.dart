@@ -34,7 +34,7 @@ class _RegistroUsuarioLiderScreenState extends State<RegistroUsuarioLiderScreen>
   String contrasenaHash = '';
   bool existePersona=false;
   String idNivel = '';
-  bool camposLlenos = false;
+  bool camposLlenos = true;
   
 
   Future agregarPersona()async {
@@ -54,7 +54,7 @@ class _RegistroUsuarioLiderScreenState extends State<RegistroUsuarioLiderScreen>
     });
   }
 
-  Future<String> obtenerDatos(String nivel) async {
+  Future<String> obtenerNivelLider(String nivel) async {
   var url = 'https://evarafael.com/Aplicacion/rest/buscar_nivel.php?Nombre_nivel=$nivel';
   var response = await http.get(Uri.parse(url));
 
@@ -116,7 +116,7 @@ class _RegistroUsuarioLiderScreenState extends State<RegistroUsuarioLiderScreen>
                   padding:
                       const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                   child: Form(
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      //autovalidateMode: AutovalidateMode.onUserInteraction,
                       key: _formKey,
                       child: Column(
                     children: [
@@ -150,6 +150,7 @@ class _RegistroUsuarioLiderScreenState extends State<RegistroUsuarioLiderScreen>
                           }),
                       const SizedBox(height: 20),
                       TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: matricula,
                         autocorrect: false,
                         keyboardType: TextInputType.emailAddress,
@@ -161,7 +162,7 @@ class _RegistroUsuarioLiderScreenState extends State<RegistroUsuarioLiderScreen>
                           labelText: 'Matricula',
                         ),
                         validator: (value) {
-                          return RegexUtil.nombres.hasMatch(value ?? '')
+                          return RegexUtil.matricula.hasMatch(value ?? '')
                           ? null
                           : 'Matricula no valida.';
                         },
@@ -169,6 +170,7 @@ class _RegistroUsuarioLiderScreenState extends State<RegistroUsuarioLiderScreen>
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: nombre,
                         style: const TextStyle(
                             color: CambiarTema.bluegrey700,
@@ -189,6 +191,7 @@ class _RegistroUsuarioLiderScreenState extends State<RegistroUsuarioLiderScreen>
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
+                        
                         controller: apellidoP,
                         style: const TextStyle(
                             color: CambiarTema.bluegrey700,
@@ -215,6 +218,7 @@ class _RegistroUsuarioLiderScreenState extends State<RegistroUsuarioLiderScreen>
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: correo,
                         style: const TextStyle(
                             color: CambiarTema.bluegrey700,
@@ -249,15 +253,13 @@ class _RegistroUsuarioLiderScreenState extends State<RegistroUsuarioLiderScreen>
                              camposLlenos = _formKey.currentState!.validate();
                             });
                             if (camposLlenos) {
-                              idNivel = await obtenerDatos(nivel.text.toString());
-                               FocusScope.of(context).requestFocus(FocusNode());
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              idNivel = await obtenerNivelLider(nivel.text.toString());
                               id = Generar.idPersona(nombre.text.toUpperCase(), apellidoP.text.toUpperCase(), apellidoM.text.toLowerCase(), correo.text.toUpperCase());
                               contrasena = Generar.contrasenaAleatoria();
                               contrasenaHash = Generar.hashContrasena(contrasena);
                               existente();
-            // Realizar la acción
                             } else {
-            // Campos incompletos
                               QuickAlert.show(
                                context: context,
                                type: QuickAlertType.warning,
@@ -267,8 +269,6 @@ class _RegistroUsuarioLiderScreenState extends State<RegistroUsuarioLiderScreen>
                                confirmBtnColor: AppTema.pizazz,
                               );
                             }
-
-                            
                           },
                         ),
                       ),

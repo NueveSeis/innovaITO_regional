@@ -105,14 +105,17 @@ class _formularioAccesoState extends State<_formularioAcceso> {
   List lista = [];
   String contrasenaHash= '';
 
-  Future<void> getUsuario() async {
-    String url = 'https://evarafael.com/Aplicacion/rest/obtenerUsuario.php';  
-    var response = await http.post(Uri.parse(url),body:{
-      'Nombre_usuario' : correo.text,
-    });
-    setState(() {
-      lista = json.decode(response.body);
-    });
+  Future<String> getUsuario(String usuario) async {
+    String url = 'https://evarafael.com/Aplicacion/rest/obtenerUsuario.php?Nombre_usuario=$usuario';  
+    var response = await http.post(Uri.parse(url));
+    if (response.statusCode == 200) {
+    var datos = jsonDecode(response.body);
+    String miString = datos[0]['Contrasena'].toString();
+    return miString;
+  } else {
+    return '';
+    print('Error al obtener datos de la API');
+  }
   }
 
   Future acceso()async{
@@ -158,6 +161,7 @@ class _formularioAccesoState extends State<_formularioAcceso> {
               height: 30,
             ),
             TextFormField(
+              
               controller: contrasena,
               autocorrect: false,
               obscureText: true,
@@ -190,11 +194,12 @@ class _formularioAccesoState extends State<_formularioAcceso> {
                       'Ingresar',
                       style: TextStyle(color: Colors.white),
                     )),
-                onPressed: ()  {
+                onPressed: () async {
                   FocusScope.of(context).requestFocus(FocusNode());       
-                  if (!accesoFormulario.esValidoFormulario()) return print('novalido');
-                  getUsuario();
-                  bool comparado = Generar.compararContrasena(contrasena.text.toString(),lista[0]['Contrasena'].toString());
+                  if (!accesoFormulario.esValidoFormulario()) return ;
+                  String pass = await getUsuario(correo.text);
+                  
+                  bool comparado = Generar.compararContrasena(contrasena.text.toString(),pass);
                   print(comparado);
                   if(comparado == true){
                     acceso();

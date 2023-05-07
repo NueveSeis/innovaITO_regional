@@ -29,10 +29,6 @@ List<ModeloMenu> itemsMenu = const [
       icono: Icons.not_started_rounded,
       pantalla: 'acceso'),
   ModeloMenu(
-      titulo: "Ficha tecnica",
-      icono: Icons.note_add_rounded,
-      pantalla: 'ficha_tecnica'),
-  ModeloMenu(
       titulo: "Carreras", icono: Icons.note_add_rounded, pantalla: 'carrera'),
   ModeloMenu(
       titulo: "Departamentos",
@@ -42,6 +38,14 @@ List<ModeloMenu> itemsMenu = const [
       titulo: "Fechas",
       icono: Icons.note_add_rounded,
       pantalla: 'asignacion_fechas'),
+];
+
+List<ModeloMenu> itemsLider = const[
+  ModeloMenu(
+      titulo: "Ficha tecnica",
+      icono: Icons.note_add_rounded,
+      pantalla: 'ficha_tecnica'),
+
 ];
 
 List<ModeloMenu> itemsConfig = const [

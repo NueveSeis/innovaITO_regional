@@ -3,10 +3,24 @@ import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:innova_ito/models/models.dart';
-import 'package:quickalert/quickalert.dart';
 
-class RegistroUsuarioAsesorScreen extends StatelessWidget {
+import 'package:quickalert/quickalert.dart';
+import 'package:dropdown_search/dropdown_search.dart';
+import 'package:drop_down_list/drop_down_list.dart';
+
+import 'package:animated_custom_dropdown/custom_dropdown.dart';
+
+class RegistroUsuarioAsesorScreen extends StatefulWidget {
   const RegistroUsuarioAsesorScreen({super.key});
+
+  @override
+  State<RegistroUsuarioAsesorScreen> createState() =>
+      _RegistroUsuarioAsesorScreenState();
+}
+
+class _RegistroUsuarioAsesorScreenState
+    extends State<RegistroUsuarioAsesorScreen> {
+  final jobRoleCtrl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +29,94 @@ class RegistroUsuarioAsesorScreen extends StatelessWidget {
     List<String> tecsF = ModeloTecnologicos().tecnologicosF;
     List<String> tecsD = ModeloTecnologicos().tecnologicosD;
     List<String> carreras = ModeloTecnologicos().carrera;
+    String simon = '';
+
+    List<Widget> _Licenciatura() {
+      return [
+        const SizedBox(height: 20),
+        TextFormField(
+          autocorrect: false,
+          keyboardType: TextInputType.emailAddress,
+          style: const TextStyle(
+              color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+          decoration: InputDecorations.registroLiderDecoration(
+            hintText: 'Ingrese licenciatura',
+            labelText: 'Licenciatura',
+          ),
+          //onChanged: (value) => accesoFormulario.correo = value,
+        ),
+      ];
+    }
+
+    List<Widget> _Maestria() {
+      return [
+        const SizedBox(height: 20),
+        TextFormField(
+          autocorrect: false,
+          keyboardType: TextInputType.emailAddress,
+          style: const TextStyle(
+              color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+          decoration: InputDecorations.registroLiderDecoration(
+            hintText: 'Ingrese licenciatura',
+            labelText: 'Licenciatura',
+          ),
+          //onChanged: (value) => accesoFormulario.correo = value,
+        ),
+        const SizedBox(height: 20),
+        TextFormField(
+          autocorrect: false,
+          keyboardType: TextInputType.emailAddress,
+          style: const TextStyle(
+              color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+          decoration: InputDecorations.registroLiderDecoration(
+            hintText: 'Ingrese Maestria',
+            labelText: 'Maestria',
+          ),
+          //onChanged: (value) => accesoFormulario.correo = value,
+        ),
+      ];
+    }
+
+    List<Widget> _Doctorado() {
+      return [
+        const SizedBox(height: 20),
+        TextFormField(
+          autocorrect: false,
+          keyboardType: TextInputType.emailAddress,
+          style: const TextStyle(
+              color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+          decoration: InputDecorations.registroLiderDecoration(
+            hintText: 'Ingrese licenciatura',
+            labelText: 'Licenciatura',
+          ),
+          //onChanged: (value) => accesoFormulario.correo = value,
+        ),
+        const SizedBox(height: 20),
+        TextFormField(
+          autocorrect: false,
+          keyboardType: TextInputType.emailAddress,
+          style: const TextStyle(
+              color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+          decoration: InputDecorations.registroLiderDecoration(
+            hintText: 'Ingrese Maestria',
+            labelText: 'Maestria',
+          ),
+          //onChanged: (value) => accesoFormulario.correo = value,
+        ),
+        const SizedBox(height: 20),
+        TextFormField(
+          autocorrect: false,
+          keyboardType: TextInputType.emailAddress,
+          style: const TextStyle(
+              color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+          decoration: InputDecorations.registroLiderDecoration(
+            hintText: 'Ingrese Doctorado',
+            labelText: 'Doctorado',
+          ),
+          //onChanged: (value) => accesoFormulario.correo = value,
+        ),
+      ];
+    }
 
     return Scaffold(
         body: Fondo(
@@ -50,8 +152,8 @@ class RegistroUsuarioAsesorScreen extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-
                 DropdownButtonFormField(
+                  //value: 'Licenciatura',
                   isExpanded: true,
                   style: const TextStyle(
                       color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
@@ -70,6 +172,7 @@ class RegistroUsuarioAsesorScreen extends StatelessWidget {
                   }).toList(),
                 ),
                 const SizedBox(height: 20),
+
                 Container(
                   // padding: EdgeInsets.only(right: 2.0),
                   alignment: Alignment.topLeft,
@@ -93,7 +196,7 @@ class RegistroUsuarioAsesorScreen extends StatelessWidget {
                   onChanged: (value) {
                     print(value);
                   },
-                  items: tecsF.map((itemone) {
+                  items: tecsD.map((itemone) {
                     return DropdownMenuItem(
                       alignment: Alignment.centerLeft,
                       value: itemone,
@@ -103,6 +206,17 @@ class RegistroUsuarioAsesorScreen extends StatelessWidget {
                       ),
                     );
                   }).toList(),
+                ),
+                const SizedBox(height: 20),
+                CustomDropdown.search(
+                  hintText: 'Select job role',
+                  items: const [
+                    'Developer',
+                    'Instituto Tecnológico de Estudios Superiores de La Región Carbonífera',
+                    'Consultant',
+                    'Student'
+                  ],
+                  controller: jobRoleCtrl,
                 ),
                 const SizedBox(height: 20),
                 Container(
@@ -139,13 +253,13 @@ class RegistroUsuarioAsesorScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  autocorrect: false,
-                  keyboardType: TextInputType.emailAddress,
                   style: const TextStyle(
                       color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+                  autocorrect: false,
+                  keyboardType: TextInputType.emailAddress,
                   decoration: InputDecorations.registroLiderDecoration(
-                    hintText: 'Ingrese RFC',
-                    labelText: 'RFC',
+                    hintText: 'Titulo',
+                    labelText: 'Titulo (Lic., M.C., Dr.)',
                   ),
                   //onChanged: (value) => accesoFormulario.correo = value,
                 ),
@@ -174,6 +288,8 @@ class RegistroUsuarioAsesorScreen extends StatelessWidget {
                   //onChanged: (value) => accesoFormulario.correo = value,
                 ),
                 const SizedBox(height: 20),
+
+                const SizedBox(height: 20),
                 TextFormField(
                   style: const TextStyle(
                       color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
@@ -199,7 +315,138 @@ class RegistroUsuarioAsesorScreen extends StatelessWidget {
                   ),
                   //onChanged: (value) => accesoFormulario.correo = value,
                 ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  autocorrect: false,
+                  keyboardType: TextInputType.emailAddress,
+                  style: const TextStyle(
+                      color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+                  decoration: InputDecorations.registroLiderDecoration(
+                    hintText: 'Ingrese CURP',
+                    labelText: 'CURP',
+                  ),
+                  //onChanged: (value) => accesoFormulario.correo = value,
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  autocorrect: false,
+                  keyboardType: TextInputType.emailAddress,
+                  style: const TextStyle(
+                      color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+                  decoration: InputDecorations.registroLiderDecoration(
+                    hintText: 'Ingrese RFC',
+                    labelText: 'RFC',
+                  ),
+                  //onChanged: (value) => accesoFormulario.correo = value,
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  autocorrect: false,
+                  keyboardType: TextInputType.emailAddress,
+                  style: const TextStyle(
+                      color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+                  decoration: InputDecorations.registroLiderDecoration(
+                    hintText: 'Ingrese No. Credencial INE',
+                    labelText: 'No. Credencial INE ',
+                  ),
+                  //onChanged: (value) => accesoFormulario.correo = value,
+                ),
 //                      SizedBox(height: 20),
+                const SizedBox(height: 20),
+                TextFormField(
+                  autocorrect: false,
+                  keyboardType: TextInputType.emailAddress,
+                  style: const TextStyle(
+                      color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+                  decoration: InputDecorations.registroLiderDecoration(
+                    hintText: 'Ingrese numero telefonico',
+                    labelText: 'Numero telefonico',
+                  ),
+                  //onChanged: (value) => accesoFormulario.correo = value,
+                ),
+                const SizedBox(height: 20),
+                Container(
+                  // padding: EdgeInsets.only(right: 2.0),
+                  alignment: Alignment.topLeft,
+                  child: const Text(
+                    'Tipo de asesor',
+                    style: TextStyle(
+                        color: AppTema.bluegrey700,
+                        fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.right,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                DropdownButtonFormField(
+                    isExpanded: true,
+                    value: 'Seleccione una opción',
+                    style: const TextStyle(
+                        color: AppTema.bluegrey700,
+                        fontWeight: FontWeight.bold),
+                    items: const [
+                      DropdownMenuItem(
+                        value: 'Seleccione una opción',
+                        child: Text('Seleccione una opción'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Interno',
+                        child: Text('Interno'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Externo',
+                        child: Text('Externo'),
+                      ),
+                    ],
+                    onChanged: (value) {
+                      setState(() {});
+                    }),
+                const SizedBox(height: 20),
+                Container(
+                  // padding: EdgeInsets.only(right: 2.0),
+                  alignment: Alignment.topLeft,
+                  child: const Text(
+                    'Nivel academico',
+                    style: TextStyle(
+                        color: AppTema.bluegrey700,
+                        fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.right,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                DropdownButtonFormField(
+                    isExpanded: true,
+                    value: 'Seleccione una opción',
+                    style: const TextStyle(
+                        color: AppTema.bluegrey700,
+                        fontWeight: FontWeight.bold),
+                    items: const [
+                      DropdownMenuItem(
+                        value: 'Seleccione una opción',
+                        child: Text('Seleccione una opción'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Licenciatura',
+                        child: Text('Licenciatura'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Maestria',
+                        child: Text('Maestria'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Doctorado',
+                        child: Text('Doctorado'),
+                      ),
+                    ],
+                    onChanged: (value) {
+                      setState(() {});
+                    }),
+
+                const SizedBox(height: 20),
+
                 Container(
                   height: 50,
                   width: double.infinity,
