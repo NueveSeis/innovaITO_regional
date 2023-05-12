@@ -15,14 +15,11 @@ import 'package:innova_ito/theme/app_tema.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 
-
-
 class AccesoScreen extends StatelessWidget {
   const AccesoScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         body: FondoAcceso(
       child: SingleChildScrollView(
@@ -90,53 +87,46 @@ class AccesoScreen extends StatelessWidget {
   }
 }
 
-
 class _formularioAcceso extends StatefulWidget {
-
   @override
   State<_formularioAcceso> createState() => _formularioAccesoState();
 }
 
 class _formularioAccesoState extends State<_formularioAcceso> {
-  
-
   TextEditingController correo = TextEditingController();
   TextEditingController contrasena = TextEditingController();
   List lista = [];
-  String contrasenaHash= '';
+  String contrasenaHash = '';
 
   Future<String> getUsuario(String usuario) async {
-    String url = 'https://evarafael.com/Aplicacion/rest/obtenerUsuario.php?Nombre_usuario=$usuario';  
+    String url =
+        'https://evarafael.com/Aplicacion/rest/obtenerUsuario.php?Nombre_usuario=$usuario';
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
-    var datos = jsonDecode(response.body);
-    String miString = datos[0]['Contrasena'].toString();
-    return miString;
-  } else {
-    return '';
-    print('Error al obtener datos de la API');
-  }
+      var datos = jsonDecode(response.body);
+      String miString = datos[0]['Contrasena'].toString();
+      return miString;
+    } else {
+      return '';
+      print('Error al obtener datos de la API');
+    }
   }
 
-  Future acceso()async{
-    String  url = 'https://evarafael.com/Aplicacion/rest/login.php';
+  Future acceso() async {
+    String url = 'https://evarafael.com/Aplicacion/rest/login.php';
     var response = await http.post(Uri.parse(url), body: {
       "Nombre_usuario": correo.text,
     });
 
     var data = json.decode(response.body);
-    if(data == "Realizado"){
+    if (data == "Realizado") {
       Navigator.pushReplacementNamed(context, 'menu_lateral');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-
-
-    
     final accesoFormulario = Provider.of<AccesoFormularioProv>(context);
-
     return Container(
       child: Form(
           key: accesoFormulario.formKey,
@@ -161,7 +151,6 @@ class _formularioAccesoState extends State<_formularioAcceso> {
               height: 30,
             ),
             TextFormField(
-              
               controller: contrasena,
               autocorrect: false,
               obscureText: true,
@@ -195,15 +184,16 @@ class _formularioAccesoState extends State<_formularioAcceso> {
                       style: TextStyle(color: Colors.white),
                     )),
                 onPressed: () async {
-                  FocusScope.of(context).requestFocus(FocusNode());       
-                  if (!accesoFormulario.esValidoFormulario()) return ;
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  if (!accesoFormulario.esValidoFormulario()) return;
                   String pass = await getUsuario(correo.text);
-                  
-                  bool comparado = Generar.compararContrasena(contrasena.text.toString(),pass);
+
+                  bool comparado = Generar.compararContrasena(
+                      contrasena.text.toString(), pass);
                   print(comparado);
-                  if(comparado == true){
+                  if (comparado == true) {
                     acceso();
-                  }else{
+                  } else {
                     QuickAlert.show(
                       context: context,
                       type: QuickAlertType.error,
