@@ -196,7 +196,7 @@ class FichaTecnicaScreen extends StatelessWidget {
                   //onChanged: (value) => accesoFormulario.correo = value,
                 ),
 //                 SizedBox(height: 20),
-                EditorTexto(),
+
                 Container(
                   height: 50,
                   width: double.infinity,

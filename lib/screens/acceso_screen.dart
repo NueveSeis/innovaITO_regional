@@ -1,19 +1,18 @@
 import 'dart:convert';
-
-import 'package:innova_ito/helpers/helpers.dart';
-import 'package:innova_ito/models/models.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:mysql1/mysql1.dart';
 import 'package:http/http.dart' as http;
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
+import 'package:innova_ito/models/models.dart';
+import 'package:innova_ito/helpers/helpers.dart';
 import 'package:innova_ito/providers/acceso_formulario_prov.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/theme/app_tema.dart';
-import 'package:quickalert/models/quickalert_type.dart';
-import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class AccesoScreen extends StatelessWidget {
   const AccesoScreen({Key? key}) : super(key: key);

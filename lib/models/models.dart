@@ -9,3 +9,4 @@ export 'package:innova_ito/models/rqs_proyecto_model.dart';
 
 export 'package:innova_ito/models/tecnologico.dart';
 export 'package:innova_ito/models/tipoTecnologico.dart';
+export 'package:innova_ito/models/departamento.dart';

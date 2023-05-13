@@ -23,30 +23,54 @@ class _RegistroUsuarioAsesorScreenState
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
-    obtenerTecnologico();
+
+    obtenerTipoTec();
+    //obtenerTecnologico();
   }
 
-  TextEditingController _tipoTecController = TextEditingController();
   final jobRoleCtrl = TextEditingController();
   bool licen = false;
   bool maes = false;
   bool doc = false;
+  bool cargando = false;
+  bool cargando2 = false;
+  bool cargando3 = false;
   List<Tecnologico> tecnologicoM = [];
   List<TipoTecnologico> tipoTec = [];
+  List<Departamento> departamento = [];
+  String valueTipo = '';
+  String valueClaveTec = '';
+
+  Future obtenerDepartamento() async {
+    var url =
+        'https://evarafael.com/Aplicacion/rest/get_departamento.php?Clave_tecnologico=$valueClaveTec';
+    var response = await http.get(Uri.parse(url));
+    departamento = departamentoFromJson(response.body);
+    //print(tecnologicoM[0].nombreTecnologico);
+    setState(() {
+      cargando3 = true;
+    });
+  }
 
   Future obtenerTecnologico() async {
-    var url = 'https://evarafael.com/Aplicacion/rest/get_tecnologico.php';
+    var url =
+        'https://evarafael.com/Aplicacion/rest/get_tecnologico.php?Id_tipoTec=$valueTipo';
     var response = await http.get(Uri.parse(url));
     tecnologicoM = tecnologicoFromJson(response.body);
-    print(tecnologicoM[0].nombreTecnologico);
+    //print(tecnologicoM[0].nombreTecnologico);
+    setState(() {
+      cargando2 = true;
+    });
   }
 
   Future obtenerTipoTec() async {
     var url = 'https://evarafael.com/Aplicacion/rest/get_tipoTec.php';
     var response = await http.get(Uri.parse(url));
     tipoTec = tipoTecnologicoFromJson(response.body);
-    print(tipoTec[0].tipoTec);
+    //print(tipoTec[0].tipoTec);
+    setState(() {
+      cargando = true;
+    });
   }
 
   @override
@@ -193,17 +217,74 @@ class _RegistroUsuarioAsesorScreenState
             child: Form(
                 child: Column(
               children: [
-                const SizedBox(height: 20),
-                FutureBuilder(
-                  future: obtenerTipoTec(),
-                  builder: (BuildContext context, AsyncSnapshot snapshop) {
-                    if (snapshop.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
-                    } else {
-                      return _tipoTecnologico(tipoTec);
-                    }
-                  },
+                Container(
+                  // padding: EdgeInsets.only(right: 2.0),
+                  alignment: Alignment.topLeft,
+                  child: const Text(
+                    'Nivel academico',
+                    style: TextStyle(
+                        color: AppTema.bluegrey700,
+                        fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.right,
+                  ),
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
+                DropdownButtonFormField(
+                    isExpanded: true,
+                    value: 'Seleccione una opción',
+                    style: const TextStyle(
+                        color: AppTema.bluegrey700,
+                        fontWeight: FontWeight.bold),
+                    items: const [
+                      DropdownMenuItem(
+                        value: 'Seleccione una opción',
+                        child: Text('Seleccione una opción'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Licenciatura',
+                        child: Text('Licenciatura'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Maestria',
+                        child: Text('Maestria'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Doctorado',
+                        child: Text('Doctorado'),
+                      ),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        if (value == "Licenciatura") {
+                          licen = true;
+                          maes = false;
+                          doc = false;
+                        }
+                        if (value == "Maestria") {
+                          licen = false;
+                          maes = true;
+                          doc = false;
+                        }
+                        if (value == "Doctorado") {
+                          licen = false;
+                          maes = false;
+                          doc = true;
+                        }
+                        ;
+                      });
+                    }),
+                const SizedBox(height: 20),
+                cargando
+                    ? _tipoTecnologico(tipoTec)
+                    : CircularProgressIndicator(),
+                cargando2
+                    ? _institutoPertenencia(tecnologicoM)
+                    : CircularProgressIndicator(),
+                cargando3
+                    ? _departamentoAdscrito(departamento)
+                    : CircularProgressIndicator(),
                 const SizedBox(height: 20),
                 //_institutoPertenencia(tecsD),
                 const SizedBox(height: 20),
@@ -226,6 +307,10 @@ class _RegistroUsuarioAsesorScreenState
                   },
                   //onChanged: (value) => accesoFormulario.correo = value,
                 ),
+                const SizedBox(height: 20),
+                if (licen == true) ..._Licenciatura(),
+                if (maes == true) ..._Maestria(),
+                if (doc == true) ..._Doctorado(),
                 const SizedBox(height: 20),
                 TextFormField(
                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -398,75 +483,8 @@ class _RegistroUsuarioAsesorScreenState
                         child: Text('Externo'),
                       ),
                     ],
-                    onChanged: (value) {
-                      setState(() {});
-                    }),
+                    onChanged: (value) {}),
                 const SizedBox(height: 20),
-                Container(
-                  // padding: EdgeInsets.only(right: 2.0),
-                  alignment: Alignment.topLeft,
-                  child: const Text(
-                    'Nivel academico',
-                    style: TextStyle(
-                        color: AppTema.bluegrey700,
-                        fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.right,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                DropdownButtonFormField(
-                    isExpanded: true,
-                    value: 'Seleccione una opción',
-                    style: const TextStyle(
-                        color: AppTema.bluegrey700,
-                        fontWeight: FontWeight.bold),
-                    items: const [
-                      DropdownMenuItem(
-                        value: 'Seleccione una opción',
-                        child: Text('Seleccione una opción'),
-                      ),
-                      DropdownMenuItem(
-                        value: 'Licenciatura',
-                        child: Text('Licenciatura'),
-                      ),
-                      DropdownMenuItem(
-                        value: 'Maestria',
-                        child: Text('Maestria'),
-                      ),
-                      DropdownMenuItem(
-                        value: 'Doctorado',
-                        child: Text('Doctorado'),
-                      ),
-                    ],
-                    onChanged: (value) {
-                      setState(() {
-                        if (value == "Licenciatura") {
-                          licen = true;
-                          maes = false;
-                          doc = false;
-                        }
-                        if (value == "Maestria") {
-                          licen = false;
-                          maes = true;
-                          doc = false;
-                        }
-                        if (value == "Doctorado") {
-                          licen = false;
-                          maes = false;
-                          doc = true;
-                        }
-                        ;
-                      });
-                    }),
-
-                if (licen == true) ..._Licenciatura(),
-                if (maes == true) ..._Maestria(),
-                if (doc == true) ..._Doctorado(),
-
-                const SizedBox(height: 20),
-
                 Container(
                   height: 50,
                   width: double.infinity,
@@ -497,7 +515,7 @@ class _RegistroUsuarioAsesorScreenState
     ));
   }
 
-  Column _departamentoAdscrito(List<String> carreras) {
+  Column _departamentoAdscrito(List<Departamento> dep) {
     return Column(
       children: [
         Container(
@@ -520,12 +538,12 @@ class _RegistroUsuarioAsesorScreenState
           onChanged: (value) {
             print(value);
           },
-          items: carreras.map((itemone) {
+          items: dep.map((itemone) {
             return DropdownMenuItem(
               alignment: Alignment.centerLeft,
               value: itemone,
               child: Text(
-                itemone,
+                itemone.nombreDepartamento,
                 overflow: TextOverflow.visible,
               ),
             );
@@ -556,9 +574,7 @@ class _RegistroUsuarioAsesorScreenState
           //value: 'Licenciatura',
           style: const TextStyle(
               color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
-          onChanged: (value) {
-            print(value.toString());
-          },
+
           items: tecsD.map((itemone) {
             return DropdownMenuItem(
               alignment: Alignment.centerLeft,
@@ -569,6 +585,13 @@ class _RegistroUsuarioAsesorScreenState
               ),
             );
           }).toList(),
+          onChanged: (value) {
+            setState(() {
+              valueClaveTec = value!.claveTecnologico;
+              print(valueClaveTec);
+              obtenerDepartamento();
+            });
+          },
         ),
       ],
     );
@@ -605,8 +628,9 @@ class _RegistroUsuarioAsesorScreenState
             );
           }).toList(),
           onChanged: (value) {
-            TipoTecnologico? simon = value;
-            print(simon.toString());
+            valueTipo = value!.idTipoTec;
+            print(valueTipo);
+            obtenerTecnologico();
           },
         ),
       ],
