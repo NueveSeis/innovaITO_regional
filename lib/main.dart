@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         'registro_usuario_asesor': (_) => const RegistroUsuarioAsesorScreen(),
         'ficha_tecnica': (_) => const FichaTecnicaScreen(),
         'carrera': (_) => const CarreraScreen(),
-        'departamento': (_) => const DepartamentoScreen(),
+        'departamento': (_) => DepartamentoScreen(),
         'agregar_carrera': (_) => const AgregarCarreraScreen(),
         'asignacion_fechas': (_) => const AsignacionFechasScreen(),
       },

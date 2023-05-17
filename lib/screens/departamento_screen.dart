@@ -1,10 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:innova_ito/theme/cambiar_tema.dart';
 import 'package:innova_ito/widgets/widgets.dart';
+import 'package:innova_ito/models/models.dart';
 
-class DepartamentoScreen extends StatelessWidget {
-  const DepartamentoScreen({super.key});
+class DepartamentoScreen extends StatefulWidget {
+  DepartamentoScreen({super.key});
 
+  @override
+  State<DepartamentoScreen> createState() => _DepartamentoScreenState();
+}
+
+@override
+void initState() {
+  obtenerDepartamento();
+}
+
+List<Departamento> departamentos = [];
+
+Future obtenerDepartamento() async {
+  var url =
+      'https://evarafael.com/Aplicacion/rest/get_departamento.php?Clave_tecnologico=TEC01';
+  var response = await http.get(Uri.parse(url));
+  departamentos = departamentoFromJson(response.body);
+  //print(tecnologicoM[0].nombreTecnologico);
+}
+
+class _DepartamentoScreenState extends State<DepartamentoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,9 +47,9 @@ class DepartamentoScreen extends StatelessWidget {
                   margin:
                       const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                   child: ElevatedButton(
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
                         Icon(Icons.add_circle_outline_rounded),
                         Text(
                           '  Añadir departamento',
@@ -38,33 +61,32 @@ class DepartamentoScreen extends StatelessWidget {
                     onPressed: () {},
                   ),
                 ),
-                SingleChildScrollView(
-                  child: Column(children: const [
-                    TarjetaCarrera(
-                        nombreCarrera:
-                            'Ingenieria en sistemas computacionales'),
-                    TarjetaCarrera(nombreCarrera: 'Ingenieria Quimica'),
-                    TarjetaCarrera(
-                        nombreCarrera:
-                            'Ingenieria en Tecnologías de la Información y Comunicaciones Ingenieria en Tecnologías de la Información y Comunicaciones'),
-                    TarjetaCarrera(
-                        nombreCarrera:
-                            'Ingenieria en Tecnologías de la Información y Comunicaciones'),
-                    TarjetaCarrera(
-                        nombreCarrera:
-                            'Ingenieria en sistemas computacionales'),
-                    TarjetaCarrera(nombreCarrera: 'Ingenieria Quimica'),
-                    TarjetaCarrera(nombreCarrera: 'Ingenieria Civil'),
-                    TarjetaCarrera(
-                        nombreCarrera: 'Ingenieria en gestion empresarial'),
-                    TarjetaCarrera(
-                        nombreCarrera:
-                            'Ingenieria en sistemas computacionales'),
-                    TarjetaCarrera(nombreCarrera: 'Ingenieria Quimica'),
-                    TarjetaCarrera(nombreCarrera: 'Ingenieria Civil'),
-                    TarjetaCarrera(
-                        nombreCarrera: 'Ingenieria en gestion empresarial'),
-                  ]),
+                Column(
+                  children: [
+                    FutureBuilder(
+                        future: obtenerDepartamento(),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else {
+                            return ListView.builder(
+                                //scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount: departamentos.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return TarjetaCarrera(
+                                    nombreCarrera:
+                                        departamentos[index].nombreDepartamento,
+                                  );
+                                  //print(departamentos[2].nombreDepartamento);
+                                });
+                          }
+                        }),
+                  ],
                 )
               ],
             ),

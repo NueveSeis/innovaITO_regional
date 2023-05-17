@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:quickalert/quickalert.dart';
@@ -23,7 +22,6 @@ class _RegistroUsuarioAsesorScreenState
   @override
   void initState() {
     // TODO: implement initState
-
     obtenerTipoTec();
     //obtenerTecnologico();
   }
@@ -40,6 +38,7 @@ class _RegistroUsuarioAsesorScreenState
   List<Departamento> departamento = [];
   String valueTipo = '';
   String valueClaveTec = '';
+  String valueDepartamento = '';
 
   Future obtenerDepartamento() async {
     var url =
@@ -533,7 +532,7 @@ class _RegistroUsuarioAsesorScreenState
           style: const TextStyle(
               color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
           onChanged: (value) {
-            print(value);
+            valueDepartamento = value!.idDepartamento;
           },
           items: dep.map((itemone) {
             return DropdownMenuItem(
@@ -584,7 +583,6 @@ class _RegistroUsuarioAsesorScreenState
           }).toList(),
           onChanged: (value) {
             valueClaveTec = value!.claveTecnologico;
-            print(valueClaveTec);
             setState(() {
               cargando3 = false;
             });
@@ -627,7 +625,6 @@ class _RegistroUsuarioAsesorScreenState
           }).toList(),
           onChanged: (value) {
             valueTipo = value!.idTipoTec;
-            print(valueTipo);
             setState(() {
               cargando2 = false;
               cargando3 = false;
