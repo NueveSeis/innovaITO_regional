@@ -217,78 +217,18 @@ class _RegistroUsuarioAsesorScreenState
             child: Form(
                 child: Column(
               children: [
-                Container(
-                  // padding: EdgeInsets.only(right: 2.0),
-                  alignment: Alignment.topLeft,
-                  child: const Text(
-                    'Nivel academico',
-                    style: TextStyle(
-                        color: AppTema.bluegrey700,
-                        fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.right,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                DropdownButtonFormField(
-                    isExpanded: true,
-                    value: 'Seleccione una opción',
-                    style: const TextStyle(
-                        color: AppTema.bluegrey700,
-                        fontWeight: FontWeight.bold),
-                    items: const [
-                      DropdownMenuItem(
-                        value: 'Seleccione una opción',
-                        child: Text('Seleccione una opción'),
-                      ),
-                      DropdownMenuItem(
-                        value: 'Licenciatura',
-                        child: Text('Licenciatura'),
-                      ),
-                      DropdownMenuItem(
-                        value: 'Maestria',
-                        child: Text('Maestria'),
-                      ),
-                      DropdownMenuItem(
-                        value: 'Doctorado',
-                        child: Text('Doctorado'),
-                      ),
-                    ],
-                    onChanged: (value) {
-                      setState(() {
-                        if (value == "Licenciatura") {
-                          licen = true;
-                          maes = false;
-                          doc = false;
-                        }
-                        if (value == "Maestria") {
-                          licen = false;
-                          maes = true;
-                          doc = false;
-                        }
-                        if (value == "Doctorado") {
-                          licen = false;
-                          maes = false;
-                          doc = true;
-                        }
-                        ;
-                      });
-                    }),
                 const SizedBox(height: 20),
                 cargando
                     ? _tipoTecnologico(tipoTec)
-                    : CircularProgressIndicator(),
+                    : const CircularProgressIndicator(),
+                const SizedBox(height: 20),
                 cargando2
                     ? _institutoPertenencia(tecnologicoM)
-                    : CircularProgressIndicator(),
+                    : const SizedBox(),
+                const SizedBox(height: 20),
                 cargando3
                     ? _departamentoAdscrito(departamento)
-                    : CircularProgressIndicator(),
-                const SizedBox(height: 20),
-                //_institutoPertenencia(tecsD),
-                const SizedBox(height: 20),
-                // _departamentoAdscrito(carreras),
+                    : const SizedBox(),
                 const SizedBox(height: 20),
                 TextFormField(
                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -297,7 +237,7 @@ class _RegistroUsuarioAsesorScreenState
                   autocorrect: false,
                   keyboardType: TextInputType.text,
                   decoration: InputDecorations.registroLiderDecoration(
-                    hintText: 'Titulo',
+                    hintText: 'Ingrese su titulo',
                     labelText: 'Titulo (Lic., M.C., Dr.)',
                   ),
                   validator: (value) {
@@ -307,10 +247,6 @@ class _RegistroUsuarioAsesorScreenState
                   },
                   //onChanged: (value) => accesoFormulario.correo = value,
                 ),
-                const SizedBox(height: 20),
-                if (licen == true) ..._Licenciatura(),
-                if (maes == true) ..._Maestria(),
-                if (doc == true) ..._Doctorado(),
                 const SizedBox(height: 20),
                 TextFormField(
                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -434,7 +370,7 @@ class _RegistroUsuarioAsesorScreenState
                 TextFormField(
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   autocorrect: false,
-                  keyboardType: TextInputType.phone,
+                  keyboardType: TextInputType.number,
                   style: const TextStyle(
                       color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
                   decoration: InputDecorations.registroLiderDecoration(
@@ -485,6 +421,67 @@ class _RegistroUsuarioAsesorScreenState
                     ],
                     onChanged: (value) {}),
                 const SizedBox(height: 20),
+                Container(
+                  // padding: EdgeInsets.only(right: 2.0),
+                  alignment: Alignment.topLeft,
+                  child: const Text(
+                    'Nivel academico',
+                    style: TextStyle(
+                        color: AppTema.bluegrey700,
+                        fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.right,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                DropdownButtonFormField(
+                    isExpanded: true,
+                    value: 'Seleccione una opción',
+                    style: const TextStyle(
+                        color: AppTema.bluegrey700,
+                        fontWeight: FontWeight.bold),
+                    items: const [
+                      DropdownMenuItem(
+                        value: 'Seleccione una opción',
+                        child: Text('Seleccione una opción'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Licenciatura',
+                        child: Text('Licenciatura'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Maestria',
+                        child: Text('Maestria'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Doctorado',
+                        child: Text('Doctorado'),
+                      ),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        if (value == "Licenciatura") {
+                          licen = true;
+                          maes = false;
+                          doc = false;
+                        }
+                        if (value == "Maestria") {
+                          licen = false;
+                          maes = true;
+                          doc = false;
+                        }
+                        if (value == "Doctorado") {
+                          licen = false;
+                          maes = false;
+                          doc = true;
+                        }
+                      });
+                    }),
+                const SizedBox(height: 20),
+                if (licen == true) ..._Licenciatura(),
+                if (maes == true) ..._Maestria(),
+                if (doc == true) ..._Doctorado(),
                 Container(
                   height: 50,
                   width: double.infinity,
@@ -586,11 +583,12 @@ class _RegistroUsuarioAsesorScreenState
             );
           }).toList(),
           onChanged: (value) {
+            valueClaveTec = value!.claveTecnologico;
+            print(valueClaveTec);
             setState(() {
-              valueClaveTec = value!.claveTecnologico;
-              print(valueClaveTec);
-              obtenerDepartamento();
+              cargando3 = false;
             });
+            obtenerDepartamento();
           },
         ),
       ],
@@ -630,6 +628,10 @@ class _RegistroUsuarioAsesorScreenState
           onChanged: (value) {
             valueTipo = value!.idTipoTec;
             print(valueTipo);
+            setState(() {
+              cargando2 = false;
+              cargando3 = false;
+            });
             obtenerTecnologico();
           },
         ),
