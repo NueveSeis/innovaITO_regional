@@ -1,8 +1,3 @@
-// To parse this JSON data, do
-//
-//     final tipoTecnologico = tipoTecnologicoFromJson(jsonString);
-
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 List<TipoTecnologico> tipoTecnologicoFromJson(String str) =>

@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class ProyectoModelo {
   final String titulo;
   final String categoria;

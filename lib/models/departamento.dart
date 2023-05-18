@@ -1,8 +1,3 @@
-// To parse this JSON data, do
-//
-//     final departamento = departamentoFromJson(jsonString);
-
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 List<Departamento> departamentoFromJson(String str) => List<Departamento>.from(
