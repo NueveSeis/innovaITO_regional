@@ -40,6 +40,32 @@ class _RegistroUsuarioAsesorScreenState
   String valueClaveTec = '';
   String valueDepartamento = '';
 
+  Future agregarPersona() async {
+    var url = 'https://evarafael.com/Aplicacion/rest/agregarAsesor.php';
+    await http.post(Uri.parse(url), body: {
+      'Id_persona': 'kdjjdkk9',
+      'Nombre_persona': 'sexso99',
+      'Apellido1': 'kolll',
+      'Apellido2': 'man',
+      'Telefono': '9512751745',
+      'Correo_electronico': 'sima@gmail.com',
+      'Num_ine': '12345678909876',
+      'Curp': 'hgdgg738b',
+      'Id_usuario ': 'user145',
+      'Nombre_usuario': 'sima@gmail.com',
+      'Contrasena': 'hola23',
+      'Id_rol': 'ROL03',
+      'Id_asesor': 'aser190',
+      'RFC': 'RFC97678',
+      'Abreviatura_profesional': 'M.T.E',
+      'Licenciatura': 'sistemas',
+      'Maestria': 'datos',
+      'Doctorado': 'null',
+      'Id_departamento': 'DEP03',
+      'Id_cargoAsesor': 'CARASE02',
+    });
+  }
+
   Future obtenerDepartamento() async {
     var url =
         'https://evarafael.com/Aplicacion/rest/get_departamento.php?Clave_tecnologico=$valueClaveTec';
@@ -492,8 +518,9 @@ class _RegistroUsuarioAsesorScreenState
                       'Registrar',
                       style: TextStyle(color: AppTema.grey100, fontSize: 25),
                     )),
-                    onPressed: () {
-                      QuickAlert.show(
+                    onPressed: () async {
+                      agregarPersona();
+                      await QuickAlert.show(
                         context: context,
                         type: QuickAlertType.success,
                         title: 'Carrera agregada',
