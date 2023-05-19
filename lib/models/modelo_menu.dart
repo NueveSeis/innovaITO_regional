@@ -38,14 +38,17 @@ List<ModeloMenu> itemsMenu = const [
       titulo: "Fechas",
       icono: Icons.note_add_rounded,
       pantalla: 'asignacion_fechas'),
+  ModeloMenu(
+      titulo: "Seleccionar categoria",
+      icono: Icons.note_add_rounded,
+      pantalla: 'seleccionar_categoria'),
 ];
 
-List<ModeloMenu> itemsLider = const[
+List<ModeloMenu> itemsLider = const [
   ModeloMenu(
       titulo: "Ficha tecnica",
       icono: Icons.note_add_rounded,
       pantalla: 'ficha_tecnica'),
-
 ];
 
 List<ModeloMenu> itemsConfig = const [

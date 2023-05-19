@@ -11,3 +11,4 @@ export 'package:innova_ito/screens/carrera_screen.dart';
 export 'package:innova_ito/screens/departamento_screen.dart';
 export 'package:innova_ito/screens/agregar_carrera_screen.dart';
 export 'package:innova_ito/screens/asignacion_fechas_screen.dart';
+export 'package:innova_ito/screens/seleccion_categoria_screen.dart';

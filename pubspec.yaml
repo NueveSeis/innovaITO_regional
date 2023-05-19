@@ -44,6 +44,7 @@ dependencies:
   dropdown_search: ^5.0.6
   animated_custom_dropdown: ^1.5.0
   drop_down_list: ^0.0.5
+  card_swiper: ^2.0.4
   
   
 

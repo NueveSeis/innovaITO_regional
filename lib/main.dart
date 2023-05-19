@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
         'departamento': (_) => DepartamentoScreen(),
         'agregar_carrera': (_) => const AgregarCarreraScreen(),
         'asignacion_fechas': (_) => const AsignacionFechasScreen(),
+        'seleccionar_categoria': (_) => const SeleccionCategoriaScreen(),
       },
     );
   }
