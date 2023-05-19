@@ -534,30 +534,30 @@ class _RegistroUsuarioAsesorScreenState
                               TextStyle(color: AppTema.grey100, fontSize: 25),
                         )),
                         onPressed: () async {
-                          // setState(() {
-                          //   camposLlenos = _formKey.currentState!.validate();
-                          //   print(camposLlenos);
-                          // });
-                          // if (camposLlenos) {
-                          //   idPersona = Generar.idPersona(
-                          //       cNombres.text.toUpperCase(),
-                          //       cApellido1.text.toUpperCase(),
-                          //       cApellido2.text.toLowerCase(),
-                          //       cCorreo.text.toUpperCase());
-                          contrasena = Generar.contrasenaAleatoria();
-                          // contrasenaHash = Generar.hashContrasena(contrasena);
-                          // existente();
-                          print(contrasena);
-                          // } else {
-                          //   QuickAlert.show(
-                          //     context: context,
-                          //     type: QuickAlertType.warning,
-                          //     title: 'Cuidado',
-                          //     text: 'Rellena los campos faltantes',
-                          //     confirmBtnText: 'Hecho',
-                          //     confirmBtnColor: AppTema.pizazz,
-                          //   );
-                          // }
+                          setState(() {
+                            camposLlenos = _formKey.currentState!.validate();
+                            print(camposLlenos);
+                          });
+                          if (camposLlenos) {
+                            idPersona = Generar.idPersona(
+                                cNombres.text.toUpperCase(),
+                                cApellido1.text.toUpperCase(),
+                                cApellido2.text.toLowerCase(),
+                                cCorreo.text.toUpperCase());
+                            contrasena = Generar.contrasenaAleatoria();
+                            contrasenaHash = Generar.hashContrasena(contrasena);
+                            existente();
+                            // print(contrasena);
+                          } else {
+                            QuickAlert.show(
+                              context: context,
+                              type: QuickAlertType.warning,
+                              title: 'Cuidado',
+                              text: 'Rellena los campos faltantes',
+                              confirmBtnText: 'Hecho',
+                              confirmBtnColor: AppTema.pizazz,
+                            );
+                          }
                         },
                       ),
                     ),
