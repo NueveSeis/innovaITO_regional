@@ -10,6 +10,7 @@ import 'package:innova_ito/widgets/widgets.dart';
 import 'package:innova_ito/theme/cambiar_tema.dart';
 
 class ProyectosPendientesScreen extends StatefulWidget {
+  static const String name = 'proyectos';
   const ProyectosPendientesScreen({super.key});
 
   @override
@@ -18,11 +19,10 @@ class ProyectosPendientesScreen extends StatefulWidget {
 }
 
 class _ProyectosPendientesScreenState extends State<ProyectosPendientesScreen> {
-
   List lista = [];
-  
+
   Future<void> getProyectos() async {
-    String url = 'https://evarafael.com/Aplicacion/rest/verProyectos.php';  
+    String url = 'https://evarafael.com/Aplicacion/rest/verProyectos.php';
     var response = await http.get(Uri.parse(url));
     setState(() {
       lista = json.decode(response.body);
@@ -31,7 +31,7 @@ class _ProyectosPendientesScreenState extends State<ProyectosPendientesScreen> {
   }
 
   @override
-  void initState(){
+  void initState() {
     getProyectos();
     super.initState();
   }
@@ -161,7 +161,9 @@ class _ProyectosPendientesScreenState extends State<ProyectosPendientesScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 2,),
+              SizedBox(
+                height: 2,
+              ),
               Expanded(
                 child: Container(
                   width: double.infinity,
@@ -174,8 +176,7 @@ class _ProyectosPendientesScreenState extends State<ProyectosPendientesScreen> {
                         topRight: Radius.circular(25)),
                   ),
                   child: SingleChildScrollView(
-                    child: (aprobados)? DetallesScreen():Text('No')
-                  ),
+                      child: (aprobados) ? DetallesScreen() : Text('No')),
                 ),
               )
             ],
@@ -185,5 +186,3 @@ class _ProyectosPendientesScreenState extends State<ProyectosPendientesScreen> {
     );
   }
 }
-
-

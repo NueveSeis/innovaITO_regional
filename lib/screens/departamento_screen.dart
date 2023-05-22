@@ -6,6 +6,7 @@ import 'package:innova_ito/widgets/widgets.dart';
 import 'package:innova_ito/models/models.dart';
 
 class DepartamentoScreen extends StatefulWidget {
+  static const String name = 'departamento';
   DepartamentoScreen({super.key});
 
   @override

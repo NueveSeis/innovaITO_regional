@@ -6,6 +6,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:selectable_box/selectable_box.dart';
 
 class SeleccionCategoriaScreen extends StatefulWidget {
+  static const String name = 'seleccionar_categoria';
   const SeleccionCategoriaScreen({super.key});
 
   @override

@@ -4,6 +4,7 @@ import 'package:innova_ito/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
 class RegistroUsuarioScreen extends StatelessWidget {
+  static const String name = 'registro_usuario';
   const RegistroUsuarioScreen({super.key});
 
   @override

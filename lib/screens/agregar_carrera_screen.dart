@@ -7,6 +7,7 @@ import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 
 class AgregarCarreraScreen extends StatefulWidget {
+  static const String name = 'agregar_carrera';
   const AgregarCarreraScreen({super.key});
 
   @override

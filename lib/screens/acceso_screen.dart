@@ -14,6 +14,7 @@ import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 
 class AccesoScreen extends StatelessWidget {
+  static const String name = 'acceso';
   const AccesoScreen({Key? key}) : super(key: key);
 
   @override

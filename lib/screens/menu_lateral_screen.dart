@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/theme/cambiar_tema.dart';
 import 'package:provider/provider.dart';
@@ -6,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 
 class MenuLateral extends StatefulWidget {
+  static const String name = 'menu_lateral';
   const MenuLateral({super.key});
 
   @override
@@ -51,6 +53,7 @@ class _MenuLateralState extends State<MenuLateral> {
                   (menu) => MenuLateralItem(
                     menu: menu,
                     press: () {
+                      context.go('/${menu.pantalla.toString()}');
                       Navigator.pushNamed(context, menu.pantalla.toString());
                       setState(() {
                         seleccionMenu = menu;

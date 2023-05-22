@@ -12,6 +12,7 @@ import 'package:innova_ito/widgets/widgets.dart';
 import 'package:innova_ito/models/models.dart';
 
 class RegistroUsuarioAsesorScreen extends StatefulWidget {
+  static const String name = 'registro_usuario_asesor';
   const RegistroUsuarioAsesorScreen({super.key});
 
   @override

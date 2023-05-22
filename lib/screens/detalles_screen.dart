@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:innova_ito/theme/cambiar_tema.dart';
 
 class DetallesScreen extends StatefulWidget {
+  static const String name = 'detalles';
   const DetallesScreen({super.key});
 
   @override

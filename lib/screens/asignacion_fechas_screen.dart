@@ -4,6 +4,7 @@ import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 
 class AsignacionFechasScreen extends StatelessWidget {
+  static const String name = 'asignacion_fechas';
   const AsignacionFechasScreen({super.key});
 
   @override

@@ -6,6 +6,7 @@ import 'package:innova_ito/widgets/widgets.dart';
 //import 'package:flutter_quill/flutter_quill.dart';
 
 class FichaTecnicaScreen extends StatelessWidget {
+  static const String name = 'ficha_tecnica';
   const FichaTecnicaScreen({super.key});
 
   @override

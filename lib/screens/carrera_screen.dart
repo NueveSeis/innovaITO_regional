@@ -3,6 +3,7 @@ import 'package:innova_ito/theme/cambiar_tema.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 
 class CarreraScreen extends StatelessWidget {
+  static const String name = 'carrera';
   const CarreraScreen({super.key});
 
   @override

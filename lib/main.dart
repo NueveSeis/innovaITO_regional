@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:innova_ito/router/app_router.dart';
 import 'package:provider/provider.dart';
 
 import 'package:innova_ito/screens/screens.dart';
@@ -13,27 +14,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: appRouter,
       theme: AppTema.modoLuz,
       debugShowCheckedModeBanner: false,
       title: 'Innova ITO',
-      initialRoute: 'menu_lateral',
-      routes: {
-        'inicio': (_) => const InicioScreen(),
-        'detalles': (_) => const DetallesScreen(),
-        'acceso': (_) => const AccesoScreen(),
-        'menu_lateral': (_) => const MenuLateral(),
-        'proyectos': (_) => const ProyectosPendientesScreen(),
-        'registro_usuario': (_) => const RegistroUsuarioScreen(),
-        'registro_usuario_lider': (_) => const RegistroUsuarioLiderScreen(),
-        'registro_usuario_asesor': (_) => const RegistroUsuarioAsesorScreen(),
-        'ficha_tecnica': (_) => const FichaTecnicaScreen(),
-        'carrera': (_) => const CarreraScreen(),
-        'departamento': (_) => DepartamentoScreen(),
-        'agregar_carrera': (_) => const AgregarCarreraScreen(),
-        'asignacion_fechas': (_) => const AsignacionFechasScreen(),
-        'seleccionar_categoria': (_) => const SeleccionCategoriaScreen(),
-      },
     );
   }
 }
