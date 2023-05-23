@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/theme/cambiar_tema.dart';
 import 'package:innova_ito/widgets/widgets.dart';
-import 'package:card_swiper/card_swiper.dart';
-import 'package:selectable_box/selectable_box.dart';
 
 class SeleccionCategoriaScreen extends StatefulWidget {
   static const String name = 'seleccionar_categoria';

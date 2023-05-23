@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:innova_ito/theme/cambiar_tema.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:provider/provider.dart';
@@ -57,8 +58,9 @@ class RegistroUsuarioScreen extends StatelessWidget {
                                 fontSize: 25),
                           )),
                           onPressed: () {
-                            Navigator.pushNamed(
-                                context, 'registro_usuario_lider');
+                            context.pushNamed('registro_usuario_lider');
+                            // Navigator.pushNamed(
+                            //   context, 'registro_usuario_lider');
                           }),
                     ),
                     SizedBox(
@@ -88,8 +90,9 @@ class RegistroUsuarioScreen extends StatelessWidget {
                                 fontSize: 25),
                           )),
                           onPressed: () {
-                            Navigator.pushNamed(
-                                context, 'registro_usuario_asesor');
+                            context.pushNamed('registro_usuario_asesor');
+                            // Navigator.pushNamed(
+                            //   context, 'registro_usuario_asesor');
                           }),
                     ),
                   ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:innova_ito/theme/cambiar_tema.dart';
 import 'package:provider/provider.dart';
 
@@ -30,7 +31,9 @@ class Fondo extends StatelessWidget {
                   iconSize: 45,
                   color: Colors.white,
                   onPressed: () {
-                    Navigator.pushNamed(context, 'menu_lateral');
+                    context.pushNamed('menu_lateral');
+
+                    //Navigator.pushNamed(context, 'menu_lateral');
                   },
                   icon: Icon(Icons.clear_all_rounded)),
               Text(

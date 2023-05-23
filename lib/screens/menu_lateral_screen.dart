@@ -53,8 +53,8 @@ class _MenuLateralState extends State<MenuLateral> {
                   (menu) => MenuLateralItem(
                     menu: menu,
                     press: () {
-                      context.go('/${menu.pantalla.toString()}');
-                      Navigator.pushNamed(context, menu.pantalla.toString());
+                      context.push('/${menu.pantalla.toString()}');
+                      //Navigator.pushNamed(context, menu.pantalla.toString());
                       setState(() {
                         seleccionMenu = menu;
                       });

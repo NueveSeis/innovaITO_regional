@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/screens/detalles_screen.dart';
 import 'package:provider/provider.dart';
@@ -61,7 +62,8 @@ class _ProyectosPendientesScreenState extends State<ProyectosPendientesScreen> {
                       iconSize: 45,
                       color: Colors.white,
                       onPressed: () {
-                        Navigator.pushNamed(context, 'menu_lateral');
+                        context.pushNamed('menu_lateral');
+                        // Navigator.pushNamed(context, 'menu_lateral');
                       },
                       icon: Icon(Icons.clear_all_rounded)),
                   Text(

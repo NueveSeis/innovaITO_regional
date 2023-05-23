@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:innova_ito/theme/cambiar_tema.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 
@@ -37,7 +38,8 @@ class CarreraScreen extends StatelessWidget {
                       ],
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, 'agregar_carrera');
+                      context.pushNamed('agregar_carrera');
+                      // Navigator.pushNamed(context, 'agregar_carrera');
                     },
                   ),
                 ),

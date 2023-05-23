@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -64,8 +65,7 @@ class AccesoScreen extends StatelessWidget {
                                 '#fa7a1e', 'Cancelar', false, ScanMode.QR);
                         if (barcodeScanRes == '20230422') {
                           //print(barcodeScanRes);
-                          Navigator.pushReplacementNamed(
-                              context, 'registro_usuario_asesor');
+                          context.pushNamed('registro_usuario_asesor');
                         }
                       }),
                   TextButton(
@@ -119,7 +119,8 @@ class _formularioAccesoState extends State<_formularioAcceso> {
 
     var data = json.decode(response.body);
     if (data == "Realizado") {
-      Navigator.pushReplacementNamed(context, 'menu_lateral');
+      context.goNamed('menu_lateral');
+      //Navigator.pushReplacementNamed(context, 'menu_lateral');
     }
   }
 
