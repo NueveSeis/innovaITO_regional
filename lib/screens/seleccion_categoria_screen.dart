@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/theme/cambiar_tema.dart';
 import 'package:innova_ito/widgets/widgets.dart';
@@ -14,6 +17,27 @@ class SeleccionCategoriaScreen extends StatefulWidget {
 
 class _SeleccionCategoriaScreenState extends State<SeleccionCategoriaScreen> {
   bool isSelected_1 = false;
+  bool isSelectCategoria = false;
+  String categoriaSelec = '';
+
+  List<Area> areas = [];
+  List<Categoria> categorias = [];
+
+  Future obtenerAreas(String areaB) async {
+    var url =
+        'https://evarafael.com/Aplicacion/rest/get_area.php?Id_categoria=$areaB';
+    var response = await http.get(Uri.parse(url));
+    areas = areaFromJson(response.body);
+    // print("simon ${areas.length}");
+  }
+
+  Future obtenerCategorias() async {
+    var url = 'https://evarafael.com/Aplicacion/rest/get_categorias.php';
+    var response = await http.get(Uri.parse(url));
+    categorias = categoriaFromJson(response.body);
+    // print("simon ${areas.length}");
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -38,79 +62,110 @@ class _SeleccionCategoriaScreenState extends State<SeleccionCategoriaScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                SizedBox(
-                  height: size.height * 0.4,
-                  width: double.infinity,
-                  child: GridView.builder(
-                    scrollDirection: Axis.horizontal,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            //maxCrossAxisExtent: 200,
-                            childAspectRatio: 3 / 6,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10),
-                    itemCount: 7,
-                    itemBuilder: (BuildContext context, index) {
-                      return MaterialButton(
-                          splashColor: CambiarTema.pizazz,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
+                FutureBuilder(
+                    future: obtenerCategorias(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else {
+                        return SizedBox(
                           height: size.height * 0.4,
-                          elevation: 5.0,
-                          color: CambiarTema.grey100,
-                          child: Text(
-                            'Lider de proyecto',
-                            style: TextStyle(
-                                color: CambiarTema.bluegrey700, fontSize: 25),
+                          width: double.infinity,
+                          child: GridView.builder(
+                            scrollDirection: Axis.horizontal,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    //maxCrossAxisExtent: 200,
+                                    childAspectRatio: 3 / 6,
+                                    crossAxisSpacing: 10,
+                                    mainAxisSpacing: 10),
+                            itemCount: categorias.length,
+                            itemBuilder: (BuildContext context, index) {
+                              return MaterialButton(
+                                  splashColor: CambiarTema.pizazz,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  height: size.height * 0.4,
+                                  elevation: 5.0,
+                                  color: CambiarTema.grey100,
+                                  child: Text(
+                                    categorias[index].nombreCategoria,
+                                    style: TextStyle(
+                                        color: CambiarTema.bluegrey700,
+                                        fontSize: 25),
+                                  ),
+                                  onPressed: () {
+                                    isSelectCategoria = true;
+
+                                    print(categoriaSelec);
+                                    setState(() {
+                                      categoriaSelec =
+                                          categorias[index].idCategoria;
+                                    });
+                                  });
+                            },
                           ),
-                          onPressed: () {});
-                    },
-                  ),
-                ),
+                        );
+                      }
+                    }),
                 const SizedBox(
                   height: 30,
                 ),
-                const Text(
-                  'Seleccione su area de interes',
-                  style: TextStyle(
-                      color: CambiarTema.balticSea,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  height: size.height * 0.4,
-                  width: double.infinity,
-                  child: GridView.builder(
-                    scrollDirection: Axis.vertical,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 1,
-                        mainAxisSpacing: 15,
-                        crossAxisSpacing: 10,
-                        childAspectRatio: 10 / 3),
-                    itemCount: 7,
-                    itemBuilder: (BuildContext context, index) {
-                      return MaterialButton(
-                          splashColor: CambiarTema.pizazz,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          height: 35,
-                          elevation: 5.0,
-                          color: CambiarTema.grey100,
-                          child: Text(
-                            'Lider de proyecto',
+                if (isSelectCategoria == true)
+                  FutureBuilder(
+                    future: obtenerAreas(categoriaSelec),
+                    builder: (context, snapshot) {
+                      return Column(
+                        children: [
+                          const Text(
+                            'Seleccione su area de interes',
                             style: TextStyle(
-                                color: CambiarTema.bluegrey700, fontSize: 25),
+                                color: CambiarTema.balticSea,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
                           ),
-                          onPressed: () {});
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          SizedBox(
+                            height: size.height * 0.4,
+                            width: double.infinity,
+                            child: GridView.builder(
+                              scrollDirection: Axis.vertical,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 1,
+                                      mainAxisSpacing: 15,
+                                      crossAxisSpacing: 10,
+                                      childAspectRatio: 10 / 3),
+                              itemCount: areas.length,
+                              itemBuilder: (BuildContext context, index) {
+                                return MaterialButton(
+                                    splashColor: CambiarTema.pizazz,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    height: 35,
+                                    elevation: 5.0,
+                                    color: CambiarTema.grey100,
+                                    child: Text(
+                                      areas[index].nombreArea,
+                                      style: TextStyle(
+                                          color: CambiarTema.bluegrey700,
+                                          fontSize: 25),
+                                    ),
+                                    onPressed: () {});
+                              },
+                            ),
+                          ),
+                        ],
+                      );
                     },
                   ),
-                ),
                 Container(
                   height: 50,
                   width: double.infinity,
