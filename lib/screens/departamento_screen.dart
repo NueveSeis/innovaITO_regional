@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:innova_ito/theme/cambiar_tema.dart';
+import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:innova_ito/models/models.dart';
 
@@ -54,8 +54,8 @@ class _DepartamentoScreenState extends State<DepartamentoScreen> {
                         Icon(Icons.add_circle_outline_rounded),
                         Text(
                           '  Añadir departamento',
-                          style: TextStyle(
-                              color: CambiarTema.grey100, fontSize: 25),
+                          style:
+                              TextStyle(color: AppTema.grey100, fontSize: 25),
                         ),
                       ],
                     ),

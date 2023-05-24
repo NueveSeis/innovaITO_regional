@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/theme/app_tema.dart';
-import 'package:innova_ito/theme/cambiar_tema.dart';
+
 import 'package:innova_ito/widgets/widgets.dart';
 
 class SeleccionCategoriaScreen extends StatefulWidget {
@@ -18,6 +18,7 @@ class SeleccionCategoriaScreen extends StatefulWidget {
 class _SeleccionCategoriaScreenState extends State<SeleccionCategoriaScreen> {
   bool isSelected_1 = false;
   bool isSelectCategoria = false;
+
   String categoriaSelec = '';
 
   List<Area> areas = [];
@@ -35,7 +36,8 @@ class _SeleccionCategoriaScreenState extends State<SeleccionCategoriaScreen> {
     var url = 'https://evarafael.com/Aplicacion/rest/get_categorias.php';
     var response = await http.get(Uri.parse(url));
     categorias = categoriaFromJson(response.body);
-    // print("simon ${areas.length}");
+    // print("simon
+    isSelectCategoria = true;
   }
 
   @override
@@ -55,7 +57,7 @@ class _SeleccionCategoriaScreenState extends State<SeleccionCategoriaScreen> {
                 const Text(
                   'Seleccione la categoria de interes',
                   style: TextStyle(
-                      color: CambiarTema.balticSea,
+                      color: AppTema.balticSea,
                       fontWeight: FontWeight.bold,
                       fontSize: 20),
                 ),
@@ -85,27 +87,31 @@ class _SeleccionCategoriaScreenState extends State<SeleccionCategoriaScreen> {
                             itemCount: categorias.length,
                             itemBuilder: (BuildContext context, index) {
                               return MaterialButton(
-                                  splashColor: CambiarTema.pizazz,
+                                  splashColor: AppTema.pizazz,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15),
                                   ),
                                   height: size.height * 0.4,
                                   elevation: 5.0,
-                                  color: CambiarTema.grey100,
+                                  color: AppTema.grey100,
                                   child: Text(
                                     categorias[index].nombreCategoria,
                                     style: TextStyle(
-                                        color: CambiarTema.bluegrey700,
-                                        fontSize: 25),
+                                        color: AppTema.bluegrey700,
+                                        fontSize: 20),
                                   ),
                                   onPressed: () {
+//isSelectCategoria = true;
+                                    categoriaSelec =
+                                        categorias[index].idCategoria;
+                                    print(categoriaSelec);
+                                    //setState(() {
+                                    //categoriaSelec =
+                                    //  categorias[index].idCategoria;
+                                    //});
                                     isSelectCategoria = true;
 
-                                    print(categoriaSelec);
-                                    setState(() {
-                                      categoriaSelec =
-                                          categorias[index].idCategoria;
-                                    });
+                                    obtenerAreas(categoriaSelec);
                                   });
                             },
                           ),
@@ -116,56 +122,7 @@ class _SeleccionCategoriaScreenState extends State<SeleccionCategoriaScreen> {
                   height: 30,
                 ),
                 if (isSelectCategoria == true)
-                  FutureBuilder(
-                    future: obtenerAreas(categoriaSelec),
-                    builder: (context, snapshot) {
-                      return Column(
-                        children: [
-                          const Text(
-                            'Seleccione su area de interes',
-                            style: TextStyle(
-                                color: CambiarTema.balticSea,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          SizedBox(
-                            height: size.height * 0.4,
-                            width: double.infinity,
-                            child: GridView.builder(
-                              scrollDirection: Axis.vertical,
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 1,
-                                      mainAxisSpacing: 15,
-                                      crossAxisSpacing: 10,
-                                      childAspectRatio: 10 / 3),
-                              itemCount: areas.length,
-                              itemBuilder: (BuildContext context, index) {
-                                return MaterialButton(
-                                    splashColor: CambiarTema.pizazz,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    height: 35,
-                                    elevation: 5.0,
-                                    color: CambiarTema.grey100,
-                                    child: Text(
-                                      areas[index].nombreArea,
-                                      style: TextStyle(
-                                          color: CambiarTema.bluegrey700,
-                                          fontSize: 25),
-                                    ),
-                                    onPressed: () {});
-                              },
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
+                  SelecionarArea(size: size, areas: areas),
                 Container(
                   height: 50,
                   width: double.infinity,
@@ -182,6 +139,63 @@ class _SeleccionCategoriaScreenState extends State<SeleccionCategoriaScreen> {
               ],
             ),
           )),
+    );
+  }
+}
+
+class SelecionarArea extends StatelessWidget {
+  const SelecionarArea({
+    super.key,
+    required this.size,
+    required this.areas,
+  });
+
+  final Size size;
+  final List<Area> areas;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const Text(
+          'Seleccione su area de interes',
+          style: TextStyle(
+              color: AppTema.balticSea,
+              fontWeight: FontWeight.bold,
+              fontSize: 20),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        SizedBox(
+          height: size.height * 0.4,
+          width: double.infinity,
+          child: GridView.builder(
+            scrollDirection: Axis.vertical,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1,
+                mainAxisSpacing: 15,
+                crossAxisSpacing: 10,
+                childAspectRatio: 10 / 3),
+            itemCount: areas.length,
+            itemBuilder: (BuildContext context, index) {
+              return MaterialButton(
+                  splashColor: AppTema.pizazz,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  height: 35,
+                  elevation: 5.0,
+                  color: AppTema.grey100,
+                  child: Text(
+                    areas[index].nombreArea,
+                    style: TextStyle(color: AppTema.bluegrey700, fontSize: 20),
+                  ),
+                  onPressed: () {});
+            },
+          ),
+        ),
+      ],
     );
   }
 }

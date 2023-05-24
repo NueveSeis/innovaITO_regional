@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:innova_ito/models/models.dart';
+import 'package:innova_ito/theme/app_tema.dart';
 import 'package:provider/provider.dart';
-
-import 'package:innova_ito/theme/cambiar_tema.dart';
 
 class AceptarProVinculacion extends StatelessWidget {
   final ProyectoModelo proyecto;
@@ -10,8 +9,6 @@ class AceptarProVinculacion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final temaApp = Provider.of<CambiarTema>(context);
-
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
@@ -22,8 +19,7 @@ class AceptarProVinculacion extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 10, top: 10),
         //margin: EdgeInsets.only(top: 15),
         decoration: BoxDecoration(
-          color:
-              (temaApp.temaOscuro) ? CambiarTema.emperor : CambiarTema.grey100,
+          color: AppTema.grey100,
           borderRadius: BorderRadius.circular(25),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -35,19 +31,13 @@ class AceptarProVinculacion extends StatelessWidget {
                 Text(
                   proyecto.titulo,
                   style: TextStyle(
-                      color: (temaApp.temaOscuro)
-                          ? Colors.white
-                          : CambiarTema.bluegrey700,
+                      color: AppTema.bluegrey700,
                       //fontWeight: FontWeight.bold,
                       fontSize: 20),
                 ),
                 Text(
                   'Categoria: ${proyecto.categoria}',
-                  style: TextStyle(
-                      color: (temaApp.temaOscuro)
-                          ? Colors.white
-                          : CambiarTema.bluegrey700,
-                      fontSize: 12),
+                  style: TextStyle(color: AppTema.bluegrey700, fontSize: 12),
                 ),
               ],
             ),
@@ -61,15 +51,11 @@ class AceptarProVinculacion extends StatelessWidget {
                   IconButton(
                       icon: const Icon(Icons.visibility_rounded, size: 30),
                       onPressed: () {},
-                      color: (temaApp.temaOscuro)
-                          ? Colors.white
-                          : CambiarTema.bluegrey700),
+                      color: AppTema.bluegrey700),
                   Text(
                     'Visualizar',
                     style: TextStyle(
-                      color: (temaApp.temaOscuro)
-                          ? Colors.white
-                          : CambiarTema.bluegrey700,
+                      color: AppTema.bluegrey700,
                     ),
                   )
                 ],
@@ -78,18 +64,14 @@ class AceptarProVinculacion extends StatelessWidget {
                 children: [
                   IconButton(
                     icon: Icon(Icons.trip_origin_rounded,
-                        color: (proyecto.asesorCheck)
-                            ? CambiarTema.greenS400
-                            : CambiarTema.redA400, size: 30),
+                        color: AppTema.redA400, size: 30),
                     onPressed: null,
                   ),
                   //SizedBox(zi),
                   Text(
                     'Asesor',
                     style: TextStyle(
-                      color: (temaApp.temaOscuro)
-                          ? Colors.white
-                          : CambiarTema.bluegrey700,
+                      color: AppTema.bluegrey700,
                     ),
                   )
                 ],
@@ -99,14 +81,12 @@ class AceptarProVinculacion extends StatelessWidget {
                   Switch(
                     value: true,
                     onChanged: (value) => print('hola'),
-                    activeColor: CambiarTema.pizazz,
+                    activeColor: AppTema.pizazz,
                   ),
                   Text(
                     'Aceptar',
                     style: TextStyle(
-                      color: (temaApp.temaOscuro)
-                          ? Colors.white
-                          : CambiarTema.bluegrey700,
+                      color: AppTema.bluegrey700,
                     ),
                   )
                 ],

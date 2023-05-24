@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:innova_ito/theme/cambiar_tema.dart';
+import 'package:innova_ito/theme/app_tema.dart';
+
 import 'package:provider/provider.dart';
 
 class Fondo extends StatelessWidget {
@@ -15,13 +16,12 @@ class Fondo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final temaApp = Provider.of<CambiarTema>(context);
     return Scaffold(
       body: Container(
         //padding: EdgeInsets.only(bottom: 10),
         height: double.infinity,
         width: double.infinity,
-        color: CambiarTema.primario,
+        color: AppTema.primario,
         child: SafeArea(
             child: Column(children: [
           Row(
@@ -51,9 +51,7 @@ class Fondo extends StatelessWidget {
             child: Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: (temaApp.temaOscuro)
-                    ? CambiarTema.balticSea
-                    : CambiarTema.indigo50,
+                color: AppTema.indigo50,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(25),
                     topRight: Radius.circular(25)),

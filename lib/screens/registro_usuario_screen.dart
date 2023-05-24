@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:innova_ito/theme/cambiar_tema.dart';
+import 'package:innova_ito/theme/app_tema.dart';
+
 import 'package:innova_ito/widgets/widgets.dart';
-import 'package:provider/provider.dart';
 
 class RegistroUsuarioScreen extends StatelessWidget {
   static const String name = 'registro_usuario';
@@ -10,19 +10,16 @@ class RegistroUsuarioScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final temaApp = Provider.of<CambiarTema>(context);
     return Scaffold(
         body: Fondo(
             tituloPantalla: 'Registro de usuarios',
             fontSize: 20,
             widget: Column(children: [
-              SizedBox(height: 50),
-              Text(
+              const SizedBox(height: 50),
+              const Text(
                 'Selecciona tipo de usuario',
                 style: TextStyle(
-                    color: (temaApp.temaOscuro)
-                        ? Colors.white
-                        : CambiarTema.balticSea,
+                    color: AppTema.balticSea,
                     fontWeight: FontWeight.bold,
                     fontSize: 20),
               ),
@@ -31,31 +28,26 @@ class RegistroUsuarioScreen extends StatelessWidget {
                 //width: double.infinity,
                 child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     ),
                     Container(
                       width: double.infinity,
-                      margin:
-                          EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 20),
                       child: MaterialButton(
-                          splashColor: CambiarTema.pizazz,
+                          splashColor: AppTema.pizazz,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
                           height: 200,
                           elevation: 15.0,
-                          color: (temaApp.temaOscuro)
-                              ? CambiarTema.emperor
-                              : CambiarTema.grey100,
+                          color: AppTema.grey100,
                           child: Container(
-                              child: Text(
+                              child: const Text(
                             'Lider de proyecto',
                             style: TextStyle(
-                                color: (temaApp.temaOscuro)
-                                    ? CambiarTema.indigo50
-                                    : CambiarTema.bluegrey700,
-                                fontSize: 25),
+                                color: AppTema.bluegrey700, fontSize: 25),
                           )),
                           onPressed: () {
                             context.pushNamed('registro_usuario_lider');
@@ -63,31 +55,26 @@ class RegistroUsuarioScreen extends StatelessWidget {
                             //   context, 'registro_usuario_lider');
                           }),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     Container(
                       width: double.infinity,
-                      margin:
-                          EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 20),
                       child: MaterialButton(
-                          splashColor: CambiarTema.pizazz,
+                          splashColor: AppTema.pizazz,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
                           height: 200,
                           elevation: 15.0,
-                          color: (temaApp.temaOscuro)
-                              ? CambiarTema.emperor
-                              : CambiarTema.grey100,
+                          color: AppTema.grey100,
                           child: Container(
-                              child: Text(
+                              child: const Text(
                             'Asesor',
                             style: TextStyle(
-                                color: (temaApp.temaOscuro)
-                                    ? CambiarTema.indigo50
-                                    : CambiarTema.bluegrey700,
-                                fontSize: 25),
+                                color: AppTema.bluegrey700, fontSize: 25),
                           )),
                           onPressed: () {
                             context.pushNamed('registro_usuario_asesor');

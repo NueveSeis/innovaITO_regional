@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/screens/detalles_screen.dart';
+import 'package:innova_ito/theme/app_tema.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:innova_ito/widgets/widgets.dart';
-import 'package:innova_ito/theme/cambiar_tema.dart';
 
 class ProyectosPendientesScreen extends StatefulWidget {
   static const String name = 'proyectos';
@@ -43,15 +43,14 @@ class _ProyectosPendientesScreenState extends State<ProyectosPendientesScreen> {
   @override
   Widget build(BuildContext context) {
     // ProyectoModelo proyectoModelo = itemsProyecto.first;
-    final temaApp = Provider.of<CambiarTema>(context);
 
     return Scaffold(
-      //backgroundColor: CambiarTema.balticSea,
+      //backgroundColor: AppTema.balticSea,
       body: Container(
         //padding: EdgeInsets.only(bottom: 10),
         height: double.infinity,
         width: double.infinity,
-        color: CambiarTema.primario,
+        color: AppTema.primario,
         child: SafeArea(
           child: Column(
             children: [
@@ -65,8 +64,8 @@ class _ProyectosPendientesScreenState extends State<ProyectosPendientesScreen> {
                         context.pushNamed('menu_lateral');
                         // Navigator.pushNamed(context, 'menu_lateral');
                       },
-                      icon: Icon(Icons.clear_all_rounded)),
-                  Text(
+                      icon: const Icon(Icons.clear_all_rounded)),
+                  const Text(
                     'Proyecto',
                     style: TextStyle(color: Colors.white, fontSize: 25),
                   ),
@@ -74,7 +73,7 @@ class _ProyectosPendientesScreenState extends State<ProyectosPendientesScreen> {
                       iconSize: 40,
                       color: Colors.white,
                       onPressed: () {},
-                      icon: Icon(Icons.search)),
+                      icon: const Icon(Icons.search)),
                 ],
               ),
               //SizedBox(height: 10),
@@ -84,9 +83,7 @@ class _ProyectosPendientesScreenState extends State<ProyectosPendientesScreen> {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                    color: (temaApp.temaOscuro)
-                        ? CambiarTema.balticSea
-                        : CambiarTema.indigo50,
+                    color: AppTema.indigo50,
                   ),
                   width: double.infinity,
                   height: 50,
@@ -97,29 +94,19 @@ class _ProyectosPendientesScreenState extends State<ProyectosPendientesScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          disabledColor: (temaApp.temaOscuro)
-                              ? CambiarTema.emperor
-                              : CambiarTema.grey100,
+                          disabledColor: AppTema.grey100,
                           elevation: 10,
                           height: 30,
-                          color: (temaApp.temaOscuro)
-                              ? (aprobados)
-                                  ? CambiarTema.pizazz
-                                  : CambiarTema.emperor
-                              : (aprobados)
-                                  ? CambiarTema.pizazz
-                                  : CambiarTema.grey100,
+                          color: (aprobados) ? AppTema.pizazz : AppTema.grey100,
                           child: Container(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 12),
                               child: Text(
                                 'Aprobados',
                                 style: TextStyle(
-                                    color: (temaApp.temaOscuro)
+                                    color: (aprobados)
                                         ? Colors.white
-                                        : (aprobados)
-                                            ? Colors.white
-                                            : CambiarTema.bluegrey700),
+                                        : AppTema.bluegrey700),
                               )),
                           onPressed: () {
                             setState(() {
@@ -131,27 +118,19 @@ class _ProyectosPendientesScreenState extends State<ProyectosPendientesScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          disabledColor: CambiarTema.emperor,
+                          disabledColor: AppTema.emperor,
                           elevation: 10,
                           height: 30,
-                          color: (temaApp.temaOscuro)
-                              ? (pendiente)
-                                  ? CambiarTema.pizazz
-                                  : CambiarTema.emperor
-                              : (pendiente)
-                                  ? CambiarTema.pizazz
-                                  : CambiarTema.grey100,
+                          color: (pendiente) ? AppTema.pizazz : AppTema.grey100,
                           child: Container(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 12),
                               child: Text(
                                 'Pendientes',
                                 style: TextStyle(
-                                    color: (temaApp.temaOscuro)
+                                    color: (pendiente)
                                         ? Colors.white
-                                        : (pendiente)
-                                            ? Colors.white
-                                            : CambiarTema.bluegrey700),
+                                        : AppTema.bluegrey700),
                               )),
                           onPressed: () {
                             setState(() {
@@ -163,22 +142,20 @@ class _ProyectosPendientesScreenState extends State<ProyectosPendientesScreen> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 2,
               ),
               Expanded(
                 child: Container(
                   width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: (temaApp.temaOscuro)
-                        ? CambiarTema.balticSea
-                        : CambiarTema.indigo50,
+                  decoration: const BoxDecoration(
+                    color: AppTema.indigo50,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(25),
                         topRight: Radius.circular(25)),
                   ),
                   child: SingleChildScrollView(
-                      child: (aprobados) ? DetallesScreen() : Text('No')),
+                      child: (aprobados) ? const DetallesScreen() : Text('No')),
                 ),
               )
             ],

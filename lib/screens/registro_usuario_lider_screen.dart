@@ -5,11 +5,10 @@ import 'package:quickalert/quickalert.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:innova_ito/theme/app_tema.dart';
-import 'package:innova_ito/theme/cambiar_tema.dart';
+
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:innova_ito/helpers/helpers.dart';
-import 'package:innova_ito/providers/registro_lider_prov.dart';
 
 class RegistroUsuarioLiderScreen extends StatefulWidget {
   static const String name = 'registro_usuario_lider';
@@ -98,7 +97,7 @@ class _RegistroUsuarioLiderScreenState
   @override
   Widget build(BuildContext context) {
     //final registroLider = Provider.of<RegistroLiderProv>(context);
-    final temaApp = Provider.of<CambiarTema>(context);
+
     return Scaffold(
         body: Fondo(
             tituloPantalla: 'Registro lider de proyecto',
@@ -109,9 +108,7 @@ class _RegistroUsuarioLiderScreenState
                 Text(
                   'Ingrese datos del estudiante',
                   style: TextStyle(
-                      color: (temaApp.temaOscuro)
-                          ? Colors.white
-                          : CambiarTema.balticSea,
+                      color: AppTema.balticSea,
                       fontWeight: FontWeight.bold,
                       fontSize: 20),
                 ),
@@ -127,7 +124,7 @@ class _RegistroUsuarioLiderScreenState
                           DropdownButtonFormField(
                               value: 'Seleccione una opción',
                               style: const TextStyle(
-                                  color: CambiarTema.bluegrey700,
+                                  color: AppTema.bluegrey700,
                                   fontWeight: FontWeight.bold),
                               items: const [
                                 DropdownMenuItem(
@@ -158,7 +155,7 @@ class _RegistroUsuarioLiderScreenState
                             autocorrect: false,
                             keyboardType: TextInputType.emailAddress,
                             style: const TextStyle(
-                                color: CambiarTema.bluegrey700,
+                                color: AppTema.bluegrey700,
                                 fontWeight: FontWeight.bold),
                             decoration:
                                 InputDecorations.registroLiderDecoration(
@@ -177,7 +174,7 @@ class _RegistroUsuarioLiderScreenState
                                 AutovalidateMode.onUserInteraction,
                             controller: nombre,
                             style: const TextStyle(
-                                color: CambiarTema.bluegrey700,
+                                color: AppTema.bluegrey700,
                                 fontWeight: FontWeight.bold),
                             autocorrect: false,
                             keyboardType: TextInputType.text,
@@ -197,7 +194,7 @@ class _RegistroUsuarioLiderScreenState
                           TextFormField(
                             controller: apellidoP,
                             style: const TextStyle(
-                                color: CambiarTema.bluegrey700,
+                                color: AppTema.bluegrey700,
                                 fontWeight: FontWeight.bold),
                             autocorrect: false,
                             keyboardType: TextInputType.emailAddress,
@@ -211,7 +208,7 @@ class _RegistroUsuarioLiderScreenState
                           TextFormField(
                             controller: apellidoM,
                             style: const TextStyle(
-                                color: CambiarTema.bluegrey700,
+                                color: AppTema.bluegrey700,
                                 fontWeight: FontWeight.bold),
                             autocorrect: false,
                             keyboardType: TextInputType.emailAddress,
@@ -227,7 +224,7 @@ class _RegistroUsuarioLiderScreenState
                                 AutovalidateMode.onUserInteraction,
                             controller: correo,
                             style: const TextStyle(
-                                color: CambiarTema.bluegrey700,
+                                color: AppTema.bluegrey700,
                                 fontWeight: FontWeight.bold),
                             autocorrect: false,
                             keyboardType: TextInputType.emailAddress,
@@ -253,7 +250,7 @@ class _RegistroUsuarioLiderScreenState
                                   child: Text(
                                 'Registrar',
                                 style: TextStyle(
-                                    color: CambiarTema.grey100, fontSize: 25),
+                                    color: AppTema.grey100, fontSize: 25),
                               )),
                               onPressed: () async {
                                 setState(() {

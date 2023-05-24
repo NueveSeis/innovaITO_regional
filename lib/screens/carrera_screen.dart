@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:innova_ito/theme/cambiar_tema.dart';
+import 'package:innova_ito/theme/app_tema.dart';
+
 import 'package:innova_ito/widgets/widgets.dart';
 
 class CarreraScreen extends StatelessWidget {
@@ -32,8 +33,8 @@ class CarreraScreen extends StatelessWidget {
                         Icon(Icons.add_circle_outline_rounded),
                         Text(
                           '  Añadir carrera',
-                          style: TextStyle(
-                              color: CambiarTema.grey100, fontSize: 25),
+                          style:
+                              TextStyle(color: AppTema.grey100, fontSize: 25),
                         ),
                       ],
                     ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:innova_ito/models/models.dart';
-import 'package:innova_ito/theme/cambiar_tema.dart';
+import 'package:innova_ito/theme/app_tema.dart';
+
 import 'package:provider/provider.dart';
 
 import 'package:innova_ito/widgets/widgets.dart';
@@ -18,14 +19,13 @@ class _MenuLateralState extends State<MenuLateral> {
   ModeloMenu seleccionMenu = itemsMenu.first;
   @override
   Widget build(BuildContext context) {
-    final temaApp = Provider.of<CambiarTema>(context);
+    //final temaApp = Provider.of<AppTema>(context);
 
     return Scaffold(
       body: Container(
         width: 288,
         height: double.infinity,
-        color:
-            (temaApp.temaOscuro) ? CambiarTema.balticSea : CambiarTema.indigo50,
+        color: AppTema.indigo50,
         child: SafeArea(
           child: SingleChildScrollView(
             child: Column(
@@ -43,10 +43,7 @@ class _MenuLateralState extends State<MenuLateral> {
                   ),
                   child: Text(
                     'Menu'.toUpperCase(),
-                    style: TextStyle(
-                        color: (temaApp.temaOscuro)
-                            ? Colors.white
-                            : CambiarTema.bluegrey700),
+                    style: TextStyle(color: AppTema.bluegrey700),
                   ),
                 ),
                 ...itemsMenu.map(
@@ -70,10 +67,7 @@ class _MenuLateralState extends State<MenuLateral> {
                   ),
                   child: Text(
                     'Ajustes'.toUpperCase(),
-                    style: TextStyle(
-                        color: (temaApp.temaOscuro)
-                            ? Colors.white
-                            : CambiarTema.bluegrey700),
+                    style: TextStyle(color: AppTema.bluegrey700),
                   ),
                 ),
                 ...itemsConfig.map(
@@ -85,29 +79,6 @@ class _MenuLateralState extends State<MenuLateral> {
                       });
                     },
                     esActivo: seleccionMenu == menu,
-                  ),
-                ),
-                SafeArea(
-                  bottom: true,
-                  top: false,
-                  left: false,
-                  right: false,
-                  child: ListTile(
-                    leading: Icon(Icons.lightbulb_outline,
-                        color: (temaApp.temaOscuro)
-                            ? Colors.white
-                            : CambiarTema.bluegrey700),
-                    title: Text(
-                      'Dark Mode',
-                      style: TextStyle(
-                          color: (temaApp.temaOscuro)
-                              ? Colors.white
-                              : CambiarTema.bluegrey700),
-                    ),
-                    trailing: Switch.adaptive(
-                        value: temaApp.temaOscuro,
-                        activeColor: Colors.green,
-                        onChanged: (value) => temaApp.temaOscuro = value),
                   ),
                 ),
               ],

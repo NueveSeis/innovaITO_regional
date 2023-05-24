@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:innova_ito/theme/app_tema.dart';
 import 'package:provider/provider.dart';
-
-import 'package:innova_ito/theme/cambiar_tema.dart';
 
 class InfoUsuario extends StatelessWidget {
   const InfoUsuario({
@@ -14,29 +13,15 @@ class InfoUsuario extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final temaApp = Provider.of<CambiarTema>(context);
-
     return ListTile(
       leading: CircleAvatar(
-        backgroundColor: (temaApp.temaOscuro)
-            ? CambiarTema.indigo50
-            : CambiarTema.bluegrey700,
-        child: Text('KI',
-            style: TextStyle(
-                color: (temaApp.temaOscuro)
-                    ? CambiarTema.balticSea
-                    : CambiarTema.indigo50)),
+        backgroundColor: AppTema.bluegrey700,
+        child: Text('KI', style: TextStyle(color: AppTema.indigo50)),
       ),
-      title: Text(nombre,
-          style: TextStyle(
-              color: (temaApp.temaOscuro)
-                  ? Colors.white
-                  : CambiarTema.bluegrey700)),
+      title: Text(nombre, style: TextStyle(color: AppTema.bluegrey700)),
       subtitle: Text(
         rol,
-        style: TextStyle(
-            color:
-                (temaApp.temaOscuro) ? Colors.white : CambiarTema.bluegrey700),
+        style: const TextStyle(color: AppTema.bluegrey700),
       ),
     );
   }

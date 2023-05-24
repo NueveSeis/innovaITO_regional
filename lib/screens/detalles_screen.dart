@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:innova_ito/theme/cambiar_tema.dart';
+import 'package:innova_ito/theme/app_tema.dart';
 
 class DetallesScreen extends StatefulWidget {
   static const String name = 'detalles';
@@ -50,7 +50,7 @@ class _DetallesScreenState extends State<DetallesScreen> {
                 padding: const EdgeInsets.all(10),
                 //margin: EdgeInsets.only(top: 15),
                 decoration: BoxDecoration(
-                  color: CambiarTema.grey100,
+                  color: AppTema.grey100,
                   borderRadius: BorderRadius.circular(25),
                 ),
                 child: Column(
@@ -64,14 +64,14 @@ class _DetallesScreenState extends State<DetallesScreen> {
                             Text(
                               lista[index]["Nombre_corto"],
                               style: const TextStyle(
-                                  color: CambiarTema.bluegrey700,
+                                  color: AppTema.bluegrey700,
                                   //fontWeight: FontWeight.bold,
                                   fontSize: 20),
                             ),
                             Text(
                               'Categoria: ${lista[index]["Nombre_categoria"]}',
                               style: const TextStyle(
-                                  color: CambiarTema.bluegrey700, fontSize: 12),
+                                  color: AppTema.bluegrey700, fontSize: 12),
                             ),
                           ],
                         ),
@@ -86,11 +86,11 @@ class _DetallesScreenState extends State<DetallesScreen> {
                                   icon: const Icon(Icons.visibility_rounded,
                                       size: 30),
                                   onPressed: () {},
-                                  color: CambiarTema.bluegrey700),
+                                  color: AppTema.bluegrey700),
                               Text(
                                 'Visualizar',
                                 style: TextStyle(
-                                  color: CambiarTema.bluegrey700,
+                                  color: AppTema.bluegrey700,
                                 ),
                               )
                             ],
@@ -100,8 +100,8 @@ class _DetallesScreenState extends State<DetallesScreen> {
                               IconButton(
                                 icon: Icon(Icons.trip_origin_rounded,
                                     color: (true)
-                                        ? CambiarTema.greenS400
-                                        : CambiarTema.redA400,
+                                        ? AppTema.greenS400
+                                        : AppTema.redA400,
                                     size: 30),
                                 onPressed: null,
                               ),
@@ -109,7 +109,7 @@ class _DetallesScreenState extends State<DetallesScreen> {
                               Text(
                                 'Asesor',
                                 style: TextStyle(
-                                  color: CambiarTema.bluegrey700,
+                                  color: AppTema.bluegrey700,
                                 ),
                               )
                             ],
@@ -119,12 +119,12 @@ class _DetallesScreenState extends State<DetallesScreen> {
                               Switch(
                                 value: true,
                                 onChanged: (value) => print('hola'),
-                                activeColor: CambiarTema.pizazz,
+                                activeColor: AppTema.pizazz,
                               ),
                               Text(
                                 'Aceptar',
                                 style: TextStyle(
-                                  color: CambiarTema.bluegrey700,
+                                  color: AppTema.bluegrey700,
                                 ),
                               )
                             ],

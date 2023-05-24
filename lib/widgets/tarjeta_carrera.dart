@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 
-import 'package:innova_ito/theme/cambiar_tema.dart';
-
 class TarjetaCarrera extends StatelessWidget {
   final String nombreCarrera;
   const TarjetaCarrera({super.key, required this.nombreCarrera});
@@ -20,7 +18,7 @@ class TarjetaCarrera extends StatelessWidget {
           left: 20,
         ),
         decoration: BoxDecoration(
-          color: CambiarTema.grey100,
+          color: AppTema.grey100,
           borderRadius: BorderRadius.circular(15),
         ),
         child: Row(
@@ -36,7 +34,7 @@ class TarjetaCarrera extends StatelessWidget {
                   child: Text(
                     nombreCarrera,
                     style: const TextStyle(
-                        color: CambiarTema.bluegrey700,
+                        color: AppTema.bluegrey700,
                         fontWeight: FontWeight.bold,
                         fontSize: 18),
                     overflow: TextOverflow.visible,
@@ -105,7 +103,7 @@ class TarjetaCarrera extends StatelessWidget {
                 },
                 icon: const Icon(
                   Icons.more_vert_outlined,
-                  color: CambiarTema.bluegrey700,
+                  color: AppTema.bluegrey700,
                 )),
           ],
         ),

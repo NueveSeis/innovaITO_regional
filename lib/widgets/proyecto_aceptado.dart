@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:innova_ito/models/models.dart';
-import 'package:provider/provider.dart';
-
-import 'package:innova_ito/theme/cambiar_tema.dart';
+import 'package:innova_ito/theme/app_tema.dart';
 
 class ProyectoAceptado extends StatelessWidget {
   final ProyectoModelo proyecto;
@@ -12,7 +10,6 @@ class ProyectoAceptado extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //ProyectoModelo proyectoModelo = itemsProyecto.first;
-    final temaApp = Provider.of<CambiarTema>(context);
 
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
@@ -24,8 +21,7 @@ class ProyectoAceptado extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 10, top: 10),
         //margin: EdgeInsets.only(top: 15),
         decoration: BoxDecoration(
-          color:
-              (temaApp.temaOscuro) ? CambiarTema.emperor : CambiarTema.grey100,
+          color: AppTema.grey100,
           borderRadius: BorderRadius.circular(25),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -36,25 +32,20 @@ class ProyectoAceptado extends StatelessWidget {
               children: [
                 Text(
                   proyecto.titulo,
-                  style: TextStyle(
-                      color: (temaApp.temaOscuro)
-                          ? Colors.white
-                          : CambiarTema.bluegrey700,
+                  style: const TextStyle(
+                      color: AppTema.bluegrey700,
                       //fontWeight: FontWeight.bold,
                       fontSize: 20),
                 ),
                 Text(
                   'Categoria: ${proyecto.categoria}',
-                  style: TextStyle(
-                      color: (temaApp.temaOscuro)
-                          ? Colors.white
-                          : CambiarTema.bluegrey700,
-                      fontSize: 12),
+                  style:
+                      const TextStyle(color: AppTema.bluegrey700, fontSize: 12),
                 ),
               ],
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -63,15 +54,11 @@ class ProyectoAceptado extends StatelessWidget {
                   IconButton(
                       icon: const Icon(Icons.visibility_rounded, size: 30),
                       onPressed: () {},
-                      color: (temaApp.temaOscuro)
-                          ? Colors.white
-                          : CambiarTema.bluegrey700),
-                  Text(
+                      color: AppTema.bluegrey700),
+                  const Text(
                     'Visualizar',
                     style: TextStyle(
-                      color: (temaApp.temaOscuro)
-                          ? Colors.white
-                          : CambiarTema.bluegrey700,
+                      color: AppTema.bluegrey700,
                     ),
                   )
                 ],
@@ -81,18 +68,16 @@ class ProyectoAceptado extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.trip_origin_rounded,
                         color: (proyecto.asesorCheck)
-                            ? CambiarTema.greenS400
-                            : CambiarTema.redA400,
+                            ? AppTema.greenS400
+                            : AppTema.redA400,
                         size: 30),
                     onPressed: null,
                   ),
                   //SizedBox(zi),
-                  Text(
+                  const Text(
                     'Asesor',
                     style: TextStyle(
-                      color: (temaApp.temaOscuro)
-                          ? Colors.white
-                          : CambiarTema.bluegrey700,
+                      color: AppTema.bluegrey700,
                     ),
                   )
                 ],
@@ -102,17 +87,15 @@ class ProyectoAceptado extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.trip_origin_rounded,
                         color: (proyecto.vinculacionCheck)
-                            ? CambiarTema.greenS400
-                            : CambiarTema.redA400,
+                            ? AppTema.greenS400
+                            : AppTema.redA400,
                         size: 30),
                     onPressed: null,
                   ),
-                  Text(
+                  const Text(
                     'Vinculación',
                     style: TextStyle(
-                      color: (temaApp.temaOscuro)
-                          ? Colors.white
-                          : CambiarTema.bluegrey700,
+                      color: AppTema.bluegrey700,
                     ),
                   )
                 ],
