@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/widgets/widgets.dart';
+import 'package:quickalert/quickalert.dart';
 
 class SeleccionCategoriaScreen extends ConsumerWidget {
   static const String name = 'seleccionar_categoria';
@@ -13,11 +15,9 @@ class SeleccionCategoriaScreen extends ConsumerWidget {
   SeleccionCategoriaScreen({super.key});
 
   bool isSelectCategoria = false;
-
   String categoriaSelec = '';
-
+  String areaSelec = '';
   List<Area> areas = [];
-
   List<Categoria> categorias = [];
 
   Future obtenerAreas(String areaB) async {
@@ -72,12 +72,12 @@ class SeleccionCategoriaScreen extends ConsumerWidget {
                           child: GridView.builder(
                             scrollDirection: Axis.horizontal,
                             gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    //maxCrossAxisExtent: 200,
-                                    childAspectRatio: 3 / 6,
-                                    crossAxisSpacing: 10,
-                                    mainAxisSpacing: 10),
+                                const SliverGridDelegateWithMaxCrossAxisExtent(
+                              maxCrossAxisExtent: 200.0,
+                              mainAxisSpacing: 10.0,
+                              crossAxisSpacing: 10.0,
+                              childAspectRatio: .75,
+                            ),
                             itemCount: categorias.length,
                             itemBuilder: (BuildContext context, index) {
                               return MaterialButton(
@@ -90,7 +90,7 @@ class SeleccionCategoriaScreen extends ConsumerWidget {
                                   color: AppTema.grey100,
                                   child: Text(
                                     categorias[index].nombreCategoria,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: AppTema.bluegrey700,
                                         fontSize: 20),
                                   ),
@@ -98,6 +98,9 @@ class SeleccionCategoriaScreen extends ConsumerWidget {
                                     ref.read(areaProvider.notifier).state =
                                         categorias[index].idCategoria;
                                     isSelectCategoria = true;
+                                    categoriaSelec = categorias[index]
+                                        .nombreCategoria
+                                        .toLowerCase();
                                     // ref.read(areaProvider.notifier).update(
                                     //       (state) =>
                                     //           categorias[index].idCategoria,
@@ -142,11 +145,12 @@ class SeleccionCategoriaScreen extends ConsumerWidget {
                                     child: GridView.builder(
                                       scrollDirection: Axis.horizontal,
                                       gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: 1,
-                                              mainAxisSpacing: 15,
-                                              crossAxisSpacing: 10,
-                                              childAspectRatio: 10 / 3),
+                                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                                        maxCrossAxisExtent: 200.0,
+                                        mainAxisSpacing: 10.0,
+                                        crossAxisSpacing: 10.0,
+                                        childAspectRatio: 0.5,
+                                      ),
                                       itemCount: areas.length,
                                       itemBuilder:
                                           (BuildContext context, index) {
@@ -161,12 +165,15 @@ class SeleccionCategoriaScreen extends ConsumerWidget {
                                             color: AppTema.grey100,
                                             child: Text(
                                               areas[index].nombreArea,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   color: AppTema.bluegrey700,
                                                   fontSize: 20),
                                             ),
                                             onPressed: () {
-                                              print(areas[index].nombreArea);
+                                              areaSelec = areas[index]
+                                                  .nombreArea
+                                                  .toLowerCase();
+                                              // print(areas[index].nombreArea);
                                             });
                                       },
                                     ),
@@ -187,7 +194,18 @@ class SeleccionCategoriaScreen extends ConsumerWidget {
                               style: TextStyle(
                                   color: AppTema.grey100, fontSize: 25),
                             )),
-                            onPressed: () async {}),
+                            onPressed: () async {
+                              QuickAlert.show(
+                                context: context,
+                                type: QuickAlertType.confirm,
+                                text:
+                                    'Categoria: $categoriaSelec \nArea: $areaSelec',
+                                title: '¿ Esta seguro ?',
+                                confirmBtnText: 'Si',
+                                cancelBtnText: 'No',
+                                confirmBtnColor: Colors.green,
+                              );
+                            }),
                       ),
                     ],
                   ),
