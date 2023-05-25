@@ -73,7 +73,7 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/seleccionar_categoria',
       name: SeleccionCategoriaScreen.name,
-      builder: (context, state) => const SeleccionCategoriaScreen(),
+      builder: (context, state) => SeleccionCategoriaScreen(),
     ),
   ],
 );
