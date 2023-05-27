@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:innova_ito/theme/app_tema.dart';
 
 class InputDecorations {
   static InputDecoration accesoInputDecoration(
@@ -33,6 +34,11 @@ class InputDecorations {
       required String labelText,
       IconData? prefixIcon}) {
     return InputDecoration(
+        filled: true,
+        hintStyle: TextStyle(
+            overflow: TextOverflow.visible,
+            fontWeight: FontWeight.normal,
+            color: AppTema.bluegrey700),
         hintText: hintText,
         labelText: labelText,
         prefixIcon: prefixIcon != null

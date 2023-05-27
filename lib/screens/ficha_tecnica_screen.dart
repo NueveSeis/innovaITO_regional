@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:innova_ito/models/models.dart';
-import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:http/http.dart' as http;
+
+import 'package:flutter/services.dart';
 //import 'package:flutter_quill/flutter_quill.dart';
 
 class FichaTecnicaScreen extends StatelessWidget {
@@ -65,7 +66,6 @@ class FichaTecnicaScreen extends StatelessWidget {
                 child: Column(
               children: [
                 const SizedBox(height: 20),
-
                 FutureBuilder(
                     future: obtenerCategorias(),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -101,39 +101,24 @@ class FichaTecnicaScreen extends StatelessWidget {
                           })
                       : SizedBox();
                 }),
-                // Consumer(
-                //   builder: (context, ref, child) {
-                //     final bool catProv = ref.watch(categoriaCargandoProvider);
-                //     return FutureBuilder(
-                //         future: obtenerCategorias(),
-                //         builder:
-                //             (BuildContext context, AsyncSnapshot snapshot) {
-                //           if (snapshot.connectionState ==
-                //               ConnectionState.done) {
-                //             return cateSeleccion(ref);
-                //           } else {
-                //             return CircularProgressIndicator();
-                //           }
-                //         });
-                //   },
-                // ),
+
                 FutureBuilder(
                   future: obtenerNaturaleza(),
                   builder: (context, snapshot) {
-                    return naturalezaDrop(naturalezas);
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      return naturalezaDrop(naturalezas);
+                    } else {
+                      return const CircularProgressIndicator();
+                    }
                   },
                 ),
 
-                cargando2 ? areaDrop(areas) : const SizedBox(),
-                // FutureBuilder(
-                //   future: obtenerCategorias(),
-                //   builder: (context, snapshot) {
-                //     return naturalezaDrop(categorias);
-                //   },
-                // ),
-
                 const SizedBox(height: 20),
                 TextFormField(
+                  // inputFormatters: [
+                  //   LengthLimitingTextInputFormatter(10),
+                  // ],
+                  maxLength: 30,
                   autocorrect: false,
                   keyboardType: TextInputType.emailAddress,
                   style: const TextStyle(
@@ -146,50 +131,63 @@ class FichaTecnicaScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
+                  maxLength: 100,
+                  maxLines: null,
                   style: const TextStyle(
                       color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
                   autocorrect: false,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecorations.registroLiderDecoration(
-                    hintText: 'Ingrese nombre descriptivo:',
+                    hintText: 'Ingrese nombre descriptivo',
                     labelText: 'Nombre descriptivo',
                   ),
                   //onChanged: (value) => accesoFormulario.correo = value,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
+                  //initialValue: 'Hola perros',
+                  // minLines: 3,
+                  maxLength: 500,
+                  maxLines: null,
                   style: const TextStyle(
                       color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
                   autocorrect: false,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecorations.registroLiderDecoration(
-                    hintText: 'Ingrese apellido paterno',
-                    labelText: 'Apellido paterno',
+                    hintText:
+                        'Plantear el objetivo general respondiendo a: ¿Qué?, ¿Cómo?, ¿Para qué?, ¿Qué soluciona?',
+                    labelText: 'Objetivo del proyecto',
                   ),
                   //onChanged: (value) => accesoFormulario.correo = value,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
+                  maxLength: 600,
+                  maxLines: null,
                   style: const TextStyle(
                       color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
                   autocorrect: false,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecorations.registroLiderDecoration(
-                    hintText: 'Ingrese apellido materno',
-                    labelText: 'Apellido materno',
+                    hintText:
+                        'Explicar qué necesidad, problemática u oportunidad del entorno se atiende, justificar por qué se quiere desarrollar este proyecto.',
+                    labelText: 'Problemática identificada',
                     //prefixIcon: Icons.person
                   ),
                   //onChanged: (value) => accesoFormulario.correo = value,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
+                  maxLength: 600,
+                  maxLines: null,
                   style: const TextStyle(
                       color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
                   autocorrect: false,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecorations.registroLiderDecoration(
-                    hintText: 'Ingrese correo electronico',
-                    labelText: 'Correo electronico',
+                    hintText:
+                        'Describir los beneficios cualitativos y cuantitativos de la propuesta.',
+                    labelText: 'Resultados esperados del proyecto',
                     //prefixIcon: Icons.person
                   ),
                   //onChanged: (value) => accesoFormulario.correo = value,
