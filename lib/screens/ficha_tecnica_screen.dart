@@ -44,7 +44,7 @@ class FichaTecnicaScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final bool catProv = ref.watch(categoriaCargandoProvider);
+    //final bool catProv = ref.watch(categoriaCargandoProvider);
 
     return Scaffold(
       body: Fondo(
@@ -65,28 +65,64 @@ class FichaTecnicaScreen extends StatelessWidget {
                 child: Column(
               children: [
                 const SizedBox(height: 20),
-                Consumer(
-                  builder: (context, ref, child) {
-                    final String catProv = ref.watch(categoriaSelecProvider);
-                    return FutureBuilder(
-                        future: obtenerCategorias(),
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.done) {
-                            return cateSeleccion(ref);
-                          } else {
-                            return CircularProgressIndicator();
-                          }
+
+                FutureBuilder(
+                    future: obtenerCategorias(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        return Consumer(builder: (context, ref, child) {
+                          final bool areaProvLoad =
+                              ref.watch(categoriaCargandoProvider);
+                          final String areaProvSelec =
+                              ref.watch(categoriaSelecProvider);
+                          return cateSeleccion(ref);
                         });
+                      } else {
+                        return CircularProgressIndicator();
+                      }
+                    }),
+
+                Consumer(builder: (context, ref, child) {
+                  final bool areaProvLoad =
+                      ref.watch(categoriaCargandoProvider);
+                  final String areaProvSelec =
+                      ref.watch(categoriaSelecProvider);
+                  return (areaProvLoad)
+                      ? FutureBuilder(
+                          future: obtenerAreas(areaProvSelec),
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              return areaDrop(areas);
+                            } else {
+                              return CircularProgressIndicator();
+                            }
+                          })
+                      : SizedBox();
+                }),
+                // Consumer(
+                //   builder: (context, ref, child) {
+                //     final bool catProv = ref.watch(categoriaCargandoProvider);
+                //     return FutureBuilder(
+                //         future: obtenerCategorias(),
+                //         builder:
+                //             (BuildContext context, AsyncSnapshot snapshot) {
+                //           if (snapshot.connectionState ==
+                //               ConnectionState.done) {
+                //             return cateSeleccion(ref);
+                //           } else {
+                //             return CircularProgressIndicator();
+                //           }
+                //         });
+                //   },
+                // ),
+                FutureBuilder(
+                  future: obtenerNaturaleza(),
+                  builder: (context, snapshot) {
+                    return naturalezaDrop(naturalezas);
                   },
                 ),
-                // FutureBuilder(
-                //    future: obtenerCategorias(),
-                //    builder: (context, snapshot) {
-                //      return cateSeleccion();
-                //  },
-                // ),
 
                 cargando2 ? areaDrop(areas) : const SizedBox(),
                 // FutureBuilder(
@@ -222,11 +258,11 @@ class FichaTecnicaScreen extends StatelessWidget {
           onChanged: (value) {
             seleccionado = true;
             simon = value!.nombreCategoria;
-            ref.read(categoriaSelecProvider.notifier).state =
-                value.nombreCategoria;
-            // ref.read(categoriaSelecProvider.notifier).update(
-            //       (state) => value!.idCategoria,
-            //     );
+
+            ref.read(categoriaCargandoProvider.notifier).state = true;
+            ref.read(categoriaSelecProvider.notifier).update(
+                  (state) => value.idCategoria,
+                );
             // setState(() {
             //   cargando3 = false;
             // });
