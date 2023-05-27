@@ -48,7 +48,7 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/ficha_tecnica',
       name: FichaTecnicaScreen.name,
-      builder: (context, state) => const FichaTecnicaScreen(),
+      builder: (context, state) => FichaTecnicaScreen(),
     ),
     GoRoute(
       path: '/carrera',

@@ -1,20 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:innova_ito/models/models.dart';
+import 'package:innova_ito/models/models.dart';
+import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/widgets/widgets.dart';
+import 'package:http/http.dart' as http;
 //import 'package:flutter_quill/flutter_quill.dart';
 
 class FichaTecnicaScreen extends StatelessWidget {
   static const String name = 'ficha_tecnica';
-  const FichaTecnicaScreen({super.key});
+  FichaTecnicaScreen({super.key});
+  bool cargando = false;
+  bool cargando2 = false;
+  List<Area> areas = [];
+  List<Categoria> categorias = [];
+  List<Naturaleza> naturalezas = [];
+  String simon = '';
+  bool seleccionado = false;
+
+  Future obtenerAreas(String areaB) async {
+    var url =
+        'https://evarafael.com/Aplicacion/rest/get_area.php?Id_categoria=$areaB';
+    var response = await http.get(Uri.parse(url));
+    areas = areaFromJson(response.body);
+    cargando = true;
+  }
+
+  Future obtenerCategorias() async {
+    //final bool catProv = ref.watch(categoriaCargandoProvider);
+    var url = 'https://evarafael.com/Aplicacion/rest/get_categorias.php';
+    var response = await http.get(Uri.parse(url));
+    categorias = categoriaFromJson(response.body);
+  }
+
+  Future obtenerNaturaleza() async {
+    var url = 'https://evarafael.com/Aplicacion/rest/get_naturalezas.php';
+    var response = await http.get(Uri.parse(url));
+    naturalezas = naturalezaFromJson(response.body);
+  }
 
   @override
   Widget build(BuildContext context) {
-    // QuillController _controller = QuillController.basic();
-    List<String> categoria = ModeloTecnologicos().categorias;
-    List<String> naturaleza = ModeloTecnologicos().naturalezaTecnica;
+    // final bool catProv = ref.watch(categoriaCargandoProvider);
+
     return Scaffold(
       body: Fondo(
         tituloPantalla: 'Ficha tecnica',
@@ -34,107 +65,37 @@ class FichaTecnicaScreen extends StatelessWidget {
                 child: Column(
               children: [
                 const SizedBox(height: 20),
-                Container(
-                  // padding: EdgeInsets.only(right: 2.0),
-                  alignment: Alignment.topLeft,
-                  child: const Text(
-                    'Seleccione categoria:',
-                    style: TextStyle(
-                        color: AppTema.bluegrey700,
-                        fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.right,
-                  ),
+                Consumer(
+                  builder: (context, ref, child) {
+                    final String catProv = ref.watch(categoriaSelecProvider);
+                    return FutureBuilder(
+                        future: obtenerCategorias(),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            return cateSeleccion(ref);
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        });
+                  },
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                // FutureBuilder(
+                //    future: obtenerCategorias(),
+                //    builder: (context, snapshot) {
+                //      return cateSeleccion();
+                //  },
+                // ),
 
-                DropdownButtonFormField(
-                  isExpanded: true,
-                  style: const TextStyle(
-                      color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
-                  onChanged: (value) {
-                    print(value);
-                  },
-                  items: categoria.map((itemone) {
-                    return DropdownMenuItem(
-                      alignment: Alignment.centerLeft,
-                      value: itemone,
-                      child: Text(
-                        itemone,
-                        overflow: TextOverflow.visible,
-                      ),
-                    );
-                  }).toList(),
-                ),
-                const SizedBox(height: 20),
-                Container(
-                  // padding: EdgeInsets.only(right: 2.0),
-                  alignment: Alignment.topLeft,
-                  child: const Text(
-                    'Seleccione área de aplicación:',
-                    style: TextStyle(
-                        color: AppTema.bluegrey700,
-                        fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.right,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
+                cargando2 ? areaDrop(areas) : const SizedBox(),
+                // FutureBuilder(
+                //   future: obtenerCategorias(),
+                //   builder: (context, snapshot) {
+                //     return naturalezaDrop(categorias);
+                //   },
+                // ),
 
-                DropdownButtonFormField(
-                  isExpanded: true,
-                  //value: 'Licenciatura',
-                  style: const TextStyle(
-                      color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
-                  onChanged: (value) {
-                    print(value);
-                  },
-                  items: categoria.map((itemone) {
-                    return DropdownMenuItem(
-                      alignment: Alignment.centerLeft,
-                      value: itemone,
-                      child: Text(
-                        itemone,
-                        overflow: TextOverflow.visible,
-                      ),
-                    );
-                  }).toList(),
-                ),
-                const SizedBox(height: 20),
-                Container(
-                  alignment: Alignment.topLeft,
-                  child: const Text(
-                    'Seleccione naturaleza técnica:',
-                    style: TextStyle(
-                        color: AppTema.bluegrey700,
-                        fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.right,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                DropdownButtonFormField(
-                  //value: 'Licenciatura',
-                  isExpanded: true,
-                  style: const TextStyle(
-                      color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
-                  onChanged: (value) {
-                    print(value);
-                  },
-                  items: naturaleza.map((itemone) {
-                    return DropdownMenuItem(
-                      alignment: Alignment.centerLeft,
-                      value: itemone,
-                      child: Text(
-                        itemone,
-                        overflow: TextOverflow.visible,
-                      ),
-                    );
-                  }).toList(),
-                ),
                 const SizedBox(height: 20),
                 TextFormField(
                   autocorrect: false,
@@ -211,7 +172,9 @@ class FichaTecnicaScreen extends StatelessWidget {
                       style: TextStyle(color: AppTema.grey100, fontSize: 25),
                     )),
                     onPressed: () {
-                      context.pushNamed('registro_usuario_lider');
+                      print(simon);
+                      print(seleccionado);
+                      //context.pushNamed('registro_usuario_lider');
                       //Navigator.pushNamed(context, 'registro_usuario_lider');
                     },
                   ),
@@ -221,6 +184,135 @@ class FichaTecnicaScreen extends StatelessWidget {
           ),
         ]),
       ),
+    );
+  }
+
+  Column cateSeleccion(WidgetRef ref) {
+    return Column(
+      children: [
+        Container(
+          // padding: EdgeInsets.only(right: 2.0),
+          alignment: Alignment.topLeft,
+          child: const Text(
+            'Seleccione categoria:',
+            style: TextStyle(
+                color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.right,
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        DropdownButtonFormField(
+          isExpanded: true,
+          //value: 'Licenciatura',
+          style: const TextStyle(
+              color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+
+          items: categorias.map((itemone) {
+            return DropdownMenuItem(
+              alignment: Alignment.centerLeft,
+              value: itemone,
+              child: Text(
+                itemone.nombreCategoria,
+                overflow: TextOverflow.visible,
+              ),
+            );
+          }).toList(),
+          onChanged: (value) {
+            seleccionado = true;
+            simon = value!.nombreCategoria;
+            ref.read(categoriaSelecProvider.notifier).state =
+                value.nombreCategoria;
+            // ref.read(categoriaSelecProvider.notifier).update(
+            //       (state) => value!.idCategoria,
+            //     );
+            // setState(() {
+            //   cargando3 = false;
+            // });
+            // obtenerDepartamento();
+          },
+        ),
+      ],
+    );
+  }
+
+  Column areaDrop(List<Area> tipo) {
+    return Column(
+      children: [
+        Container(
+          // padding: EdgeInsets.only(right: 2.0),
+          alignment: Alignment.topLeft,
+          child: const Text(
+            'Seleccione área de aplicación:',
+            style: TextStyle(
+                color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.right,
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        DropdownButtonFormField(
+          isExpanded: true,
+          style: const TextStyle(
+              color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+          items: tipo.map((itemone) {
+            return DropdownMenuItem(
+              alignment: Alignment.centerLeft,
+              value: itemone,
+              child: Text(
+                itemone.nombreArea,
+                overflow: TextOverflow.visible,
+              ),
+            );
+          }).toList(),
+          onChanged: (value) {
+            // valueTipo = value!.idArea;
+            // setState(() {
+            //   cargando2 = false;
+            //   cargando3 = false;
+            // });
+            // obtenerTecnologico();
+          },
+        ),
+      ],
+    );
+  }
+
+  Column naturalezaDrop(List<Naturaleza> tipo) {
+    return Column(
+      children: [
+        Container(
+          // padding: EdgeInsets.only(right: 2.0),
+          alignment: Alignment.topLeft,
+          child: const Text(
+            'Seleccione naturaleza técnica:',
+            style: TextStyle(
+                color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.right,
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        DropdownButtonFormField(
+          isExpanded: true,
+          style: const TextStyle(
+              color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+          items: tipo.map((itemone) {
+            return DropdownMenuItem(
+              alignment: Alignment.centerLeft,
+              value: itemone,
+              child: Text(
+                itemone.tipo,
+                overflow: TextOverflow.visible,
+              ),
+            );
+          }).toList(),
+          onChanged: (value) {},
+        ),
+      ],
     );
   }
 }

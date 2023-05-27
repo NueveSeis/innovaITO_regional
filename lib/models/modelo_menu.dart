@@ -42,6 +42,10 @@ List<ModeloMenu> itemsMenu = const [
       titulo: "Seleccionar categoria",
       icono: Icons.note_add_rounded,
       pantalla: 'seleccionar_categoria'),
+  ModeloMenu(
+      titulo: "Ficha tecnica",
+      icono: Icons.note_add_rounded,
+      pantalla: 'ficha_tecnica'),
 ];
 
 List<ModeloMenu> itemsLider = const [
