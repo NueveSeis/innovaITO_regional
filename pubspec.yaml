@@ -50,6 +50,7 @@ dependencies:
   flutter_summernote: ^1.1.1
   html_editor_enhanced: ^2.5.1
   pdf: ^3.10.4
+  path_provider: ^2.0.15
   
 
   

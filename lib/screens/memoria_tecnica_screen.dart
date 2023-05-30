@@ -9,9 +9,15 @@ import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:http/http.dart' as http;
 
+import 'package:path_provider/path_provider.dart';
+
 import 'package:flutter/services.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:quickalert/quickalert.dart';
+
+import 'dart:io';
+
+import 'package:pdf/widgets.dart' as pw;
 
 class MemoriaTecnicaScreen extends StatefulWidget {
   static const String name = 'memoria_tecnica';
@@ -50,6 +56,13 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
       'Interpretacion_resultados': cInterpretacionR.text,
       'Fuentes_consultadas': cFuentesC.text,
     });
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.success,
+      title: 'Registrado correctamente',
+      confirmBtnText: 'Hecho',
+      confirmBtnColor: AppTema.pizazz,
+    );
   }
 
   @override
@@ -75,6 +88,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                   children: [
                     const SizedBox(height: 20),
                     TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       controller: cProblematica,
                       maxLength: 300,
                       maxLines: null,
@@ -96,6 +110,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       controller: cEstadoArte,
                       maxLength: 220,
                       maxLines: null,
@@ -117,6 +132,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       controller: cInnovacion,
                       maxLength: 220,
                       maxLines: null,
@@ -137,6 +153,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       controller: cPropuestaValor,
                       maxLength: 220,
                       maxLines: null,
@@ -160,6 +177,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       controller: cMercadoP,
                       maxLength: 300,
                       maxLines: null,
@@ -180,6 +198,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       controller: cViabilidadT,
                       maxLength: 300,
                       maxLines: null,
@@ -200,6 +219,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       controller: cViabilidadF,
                       maxLength: 220,
                       maxLines: null,
@@ -220,6 +240,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       controller: cPropiedadI,
                       maxLength: 110,
                       maxLines: null,
@@ -241,6 +262,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       controller: cInterpretacionR,
                       maxLength: 300,
                       maxLines: null,
@@ -261,6 +283,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       controller: cFuentesC,
                       maxLength: 110,
                       maxLines: null,
@@ -299,13 +322,14 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
 
                               // print(contrasena);
                             } else {
-                              // QuickAlert.show(
-                              //   context: context,
-                              //   type: QuickAlertType.error,
-                              //   title: 'Usuario existente',
-                              //   confirmBtnText: 'Hecho',
-                              //   confirmBtnColor: AppTema.pizazz,
-                              // );
+                              QuickAlert.show(
+                                context: context,
+                                type: QuickAlertType.warning,
+                                title: 'Cuidado',
+                                text: 'Rellena los campos faltantes',
+                                confirmBtnText: 'Hecho',
+                                confirmBtnColor: AppTema.pizazz,
+                              );
                             }
                           });
                         },
@@ -319,5 +343,3 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
     );
   }
 }
-
-class QuickAlertType {}
