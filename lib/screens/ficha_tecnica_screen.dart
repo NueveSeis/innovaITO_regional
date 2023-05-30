@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/providers/providers.dart';
+import 'package:innova_ito/helpers/helpers.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/widgets/widgets.dart';
@@ -208,6 +209,10 @@ class FichaTecnicaScreen extends StatelessWidget {
                     onPressed: () {
                       print(simon);
                       print(seleccionado);
+
+                      String name = 'InnovaIto';
+                      String uniqueID = Generar.idProyecto(name);
+                      print('Unique ID: $uniqueID');
                       //context.pushNamed('registro_usuario_lider');
                       //Navigator.pushNamed(context, 'registro_usuario_lider');
                     },

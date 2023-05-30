@@ -71,4 +71,21 @@ class Generar {
     final es = BCrypt.checkpw(contrasena, contrasenaHash);
     return es;
   }
+
+//*Generar id unico para proyectos
+  static String idProyecto(String nombre) {
+    DateTime fecha = DateTime.now(); //obtener fecha actual
+    String ano = (fecha.year % 100).toString().padLeft(2,
+        '0'); //obtiene el año actual y se toman los dos últimos dígitos usando el operador % 100
+    String mes = fecha.month.toString().padLeft(2, '0');
+    String dia = fecha.day.toString().padLeft(2, '0');
+
+    String hash =
+        sha1.convert(utf8.encode(nombre)).toString(); //se convierte a sha1
+    String digitosNombre = hash.replaceAll(RegExp(r'\D'), '').substring(0,
+        5); //para eliminar todos los caracteres que no sean dígitos y se toman los primeros 5 digitos
+
+    String id = '$ano$mes$dia$digitosNombre';
+    return id;
+  }
 }
