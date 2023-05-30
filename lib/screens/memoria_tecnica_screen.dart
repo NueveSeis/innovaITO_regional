@@ -1,23 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:quickalert/quickalert.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:innova_ito/helpers/helpers.dart';
-
-import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/widgets/widgets.dart';
-import 'package:http/http.dart' as http;
-
-import 'package:path_provider/path_provider.dart';
-
-import 'package:flutter/services.dart';
-import 'package:quickalert/widgets/quickalert_dialog.dart';
-import 'package:quickalert/quickalert.dart';
-
-import 'dart:io';
-
-import 'package:pdf/widgets.dart' as pw;
 
 class MemoriaTecnicaScreen extends StatefulWidget {
   static const String name = 'memoria_tecnica';

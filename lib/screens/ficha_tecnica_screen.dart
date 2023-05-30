@@ -10,11 +10,29 @@ import 'package:innova_ito/widgets/widgets.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/services.dart';
+import 'package:quickalert/quickalert.dart';
 //import 'package:flutter_quill/flutter_quill.dart';
 
-class FichaTecnicaScreen extends StatelessWidget {
+class FichaTecnicaScreen extends StatefulWidget {
   static const String name = 'ficha_tecnica';
   FichaTecnicaScreen({super.key});
+
+  @override
+  State<FichaTecnicaScreen> createState() => _FichaTecnicaScreenState();
+}
+
+class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool camposLlenos = true;
+
+  TextEditingController cNombreComercial = TextEditingController();
+  TextEditingController cNombreDescriptivo = TextEditingController();
+  TextEditingController cObjetivo = TextEditingController();
+  TextEditingController cProblematica = TextEditingController();
+  TextEditingController cResultados = TextEditingController();
+  //TextEditingController cNaturaleza = TextEditingController();
+  //TextEditingController cArea = TextEditingController();
+
   bool cargando = false;
   bool cargando2 = false;
   List<Area> areas = [];
@@ -22,6 +40,8 @@ class FichaTecnicaScreen extends StatelessWidget {
   List<Naturaleza> naturalezas = [];
   String simon = '';
   bool seleccionado = false;
+  String valueNaturaleza = '';
+  String valueArea = '';
 
   Future obtenerAreas(String areaB) async {
     var url =
@@ -44,6 +64,27 @@ class FichaTecnicaScreen extends StatelessWidget {
     naturalezas = naturalezaFromJson(response.body);
   }
 
+  Future agregarFichaTecnica(String idFichaUnica) async {
+    var url = 'https://evarafael.com/Aplicacion/rest/agregarFichaTecnica.php';
+    await http.post(Uri.parse(url), body: {
+      'Id_fichaTecnica': idFichaUnica,
+      'Nombre_corto': cNombreComercial.text,
+      'Nombre_proyecto': cNombreDescriptivo.text,
+      'Objetivo': cObjetivo.text,
+      'Descripcion_general': cProblematica.text,
+      'Prospecto_resultados': cResultados.text,
+      'Id_area': valueArea,
+      'Id_naturalezaTecnica': valueNaturaleza
+    });
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.success,
+      title: 'Registrado correctamente',
+      confirmBtnText: 'Hecho',
+      confirmBtnColor: AppTema.pizazz,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     //final bool catProv = ref.watch(categoriaCargandoProvider);
@@ -64,162 +105,207 @@ class FichaTecnicaScreen extends StatelessWidget {
           SingleChildScrollView(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
             child: Form(
+                key: _formKey,
                 child: Column(
-              children: [
-                const SizedBox(height: 20),
-                FutureBuilder(
-                    future: obtenerCategorias(),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        return Consumer(builder: (context, ref, child) {
-                          final bool areaProvLoad =
-                              ref.watch(categoriaCargandoProvider);
-                          final String areaProvSelec =
-                              ref.watch(categoriaSelecProvider);
-                          return cateSeleccion(ref);
-                        });
-                      } else {
-                        return CircularProgressIndicator();
-                      }
+                  children: [
+                    const SizedBox(height: 20),
+                    FutureBuilder(
+                        future: obtenerCategorias(),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            return Consumer(builder: (context, ref, child) {
+                              final bool areaProvLoad =
+                                  ref.watch(categoriaCargandoProvider);
+                              final String areaProvSelec =
+                                  ref.watch(categoriaSelecProvider);
+                              return cateSeleccion(ref);
+                            });
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        }),
+                    Consumer(builder: (context, ref, child) {
+                      final bool areaProvLoad =
+                          ref.watch(categoriaCargandoProvider);
+                      final String areaProvSelec =
+                          ref.watch(categoriaSelecProvider);
+                      return (areaProvLoad)
+                          ? FutureBuilder(
+                              future: obtenerAreas(areaProvSelec),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  return areaDrop(areas);
+                                } else {
+                                  return CircularProgressIndicator();
+                                }
+                              })
+                          : SizedBox();
                     }),
+                    FutureBuilder(
+                      future: obtenerNaturaleza(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          return naturalezaDrop(naturalezas);
+                        } else {
+                          return const CircularProgressIndicator();
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      controller: cNombreComercial,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      maxLength: 30,
+                      autocorrect: false,
+                      keyboardType: TextInputType.emailAddress,
+                      style: const TextStyle(
+                          color: AppTema.bluegrey700,
+                          fontWeight: FontWeight.bold),
+                      decoration: InputDecorations.registroLiderDecoration(
+                        hintText: 'Ingrese nombre corto (nombre comercial)',
+                        labelText: 'Nombre corto (nombre comercial)',
+                      ),
+                      validator: (value) {
+                        return (!RegexUtil.datos.hasMatch(value ?? ''))
+                            ? null
+                            : 'No contiene ningun dato.';
+                      },
+                      //onChanged: (value) => accesoFormulario.correo = value,
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      controller: cNombreDescriptivo,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      maxLength: 100,
+                      maxLines: null,
+                      style: const TextStyle(
+                          color: AppTema.bluegrey700,
+                          fontWeight: FontWeight.bold),
+                      autocorrect: false,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecorations.registroLiderDecoration(
+                        hintText: 'Ingrese nombre descriptivo',
+                        labelText: 'Nombre descriptivo',
+                      ),
+                      validator: (value) {
+                        return (!RegexUtil.datos.hasMatch(value ?? ''))
+                            ? null
+                            : 'No contiene ningun dato.';
+                      },
+                      //onChanged: (value) => accesoFormulario.correo = value,
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      controller: cObjetivo,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      maxLength: 500,
+                      maxLines: null,
+                      style: const TextStyle(
+                          color: AppTema.bluegrey700,
+                          fontWeight: FontWeight.bold),
+                      autocorrect: false,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecorations.registroLiderDecoration(
+                        hintText:
+                            'Plantear el objetivo general respondiendo a: ¿Qué?, ¿Cómo?, ¿Para qué?, ¿Qué soluciona?',
+                        labelText: 'Objetivo del proyecto',
+                      ),
+                      validator: (value) {
+                        return (!RegexUtil.datos.hasMatch(value ?? ''))
+                            ? null
+                            : 'No contiene ningun dato.';
+                      },
+                      //onChanged: (value) => accesoFormulario.correo = value,
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      controller: cProblematica,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      maxLength: 600,
+                      maxLines: null,
+                      style: const TextStyle(
+                          color: AppTema.bluegrey700,
+                          fontWeight: FontWeight.bold),
+                      autocorrect: false,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecorations.registroLiderDecoration(
+                        hintText:
+                            'Explicar qué necesidad, problemática u oportunidad del entorno se atiende, justificar por qué se quiere desarrollar este proyecto.',
+                        labelText: 'Problemática identificada',
+                        //prefixIcon: Icons.person
+                      ),
+                      validator: (value) {
+                        return (!RegexUtil.datos.hasMatch(value ?? ''))
+                            ? null
+                            : 'No contiene ningun dato.';
+                      },
+                      //onChanged: (value) => accesoFormulario.correo = value,
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      controller: cResultados,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      maxLength: 600,
+                      maxLines: null,
+                      style: const TextStyle(
+                          color: AppTema.bluegrey700,
+                          fontWeight: FontWeight.bold),
+                      autocorrect: false,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecorations.registroLiderDecoration(
+                        hintText:
+                            'Describir los beneficios cualitativos y cuantitativos de la propuesta.',
+                        labelText: 'Resultados esperados del proyecto',
+                      ),
+                      validator: (value) {
+                        return (!RegexUtil.datos.hasMatch(value ?? ''))
+                            ? null
+                            : 'No contiene ningun dato.';
+                      },
+                    ),
+                    Container(
+                      height: 50,
+                      width: double.infinity,
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 10),
+                      child: ElevatedButton(
+                        child: const Center(
+                            child: Text(
+                          'Registrar',
+                          style:
+                              TextStyle(color: AppTema.grey100, fontSize: 25),
+                        )),
+                        onPressed: () {
+                          setState(() {
+                            camposLlenos = _formKey.currentState!.validate();
+                            if (camposLlenos) {
+                              // print(contrasena);
+                              // String idFichaUnica =
+                              //     Generar.idProyecto(cNombreComercial.text);
 
-                Consumer(builder: (context, ref, child) {
-                  final bool areaProvLoad =
-                      ref.watch(categoriaCargandoProvider);
-                  final String areaProvSelec =
-                      ref.watch(categoriaSelecProvider);
-                  return (areaProvLoad)
-                      ? FutureBuilder(
-                          future: obtenerAreas(areaProvSelec),
-                          builder:
-                              (BuildContext context, AsyncSnapshot snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.done) {
-                              return areaDrop(areas);
+                              agregarFichaTecnica('josemanuwl');
                             } else {
-                              return CircularProgressIndicator();
+                              QuickAlert.show(
+                                context: context,
+                                type: QuickAlertType.warning,
+                                title: 'Cuidado',
+                                text: 'Rellena los campos faltantes',
+                                confirmBtnText: 'Hecho',
+                                confirmBtnColor: AppTema.pizazz,
+                              );
                             }
-                          })
-                      : SizedBox();
-                }),
+                          });
 
-                FutureBuilder(
-                  future: obtenerNaturaleza(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      return naturalezaDrop(naturalezas);
-                    } else {
-                      return const CircularProgressIndicator();
-                    }
-                  },
-                ),
-
-                const SizedBox(height: 20),
-                TextFormField(
-                  // inputFormatters: [
-                  //   LengthLimitingTextInputFormatter(10),
-                  // ],
-                  maxLength: 30,
-                  autocorrect: false,
-                  keyboardType: TextInputType.emailAddress,
-                  style: const TextStyle(
-                      color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
-                  decoration: InputDecorations.registroLiderDecoration(
-                    hintText: 'Ingrese nombre corto (nombre comercial)',
-                    labelText: 'Nombre corto (nombre comercial)',
-                  ),
-                  //onChanged: (value) => accesoFormulario.correo = value,
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  maxLength: 100,
-                  maxLines: null,
-                  style: const TextStyle(
-                      color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
-                  autocorrect: false,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecorations.registroLiderDecoration(
-                    hintText: 'Ingrese nombre descriptivo',
-                    labelText: 'Nombre descriptivo',
-                  ),
-                  //onChanged: (value) => accesoFormulario.correo = value,
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  //initialValue: 'Hola perros',
-                  // minLines: 3,
-                  maxLength: 500,
-                  maxLines: null,
-                  style: const TextStyle(
-                      color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
-                  autocorrect: false,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecorations.registroLiderDecoration(
-                    hintText:
-                        'Plantear el objetivo general respondiendo a: ¿Qué?, ¿Cómo?, ¿Para qué?, ¿Qué soluciona?',
-                    labelText: 'Objetivo del proyecto',
-                  ),
-                  //onChanged: (value) => accesoFormulario.correo = value,
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  maxLength: 600,
-                  maxLines: null,
-                  style: const TextStyle(
-                      color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
-                  autocorrect: false,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecorations.registroLiderDecoration(
-                    hintText:
-                        'Explicar qué necesidad, problemática u oportunidad del entorno se atiende, justificar por qué se quiere desarrollar este proyecto.',
-                    labelText: 'Problemática identificada',
-                    //prefixIcon: Icons.person
-                  ),
-                  //onChanged: (value) => accesoFormulario.correo = value,
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  maxLength: 600,
-                  maxLines: null,
-                  style: const TextStyle(
-                      color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
-                  autocorrect: false,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecorations.registroLiderDecoration(
-                    hintText:
-                        'Describir los beneficios cualitativos y cuantitativos de la propuesta.',
-                    labelText: 'Resultados esperados del proyecto',
-                    //prefixIcon: Icons.person
-                  ),
-                  //onChanged: (value) => accesoFormulario.correo = value,
-                ),
-//                 SizedBox(height: 20),
-
-                Container(
-                  height: 50,
-                  width: double.infinity,
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                  child: ElevatedButton(
-                    child: const Center(
-                        child: Text(
-                      'Registrar',
-                      style: TextStyle(color: AppTema.grey100, fontSize: 25),
-                    )),
-                    onPressed: () {
-                      print(simon);
-                      print(seleccionado);
-
-                      String name = 'InnovaIto';
-                      String uniqueID = Generar.idProyecto(name);
-                      print('Unique ID: $uniqueID');
-                      //context.pushNamed('registro_usuario_lider');
-                      //Navigator.pushNamed(context, 'registro_usuario_lider');
-                    },
-                  ),
-                ),
-              ],
-            )),
+                          //context.pushNamed('registro_usuario_lider');
+                        },
+                      ),
+                    ),
+                  ],
+                )),
           ),
         ]),
       ),
@@ -244,10 +330,8 @@ class FichaTecnicaScreen extends StatelessWidget {
         ),
         DropdownButtonFormField(
           isExpanded: true,
-          //value: 'Licenciatura',
           style: const TextStyle(
               color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
-
           items: categorias.map((itemone) {
             return DropdownMenuItem(
               alignment: Alignment.centerLeft,
@@ -307,7 +391,8 @@ class FichaTecnicaScreen extends StatelessWidget {
             );
           }).toList(),
           onChanged: (value) {
-            // valueTipo = value!.idArea;
+            valueArea = value!.idArea;
+
             // setState(() {
             //   cargando2 = false;
             //   cargando3 = false;
@@ -349,7 +434,9 @@ class FichaTecnicaScreen extends StatelessWidget {
               ),
             );
           }).toList(),
-          onChanged: (value) {},
+          onChanged: (value) {
+            valueArea = value!.idNaturalezaTecnica;
+          },
         ),
       ],
     );
