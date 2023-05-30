@@ -8,3 +8,4 @@ export 'package:innova_ito/widgets/proyecto_aceptado.dart';
 export 'package:innova_ito/widgets/fondo.dart';
 
 export 'package:innova_ito/widgets/tarjeta_carrera.dart';
+export 'package:innova_ito/widgets/menu.dart';

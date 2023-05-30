@@ -80,5 +80,10 @@ final appRouter = GoRouter(
       name: MemoriaTecnicaScreen.name,
       builder: (context, state) => MemoriaTecnicaScreen(),
     ),
+    GoRoute(
+      path: '/menu',
+      name: MenuScreen.name,
+      builder: (context, state) => MenuScreen(),
+    ),
   ],
 );

@@ -25,4 +25,6 @@ class RegexUtil {
   static final RegExp telefono = RegExp(r'^\d{10}$');
 
   static final RegExp carrera = RegExp(r'^([a-zA-ZáéíóúÁÉÍÓÚñÑ]+\s{0,1})+$');
+
+  static final RegExp datos = RegExp(r'^\s*$');
 }
