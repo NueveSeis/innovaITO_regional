@@ -75,5 +75,10 @@ final appRouter = GoRouter(
       name: SeleccionCategoriaScreen.name,
       builder: (context, state) => SeleccionCategoriaScreen(),
     ),
+    GoRoute(
+      path: '/memoria_tecnica',
+      name: MemoriaTecnicaScreen.name,
+      builder: (context, state) => MemoriaTecnicaScreen(),
+    ),
   ],
 );

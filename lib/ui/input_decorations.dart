@@ -39,6 +39,11 @@ class InputDecorations {
             overflow: TextOverflow.visible,
             fontWeight: FontWeight.normal,
             color: AppTema.bluegrey700),
+        labelStyle: TextStyle(
+          overflow: TextOverflow.visible,
+          color: AppTema.bluegrey700,
+          fontWeight: FontWeight.bold,
+        ),
         hintText: hintText,
         labelText: labelText,
         prefixIcon: prefixIcon != null
