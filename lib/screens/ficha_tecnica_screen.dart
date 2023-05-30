@@ -9,7 +9,6 @@ import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:flutter/services.dart';
 import 'package:quickalert/quickalert.dart';
 //import 'package:flutter_quill/flutter_quill.dart';
 
@@ -67,14 +66,15 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
   Future agregarFichaTecnica(String idFichaUnica) async {
     var url = 'https://evarafael.com/Aplicacion/rest/agregarFichaTecnica.php';
     await http.post(Uri.parse(url), body: {
-      'Id_fichaTecnica': idFichaUnica,
+      'Id_fichaTecnica': 'F$idFichaUnica',
       'Nombre_corto': cNombreComercial.text,
       'Nombre_proyecto': cNombreDescriptivo.text,
       'Objetivo': cObjetivo.text,
       'Descripcion_general': cProblematica.text,
       'Prospecto_resultados': cResultados.text,
       'Id_area': valueArea,
-      'Id_naturalezaTecnica': valueNaturaleza
+      'Id_naturalezaTecnica': valueNaturaleza,
+      'Folio': idFichaUnica
     });
     QuickAlert.show(
       context: context,
@@ -283,11 +283,10 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
                           setState(() {
                             camposLlenos = _formKey.currentState!.validate();
                             if (camposLlenos) {
-                              // print(contrasena);
-                              // String idFichaUnica =
-                              //     Generar.idProyecto(cNombreComercial.text);
+                              String idFichaUnica =
+                                  Generar.idProyecto(cNombreComercial.text);
 
-                              agregarFichaTecnica('josemanuwl');
+                              agregarFichaTecnica(idFichaUnica);
                             } else {
                               QuickAlert.show(
                                 context: context,
@@ -350,10 +349,6 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
             ref.read(categoriaSelecProvider.notifier).update(
                   (state) => value.idCategoria,
                 );
-            // setState(() {
-            //   cargando3 = false;
-            // });
-            // obtenerDepartamento();
           },
         ),
       ],
@@ -392,12 +387,6 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
           }).toList(),
           onChanged: (value) {
             valueArea = value!.idArea;
-
-            // setState(() {
-            //   cargando2 = false;
-            //   cargando3 = false;
-            // });
-            // obtenerTecnologico();
           },
         ),
       ],
@@ -435,7 +424,7 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
             );
           }).toList(),
           onChanged: (value) {
-            valueArea = value!.idNaturalezaTecnica;
+            valueNaturaleza = value!.idNaturalezaTecnica;
           },
         ),
       ],

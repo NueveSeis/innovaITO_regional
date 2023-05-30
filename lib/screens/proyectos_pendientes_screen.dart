@@ -155,7 +155,9 @@ class _ProyectosPendientesScreenState extends State<ProyectosPendientesScreen> {
                         topRight: Radius.circular(25)),
                   ),
                   child: SingleChildScrollView(
-                      child: (aprobados) ? const DetallesScreen() : Text('No')),
+                      child: (aprobados)
+                          ? const DetallesScreen()
+                          : Center(child: Text('NO HAY PROYECTOS PENDIENTES'))),
                 ),
               )
             ],

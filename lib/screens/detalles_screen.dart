@@ -38,7 +38,7 @@ class _DetallesScreenState extends State<DetallesScreen> {
           shrinkWrap: true,
           itemCount: lista.length,
           itemBuilder: (context, index) {
-            print(lista.length);
+            //print(lista.length);
             return Card(
               margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
               shape: RoundedRectangleBorder(
@@ -69,14 +69,14 @@ class _DetallesScreenState extends State<DetallesScreen> {
                                   fontSize: 20),
                             ),
                             Text(
-                              'Categoria: ${lista[index]["Nombre_categoria"]}',
+                              'Area: ${lista[index]["Nombre_area"]}',
                               style: const TextStyle(
                                   color: AppTema.bluegrey700, fontSize: 12),
                             ),
                           ],
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -87,7 +87,7 @@ class _DetallesScreenState extends State<DetallesScreen> {
                                       size: 30),
                                   onPressed: () {},
                                   color: AppTema.bluegrey700),
-                              Text(
+                              const Text(
                                 'Visualizar',
                                 style: TextStyle(
                                   color: AppTema.bluegrey700,
@@ -95,7 +95,7 @@ class _DetallesScreenState extends State<DetallesScreen> {
                               )
                             ],
                           ),
-                          Column(
+                          const Column(
                             children: [
                               IconButton(
                                 icon: Icon(Icons.trip_origin_rounded,
@@ -121,7 +121,7 @@ class _DetallesScreenState extends State<DetallesScreen> {
                                 onChanged: (value) => print('hola'),
                                 activeColor: AppTema.pizazz,
                               ),
-                              Text(
+                              const Text(
                                 'Aceptar',
                                 style: TextStyle(
                                   color: AppTema.bluegrey700,
