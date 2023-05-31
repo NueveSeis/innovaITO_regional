@@ -24,23 +24,20 @@ List<ModeloMenu> itemsMenu = const [
       titulo: "Proyectos",
       icono: Icons.document_scanner_rounded,
       pantalla: 'proyectos'),
+
   ModeloMenu(
-      titulo: "Inicio de sesión",
-      icono: Icons.not_started_rounded,
-      pantalla: 'acceso'),
-  ModeloMenu(
-      titulo: "Carreras", icono: Icons.note_add_rounded, pantalla: 'carrera'),
+      titulo: "Carreras", icono: Icons.school_rounded, pantalla: 'carrera'),
   ModeloMenu(
       titulo: "Departamentos",
       icono: Icons.note_add_rounded,
       pantalla: 'departamento'),
   ModeloMenu(
       titulo: "Fechas",
-      icono: Icons.note_add_rounded,
+      icono: Icons.calendar_month_rounded,
       pantalla: 'asignacion_fechas'),
   ModeloMenu(
       titulo: "Seleccionar categoria",
-      icono: Icons.note_add_rounded,
+      icono: Icons.category_rounded,
       pantalla: 'seleccionar_categoria'),
   ModeloMenu(
       titulo: "Ficha tecnica",
@@ -48,7 +45,7 @@ List<ModeloMenu> itemsMenu = const [
       pantalla: 'ficha_tecnica'),
   ModeloMenu(
       titulo: "Memoria tecnica",
-      icono: Icons.note_add_rounded,
+      icono: Icons.edit_note_rounded,
       pantalla: 'memoria_tecnica'),
 ];
 
@@ -66,5 +63,5 @@ List<ModeloMenu> itemsConfig = const [
       pantalla: 'notificaciones'),
   ModeloMenu(titulo: "Cuenta", icono: Icons.person, pantalla: 'cuenta'),
   ModeloMenu(
-      titulo: "Cerrar sesión", icono: Icons.logout_rounded, pantalla: 'salir'),
+      titulo: "Cerrar sesión", icono: Icons.logout_rounded, pantalla: 'acceso'),
 ];

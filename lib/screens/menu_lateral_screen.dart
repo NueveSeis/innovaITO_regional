@@ -74,9 +74,12 @@ class _MenuLateralState extends State<MenuLateral> {
                   (menu) => MenuLateralItem(
                     menu: menu,
                     press: () {
-                      setState(() {
-                        seleccionMenu = menu;
-                      });
+                      (menu.pantalla.toString() == 'acceso')
+                          ? context.replace('/${menu.pantalla.toString()}')
+                          : //context.pushNamed('/${menu.pantalla.toString()}');
+                          setState(() {
+                              seleccionMenu = menu;
+                            });
                     },
                     esActivo: seleccionMenu == menu,
                   ),
