@@ -14,9 +14,8 @@ class TablaPosicionesScreen extends StatelessWidget {
     var url = 'https://evarafael.com/Aplicacion/rest/get_proyectos.php';
     var response = await http.get(Uri.parse(url));
     tablero = tableroFromJson(response.body);
-    tablero
-        .sort((a, b) => b.calificacionGlobal.compareTo(a.calificacionGlobal));
-    //print(tecnologicoM[0].nombreTecnologico);
+    tablero.sort((a, b) => double.parse(b.calificacionGlobal)
+        .compareTo(double.parse(a.calificacionGlobal)));
   }
 
   @override
