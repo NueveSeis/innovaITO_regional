@@ -63,9 +63,13 @@ class AccesoScreen extends StatelessWidget {
                         String barcodeScanRes =
                             await FlutterBarcodeScanner.scanBarcode(
                                 '#fa7a1e', 'Cancelar', false, ScanMode.QR);
-                        if (barcodeScanRes == '20230422') {
+                        if (barcodeScanRes == '20230531') {
                           //print(barcodeScanRes);
                           context.pushNamed('registro_usuario_asesor');
+                        }
+                        if (barcodeScanRes == '202305312') {
+                          //print(barcodeScanRes);
+                          context.pushNamed('registro_usuario_lider');
                         }
                       }),
                   TextButton(

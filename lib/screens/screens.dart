@@ -14,3 +14,4 @@ export 'package:innova_ito/screens/asignacion_fechas_screen.dart';
 export 'package:innova_ito/screens/seleccion_categoria_screen.dart';
 export 'package:innova_ito/screens/memoria_tecnica_screen.dart';
 export 'package:innova_ito/screens/menu_screen.dart';
+export 'package:innova_ito/screens/tabla_posiciones.dart';

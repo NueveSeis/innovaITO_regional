@@ -47,6 +47,10 @@ List<ModeloMenu> itemsMenu = const [
       titulo: "Memoria tecnica",
       icono: Icons.edit_note_rounded,
       pantalla: 'memoria_tecnica'),
+  ModeloMenu(
+      titulo: "Tablero de posiciones",
+      icono: Icons.leaderboard_rounded,
+      pantalla: 'tabla_posiciones'),
 ];
 
 List<ModeloMenu> itemsLider = const [

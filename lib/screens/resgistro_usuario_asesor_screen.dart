@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:quickalert/quickalert.dart';
@@ -111,6 +111,7 @@ class _RegistroUsuarioAsesorScreenState
           cNombres.text.toUpperCase(),
           cApellido1.text.toUpperCase(),
           cApellido1.text.toUpperCase());
+      context.pop();
     }
   }
 

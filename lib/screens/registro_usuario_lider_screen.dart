@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'dart:convert';
 import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
@@ -91,6 +92,7 @@ class _RegistroUsuarioLiderScreenState
           nombre.text.toUpperCase(),
           apellidoP.text.toUpperCase(),
           apellidoM.text.toUpperCase());
+      context.pop();
     }
   }
 

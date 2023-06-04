@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:innova_ito/models/models.dart';
+import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/theme/app_tema.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:provider/provider.dart';
 
@@ -32,8 +35,8 @@ class _MenuLateralState extends State<MenuLateral> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 InfoUsuario(
-                  nombre: 'Kevin Ivan Luis Gonzalez',
-                  rol: 'Jefe de vinculación',
+                  nombre: 'no',
+                  rol: 'si',
                 ),
                 Padding(
                   padding: const EdgeInsets.only(

@@ -85,5 +85,10 @@ final appRouter = GoRouter(
       name: MenuScreen.name,
       builder: (context, state) => MenuScreen(),
     ),
+    GoRoute(
+      path: '/tabla_posiciones',
+      name: TablaPosicionesScreen.name,
+      builder: (context, state) => TablaPosicionesScreen(),
+    ),
   ],
 );
