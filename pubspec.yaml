@@ -51,6 +51,8 @@ dependencies:
   html_editor_enhanced: ^2.5.1
   pdf: ^3.10.4
   path_provider: ^2.0.15
+  google_fonts: ^4.0.4
+  printing: ^5.11.0
   
 
   

@@ -90,5 +90,10 @@ final appRouter = GoRouter(
       name: TablaPosicionesScreen.name,
       builder: (context, state) => TablaPosicionesScreen(),
     ),
+    //  GoRoute(
+    //   path: '/pdf',
+    //   name: PdfScreen.name,
+    //   builder: (context, state) => PdfScreen(),
+    // ),
   ],
 );
