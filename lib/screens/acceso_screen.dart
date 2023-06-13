@@ -123,8 +123,23 @@ class _formularioAccesoState extends State<_formularioAcceso> {
 
     var data = json.decode(response.body);
     if (data == "Realizado") {
-      context.goNamed('menu_lateral');
+      getUser(correo.text);
       //Navigator.pushReplacementNamed(context, 'menu_lateral');
+    }
+  }
+
+  Future getUser(String correo) async {
+    String url = 'https://evarafael.com/Aplicacion/rest/get_dataUser.php';
+    var response = await http.post(Uri.parse(url), body: {
+      "Nombre_usuario": correo,
+    });
+
+    if (response.statusCode == 200) {
+      List<UsuarioData> dataUser = usuarioDataFromJson(response.body);
+      context.goNamed('menu_lateral');
+      return dataUser;
+    } else {
+      return '';
     }
   }
 
@@ -158,7 +173,7 @@ class _formularioAccesoState extends State<_formularioAcceso> {
               controller: contrasena,
               autocorrect: false,
               obscureText: true,
-              keyboardType: TextInputType.emailAddress,
+              keyboardType: TextInputType.text,
               decoration: InputDecorations.accesoInputDecoration(
                   hintText: '******',
                   labelText: 'Contraseña',

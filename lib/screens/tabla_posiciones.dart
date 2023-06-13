@@ -101,6 +101,7 @@ class TablaPosicionesScreen extends StatelessWidget {
                     // final file = File("${output.path}/example.pdf");
                     // //final file = File("example.pdf");
                     // await file.writeAsBytes(await pdf.save());
+                    //context.goNamed();
                     PdfScreen(archivo: generatePdf());
                   },
                 ),

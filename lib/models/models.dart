@@ -13,3 +13,4 @@ export 'package:innova_ito/models/area.dart';
 export 'package:innova_ito/models/categoria.dart';
 export 'package:innova_ito/models/naturaleza.dart';
 export 'package:innova_ito/models/tablero.dart';
+export 'package:innova_ito/models/usuario_data.dart';
