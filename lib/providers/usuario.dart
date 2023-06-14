@@ -8,10 +8,6 @@ final nombreUsuarioLogin = StateProvider(
   (ref) => "nombres",
 );
 
-final idRolLogin = StateProvider(
-  (ref) => "sin datos",
-);
-
 final nombreRolLogin = StateProvider(
   (ref) => "rol",
 );

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:go_router/go_router.dart';
+import 'package:innova_ito/providers/providers.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -14,91 +15,23 @@ import 'package:innova_ito/widgets/widgets.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 
-class AccesoScreen extends StatelessWidget {
+class AccesoScreen extends StatefulWidget {
   static const String name = 'acceso';
-  const AccesoScreen({Key? key}) : super(key: key);
+  AccesoScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: FondoAcceso(
-      child: SingleChildScrollView(
-        child: Column(
-          // ignore: prefer_const_literals_to_create_immutables
-          children: [
-            const SizedBox(
-              height: 250,
-            ),
-            ContenedorCarta(
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Text(
-                    'Acceso',
-                    style: TextStyle(
-                        color: AppTema.balticSea,
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  ChangeNotifierProvider(
-                    create: (_) => AccesoFormularioProv(),
-                    child: _formularioAcceso(),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  TextButton(
-                      child: const Text(
-                        'Registrar',
-                        style: TextStyle(
-                            color: AppTema.primario,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      onPressed: () async {
-                        String barcodeScanRes =
-                            await FlutterBarcodeScanner.scanBarcode(
-                                '#fa7a1e', 'Cancelar', false, ScanMode.QR);
-                        if (barcodeScanRes == '20230531') {
-                          //print(barcodeScanRes);
-                          context.pushNamed('registro_usuario_asesor');
-                        }
-                        if (barcodeScanRes == '202305312') {
-                          //print(barcodeScanRes);
-                          context.pushNamed('registro_usuario_lider');
-                        }
-                      }),
-                  TextButton(
-                      child: const Text(
-                        '¿Olvidó su contraseña?',
-                        style: TextStyle(
-                            color: Color.fromRGBO(46, 45, 47, 0.8),
-                            fontWeight: FontWeight.bold),
-                      ),
-                      onPressed: () {}),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    ));
-  }
+  State<AccesoScreen> createState() => _AccesoScreenState();
 }
 
-class _formularioAcceso extends StatefulWidget {
-  @override
-  State<_formularioAcceso> createState() => _formularioAccesoState();
-}
-
-class _formularioAccesoState extends State<_formularioAcceso> {
+class _AccesoScreenState extends State<AccesoScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool camposLlenos = true;
   TextEditingController correo = TextEditingController();
+
   TextEditingController contrasena = TextEditingController();
+
   List lista = [];
+
   String contrasenaHash = '';
 
   Future<String> getUsuario(String usuario) async {
@@ -145,85 +78,155 @@ class _formularioAccesoState extends State<_formularioAcceso> {
 
   @override
   Widget build(BuildContext context) {
-    final accesoFormulario = Provider.of<AccesoFormularioProv>(context);
-    return Container(
-      child: Form(
-          key: accesoFormulario.formKey,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          child: Column(children: [
-            TextFormField(
-              controller: correo,
-              autocorrect: false,
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecorations.accesoInputDecoration(
-                  hintText: 'Correo electronico',
-                  labelText: 'Correo electronico',
-                  prefixIcon: Icons.person),
-              onChanged: (value) => accesoFormulario.correo = value,
-              validator: (value) {
-                return RegexUtil.correo.hasMatch(value ?? '')
-                    ? null
-                    : 'El valor ingresado no es un correo.';
-              },
-            ),
+    return Scaffold(
+        body: FondoAcceso(
+      child: SingleChildScrollView(
+        child: Column(
+          // ignore: prefer_const_literals_to_create_immutables
+          children: [
             const SizedBox(
-              height: 30,
+              height: 250,
             ),
-            TextFormField(
-              controller: contrasena,
-              autocorrect: false,
-              obscureText: true,
-              keyboardType: TextInputType.text,
-              decoration: InputDecorations.accesoInputDecoration(
-                  hintText: '******',
-                  labelText: 'Contraseña',
-                  prefixIcon: Icons.key),
-              onChanged: (value) => accesoFormulario.contrasena = value,
-              validator: (value) {
-                return RegexUtil.contrasena.hasMatch(value ?? '')
-                    ? null
-                    : 'No es una contraseña valida.';
-              },
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            MaterialButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                disabledColor: Colors.grey,
-                elevation: 10,
-                color: const Color.fromRGBO(250, 122, 30, 1),
-                child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 80, vertical: 15),
-                    child: const Text(
-                      'Ingresar',
-                      style: TextStyle(color: Colors.white),
-                    )),
-                onPressed: () async {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                  if (!accesoFormulario.esValidoFormulario()) return;
-                  String pass = await getUsuario(correo.text);
+            ContenedorCarta(
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    'Acceso',
+                    style: TextStyle(
+                        color: AppTema.balticSea,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Container(
+                    child: Form(
+                        key: _formKey,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        child: Column(children: [
+                          TextFormField(
+                            controller: correo,
+                            autocorrect: false,
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: InputDecorations.accesoInputDecoration(
+                                hintText: 'Correo electronico',
+                                labelText: 'Correo electronico',
+                                prefixIcon: Icons.person),
+                            // onChanged: (value) => accesoFormulario.correo = value,
+                            validator: (value) {
+                              return RegexUtil.correo.hasMatch(value ?? '')
+                                  ? null
+                                  : 'El valor ingresado no es un correo.';
+                            },
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          TextFormField(
+                            controller: contrasena,
+                            autocorrect: false,
+                            obscureText: true,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecorations.accesoInputDecoration(
+                                hintText: '******',
+                                labelText: 'Contraseña',
+                                prefixIcon: Icons.key),
+                            //onChanged: (value) => accesoFormulario.contrasena = value,
+                            validator: (value) {
+                              return RegexUtil.contrasena.hasMatch(value ?? '')
+                                  ? null
+                                  : 'No es una contraseña valida.';
+                            },
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          MaterialButton(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              disabledColor: Colors.grey,
+                              elevation: 10,
+                              color: const Color.fromRGBO(250, 122, 30, 1),
+                              child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 80, vertical: 15),
+                                  child: const Text(
+                                    'Ingresar',
+                                    style: TextStyle(color: Colors.white),
+                                  )),
+                              onPressed: () async {
+                                FocusScope.of(context)
+                                    .requestFocus(FocusNode());
+                                setState(() {
+                                  camposLlenos =
+                                      _formKey.currentState!.validate();
+                                  print(camposLlenos);
+                                });
+                                if (camposLlenos) {
+                                  String pass = await getUsuario(correo.text);
 
-                  bool comparado = Generar.compararContrasena(
-                      contrasena.text.toString(), pass);
-                  print(comparado);
-                  if (comparado == true) {
-                    acceso();
-                  } else {
-                    QuickAlert.show(
-                      context: context,
-                      type: QuickAlertType.error,
-                      title: 'Datos incorrectos',
-                      text: 'Verifique su correo electronico y contraseña',
-                      confirmBtnText: 'Hecho',
-                      confirmBtnColor: AppTema.pizazz,
-                    );
-                  }
-                }),
-          ])),
-    );
+                                  bool comparado = Generar.compararContrasena(
+                                      contrasena.text.toString(), pass);
+                                  print(comparado);
+                                  if (comparado == true) {
+                                    acceso();
+                                  }
+                                } else {
+                                  QuickAlert.show(
+                                    context: context,
+                                    type: QuickAlertType.error,
+                                    title: 'Datos incorrectos',
+                                    text:
+                                        'Verifique su correo electronico y contraseña',
+                                    confirmBtnText: 'Hecho',
+                                    confirmBtnColor: AppTema.pizazz,
+                                  );
+                                }
+                              }),
+                        ])),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  TextButton(
+                      child: const Text(
+                        'Registrar',
+                        style: TextStyle(
+                            color: AppTema.primario,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () async {
+                        String barcodeScanRes =
+                            await FlutterBarcodeScanner.scanBarcode(
+                                '#fa7a1e', 'Cancelar', false, ScanMode.QR);
+                        if (barcodeScanRes == '20230531') {
+                          //print(barcodeScanRes);
+                          context.pushNamed('registro_usuario_asesor');
+                        }
+                        if (barcodeScanRes == '202305312') {
+                          //print(barcodeScanRes);
+                          context.pushNamed('registro_usuario_lider');
+                        }
+                      }),
+                  TextButton(
+                      child: const Text(
+                        '¿Olvidó su contraseña?',
+                        style: TextStyle(
+                            color: Color.fromRGBO(46, 45, 47, 0.8),
+                            fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () {}),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    ));
   }
 }

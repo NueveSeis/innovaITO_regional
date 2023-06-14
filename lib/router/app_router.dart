@@ -18,7 +18,7 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/acceso',
       name: AccesoScreen.name,
-      builder: (context, state) => const AccesoScreen(),
+      builder: (context, state) => AccesoScreen(),
     ),
     GoRoute(
       path: '/menu_lateral',
