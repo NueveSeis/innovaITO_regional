@@ -117,20 +117,19 @@ class TablaPosicionesScreen extends StatelessWidget {
                         child: CircularProgressIndicator(),
                       );
                     } else {
-                      return SingleChildScrollView(
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: tablero.length,
-                          itemBuilder: (context, index) {
-                            return CardPosiciones(
-                              posicion: index + 1,
-                              nombreCategoria: tablero[index].nombreArea,
-                              nombreProyecto: tablero[index].nombreCorto,
-                              nombreTecnologico: tablero[index].nombreArea,
-                              calificacion: tablero[index].calificacionGlobal,
-                            );
-                          },
-                        ),
+                      return ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: tablero.length,
+                        itemBuilder: (context, index) {
+                          return CardPosiciones(
+                            posicion: index + 1,
+                            nombreCategoria: tablero[index].nombreArea,
+                            nombreProyecto: tablero[index].nombreCorto,
+                            nombreTecnologico: tablero[index].nombreArea,
+                            calificacion: tablero[index].calificacionGlobal,
+                          );
+                        },
                       );
                     }
                   }),
