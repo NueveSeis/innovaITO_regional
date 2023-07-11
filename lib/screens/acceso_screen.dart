@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'package:go_router/go_router.dart';
 import 'package:innova_ito/providers/providers.dart';
-import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:http/http.dart' as http;
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/helpers/helpers.dart';
@@ -31,6 +32,7 @@ class _AccesoScreenState extends State<AccesoScreen> {
   TextEditingController contrasena = TextEditingController();
 
   List lista = [];
+  List<UsuarioData> dataUser = [];
 
   String contrasenaHash = '';
 
@@ -56,23 +58,37 @@ class _AccesoScreenState extends State<AccesoScreen> {
 
     var data = json.decode(response.body);
     if (data == "Realizado") {
+      print('buscando usuario...');
       getUser(correo.text);
+
       //Navigator.pushReplacementNamed(context, 'menu_lateral');
     }
   }
 
-  Future getUser(String correo) async {
+  Future<void> getUser(String correo) async {
     String url = 'https://evarafael.com/Aplicacion/rest/get_dataUser.php';
     var response = await http.post(Uri.parse(url), body: {
       "Nombre_usuario": correo,
     });
-
     if (response.statusCode == 200) {
-      List<UsuarioData> dataUser = usuarioDataFromJson(response.body);
-      context.goNamed('menu_lateral');
-      return dataUser;
+      dataUser = usuarioDataFromJson(response.body);
+      // Consumer(
+      //   builder: (_, ref, __) {
+      //     ref
+      //         .read(nombreUsuarioLogin.notifier)
+      //         .update((state) => dataUser[0].nombrePersona.toString());
+      //     print(dataUser[0].nombrePersona.toString());
+      //     print('no encontrado');
+      //     return const Text('');
+      //   },
+      // );
+      Future.delayed(Duration(seconds: 4), () {
+        print('no encontrado');
+        context.goNamed('menu_lateral');
+      });
+      //dataUser[0].nombrePersona.toString());
     } else {
-      return '';
+      print('nisiquiera carga');
     }
   }
 
@@ -145,49 +161,66 @@ class _AccesoScreenState extends State<AccesoScreen> {
                           const SizedBox(
                             height: 30,
                           ),
-                          MaterialButton(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25),
-                              ),
-                              disabledColor: Colors.grey,
-                              elevation: 10,
-                              color: const Color.fromRGBO(250, 122, 30, 1),
-                              child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 80, vertical: 15),
-                                  child: const Text(
-                                    'Ingresar',
-                                    style: TextStyle(color: Colors.white),
-                                  )),
-                              onPressed: () async {
-                                FocusScope.of(context)
-                                    .requestFocus(FocusNode());
-                                setState(() {
-                                  camposLlenos =
-                                      _formKey.currentState!.validate();
-                                  print(camposLlenos);
-                                });
-                                if (camposLlenos) {
-                                  String pass = await getUsuario(correo.text);
+                          Consumer(builder: (context, ref, child) {
+                            final nombreUsuarioNotifier =
+                                ref.watch(nombreUsuarioLogin);
 
-                                  bool comparado = Generar.compararContrasena(
-                                      contrasena.text.toString(), pass);
-                                  print(comparado);
-                                  if (comparado == true) {
-                                    acceso();
+                            return MaterialButton(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                disabledColor: Colors.grey,
+                                elevation: 10,
+                                color: const Color.fromRGBO(250, 122, 30, 1),
+                                child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 80, vertical: 15),
+                                    child: const Text(
+                                      'Ingresar',
+                                      style: TextStyle(color: Colors.white),
+                                    )),
+                                onPressed: () async {
+                                  FocusScope.of(context)
+                                      .requestFocus(FocusNode());
+                                  setState(() {
+                                    camposLlenos =
+                                        _formKey.currentState!.validate();
+                                    print(camposLlenos);
+                                  });
+                                  if (camposLlenos) {
+                                    String pass = await getUsuario(correo.text);
+
+                                    bool comparado = Generar.compararContrasena(
+                                        contrasena.text.toString(), pass);
+                                    print(comparado);
+                                    if (comparado == true) {
+                                      acceso();
+                                      // ref
+                                      //     .read(nombreUsuarioLogin.notifier)
+                                      //     .update((state) => dataUser[0]
+                                      //         .nombrePersona
+                                      //         .toString());
+
+                                      Future.delayed(Duration(seconds: 4), () {
+                                        print('Nombre de usuario');
+                                        print(dataUser[0]
+                                            .nombrePersona
+                                            .toString());
+                                      });
+                                    }
+                                  } else {
+                                    QuickAlert.show(
+                                      context: context,
+                                      type: QuickAlertType.error,
+                                      title: 'Datos incorrectos',
+                                      text:
+                                          'Verifique su correo electronico y contraseña',
+                                      confirmBtnText: 'Hecho',
+                                      confirmBtnColor: AppTema.pizazz,
+                                    );
                                   }
-                                } else {
-                                  QuickAlert.show(
-                                    context: context,
-                                    type: QuickAlertType.error,
-                                    title: 'Datos incorrectos',
-                                    text:
-                                        'Verifique su correo electronico y contraseña',
-                                    confirmBtnText: 'Hecho',
-                                    confirmBtnColor: AppTema.pizazz,
-                                  );
-                                }
-                              }),
+                                });
+                          }),
                         ])),
                   ),
                   const SizedBox(

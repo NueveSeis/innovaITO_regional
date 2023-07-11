@@ -6,9 +6,10 @@ import 'package:innova_ito/theme/app_tema.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
 
 import 'package:innova_ito/widgets/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MenuLateral extends StatefulWidget {
   static const String name = 'menu_lateral';
@@ -34,9 +35,15 @@ class _MenuLateralState extends State<MenuLateral> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                InfoUsuario(
-                  nombre: 'no',
-                  rol: 'si',
+                Consumer(
+                  builder: (_, ref, __) {
+                    // 3. use ref.watch() to get the value of the provider
+                    final String nombre = ref.watch(nombreUsuarioLogin);
+                    return InfoUsuario(
+                      nombre: nombre,
+                      rol: 'si',
+                    );
+                  },
                 ),
                 Padding(
                   padding: const EdgeInsets.only(

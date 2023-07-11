@@ -4,10 +4,10 @@ final idUsuarioLogin = StateProvider(
   (ref) => "sin datos",
 );
 
-final nombreUsuarioLogin = StateProvider(
+final nombreUsuarioLogin = StateProvider<String>(
   (ref) => "nombres",
 );
 
-final nombreRolLogin = StateProvider(
+final nombreRolLogin = StateProvider<String>(
   (ref) => "rol",
 );
