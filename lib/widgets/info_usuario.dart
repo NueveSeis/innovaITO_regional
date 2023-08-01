@@ -7,16 +7,17 @@ class InfoUsuario extends StatelessWidget {
     super.key,
     required this.nombre,
     required this.rol,
+    required this.iniciales
   });
 
-  final String nombre, rol;
+  final String nombre, rol,iniciales;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: AppTema.bluegrey700,
-        child: Text('KI', style: TextStyle(color: AppTema.indigo50)),
+        child: Text(iniciales, style: TextStyle(color: AppTema.indigo50)),
       ),
       title: Text(nombre, style: TextStyle(color: AppTema.bluegrey700)),
       subtitle: Text(

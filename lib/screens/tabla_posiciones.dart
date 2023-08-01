@@ -58,6 +58,8 @@ class TablaPosicionesScreen extends StatelessWidget {
     tablero = tableroFromJson(response.body);
     tablero.sort((a, b) => double.parse(b.calificacionGlobal)
         .compareTo(double.parse(a.calificacionGlobal)));
+        print('hola');
+  print( tablero[0].nombreArea);
   }
 
   @override
@@ -109,6 +111,7 @@ class TablaPosicionesScreen extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
+             
               FutureBuilder(
                   future: obtenerPosiciones(),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -116,23 +119,32 @@ class TablaPosicionesScreen extends StatelessWidget {
                       return const Center(
                         child: CircularProgressIndicator(),
                       );
-                    } else {
-                      return ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: tablero.length,
-                        itemBuilder: (context, index) {
-                          return CardPosiciones(
-                            posicion: index + 1,
-                            nombreCategoria: tablero[index].nombreArea,
-                            nombreProyecto: tablero[index].nombreCorto,
-                            nombreTecnologico: tablero[index].nombreArea,
-                            calificacion: tablero[index].calificacionGlobal,
-                          );
-                        },
-                      );
-                    }
-                  }),
+                    } else if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error.toString()}'));
+              } else {
+                return ListView.builder(
+                         physics: NeverScrollableScrollPhysics(),
+                         shrinkWrap: true,
+                         itemCount: tablero.length,
+                         itemBuilder: (context, index) {
+                           return CardPosiciones(
+                             posicion: index + 1,
+                             nombreCategoria: tablero[index].nombreArea,
+                             nombreProyecto: tablero[index].nombreCorto,
+                             nombreTecnologico: tablero[index].nombreArea,
+                             calificacion: tablero[index].calificacionGlobal,
+                           );
+                         },
+                       );
+              }
+            } else {
+              return Center(child: Text('Something went wrong!'));
+            }
+          },
+                  
+                  ),
+                 
             ],
           ),
         ));

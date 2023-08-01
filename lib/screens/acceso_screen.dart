@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:go_router/go_router.dart';
 import 'package:innova_ito/providers/providers.dart';
-//import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:http/http.dart' as http;
@@ -72,21 +71,10 @@ class _AccesoScreenState extends State<AccesoScreen> {
     });
     if (response.statusCode == 200) {
       dataUser = usuarioDataFromJson(response.body);
-      // Consumer(
-      //   builder: (_, ref, __) {
-      //     ref
-      //         .read(nombreUsuarioLogin.notifier)
-      //         .update((state) => dataUser[0].nombrePersona.toString());
-      //     print(dataUser[0].nombrePersona.toString());
-      //     print('no encontrado');
-      //     return const Text('');
-      //   },
-      // );
       Future.delayed(Duration(seconds: 4), () {
         print('no encontrado');
         context.goNamed('menu_lateral');
       });
-      //dataUser[0].nombrePersona.toString());
     } else {
       print('nisiquiera carga');
     }
@@ -195,17 +183,15 @@ class _AccesoScreenState extends State<AccesoScreen> {
                                     print(comparado);
                                     if (comparado == true) {
                                       acceso();
-                                      // ref
-                                      //     .read(nombreUsuarioLogin.notifier)
-                                      //     .update((state) => dataUser[0]
-                                      //         .nombrePersona
-                                      //         .toString());
-
-                                      Future.delayed(Duration(seconds: 4), () {
-                                        print('Nombre de usuario');
-                                        print(dataUser[0]
-                                            .nombrePersona
-                                            .toString());
+                                      Future.delayed(Duration(seconds: 3), () {
+                                        String ini = Apoyo.obtenerIniciales(dataUser[0].nombrePersona.toString());
+                                        String nombreUsuario = Apoyo.capitalizar(dataUser[0].nombrePersona.toString() + ' ' +
+                                        dataUser[0].apellido1.toString() + ' ' + dataUser[0].apellido2.toString());
+                                        String rolUsuario = Apoyo.capitalizar(dataUser[0].nombreRol.toString()); 
+                                        //guardar datos en el riverpood
+                                        ref.read(nombreUsuarioLogin.notifier).update((state) => nombreUsuario);
+                                        ref.read(nombreRolLogin.notifier).update((state) => rolUsuario);
+                                        ref.read(inicialesUsuario.notifier).update((state) => ini);
                                       });
                                     }
                                   } else {

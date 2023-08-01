@@ -32,19 +32,24 @@ class _MenuLateralState extends State<MenuLateral> {
         color: AppTema.indigo50,
         child: SafeArea(
           child: SingleChildScrollView(
-            child: Column(
+            child: 
+            Consumer(builder: (context, ref, child) {
+  final nombre = ref.watch(nombreUsuarioLogin);
+  final rol = ref.watch(nombreRolLogin);
+  final iniciales = ref.watch(inicialesUsuario);
+  
+ return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Consumer(
-                  builder: (_, ref, __) {
-                    // 3. use ref.watch() to get the value of the provider
-                    final String nombre = ref.watch(nombreUsuarioLogin);
-                    return InfoUsuario(
-                      nombre: nombre,
-                      rol: 'si',
-                    );
-                  },
-                ),
+                
+                    InfoUsuario(
+                       nombre: nombre,
+                       rol: rol,
+                       iniciales: iniciales,
+                     ),
+
+                   
+                  
                 Padding(
                   padding: const EdgeInsets.only(
                     left: 24,
@@ -95,7 +100,10 @@ class _MenuLateralState extends State<MenuLateral> {
                   ),
                 ),
               ],
-            ),
+            );
+}),
+            
+            
           ),
         ),
       ),

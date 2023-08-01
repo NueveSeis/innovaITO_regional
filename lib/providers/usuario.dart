@@ -11,3 +11,7 @@ final nombreUsuarioLogin = StateProvider<String>(
 final nombreRolLogin = StateProvider<String>(
   (ref) => "rol",
 );
+
+final inicialesUsuario = StateProvider<String>(
+  (ref) => "SN",
+);
