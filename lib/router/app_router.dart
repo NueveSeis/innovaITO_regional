@@ -90,6 +90,11 @@ final appRouter = GoRouter(
       name: TablaPosicionesScreen.name,
       builder: (context, state) => TablaPosicionesScreen(),
     ),
+    GoRoute(
+      path: '/RecuperarContrasena',
+      name: RecuperarContrasenaScreen.name,
+      builder: (context, state) => RecuperarContrasenaScreen(),
+    ),
     //  GoRoute(
     //   path: '/pdf',
     //   name: PdfScreen.name,

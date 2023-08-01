@@ -18,6 +18,7 @@ class CardPosiciones extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double califica = double.parse(calificacion) / 10.0;
+    double  cal = double.parse(calificacion);
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -95,7 +96,7 @@ class CardPosiciones extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  calificacion,
+                  '$cal',
                   style: const TextStyle(
                       color: AppTema.bluegrey700,
                       fontWeight: FontWeight.bold,

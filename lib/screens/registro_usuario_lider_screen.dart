@@ -271,7 +271,7 @@ class _RegistroUsuarioLiderScreenState
                                       correo.text.toUpperCase());
                                   contrasena = Generar.contrasenaAleatoria();
                                   contrasenaHash =
-                                      Generar.hashContrasena('Hola2015.');
+                                      Generar.hashContrasena(contrasena);
                                   //print(contrasenaHash);
                                   existente();
                                 } else {

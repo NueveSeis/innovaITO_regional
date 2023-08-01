@@ -59,8 +59,6 @@ class _AccesoScreenState extends State<AccesoScreen> {
     if (data == "Realizado") {
       print('buscando usuario...');
       getUser(correo.text);
-
-      //Navigator.pushReplacementNamed(context, 'menu_lateral');
     }
   }
 
@@ -239,7 +237,10 @@ class _AccesoScreenState extends State<AccesoScreen> {
                             color: Color.fromRGBO(46, 45, 47, 0.8),
                             fontWeight: FontWeight.bold),
                       ),
-                      onPressed: () {}),
+                      onPressed: () {
+
+                         context.pushNamed('RecuperarContrasena');
+                      }),
                 ],
               ),
             ),
