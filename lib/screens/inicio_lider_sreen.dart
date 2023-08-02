@@ -133,27 +133,27 @@ class _InicioLiderScreenState extends State<InicioLiderScreen> {
                           ruta2: FichaTecnicaScreen.name),
                       TareasLider(
                           listo: false,
-                          fase: 'Ficha Tecnica',
+                          fase: 'Añadir Participantes',
                           ruta1: FichaTecnicaScreen.name,
                           ruta2: FichaTecnicaScreen.name),
                       TareasLider(
                           listo: true,
-                          fase: 'Ficha Tecnica',
+                          fase: 'Seleccionar Asesor',
                           ruta1: FichaTecnicaScreen.name,
                           ruta2: FichaTecnicaScreen.name),
                       TareasLider(
                           listo: false,
-                          fase: 'Ficha Tecnica',
+                          fase: 'Memoria Tecnica',
                           ruta1: FichaTecnicaScreen.name,
                           ruta2: FichaTecnicaScreen.name),
                       TareasLider(
                           listo: true,
-                          fase: 'Ficha Tecnica',
+                          fase: 'Modelo de negocio',
                           ruta1: FichaTecnicaScreen.name,
                           ruta2: FichaTecnicaScreen.name),
                       TareasLider(
                           listo: false,
-                          fase: 'Ficha Tecnica',
+                          fase: 'Requerimientos Especiales',
                           ruta1: FichaTecnicaScreen.name,
                           ruta2: FichaTecnicaScreen.name),
                       const SizedBox(

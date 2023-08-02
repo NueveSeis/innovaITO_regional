@@ -92,7 +92,7 @@ class TareasLider extends StatelessWidget {
                       },
                       color: AppTema.bluegrey700),
                   const Text(
-                    'Modificar',
+                    'Editar',
                     style: TextStyle(
                       color: AppTema.bluegrey700,
                     ),

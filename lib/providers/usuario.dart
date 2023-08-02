@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final idUsuarioLogin = StateProvider(
-  (ref) => "sin datos",
+  (ref) => "SN",
 );
 
 final nombreUsuarioLogin = StateProvider<String>(
@@ -13,5 +13,9 @@ final nombreRolLogin = StateProvider<String>(
 );
 
 final inicialesUsuario = StateProvider<String>(
+  (ref) => "SN",
+);
+
+final idPersona = StateProvider<String>(
   (ref) => "SN",
 );

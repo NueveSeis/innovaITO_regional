@@ -182,14 +182,39 @@ class _AccesoScreenState extends State<AccesoScreen> {
                                     if (comparado == true) {
                                       acceso();
                                       Future.delayed(Duration(seconds: 3), () {
-                                        String ini = Apoyo.obtenerIniciales(dataUser[0].nombrePersona.toString());
-                                        String nombreUsuario = Apoyo.capitalizar(dataUser[0].nombrePersona.toString() + ' ' +
-                                        dataUser[0].apellido1.toString() + ' ' + dataUser[0].apellido2.toString());
-                                        String rolUsuario = Apoyo.capitalizar(dataUser[0].nombreRol.toString()); 
+                                        String ini = Apoyo.obtenerIniciales(
+                                            dataUser[0]
+                                                .nombrePersona
+                                                .toString());
+                                        String nombreUsuario =
+                                            Apoyo.capitalizar(dataUser[0]
+                                                    .nombrePersona
+                                                    .toString() +
+                                                ' ' +
+                                                dataUser[0]
+                                                    .apellido1
+                                                    .toString() +
+                                                ' ' +
+                                                dataUser[0]
+                                                    .apellido2
+                                                    .toString());
+                                        String rolUsuario = Apoyo.capitalizar(
+                                            dataUser[0].nombreRol.toString());
                                         //guardar datos en el riverpood
-                                        ref.read(nombreUsuarioLogin.notifier).update((state) => nombreUsuario);
-                                        ref.read(nombreRolLogin.notifier).update((state) => rolUsuario);
-                                        ref.read(inicialesUsuario.notifier).update((state) => ini);
+                                        ref
+                                            .read(idUsuarioLogin.notifier)
+                                            .update((state) => dataUser[0]
+                                                .idUsuario
+                                                .toString());
+                                        ref
+                                            .read(nombreUsuarioLogin.notifier)
+                                            .update((state) => nombreUsuario);
+                                        ref
+                                            .read(nombreRolLogin.notifier)
+                                            .update((state) => rolUsuario);
+                                        ref
+                                            .read(inicialesUsuario.notifier)
+                                            .update((state) => ini);
                                       });
                                     }
                                   } else {
@@ -238,8 +263,7 @@ class _AccesoScreenState extends State<AccesoScreen> {
                             fontWeight: FontWeight.bold),
                       ),
                       onPressed: () {
-
-                         context.pushNamed('RecuperarContrasena');
+                        context.pushNamed('RecuperarContrasena');
                       }),
                 ],
               ),

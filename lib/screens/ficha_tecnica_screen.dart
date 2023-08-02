@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -41,6 +43,9 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
   bool seleccionado = false;
   String valueNaturaleza = '';
   String valueArea = '';
+  String matricula = '';
+  String idPersona = '';
+  String idFichaUnica = '';
 
   Future obtenerAreas(String areaB) async {
     var url =
@@ -63,7 +68,24 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
     naturalezas = naturalezaFromJson(response.body);
   }
 
-  Future agregarFichaTecnica(String idFichaUnica) async {
+  Future<String> getMatricula(String idpersona) async {
+    String url =
+        'https://evarafael.com/Aplicacion/rest/get_estudiante.php?Id_persona=$idpersona';
+    var response = await http.post(Uri.parse(url));
+    if (response.statusCode == 200) {
+      var datos = jsonDecode(response.body);
+      matricula = datos[0]['Matricula'].toString();
+      print(matricula);
+      await Future.delayed(Duration(seconds: 2));
+      agregarFichaTecnica(idFichaUnica, matricula.toString());
+      return matricula;
+    } else {
+      return '';
+      print('Error al obtener datos de la API');
+    }
+  }
+
+  Future agregarFichaTecnica(String idFichaUnica, String mat) async {
     var url = 'https://evarafael.com/Aplicacion/rest/agregarFichaTecnica.php';
     await http.post(Uri.parse(url), body: {
       'Id_fichaTecnica': 'F$idFichaUnica',
@@ -74,7 +96,8 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
       'Prospecto_resultados': cResultados.text,
       'Id_area': valueArea,
       'Id_naturalezaTecnica': valueNaturaleza,
-      'Folio': idFichaUnica
+      'Folio': 'F$idFichaUnica',
+      'Matricula': mat,
     });
     QuickAlert.show(
       context: context,
@@ -108,6 +131,10 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
                 key: _formKey,
                 child: Column(
                   children: [
+                    Consumer(builder: (context, ref, child) {
+                      idPersona = ref.watch(idUsuarioLogin);
+                      return SizedBox();
+                    }),
                     const SizedBox(height: 20),
                     FutureBuilder(
                         future: obtenerCategorias(),
@@ -283,10 +310,12 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
                           setState(() {
                             camposLlenos = _formKey.currentState!.validate();
                             if (camposLlenos) {
-                              String idFichaUnica =
+                              idFichaUnica =
                                   Generar.idProyecto(cNombreComercial.text);
-
-                              agregarFichaTecnica(idFichaUnica);
+                              getMatricula(idPersona);
+                              //print('Matricula es: ' + matricula.toString());
+                              // agregarFichaTecnica(
+                              //   idFichaUnica, matricula.toString());
                             } else {
                               QuickAlert.show(
                                 context: context,
