@@ -51,9 +51,57 @@ List<ModeloMenu> itemsMenu = const [
       titulo: "Tablero de posiciones",
       icono: Icons.leaderboard_rounded,
       pantalla: 'tabla_posiciones'),
+  ModeloMenu(
+      titulo: "Inicio", icono: Icons.home_rounded, pantalla: 'inicioLider'),
 ];
 
 List<ModeloMenu> itemsLider = const [
+  ModeloMenu(
+      titulo: "Ficha tecnica",
+      icono: Icons.note_add_rounded,
+      pantalla: 'ficha_tecnica'),
+  ModeloMenu(
+      titulo: "Memoria tecnica",
+      icono: Icons.edit_note_rounded,
+      pantalla: 'memoria_tecnica'),
+];
+
+List<ModeloMenu> itemsAsesor = const [
+  ModeloMenu(
+      titulo: "Ficha tecnica",
+      icono: Icons.note_add_rounded,
+      pantalla: 'ficha_tecnica'),
+];
+
+List<ModeloMenu> itemsJuradoInterno = const [
+  ModeloMenu(
+      titulo: "Ficha tecnica",
+      icono: Icons.note_add_rounded,
+      pantalla: 'ficha_tecnica'),
+];
+
+List<ModeloMenu> itemsJuradoExterno = const [
+  ModeloMenu(
+      titulo: "Ficha tecnica",
+      icono: Icons.note_add_rounded,
+      pantalla: 'ficha_tecnica'),
+];
+
+List<ModeloMenu> itemsCoordinadorLocal = const [
+  ModeloMenu(
+      titulo: "Ficha tecnica",
+      icono: Icons.note_add_rounded,
+      pantalla: 'ficha_tecnica'),
+];
+
+List<ModeloMenu> itemsCoordinadorRegional = const [
+  ModeloMenu(
+      titulo: "Ficha tecnica",
+      icono: Icons.note_add_rounded,
+      pantalla: 'ficha_tecnica'),
+];
+
+List<ModeloMenu> itemsCoordinadorNacional = const [
   ModeloMenu(
       titulo: "Ficha tecnica",
       icono: Icons.note_add_rounded,

@@ -95,6 +95,17 @@ final appRouter = GoRouter(
       name: RecuperarContrasenaScreen.name,
       builder: (context, state) => RecuperarContrasenaScreen(),
     ),
+    GoRoute(
+      path: '/agregar_departamento',
+      name: AgregarDepartamentoScreen.name,
+      builder: (context, state) => AgregarDepartamentoScreen(),
+    ),
+    GoRoute(
+      path: '/inicioLider',
+      name: InicioLiderScreen.name,
+      builder: (context, state) => InicioLiderScreen(),
+    ),
+
     //  GoRoute(
     //   path: '/pdf',
     //   name: PdfScreen.name,
