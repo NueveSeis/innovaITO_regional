@@ -19,6 +19,7 @@ class ParticipanteScreen extends ConsumerWidget {
   String matricula = '';
   List<DatosEstudiante> datosEstudiante = [];
 
+  //Obtener matricula del
   Future<String> getMatricula(String idpersona) async {
     String url =
         'https://evarafael.com/Aplicacion/rest/get_estudiante.php?Id_persona=$idpersona';
@@ -37,12 +38,13 @@ class ParticipanteScreen extends ConsumerWidget {
     }
   }
 
+  //obtener datos del estudiante
   Future<void> getDatosEstudiante(String matricula) async {
     String url =
         'https://evarafael.com/Aplicacion/rest/get_datosEstudiante.php?Matricula=$matricula';
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
-      var datos = jsonDecode(response.body);
+      //var datos = jsonDecode(response.body);
       print('object');
       datosEstudiante = datosEstudianteFromJson(response.body);
       await Future.delayed(const Duration(seconds: 3), () {
@@ -56,6 +58,7 @@ class ParticipanteScreen extends ConsumerWidget {
     }
   }
 
+  //obtener forlio del proyecto del lider
   Future<void> getFolioProyecto(String matricula) async {
     String url =
         'https://evarafael.com/Aplicacion/rest/get_Folio.php?Matricula=$matricula';
@@ -64,9 +67,25 @@ class ParticipanteScreen extends ConsumerWidget {
       print('object');
       var datos = jsonDecode(response.body);
       await Future.delayed(const Duration(seconds: 3), () {
-        print('folio');
+        print(datos.length);
         print(datos[0]['Folio']);
+        // print(datosEstudiante[1].nombrePersona);
+      });
+    } else {
+      print('nisiquiera carga');
+    }
+  }
 
+  Future<void> getMatriculaProyecto(String folio) async {
+    String url =
+        'https://evarafael.com/Aplicacion/rest/get_MatriculasProyecto.php?Folio=$folio';
+    var response = await http.post(Uri.parse(url));
+    if (response.statusCode == 200) {
+      print('object');
+      var datos = jsonDecode(response.body);
+      await Future.delayed(const Duration(seconds: 3), () {
+        print(datos.length);
+        print(datos[0]['Matricula']);
         // print(datosEstudiante[1].nombrePersona);
       });
     } else {
@@ -109,6 +128,7 @@ class ParticipanteScreen extends ConsumerWidget {
                       print(matricula);
                       getDatosEstudiante(matricula.toString());
                       getFolioProyecto(matricula);
+                      getMatriculaProyecto('PRO2601');
                       //context.pushNamed('agregar_carrera');
                       // Navigator.pushNamed(context, 'agregar_carrera');
                     },
