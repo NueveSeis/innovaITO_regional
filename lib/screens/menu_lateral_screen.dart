@@ -70,7 +70,7 @@ class _MenuLateralState extends State<MenuLateral> {
                         esActivo: seleccionMenu == menu,
                       ),
                     ),
-                  if (rol.toLowerCase() == 'rol')
+                  if (rol.toLowerCase() == 'sn')
                     ...itemsMenu.map(
                       (menu) => MenuLateralItem(
                         menu: menu,

@@ -5,11 +5,11 @@ final idUsuarioLogin = StateProvider(
 );
 
 final nombreUsuarioLogin = StateProvider<String>(
-  (ref) => "nombres",
+  (ref) => "SN",
 );
 
 final nombreRolLogin = StateProvider<String>(
-  (ref) => "rol",
+  (ref) => "SN",
 );
 
 final inicialesUsuario = StateProvider<String>(
@@ -18,4 +18,8 @@ final inicialesUsuario = StateProvider<String>(
 
 final idPersona = StateProvider<String>(
   (ref) => "SN",
+);
+
+final matriculaProvider = StateProvider<String>(
+  (ref) => "17161164",
 );

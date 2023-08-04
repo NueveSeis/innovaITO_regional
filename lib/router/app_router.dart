@@ -105,6 +105,11 @@ final appRouter = GoRouter(
       name: InicioLiderScreen.name,
       builder: (context, state) => InicioLiderScreen(),
     ),
+    GoRoute(
+      path: '/participantes',
+      name: ParticipanteScreen.name,
+      builder: (context, state) => ParticipanteScreen(),
+    ),
 
     //  GoRoute(
     //   path: '/pdf',

@@ -19,3 +19,4 @@ export 'package:innova_ito/screens/pdf_screen.dart';
 export 'package:innova_ito/screens/recuperar_contrasena_screen.dart';
 export 'package:innova_ito/screens/agregar_departamento_screen.dart';
 export 'package:innova_ito/screens/inicio_lider_sreen.dart';
+export 'package:innova_ito/screens/participante_screen.dart';

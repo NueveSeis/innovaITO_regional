@@ -10,7 +10,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/helpers/helpers.dart';
-import 'package:innova_ito/providers/acceso_formulario_prov.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/theme/app_tema.dart';
@@ -27,13 +26,13 @@ class _AccesoScreenState extends State<AccesoScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool camposLlenos = true;
   TextEditingController correo = TextEditingController();
-
   TextEditingController contrasena = TextEditingController();
 
   List lista = [];
   List<UsuarioData> dataUser = [];
 
   String contrasenaHash = '';
+  String matricula = '';
 
   Future<String> getUsuario(String usuario) async {
     String url =
@@ -43,6 +42,22 @@ class _AccesoScreenState extends State<AccesoScreen> {
       var datos = jsonDecode(response.body);
       String miString = datos[0]['Contrasena'].toString();
       return miString;
+    } else {
+      return '';
+      print('Error al obtener datos de la API');
+    }
+  }
+
+  Future<String> getMatricula(String idpersona) async {
+    String url =
+        'https://evarafael.com/Aplicacion/rest/get_estudiante.php?Id_persona=$idpersona';
+    var response = await http.post(Uri.parse(url));
+    if (response.statusCode == 200) {
+      var datos = jsonDecode(response.body);
+      matricula = datos[0]['Matricula'].toString();
+      print(matricula);
+      await Future.delayed(Duration(seconds: 2));
+      return matricula;
     } else {
       return '';
       print('Error al obtener datos de la API');
@@ -69,7 +84,8 @@ class _AccesoScreenState extends State<AccesoScreen> {
     });
     if (response.statusCode == 200) {
       dataUser = usuarioDataFromJson(response.body);
-      Future.delayed(Duration(seconds: 4), () {
+      getMatricula(dataUser[0].idUsuario);
+      await Future.delayed(const Duration(seconds: 3), () {
         print('no encontrado');
         context.goNamed('menu_lateral');
       });
@@ -182,10 +198,12 @@ class _AccesoScreenState extends State<AccesoScreen> {
                                     if (comparado == true) {
                                       acceso();
                                       Future.delayed(Duration(seconds: 3), () {
+                                        //obtener iniciales del nombre
                                         String ini = Apoyo.obtenerIniciales(
                                             dataUser[0]
                                                 .nombrePersona
                                                 .toString());
+                                        //obtener nombre completo del usuario
                                         String nombreUsuario =
                                             Apoyo.capitalizar(dataUser[0]
                                                     .nombrePersona
@@ -198,9 +216,11 @@ class _AccesoScreenState extends State<AccesoScreen> {
                                                 dataUser[0]
                                                     .apellido2
                                                     .toString());
+                                        //obtener rol del usuario
                                         String rolUsuario = Apoyo.capitalizar(
                                             dataUser[0].nombreRol.toString());
                                         //guardar datos en el riverpood
+                                        //Guardar id de persona usuaurio y asesor en provider
                                         ref
                                             .read(idUsuarioLogin.notifier)
                                             .update((state) => dataUser[0]
@@ -215,6 +235,9 @@ class _AccesoScreenState extends State<AccesoScreen> {
                                         ref
                                             .read(inicialesUsuario.notifier)
                                             .update((state) => ini);
+                                        ref
+                                            .read(matriculaProvider.notifier)
+                                            .update((state) => matricula);
                                       });
                                     }
                                   } else {

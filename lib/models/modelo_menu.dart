@@ -53,6 +53,10 @@ List<ModeloMenu> itemsMenu = const [
       pantalla: 'tabla_posiciones'),
   ModeloMenu(
       titulo: "Inicio", icono: Icons.home_rounded, pantalla: 'inicioLider'),
+  ModeloMenu(
+      titulo: "Participantes",
+      icono: Icons.person_add_alt_1_rounded,
+      pantalla: 'participantes'),
 ];
 
 List<ModeloMenu> itemsLider = const [
@@ -64,6 +68,10 @@ List<ModeloMenu> itemsLider = const [
       titulo: "Memoria tecnica",
       icono: Icons.edit_note_rounded,
       pantalla: 'memoria_tecnica'),
+  ModeloMenu(
+      titulo: "Participantes",
+      icono: Icons.person_add_alt_1_rounded,
+      pantalla: 'participantes'),
 ];
 
 List<ModeloMenu> itemsAsesor = const [
