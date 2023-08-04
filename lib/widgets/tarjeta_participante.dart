@@ -1,11 +1,52 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:innova_ito/theme/app_tema.dart';
+import 'package:http/http.dart' as http;
+import 'package:quickalert/quickalert.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class TarjetaParticipante extends StatelessWidget {
   //final String nombreCarrera;
+  final String nombre;
+  final String control;
+  final int numero;
+  final String semestre;
+  final String carrera;
+  final String folio;
+
   const TarjetaParticipante({
     super.key,
+    required this.nombre,
+    required this.control,
+    required this.numero,
+    required this.semestre,
+    required this.carrera,
+    required this.folio,
   });
+
+  Future<void> eliminarParticipante(
+      String matricula, String folio, BuildContext context) async {
+    String url =
+        'https://evarafael.com/Aplicacion/rest/delete_proyectoParticipante.php?matricula=$matricula&folio=$folio';
+    var response = await http.delete(Uri.parse(url));
+    if (response.statusCode == 200) {
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.success,
+        title: 'Datos incorrectos',
+        text: 'Verifique su correo electronico y contraseña',
+        confirmBtnText: 'Hecho',
+        confirmBtnColor: AppTema.pizazz,
+        onConfirmBtnTap: () {
+          context.pushReplacement('participantes');
+        },
+      );
+    } else {
+      print('nisiquiera carga');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +71,7 @@ class TarjetaParticipante extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '1',
+                  numero.toString(),
                   style: const TextStyle(
                       color: AppTema.bluegrey700,
                       fontWeight: FontWeight.bold,
@@ -48,7 +89,7 @@ class TarjetaParticipante extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Kevin Ivan Luis Gonzalez',
+                            nombre,
                             style: const TextStyle(
                                 color: AppTema.bluegrey700,
                                 fontWeight: FontWeight.bold,
@@ -59,7 +100,7 @@ class TarjetaParticipante extends StatelessWidget {
                             height: 5,
                           ),
                           Text(
-                            '17161164',
+                            control,
                             style: const TextStyle(
                                 color: AppTema.bluegrey700,
                                 fontWeight: FontWeight.normal,
@@ -70,7 +111,7 @@ class TarjetaParticipante extends StatelessWidget {
                             height: 5,
                           ),
                           Text(
-                            'Semestre 12',
+                            'Semestre  $semestre',
                             style: const TextStyle(
                                 color: AppTema.bluegrey700,
                                 fontWeight: FontWeight.normal,
@@ -81,7 +122,7 @@ class TarjetaParticipante extends StatelessWidget {
                             height: 5,
                           ),
                           Text(
-                            'Ingeniaria en sistemas computacionales',
+                            carrera,
                             style: const TextStyle(
                                 color: AppTema.bluegrey700,
                                 fontWeight: FontWeight.normal,
@@ -148,7 +189,10 @@ class TarjetaParticipante extends StatelessWidget {
                                       Icons.delete,
                                       color: AppTema.redA400,
                                     ),
-                                    onTap: () {},
+                                    onTap: () {
+                                      eliminarParticipante(
+                                          control, folio, context);
+                                    },
                                   )
                                 ],
                               ),

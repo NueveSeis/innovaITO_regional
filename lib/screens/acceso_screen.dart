@@ -33,6 +33,7 @@ class _AccesoScreenState extends State<AccesoScreen> {
 
   String contrasenaHash = '';
   String matricula = '';
+  List folio = [];
 
   Future<String> getUsuario(String usuario) async {
     String url =
@@ -89,6 +90,18 @@ class _AccesoScreenState extends State<AccesoScreen> {
         print('no encontrado');
         context.goNamed('menu_lateral');
       });
+    } else {
+      print('nisiquiera carga');
+    }
+  }
+
+  //oBTENER FOLIO DEL PROYECTO EN EL QUE PARTICIPA EL ESTUDIANTE
+  Future<void> getFolioProyecto(String matricula) async {
+    String url =
+        'https://evarafael.com/Aplicacion/rest/get_Folio.php?Matricula=$matricula';
+    var response = await http.post(Uri.parse(url));
+    if (response.statusCode == 200) {
+      folio = jsonDecode(response.body);
     } else {
       print('nisiquiera carga');
     }
@@ -238,6 +251,11 @@ class _AccesoScreenState extends State<AccesoScreen> {
                                         ref
                                             .read(matriculaProvider.notifier)
                                             .update((state) => matricula);
+                                        ref
+                                            .read(folioProyectoUsuarioLogin
+                                                .notifier)
+                                            .update(
+                                                (state) => folio[0]['Folio']);
                                       });
                                     }
                                   } else {

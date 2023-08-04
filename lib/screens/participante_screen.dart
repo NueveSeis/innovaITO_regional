@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:html_editor_enhanced/utils/utils.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/widgets/tarjeta_participante.dart';
 import 'package:innova_ito/providers/providers.dart';
@@ -17,42 +18,20 @@ class ParticipanteScreen extends ConsumerWidget {
   ParticipanteScreen({super.key});
 
   String matricula = '';
-  List<DatosEstudiante> datosEstudiante = [];
-
-  //Obtener matricula del
-  Future<String> getMatricula(String idpersona) async {
-    String url =
-        'https://evarafael.com/Aplicacion/rest/get_estudiante.php?Id_persona=$idpersona';
-    var response = await http.post(Uri.parse(url));
-    if (response.statusCode == 200) {
-      var datos = jsonDecode(response.body);
-      matricula = datos[0]['Matricula'].toString();
-      print('participante');
-      print(matricula);
-      await Future.delayed(Duration(seconds: 2));
-      getDatosEstudiante(matricula);
-      return matricula;
-    } else {
-      return '';
-      print('Error al obtener datos de la API');
-    }
-  }
+  List<DatosEstudiante> datosEstudiantes = [];
+  List matriculasParticpantes = [];
+  List folio = [];
 
   //obtener datos del estudiante
-  Future<void> getDatosEstudiante(String matricula) async {
+  Future<void> getDatosEstudiante(String folio, WidgetRef ref) async {
     String url =
-        'https://evarafael.com/Aplicacion/rest/get_datosEstudiante.php?Matricula=$matricula';
+        'https://evarafael.com/Aplicacion/rest/get_participanteProyecto.php?Folio=$folio';
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
-      //var datos = jsonDecode(response.body);
-      print('object');
-      datosEstudiante = datosEstudianteFromJson(response.body);
-      await Future.delayed(const Duration(seconds: 3), () {
-        print('Hola');
-        print(datosEstudiante.length);
-        print(datosEstudiante[0].nombrePersona);
-        // print(datosEstudiante[1].nombrePersona);
-      });
+      datosEstudiantes = datosEstudianteFromJson(response.body);
+      ref
+          .read(numParticipantes.notifier)
+          .update((state) => datosEstudiantes.length);
     } else {
       print('nisiquiera carga');
     }
@@ -64,30 +43,7 @@ class ParticipanteScreen extends ConsumerWidget {
         'https://evarafael.com/Aplicacion/rest/get_Folio.php?Matricula=$matricula';
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
-      print('object');
-      var datos = jsonDecode(response.body);
-      await Future.delayed(const Duration(seconds: 3), () {
-        print(datos.length);
-        print(datos[0]['Folio']);
-        // print(datosEstudiante[1].nombrePersona);
-      });
-    } else {
-      print('nisiquiera carga');
-    }
-  }
-
-  Future<void> getMatriculaProyecto(String folio) async {
-    String url =
-        'https://evarafael.com/Aplicacion/rest/get_MatriculasProyecto.php?Folio=$folio';
-    var response = await http.post(Uri.parse(url));
-    if (response.statusCode == 200) {
-      print('object');
-      var datos = jsonDecode(response.body);
-      await Future.delayed(const Duration(seconds: 3), () {
-        print(datos.length);
-        print(datos[0]['Matricula']);
-        // print(datosEstudiante[1].nombrePersona);
-      });
+      folio = jsonDecode(response.body);
     } else {
       print('nisiquiera carga');
     }
@@ -95,7 +51,9 @@ class ParticipanteScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String matricula = ref.watch(matriculaProvider);
+    final String matriculaProv = ref.watch(matriculaProvider);
+    final int nParticipantesProv = ref.watch(numParticipantes);
+    final String folioProv = ref.watch(folioProyectoUsuarioLogin);
 
     return Scaffold(
       body: Fondo(
@@ -114,9 +72,9 @@ class ParticipanteScreen extends ConsumerWidget {
                   margin:
                       const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                   child: ElevatedButton(
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
                         Text(
                           'Agregar Particpante',
                           style:
@@ -124,24 +82,83 @@ class ParticipanteScreen extends ConsumerWidget {
                         ),
                       ],
                     ),
-                    onPressed: () {
-                      print(matricula);
-                      getDatosEstudiante(matricula.toString());
-                      getFolioProyecto(matricula);
-                      getMatriculaProyecto('PRO2601');
-                      //context.pushNamed('agregar_carrera');
-                      // Navigator.pushNamed(context, 'agregar_carrera');
-                    },
+                    onPressed: nParticipantesProv >= 2
+                        ? null
+                        : () {
+                            print('si');
+                          },
                   ),
                 ),
-                SingleChildScrollView(
-                  child: Column(children: const [
-                    TarjetaParticipante(),
-                    TarjetaParticipante(),
-                    TarjetaParticipante(),
-                    TarjetaParticipante(),
-                  ]),
-                )
+                FutureBuilder(
+                  future: getFolioProyecto(matriculaProv),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.done) {
+                      if (snapshot.hasError) {
+                        return Center(
+                            child: Text('Error: ${snapshot.error.toString()}'));
+                      } else {
+                        return FutureBuilder(
+                          future: getDatosEstudiante(folio[0]['Folio'], ref),
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              if (snapshot.hasError) {
+                                return Center(
+                                    child: Text(
+                                        'Error: ${snapshot.error.toString()}'));
+                              } else {
+                                return ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: datosEstudiantes.length,
+                                  itemBuilder: (context, index) {
+                                    return TarjetaParticipante(
+                                      numero: index + 1,
+                                      nombre: datosEstudiantes[index]
+                                              .nombrePersona +
+                                          ' ' +
+                                          datosEstudiantes[index]
+                                              .apellido1
+                                              .toString() +
+                                          ' ' +
+                                          datosEstudiantes[index]
+                                              .apellido2
+                                              .toString(),
+                                      semestre: datosEstudiantes[index]
+                                          .numeroSemestre
+                                          .toString(),
+                                      control:
+                                          datosEstudiantes[index].matricula,
+                                      carrera:
+                                          datosEstudiantes[index].nombreCarrera,
+                                      folio: folioProv.toString(),
+                                    );
+                                  },
+                                );
+                              }
+                            } else {
+                              return const Center(
+                                  child: Text('¡Algo salió mal!'));
+                            }
+                          },
+                        );
+                      }
+                    } else {
+                      return const Center(child: Text('¡Algo salió mal!'));
+                    }
+                  },
+                ),
               ],
             ),
           )),
