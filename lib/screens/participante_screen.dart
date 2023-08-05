@@ -82,10 +82,10 @@ class ParticipanteScreen extends ConsumerWidget {
                         ),
                       ],
                     ),
-                    onPressed: nParticipantesProv >= 2
+                    onPressed: nParticipantesProv >= 5
                         ? null
                         : () {
-                            print('si');
+                            context.pushNamed('agregar_participantes');
                           },
                   ),
                 ),

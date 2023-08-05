@@ -28,4 +28,6 @@ class RegexUtil {
   static final RegExp carrera = RegExp(r'^([a-zA-ZáéíóúÁÉÍÓÚñÑ]+\s{0,1})+$');
 
   static final RegExp datos = RegExp(r'^\s*$');
+
+  static final RegExp promedio = RegExp(r'^\d+(\.\d{1,2})?$');
 }

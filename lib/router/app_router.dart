@@ -110,6 +110,11 @@ final appRouter = GoRouter(
       name: ParticipanteScreen.name,
       builder: (context, state) => ParticipanteScreen(),
     ),
+    GoRoute(
+      path: '/agregar_participantes',
+      name: AgregarParticipanteScreen.name,
+      builder: (context, state) => AgregarParticipanteScreen(),
+    ),
 
     //  GoRoute(
     //   path: '/pdf',

@@ -17,6 +17,8 @@ class AppTema {
 
   static final ThemeData modoLuz = ThemeData.light().copyWith(
     scaffoldBackgroundColor: primario,
+    // primaryColor: AppTema.primario,
+    // primaryColorLight: AppTema.primario,
 
     //inputs de los forms y tambien drops
     inputDecorationTheme: InputDecorationTheme(
@@ -60,6 +62,11 @@ class AppTema {
       iconColor: AppTema.bluegrey700,
       textColor: AppTema.bluegrey700,
     ),
+
+    //
+    // datePickerTheme: const DatePickerThemeData(
+    //   headerBackgroundColor: AppTema.primario,
+    // ),
 
     //
   );

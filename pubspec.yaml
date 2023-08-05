@@ -53,6 +53,9 @@ dependencies:
   path_provider: ^2.0.15
   google_fonts: ^4.0.4
   printing: ^5.11.0
+  localization: ^2.1.0
+  flutter_localizations:
+    sdk: flutter
   
 
   
