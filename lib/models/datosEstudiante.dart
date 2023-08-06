@@ -16,10 +16,10 @@ class DatosEstudiante {
   String matricula;
   String? fechaNacimiento;
   String? promedio;
-  String expectativa;
-  String nombreCarrera;
-  String nombreDepartamento;
-  String nombreTecnologico;
+  String? expectativa;
+  String? nombreCarrera;
+  String? nombreDepartamento;
+  String? nombreTecnologico;
   String nombrePersona;
   String? apellido1;
   String? apellido2;

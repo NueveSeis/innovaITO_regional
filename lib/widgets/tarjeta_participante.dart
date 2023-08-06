@@ -35,12 +35,12 @@ class TarjetaParticipante extends StatelessWidget {
       QuickAlert.show(
         context: context,
         type: QuickAlertType.success,
-        title: 'Datos incorrectos',
-        text: 'Verifique su correo electronico y contraseña',
+        title: 'Eliminado correctamente',
+        text: 'El participante fue eliminado correctamente.',
         confirmBtnText: 'Hecho',
         confirmBtnColor: AppTema.pizazz,
         onConfirmBtnTap: () {
-          context.pushReplacement('participantes');
+          context.pushReplacementNamed('participantes');
         },
       );
     } else {
@@ -111,7 +111,7 @@ class TarjetaParticipante extends StatelessWidget {
                             height: 5,
                           ),
                           Text(
-                            'Semestre  $semestre',
+                            'Semestre $semestre',
                             style: const TextStyle(
                                 color: AppTema.bluegrey700,
                                 fontWeight: FontWeight.normal,
