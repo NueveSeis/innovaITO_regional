@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:innova_ito/helpers/helpers.dart';
 import 'package:innova_ito/models/models.dart';
+import 'package:innova_ito/screens/departamento_screen.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/widgets/widgets.dart';
@@ -13,6 +14,19 @@ final futureExpectativaProv =
 final futureSemestreProv =
     FutureProvider<List<Semestre>>((ref) => obtenerSemestre());
 final futureNivelProv = FutureProvider<List<Nivel>>((ref) => obtenerNivel());
+final futureTipoTecProv =
+    FutureProvider<List<TipoTecnologico>>((ref) => obtenerTipoTec());
+final futureTecnologicoProv =
+    FutureProvider<List<Tecnologico>>((ref) => obtenerTecnologico(ref));
+final futureDepartamentoProv =
+    FutureProvider<List<Departamento>>((ref) => obtenerDepartamentos(ref));
+final futureCarreraProv =
+    FutureProvider<List<Carrera>>((ref) => obtenerCarrera(ref));
+
+final TipoTecProv = StateProvider<String>((ref) => 'SN');
+final TecnologicoProv = StateProvider<String>((ref) => 'SN');
+final DepartamentoProv = StateProvider<String>((ref) => 'SN');
+final CarreraProv = StateProvider<String>((ref) => 'SN');
 
 Future<List<Genero>> obtenerGenero() async {
   var url = 'https://evarafael.com/Aplicacion/rest/get_genero.php';
@@ -40,6 +54,40 @@ Future<List<Nivel>> obtenerNivel() async {
   var response = await http.get(Uri.parse(url));
   List<Nivel> lista = nivelFromJson(response.body);
   return lista;
+}
+
+Future<List<TipoTecnologico>> obtenerTipoTec() async {
+  var url = 'https://evarafael.com/Aplicacion/rest/get_tipoTec.php';
+  var response = await http.get(Uri.parse(url));
+  List<TipoTecnologico> tipoTec = tipoTecnologicoFromJson(response.body);
+  return tipoTec;
+}
+
+Future<List<Tecnologico>> obtenerTecnologico(ref) async {
+  final valueTipo = ref.watch(TipoTecProv);
+  var url =
+      'https://evarafael.com/Aplicacion/rest/get_tecnologico.php?Id_tipoTec=$valueTipo';
+  var response = await http.get(Uri.parse(url));
+  List<Tecnologico> tecnologicoM = tecnologicoFromJson(response.body);
+  return tecnologicoM;
+}
+
+Future<List<Departamento>> obtenerDepartamentos(ref) async {
+  final valueClaveTec = ref.watch(TecnologicoProv);
+  var url =
+      'https://evarafael.com/Aplicacion/rest/get_departamento.php?Clave_tecnologico=$valueClaveTec';
+  var response = await http.get(Uri.parse(url));
+  List<Departamento> departamento = departamentoFromJson(response.body);
+  return departamento;
+}
+
+Future<List<Carrera>> obtenerCarrera(ref) async {
+  final depto = ref.watch(DepartamentoProv);
+  var url =
+      'https://evarafael.com/Aplicacion/rest/get_carrera.php?Id_departamento=$depto';
+  var response = await http.get(Uri.parse(url));
+  List<Carrera> carrera = carreraFromJson(response.body);
+  return carrera;
 }
 
 class AgregarParticipanteScreen extends ConsumerWidget {
@@ -71,6 +119,10 @@ class AgregarParticipanteScreen extends ConsumerWidget {
     final semestres = ref.watch(futureSemestreProv);
     final expectativas = ref.watch(futureExpectativaProv);
     final niveles = ref.watch(futureNivelProv);
+    final tiposTec = ref.watch(futureTipoTecProv);
+    final tecnologicos = ref.watch(futureTecnologicoProv);
+    final departamentos = ref.watch(futureDepartamentoProv);
+    final carreras = ref.watch(futureCarreraProv);
     //generosList = generos;
 
     return Scaffold(
@@ -433,6 +485,125 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                           Container(
                             alignment: Alignment.topLeft,
                             child: const Text(
+                              'Tipo de instituto o centro de investigación',
+                              style: TextStyle(
+                                  color: AppTema.bluegrey700,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          tiposTec.when(
+                            data: (data) => DropdownButtonFormField<String>(
+                                isExpanded: true,
+                                value: null,
+                                style: const TextStyle(
+                                    color: AppTema.bluegrey700,
+                                    fontWeight: FontWeight.bold),
+                                items: data.map((itemone) {
+                                  return DropdownMenuItem<String>(
+                                    alignment: Alignment.centerLeft,
+                                    value: itemone.idTipoTec,
+                                    child: Text(
+                                      itemone.tipoTec,
+                                      overflow: TextOverflow.visible,
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  print(value);
+                                  ref
+                                      .read(TipoTecProv.notifier)
+                                      .update((state) => value.toString());
+                                  ref.refresh(futureTecnologicoProv);
+                                }),
+                            loading: () => const CircularProgressIndicator(),
+                            error: (error, stackTrace) => const Text(
+                                'Error al cargar los tipos de institutos.'),
+                          ),
+                          const SizedBox(height: 20),
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: const Text(
+                              'Instituto de pertenencia',
+                              style: TextStyle(
+                                  color: AppTema.bluegrey700,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          tecnologicos.when(
+                            data: (data) => DropdownButtonFormField<String>(
+                                value: null,
+                                style: const TextStyle(
+                                    color: AppTema.bluegrey700,
+                                    fontWeight: FontWeight.bold),
+                                items: data.map((itemone) {
+                                  return DropdownMenuItem<String>(
+                                    alignment: Alignment.centerLeft,
+                                    value: itemone.claveTecnologico,
+                                    child: Text(
+                                      itemone.nombreTecnologico,
+                                      overflow: TextOverflow.visible,
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  print(value);
+                                  ref
+                                      .read(TecnologicoProv.notifier)
+                                      .update((state) => value.toString());
+                                  ref.refresh(futureDepartamentoProv);
+                                }),
+                            loading: () => const CircularProgressIndicator(),
+                            error: (error, stackTrace) =>
+                                const Text('Error al cargar los tecnologicos.'),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: const Text(
+                              'Departamento perteneciente',
+                              style: TextStyle(
+                                  color: AppTema.bluegrey700,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          departamentos.when(
+                            data: (data) => DropdownButtonFormField<String>(
+                                value: null,
+                                style: const TextStyle(
+                                    color: AppTema.bluegrey700,
+                                    fontWeight: FontWeight.bold),
+                                items: data.map((itemone) {
+                                  return DropdownMenuItem<String>(
+                                    alignment: Alignment.centerLeft,
+                                    value: itemone.idDepartamento,
+                                    child: Text(
+                                      itemone.nombreDepartamento,
+                                      overflow: TextOverflow.visible,
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  print(value);
+                                  ref
+                                      .read(DepartamentoProv.notifier)
+                                      .update((state) => value.toString());
+                                  ref.refresh(futureCarreraProv);
+                                }),
+                            loading: () => const CircularProgressIndicator(),
+                            error: (error, stackTrace) =>
+                                const Text('Error al cargar los tecnologicos.'),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: const Text(
                               'Carrera',
                               style: TextStyle(
                                   color: AppTema.bluegrey700,
@@ -440,26 +611,32 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          DropdownButtonFormField(
-                              value: 'Seleccione una opción',
-                              style: const TextStyle(
-                                  color: AppTema.bluegrey700,
-                                  fontWeight: FontWeight.bold),
-                              items: const [
-                                DropdownMenuItem(
-                                  value: 'Seleccione una opción',
-                                  child: Text('Seleccione una opción'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 'MASCULINO',
-                                  child: Text('Masculino'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 'FEMENINO',
-                                  child: Text('Femenino'),
-                                ),
-                              ],
-                              onChanged: (value) {}),
+                          carreras.when(
+                            data: (data) => DropdownButtonFormField<String>(
+                                value: null,
+                                style: const TextStyle(
+                                    color: AppTema.bluegrey700,
+                                    fontWeight: FontWeight.bold),
+                                items: data.map((itemone) {
+                                  return DropdownMenuItem<String>(
+                                    alignment: Alignment.centerLeft,
+                                    value: itemone.idCarrera,
+                                    child: Text(
+                                      itemone.nombreCarrera,
+                                      overflow: TextOverflow.visible,
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  print(value);
+                                  ref
+                                      .read(CarreraProv.notifier)
+                                      .update((state) => value.toString());
+                                }),
+                            loading: () => const CircularProgressIndicator(),
+                            error: (error, stackTrace) =>
+                                const Text('Error al cargar las carreras.'),
+                          ),
                           const SizedBox(height: 20),
                           Container(
                             height: 50,
