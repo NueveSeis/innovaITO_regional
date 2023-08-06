@@ -15,3 +15,7 @@ export 'package:innova_ito/models/naturaleza.dart';
 export 'package:innova_ito/models/tablero.dart';
 export 'package:innova_ito/models/usuario_data.dart';
 export 'package:innova_ito/models/datosEstudiante.dart';
+export 'package:innova_ito/models/nivel.dart';
+export 'package:innova_ito/models/expectativa.dart';
+export 'package:innova_ito/models/genero.dart';
+export 'package:innova_ito/models/semestre.dart';

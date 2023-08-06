@@ -1,13 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:innova_ito/helpers/helpers.dart';
+import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/widgets/widgets.dart';
+import 'package:http/http.dart' as http;
+
+final futureGeneroProv = FutureProvider<List<Genero>>((ref) => obtenerGenero());
+final futureExpectativaProv =
+    FutureProvider<List<Expectativa>>((ref) => obtenerExpectativa());
+final futureSemestreProv =
+    FutureProvider<List<Semestre>>((ref) => obtenerSemestre());
+final futureNivelProv = FutureProvider<List<Nivel>>((ref) => obtenerNivel());
+
+Future<List<Genero>> obtenerGenero() async {
+  var url = 'https://evarafael.com/Aplicacion/rest/get_genero.php';
+  var response = await http.get(Uri.parse(url));
+  List<Genero> lista = generoFromJson(response.body);
+  return lista;
+}
+
+Future<List<Expectativa>> obtenerExpectativa() async {
+  var url = 'https://evarafael.com/Aplicacion/rest/get_expectativa.php';
+  var response = await http.get(Uri.parse(url));
+  List<Expectativa> lista = expectativaFromJson(response.body);
+  return lista;
+}
+
+Future<List<Semestre>> obtenerSemestre() async {
+  var url = 'https://evarafael.com/Aplicacion/rest/get_semestre.php';
+  var response = await http.get(Uri.parse(url));
+  List<Semestre> lista = semestreFromJson(response.body);
+  return lista;
+}
+
+Future<List<Nivel>> obtenerNivel() async {
+  var url = 'https://evarafael.com/Aplicacion/rest/get_nivel.php';
+  var response = await http.get(Uri.parse(url));
+  List<Nivel> lista = nivelFromJson(response.body);
+  return lista;
+}
 
 class AgregarParticipanteScreen extends ConsumerWidget {
   static const String name = 'agregar_participantes';
-  DateTime _selectedDateTime = DateTime.now();
 
   AgregarParticipanteScreen({super.key});
 
@@ -31,6 +67,12 @@ class AgregarParticipanteScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final generos = ref.watch(futureGeneroProv);
+    final semestres = ref.watch(futureSemestreProv);
+    final expectativas = ref.watch(futureExpectativaProv);
+    final niveles = ref.watch(futureNivelProv);
+    //generosList = generos;
+
     return Scaffold(
         body: Fondo(
             tituloPantalla: 'Registro de participante',
@@ -38,7 +80,7 @@ class AgregarParticipanteScreen extends ConsumerWidget {
             widget: Column(
               children: [
                 const SizedBox(height: 50),
-                Text(
+                const Text(
                   'Ingrese datos del estudiante',
                   style: TextStyle(
                       color: AppTema.balticSea,
@@ -54,26 +96,6 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                       child: Column(
                         children: [
                           const SizedBox(height: 20),
-                          DropdownButtonFormField(
-                              value: 'Seleccione una opción',
-                              style: const TextStyle(
-                                  color: AppTema.bluegrey700,
-                                  fontWeight: FontWeight.bold),
-                              items: const [
-                                DropdownMenuItem(
-                                  value: 'Seleccione una opción',
-                                  child: Text('Seleccione una opción'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 'Licenciatura',
-                                  child: Text('Licenciatura'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 'Posgrado',
-                                  child: Text('Posgrado'),
-                                ),
-                              ],
-                              onChanged: (value) {}),
                           const SizedBox(height: 20),
                           TextFormField(
                             autovalidateMode:
@@ -233,33 +255,34 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                           Container(
                             alignment: Alignment.topLeft,
                             child: const Text(
-                              'Género',
+                              'Genero',
                               style: TextStyle(
                                   color: AppTema.bluegrey700,
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
                           const SizedBox(height: 10),
-                          DropdownButtonFormField(
-                              value: 'Seleccione una opción',
-                              style: const TextStyle(
-                                  color: AppTema.bluegrey700,
-                                  fontWeight: FontWeight.bold),
-                              items: const [
-                                DropdownMenuItem(
-                                  value: 'Seleccione una opción',
-                                  child: Text('Seleccione una opción'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 'MASCULINO',
-                                  child: Text('Masculino'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 'FEMENINO',
-                                  child: Text('Femenino'),
-                                ),
-                              ],
-                              onChanged: (value) {}),
+                          generos.when(
+                            data: (data) => DropdownButtonFormField<String>(
+                                value: null,
+                                style: const TextStyle(
+                                    color: AppTema.bluegrey700,
+                                    fontWeight: FontWeight.bold),
+                                items: data.map((itemone) {
+                                  return DropdownMenuItem<String>(
+                                    alignment: Alignment.centerLeft,
+                                    value: itemone.tipoGenero,
+                                    child: Text(
+                                      itemone.tipoGenero,
+                                      overflow: TextOverflow.visible,
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {}),
+                            loading: () => const CircularProgressIndicator(),
+                            error: (error, stackTrace) =>
+                                const Text('Error al cargar los generos'),
+                          ),
                           const SizedBox(height: 20),
                           Container(
                             alignment: Alignment.topLeft,
@@ -271,26 +294,27 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          DropdownButtonFormField(
-                              value: 'Seleccione una opción',
-                              style: const TextStyle(
-                                  color: AppTema.bluegrey700,
-                                  fontWeight: FontWeight.bold),
-                              items: const [
-                                DropdownMenuItem(
-                                  value: 'Seleccione una opción',
-                                  child: Text('Seleccione una opción'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 'MASCULINO',
-                                  child: Text('Masculino'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 'FEMENINO',
-                                  child: Text('Femenino'),
-                                ),
-                              ],
-                              onChanged: (value) {}),
+                          expectativas.when(
+                            data: (data) => DropdownButtonFormField<String>(
+                                value: null,
+                                style: const TextStyle(
+                                    color: AppTema.bluegrey700,
+                                    fontWeight: FontWeight.bold),
+                                items: data.map((itemone) {
+                                  return DropdownMenuItem<String>(
+                                    alignment: Alignment.centerLeft,
+                                    value: itemone.expectativa,
+                                    child: Text(
+                                      itemone.expectativa,
+                                      overflow: TextOverflow.visible,
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {}),
+                            loading: () => const CircularProgressIndicator(),
+                            error: (error, stackTrace) =>
+                                const Text('Error al cargar las expectativas.'),
+                          ),
                           const SizedBox(height: 20),
                           Container(
                             alignment: Alignment.topLeft,
@@ -302,26 +326,27 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          DropdownButtonFormField(
-                              value: 'Seleccione una opción',
-                              style: const TextStyle(
-                                  color: AppTema.bluegrey700,
-                                  fontWeight: FontWeight.bold),
-                              items: const [
-                                DropdownMenuItem(
-                                  value: 'Seleccione una opción',
-                                  child: Text('Seleccione una opción'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 'MASCULINO',
-                                  child: Text('Masculino'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 'FEMENINO',
-                                  child: Text('Femenino'),
-                                ),
-                              ],
-                              onChanged: (value) {}),
+                          semestres.when(
+                            data: (data) => DropdownButtonFormField<String>(
+                                value: null,
+                                style: const TextStyle(
+                                    color: AppTema.bluegrey700,
+                                    fontWeight: FontWeight.bold),
+                                items: data.map((itemone) {
+                                  return DropdownMenuItem<String>(
+                                    alignment: Alignment.centerLeft,
+                                    value: itemone.numeroSemestre,
+                                    child: Text(
+                                      itemone.numeroSemestre,
+                                      overflow: TextOverflow.visible,
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {}),
+                            loading: () => const CircularProgressIndicator(),
+                            error: (error, stackTrace) =>
+                                const Text('Error al cargar los semestres.'),
+                          ),
                           const SizedBox(height: 20),
                           Center(
                               child: ElevatedButton(
@@ -383,26 +408,27 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          DropdownButtonFormField(
-                              value: 'Seleccione una opción',
-                              style: const TextStyle(
-                                  color: AppTema.bluegrey700,
-                                  fontWeight: FontWeight.bold),
-                              items: const [
-                                DropdownMenuItem(
-                                  value: 'Seleccione una opción',
-                                  child: Text('Seleccione una opción'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 'MASCULINO',
-                                  child: Text('Masculino'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 'FEMENINO',
-                                  child: Text('Femenino'),
-                                ),
-                              ],
-                              onChanged: (value) {}),
+                          niveles.when(
+                            data: (data) => DropdownButtonFormField<String>(
+                                value: null,
+                                style: const TextStyle(
+                                    color: AppTema.bluegrey700,
+                                    fontWeight: FontWeight.bold),
+                                items: data.map((itemone) {
+                                  return DropdownMenuItem<String>(
+                                    alignment: Alignment.centerLeft,
+                                    value: itemone.nombreNivel,
+                                    child: Text(
+                                      itemone.nombreNivel,
+                                      overflow: TextOverflow.visible,
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {}),
+                            loading: () => const CircularProgressIndicator(),
+                            error: (error, stackTrace) =>
+                                const Text('Error al cargar los generos'),
+                          ),
                           const SizedBox(height: 20),
                           Container(
                             alignment: Alignment.topLeft,
