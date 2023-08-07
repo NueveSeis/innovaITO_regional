@@ -24,7 +24,6 @@ List<ModeloMenu> itemsMenu = const [
       titulo: "Proyectos",
       icono: Icons.document_scanner_rounded,
       pantalla: 'proyectos'),
-
   ModeloMenu(
       titulo: "Carreras", icono: Icons.school_rounded, pantalla: 'carrera'),
   ModeloMenu(
@@ -57,6 +56,8 @@ List<ModeloMenu> itemsMenu = const [
       titulo: "Participantes",
       icono: Icons.person_add_alt_1_rounded,
       pantalla: 'participantes'),
+  ModeloMenu(
+      titulo: "Criterios", icono: Icons.assignment, pantalla: 'criterios'),
 ];
 
 List<ModeloMenu> itemsLider = const [

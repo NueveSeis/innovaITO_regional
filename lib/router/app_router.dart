@@ -115,6 +115,11 @@ final appRouter = GoRouter(
       name: AgregarParticipanteScreen.name,
       builder: (context, state) => AgregarParticipanteScreen(),
     ),
+    GoRoute(
+      path: '/criterios',
+      name: CriteriosScreen.name,
+      builder: (context, state) => CriteriosScreen(),
+    ),
 
     //  GoRoute(
     //   path: '/pdf',
