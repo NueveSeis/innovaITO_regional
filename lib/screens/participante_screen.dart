@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:html_editor_enhanced/utils/utils.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/widgets/tarjeta_participante.dart';
 import 'package:innova_ito/providers/providers.dart';
@@ -136,12 +135,13 @@ class ParticipanteScreen extends ConsumerWidget {
                                               .apellido2
                                               .toString(),
                                       semestre: datosEstudiantes[index]
-                                          .numeroSemestre
-                                          .toString(),
+                                              .numeroSemestre ??
+                                          'no asignado',
                                       control:
                                           datosEstudiantes[index].matricula,
-                                      carrera:
-                                          datosEstudiantes[index].nombreCarrera,
+                                      carrera: datosEstudiantes[index]
+                                              .nombreCarrera ??
+                                          'No tiene carrera asignada',
                                       folio: folioProv.toString(),
                                     );
                                   },
