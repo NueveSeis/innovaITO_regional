@@ -21,3 +21,4 @@ export 'package:innova_ito/screens/agregar_departamento_screen.dart';
 export 'package:innova_ito/screens/inicio_lider_sreen.dart';
 export 'package:innova_ito/screens/participante_screen.dart';
 export 'package:innova_ito/screens/agregar_participante_screen.dart';
+export 'package:innova_ito/screens/criterios_screen.dart';
