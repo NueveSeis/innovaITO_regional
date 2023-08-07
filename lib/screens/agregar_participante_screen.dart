@@ -1,13 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:innova_ito/helpers/helpers.dart';
 import 'package:innova_ito/models/models.dart';
-import 'package:innova_ito/screens/departamento_screen.dart';
+import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:quickalert/quickalert.dart';
 
 final futureGeneroProv = FutureProvider<List<Genero>>((ref) => obtenerGenero());
 final futureExpectativaProv =
@@ -24,12 +27,18 @@ final futureDepartamentoProv =
 final futureCarreraProv =
     FutureProvider<List<Carrera>>((ref) => obtenerCarrera(ref));
 
-final TipoTecProv = StateProvider<String>((ref) => 'SN');
-final TecnologicoProv = StateProvider<String>((ref) => 'SN');
-final DepartamentoProv = StateProvider<String>((ref) => 'SN');
-final CarreraProv = StateProvider<String>((ref) => 'SN');
-final FechaSeleccionadaProv =
+final tipoTecProv = StateProvider<String>((ref) => 'SN');
+final tecnologicoProv = StateProvider<String>((ref) => 'SN');
+final departamentoProv = StateProvider<String>((ref) => 'SN');
+final carreraProv = StateProvider<String>((ref) => 'SN');
+final fechaSeleccionadaProv =
     StateProvider<DateTime?>((ref) => DateTime(0000, 0, 0));
+final generoProv = StateProvider<String>((ref) => 'SN');
+final expectativaProv = StateProvider<String>((ref) => 'SN');
+final semestreProv = StateProvider<String>((ref) => 'SN');
+final nivelAcademicoProv = StateProvider<String>((ref) => 'SN');
+final camposLlenosProv = StateProvider<bool>((ref) => false);
+//final CarreraProv = StateProvider<String>((ref) => 'SN');
 
 Future<List<Genero>> obtenerGenero() async {
   var url = 'https://evarafael.com/Aplicacion/rest/get_genero.php';
@@ -67,7 +76,7 @@ Future<List<TipoTecnologico>> obtenerTipoTec() async {
 }
 
 Future<List<Tecnologico>> obtenerTecnologico(ref) async {
-  final valueTipo = ref.watch(TipoTecProv);
+  final valueTipo = ref.watch(tipoTecProv);
   var url =
       'https://evarafael.com/Aplicacion/rest/get_tecnologico.php?Id_tipoTec=$valueTipo';
   var response = await http.get(Uri.parse(url));
@@ -76,7 +85,7 @@ Future<List<Tecnologico>> obtenerTecnologico(ref) async {
 }
 
 Future<List<Departamento>> obtenerDepartamentos(ref) async {
-  final valueClaveTec = ref.watch(TecnologicoProv);
+  final valueClaveTec = ref.watch(tecnologicoProv);
   var url =
       'https://evarafael.com/Aplicacion/rest/get_departamento.php?Clave_tecnologico=$valueClaveTec';
   var response = await http.get(Uri.parse(url));
@@ -85,12 +94,66 @@ Future<List<Departamento>> obtenerDepartamentos(ref) async {
 }
 
 Future<List<Carrera>> obtenerCarrera(ref) async {
-  final depto = ref.watch(DepartamentoProv);
+  final depto = ref.watch(departamentoProv);
   var url =
       'https://evarafael.com/Aplicacion/rest/get_carrera.php?Id_departamento=$depto';
   var response = await http.get(Uri.parse(url));
   List<Carrera> carrera = carreraFromJson(response.body);
   return carrera;
+}
+
+Future<bool> existente(String idPersona) async {
+  String url = 'https://evarafael.com/Aplicacion/rest/existePersona.php';
+  var response = await http.post(Uri.parse(url), body: {
+    'Id_persona': idPersona,
+  });
+
+  var data = json.decode(response.body);
+  if (data == "Realizado") {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+Future agregarParticipante(
+    String id,
+    String nombre,
+    String ap1,
+    String ap2,
+    String telefono,
+    String correo,
+    String ine,
+    String curp,
+    String matricula,
+    String fecha,
+    String promedio,
+    String expectativa,
+    String carrera,
+    String genero,
+    String semestre,
+    String nivel,
+    String folio) async {
+  var url = 'https://evarafael.com/Aplicacion/rest/agregar_participante.php';
+  await http.post(Uri.parse(url), body: {
+    'Id_persona': id,
+    'Nombre_persona': nombre,
+    'Apellido1': ap1,
+    'Apellido2': ap2,
+    'Telefono': telefono,
+    'Correo_electronico': correo,
+    'Num_ine': ine,
+    'Curp': curp,
+    'Matricula': matricula,
+    'Fecha_nacimiento': fecha,
+    'Promedio': promedio,
+    'Id_expectativa': expectativa,
+    'Id_carrera': carrera,
+    'Id_genero': genero,
+    'Id_semestre': semestre,
+    'Id_nivel': nivel,
+    'Folio': folio,
+  });
 }
 
 class AgregarParticipanteScreen extends ConsumerWidget {
@@ -99,23 +162,20 @@ class AgregarParticipanteScreen extends ConsumerWidget {
   AgregarParticipanteScreen({super.key});
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  //TextEditingController nivel = TextEditingController();
-  TextEditingController cMatricula = TextEditingController();
+
   TextEditingController cNombre = TextEditingController();
   TextEditingController cApellidoP = TextEditingController();
   TextEditingController cApellidoM = TextEditingController();
-  TextEditingController cCorreo = TextEditingController();
+  TextEditingController cMatricula = TextEditingController();
   TextEditingController cPromedio = TextEditingController();
-  TextEditingController cNumero = TextEditingController();
   TextEditingController cCurp = TextEditingController();
   TextEditingController cIne = TextEditingController();
-  String contrasena = '';
+  TextEditingController cCorreo = TextEditingController();
+  TextEditingController cNumero = TextEditingController();
+
   String id = '';
-  String contrasenaHash = '';
-  bool existePersona = false;
-  String idNivel = '';
-  bool camposLlenos = true;
   DateTime? fechaSeleccionada;
+  DateTime fecha = DateTime(0000, 00, 00);
 
   Future _mostrarDatePicker(context, ref) async {
     final seleccion = await showDatePicker(
@@ -143,7 +203,7 @@ class AgregarParticipanteScreen extends ConsumerWidget {
 
     if (seleccion != null && seleccion != fechaSeleccionada) {
       fechaSeleccionada = seleccion;
-      DateTime fecha = DateTime(seleccion.year, seleccion.month, seleccion.day);
+      fecha = DateTime(seleccion.year, seleccion.month, seleccion.day);
       // ref
       //     .read(FechaSeleccionadaProv.notifier)
       //     .update((state) => seleccion.);
@@ -161,6 +221,14 @@ class AgregarParticipanteScreen extends ConsumerWidget {
     final tecnologicos = ref.watch(futureTecnologicoProv);
     final departamentos = ref.watch(futureDepartamentoProv);
     final carreras = ref.watch(futureCarreraProv);
+    final cGenero = ref.watch(generoProv);
+    final cExpectativa = ref.watch(expectativaProv);
+    final cSemestre = ref.watch(semestreProv);
+    final cNivel = ref.watch(nivelAcademicoProv);
+    final cCarrera = ref.watch(carreraProv);
+    final camposLlenos = ref.watch(camposLlenosProv);
+    final cFolio = ref.watch(folioProyectoUsuarioLogin);
+
     //generosList = generos;
 
     return Scaffold(
@@ -361,14 +429,18 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                                 items: data.map((itemone) {
                                   return DropdownMenuItem<String>(
                                     alignment: Alignment.centerLeft,
-                                    value: itemone.tipoGenero,
+                                    value: itemone.idGenero,
                                     child: Text(
                                       itemone.tipoGenero,
                                       overflow: TextOverflow.visible,
                                     ),
                                   );
                                 }).toList(),
-                                onChanged: (value) {}),
+                                onChanged: (value) {
+                                  ref
+                                      .read(generoProv.notifier)
+                                      .update((state) => value.toString());
+                                }),
                             loading: () => const CircularProgressIndicator(),
                             error: (error, stackTrace) =>
                                 const Text('Error al cargar los generos'),
@@ -393,14 +465,18 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                                 items: data.map((itemone) {
                                   return DropdownMenuItem<String>(
                                     alignment: Alignment.centerLeft,
-                                    value: itemone.expectativa,
+                                    value: itemone.idExpectativa,
                                     child: Text(
                                       itemone.expectativa,
                                       overflow: TextOverflow.visible,
                                     ),
                                   );
                                 }).toList(),
-                                onChanged: (value) {}),
+                                onChanged: (value) {
+                                  ref
+                                      .read(expectativaProv.notifier)
+                                      .update((state) => value.toString());
+                                }),
                             loading: () => const CircularProgressIndicator(),
                             error: (error, stackTrace) =>
                                 const Text('Error al cargar las expectativas.'),
@@ -425,14 +501,18 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                                 items: data.map((itemone) {
                                   return DropdownMenuItem<String>(
                                     alignment: Alignment.centerLeft,
-                                    value: itemone.numeroSemestre,
+                                    value: itemone.idSemestre,
                                     child: Text(
                                       itemone.numeroSemestre,
                                       overflow: TextOverflow.visible,
                                     ),
                                   );
                                 }).toList(),
-                                onChanged: (value) {}),
+                                onChanged: (value) {
+                                  ref
+                                      .read(semestreProv.notifier)
+                                      .update((state) => value.toString());
+                                }),
                             loading: () => const CircularProgressIndicator(),
                             error: (error, stackTrace) =>
                                 const Text('Error al cargar los semestres.'),
@@ -484,17 +564,21 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                                 items: data.map((itemone) {
                                   return DropdownMenuItem<String>(
                                     alignment: Alignment.centerLeft,
-                                    value: itemone.nombreNivel,
+                                    value: itemone.idNivel,
                                     child: Text(
                                       itemone.nombreNivel,
                                       overflow: TextOverflow.visible,
                                     ),
                                   );
                                 }).toList(),
-                                onChanged: (value) {}),
+                                onChanged: (value) {
+                                  ref
+                                      .read(nivelAcademicoProv.notifier)
+                                      .update((state) => value.toString());
+                                }),
                             loading: () => const CircularProgressIndicator(),
-                            error: (error, stackTrace) =>
-                                const Text('Error al cargar los generos'),
+                            error: (error, stackTrace) => const Text(
+                                'Error al cargar los niveles academicos.'),
                           ),
                           const SizedBox(height: 20),
                           Container(
@@ -527,7 +611,7 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                                 onChanged: (value) {
                                   print(value);
                                   ref
-                                      .read(TipoTecProv.notifier)
+                                      .read(tipoTecProv.notifier)
                                       .update((state) => value.toString());
                                   ref.refresh(futureTecnologicoProv);
                                 }),
@@ -565,7 +649,7 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                                 onChanged: (value) {
                                   print(value);
                                   ref
-                                      .read(TecnologicoProv.notifier)
+                                      .read(tecnologicoProv.notifier)
                                       .update((state) => value.toString());
                                   ref.refresh(futureDepartamentoProv);
                                 }),
@@ -605,7 +689,7 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                                 onChanged: (value) {
                                   print(value);
                                   ref
-                                      .read(DepartamentoProv.notifier)
+                                      .read(departamentoProv.notifier)
                                       .update((state) => value.toString());
                                   ref.refresh(futureCarreraProv);
                                 }),
@@ -645,7 +729,7 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                                 onChanged: (value) {
                                   print(value);
                                   ref
-                                      .read(CarreraProv.notifier)
+                                      .read(carreraProv.notifier)
                                       .update((state) => value.toString());
                                 }),
                             loading: () => const CircularProgressIndicator(),
@@ -666,7 +750,74 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                                 style: TextStyle(
                                     color: AppTema.grey100, fontSize: 25),
                               )),
-                              onPressed: () async {},
+                              onPressed: () async {
+                                ref.read(camposLlenosProv.notifier).update(
+                                    (state) =>
+                                        _formKey.currentState!.validate());
+                                if (camposLlenos) {
+                                  String idPersona = Generar.idPersona(
+                                      cNombre.text.toUpperCase(),
+                                      cApellidoP.text.toUpperCase(),
+                                      cApellidoM.text.toUpperCase(),
+                                      cCorreo.text.toUpperCase());
+                                  bool result = await existente(idPersona);
+                                  //print('1');
+                                  if (result) {
+                                    QuickAlert.show(
+                                      context: context,
+                                      type: QuickAlertType.error,
+                                      title: 'Usuario existente',
+                                      confirmBtnText: 'Hecho',
+                                      confirmBtnColor: AppTema.pizazz,
+                                    );
+                                  } else {
+                                    print(idPersona);
+                                    print(cNombre.text);
+                                    print(cApellidoM.text);
+                                    print(cApellidoP.text);
+                                    print(cNumero.text);
+                                    print(cCorreo.text);
+                                    print(cIne.text);
+                                    print(cCurp.text);
+                                    print(cMatricula.text);
+                                    print(
+                                        DateFormat('yyyy-MM-dd').format(fecha));
+                                    print(cPromedio.text);
+                                    print(cExpectativa);
+                                    print(cCarrera);
+                                    print(cGenero);
+                                    print(cSemestre);
+                                    print(cNivel);
+                                    print(cFolio);
+
+                                    agregarParticipante(
+                                        idPersona,
+                                        cNombre.text.toUpperCase(),
+                                        cApellidoP.text.toUpperCase(),
+                                        cApellidoM.text.toUpperCase(),
+                                        cNumero.text,
+                                        cCorreo.text.toUpperCase(),
+                                        cIne.text,
+                                        cCurp.text.toUpperCase(),
+                                        cMatricula.text.toUpperCase(),
+                                        DateFormat('yyyy-MM-dd').format(fecha),
+                                        cPromedio.text,
+                                        cExpectativa,
+                                        cCarrera,
+                                        cGenero,
+                                        cSemestre,
+                                        cNivel,
+                                        cFolio);
+                                    QuickAlert.show(
+                                      context: context,
+                                      type: QuickAlertType.success,
+                                      title: 'Agregado correctamente',
+                                      confirmBtnText: 'Hecho',
+                                      confirmBtnColor: AppTema.pizazz,
+                                    );
+                                  }
+                                }
+                              },
                             ),
                           ),
                         ],

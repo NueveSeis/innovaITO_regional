@@ -544,7 +544,7 @@ class _RegistroUsuarioAsesorScreenState
                             idPersona = Generar.idPersona(
                                 cNombres.text.toUpperCase(),
                                 cApellido1.text.toUpperCase(),
-                                cApellido2.text.toLowerCase(),
+                                cApellido2.text.toUpperCase(),
                                 cCorreo.text.toUpperCase());
                             contrasena = Generar.contrasenaAleatoria();
                             contrasenaHash = Generar.hashContrasena(contrasena);
