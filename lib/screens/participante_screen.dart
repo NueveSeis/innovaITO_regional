@@ -25,14 +25,18 @@ class ParticipanteScreen extends ConsumerWidget {
   Future<void> getDatosEstudiante(String folio, WidgetRef ref) async {
     String url =
         'https://evarafael.com/Aplicacion/rest/get_participanteProyecto.php?Folio=$folio';
-    var response = await http.post(Uri.parse(url));
-    if (response.statusCode == 200) {
-      datosEstudiantes = datosEstudianteFromJson(response.body);
-      ref
-          .read(numParticipantes.notifier)
-          .update((state) => datosEstudiantes.length);
-    } else {
-      print('nisiquiera carga');
+    try {
+      var response = await http.post(Uri.parse(url));
+      if (response.statusCode == 200) {
+        datosEstudiantes = datosEstudianteFromJson(response.body);
+        ref
+            .read(numParticipantes.notifier)
+            .update((state) => datosEstudiantes.length);
+      } else {
+        print('La solicitud no fue exitosa: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -123,6 +127,8 @@ class ParticipanteScreen extends ConsumerWidget {
                                   itemCount: datosEstudiantes.length,
                                   itemBuilder: (context, index) {
                                     return TarjetaParticipante(
+                                      idParticipante:
+                                          datosEstudiantes[index].id.toString(),
                                       numero: index + 1,
                                       nombre: datosEstudiantes[index]
                                               .nombrePersona +

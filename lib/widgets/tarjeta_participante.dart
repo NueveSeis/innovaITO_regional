@@ -9,6 +9,7 @@ import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class TarjetaParticipante extends StatelessWidget {
   //final String nombreCarrera;
+  final String idParticipante;
   final String nombre;
   final String control;
   final int numero;
@@ -24,12 +25,13 @@ class TarjetaParticipante extends StatelessWidget {
     required this.semestre,
     required this.carrera,
     required this.folio,
+    required this.idParticipante,
   });
 
   Future<void> eliminarParticipante(
-      String matricula, String folio, BuildContext context) async {
+      String matricula, String folio, String id, BuildContext context) async {
     String url =
-        'https://evarafael.com/Aplicacion/rest/delete_proyectoParticipante.php?matricula=$matricula&folio=$folio';
+        'https://evarafael.com/Aplicacion/rest/delete_proyectoParticipante.php?matricula=$matricula&folio=$folio&id_persona=$id';
     var response = await http.delete(Uri.parse(url));
     if (response.statusCode == 200) {
       QuickAlert.show(
@@ -175,7 +177,9 @@ class TarjetaParticipante extends StatelessWidget {
                                       Icons.edit,
                                       //color: AppTema.bluegrey700,
                                     ),
-                                    onTap: () {},
+                                    onTap: () {
+                                      print(idParticipante);
+                                    },
                                   ),
                                   ListTile(
                                     splashColor: AppTema.primario,
@@ -190,8 +194,8 @@ class TarjetaParticipante extends StatelessWidget {
                                       color: AppTema.redA400,
                                     ),
                                     onTap: () {
-                                      eliminarParticipante(
-                                          control, folio, context);
+                                      eliminarParticipante(control, folio,
+                                          idParticipante, context);
                                     },
                                   )
                                 ],

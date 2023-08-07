@@ -18,6 +18,7 @@ class DatosEstudiante {
   String? promedio;
   String? expectativa;
   String? nombreCarrera;
+  String id;
   String? nombreDepartamento;
   String? nombreTecnologico;
   String nombrePersona;
@@ -37,6 +38,7 @@ class DatosEstudiante {
     required this.promedio,
     required this.expectativa,
     required this.nombreCarrera,
+    required this.id,
     required this.nombreDepartamento,
     required this.nombreTecnologico,
     required this.nombrePersona,
@@ -58,6 +60,7 @@ class DatosEstudiante {
         promedio: json["Promedio"],
         expectativa: json["Expectativa"],
         nombreCarrera: json["Nombre_carrera"],
+        id: json["Id_persona"],
         nombreDepartamento: json["Nombre_departamento"],
         nombreTecnologico: json["Nombre_tecnologico"],
         nombrePersona: json["Nombre_persona"],
@@ -78,6 +81,7 @@ class DatosEstudiante {
         "Promedio": promedio,
         "Expectativa": expectativa,
         "Nombre_carrera": nombreCarrera,
+        "Id_persona": id,
         "Nombre_departamento": nombreDepartamento,
         "Nombre_tecnologico": nombreTecnologico,
         "Nombre_persona": nombrePersona,
