@@ -7,6 +7,7 @@ import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 final futureGeneroProv = FutureProvider<List<Genero>>((ref) => obtenerGenero());
 final futureExpectativaProv =
@@ -27,6 +28,8 @@ final TipoTecProv = StateProvider<String>((ref) => 'SN');
 final TecnologicoProv = StateProvider<String>((ref) => 'SN');
 final DepartamentoProv = StateProvider<String>((ref) => 'SN');
 final CarreraProv = StateProvider<String>((ref) => 'SN');
+final FechaSeleccionadaProv =
+    StateProvider<DateTime?>((ref) => DateTime(0000, 0, 0));
 
 Future<List<Genero>> obtenerGenero() async {
   var url = 'https://evarafael.com/Aplicacion/rest/get_genero.php';
@@ -112,6 +115,41 @@ class AgregarParticipanteScreen extends ConsumerWidget {
   bool existePersona = false;
   String idNivel = '';
   bool camposLlenos = true;
+  DateTime? fechaSeleccionada;
+
+  Future _mostrarDatePicker(context, ref) async {
+    final seleccion = await showDatePicker(
+      context: context,
+      locale: const Locale("es", "ES"),
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1950),
+      lastDate: DateTime(2024),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: AppTema.pizazz,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                  primary: AppTema.pizazz // button text color
+                  ),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (seleccion != null && seleccion != fechaSeleccionada) {
+      fechaSeleccionada = seleccion;
+      DateTime fecha = DateTime(seleccion.year, seleccion.month, seleccion.day);
+      // ref
+      //     .read(FechaSeleccionadaProv.notifier)
+      //     .update((state) => seleccion.);
+      print(DateFormat('yyyy-MM-dd').format(fecha));
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -403,32 +441,9 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                           Center(
                               child: ElevatedButton(
                             child: const Text('Seleccione fecha de nacimiento'),
-                            onPressed: () {
-                              showDatePicker(
-                                context: context,
-                                locale: const Locale("es", "ES"),
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(1950),
-                                lastDate: DateTime(2024),
-                                builder: (context, child) {
-                                  return Theme(
-                                    data: Theme.of(context).copyWith(
-                                      colorScheme: const ColorScheme.light(
-                                        primary: AppTema.pizazz,
-                                      ),
-                                      textButtonTheme: TextButtonThemeData(
-                                        style: TextButton.styleFrom(
-                                            primary: AppTema
-                                                .pizazz // button text color
-                                            ),
-                                      ),
-                                    ),
-                                    child: child!,
-                                  );
-                                },
-                              );
-                            },
+                            onPressed: () => _mostrarDatePicker(context, ref),
                           )),
+                          const SizedBox(height: 20),
                           TextFormField(
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
