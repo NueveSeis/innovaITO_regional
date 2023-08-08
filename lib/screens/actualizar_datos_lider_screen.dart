@@ -13,126 +13,51 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:quickalert/quickalert.dart';
 
-Future<List<Genero>> obtenerGenero() async {
-  var url = 'https://evarafael.com/Aplicacion/rest/get_genero.php';
-  var response = await http.get(Uri.parse(url));
-  List<Genero> lista = generoFromJson(response.body);
-  return lista;
-}
+Future<bool> actualizarLider(
+  String id,
+  String telefono,
+  String ine,
+  String curp,
+  String fecha,
+  String promedio,
+  String expectativa,
+  String carrera,
+  String genero,
+  String semestre,
+  String nivel,
+) async {
+  try {
+    var url = 'https://evarafael.com/Aplicacion/rest/update_lider.php';
+    var response = await http.post(Uri.parse(url), body: {
+      'Id_persona': id,
+      'Telefono': telefono,
+      'Num_ine': ine,
+      'Curp': curp,
+      'Fecha_nacimiento': fecha,
+      'Promedio': promedio,
+      'Id_expectativa': expectativa,
+      'Id_carrera': carrera,
+      'Id_genero': genero,
+      'Id_semestre': semestre,
+      'Id_nivel': nivel,
+    });
 
-Future<List<Expectativa>> obtenerExpectativa() async {
-  var url = 'https://evarafael.com/Aplicacion/rest/get_expectativa.php';
-  var response = await http.get(Uri.parse(url));
-  List<Expectativa> lista = expectativaFromJson(response.body);
-  return lista;
-}
-
-Future<List<Semestre>> obtenerSemestre() async {
-  var url = 'https://evarafael.com/Aplicacion/rest/get_semestre.php';
-  var response = await http.get(Uri.parse(url));
-  List<Semestre> lista = semestreFromJson(response.body);
-  return lista;
-}
-
-Future<List<Nivel>> obtenerNivel() async {
-  var url = 'https://evarafael.com/Aplicacion/rest/get_nivel.php';
-  var response = await http.get(Uri.parse(url));
-  List<Nivel> lista = nivelFromJson(response.body);
-  return lista;
-}
-
-Future<List<TipoTecnologico>> obtenerTipoTec() async {
-  var url = 'https://evarafael.com/Aplicacion/rest/get_tipoTec.php';
-  var response = await http.get(Uri.parse(url));
-  List<TipoTecnologico> tipoTec = tipoTecnologicoFromJson(response.body);
-  return tipoTec;
-}
-
-Future<List<Tecnologico>> obtenerTecnologico(ref) async {
-  final valueTipo = ref.watch(tipoTecProv);
-  var url =
-      'https://evarafael.com/Aplicacion/rest/get_tecnologico.php?Id_tipoTec=$valueTipo';
-  var response = await http.get(Uri.parse(url));
-  List<Tecnologico> tecnologicoM = tecnologicoFromJson(response.body);
-  return tecnologicoM;
-}
-
-Future<List<Departamento>> obtenerDepartamentos(ref) async {
-  final valueClaveTec = ref.watch(tecnologicoProv);
-  var url =
-      'https://evarafael.com/Aplicacion/rest/get_departamento.php?Clave_tecnologico=$valueClaveTec';
-  var response = await http.get(Uri.parse(url));
-  List<Departamento> departamento = departamentoFromJson(response.body);
-  return departamento;
-}
-
-Future<List<Carrera>> obtenerCarrera(ref) async {
-  final depto = ref.watch(departamentoProv);
-  var url =
-      'https://evarafael.com/Aplicacion/rest/get_carrera.php?Id_departamento=$depto';
-  var response = await http.get(Uri.parse(url));
-  List<Carrera> carrera = carreraFromJson(response.body);
-  return carrera;
-}
-
-Future<bool> existente(String idPersona) async {
-  String url = 'https://evarafael.com/Aplicacion/rest/existePersona.php';
-  var response = await http.post(Uri.parse(url), body: {
-    'Id_persona': idPersona,
-  });
-
-  var data = json.decode(response.body);
-  if (data == "Realizado") {
-    return true;
-  } else {
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      print('La solicitud no fue exitosa: ${response.statusCode}');
+      return false;
+    }
+  } catch (error) {
+    print('Error al realizar la solicitud: $error');
     return false;
   }
 }
 
-Future agregarParticipante(
-    String id,
-    String nombre,
-    String ap1,
-    String ap2,
-    String telefono,
-    String correo,
-    String ine,
-    String curp,
-    String matricula,
-    String fecha,
-    String promedio,
-    String expectativa,
-    String carrera,
-    String genero,
-    String semestre,
-    String nivel,
-    String folio) async {
-  var url = 'https://evarafael.com/Aplicacion/rest/agregar_participante.php';
-  await http.post(Uri.parse(url), body: {
-    'Id_persona': id,
-    'Nombre_persona': nombre,
-    'Apellido1': ap1,
-    'Apellido2': ap2,
-    'Telefono': telefono,
-    'Correo_electronico': correo,
-    'Num_ine': ine,
-    'Curp': curp,
-    'Matricula': matricula,
-    'Fecha_nacimiento': fecha,
-    'Promedio': promedio,
-    'Id_expectativa': expectativa,
-    'Id_carrera': carrera,
-    'Id_genero': genero,
-    'Id_semestre': semestre,
-    'Id_nivel': nivel,
-    'Folio': folio,
-  });
-}
+class ActualizarDatosLiderScreen extends ConsumerWidget {
+  static const String name = 'actualizar_lider';
 
-class AgregarParticipanteScreen extends ConsumerWidget {
-  static const String name = 'agregar_participantes';
-
-  AgregarParticipanteScreen({super.key});
+  ActualizarDatosLiderScreen({super.key});
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -182,6 +107,9 @@ class AgregarParticipanteScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final matricula = ref.watch(matriculaProvider);
+    final id = ref.watch(idUsuarioLogin);
+
     final generos = ref.watch(futureGeneroProv);
     final semestres = ref.watch(futureSemestreProv);
     final expectativas = ref.watch(futureExpectativaProv);
@@ -196,19 +124,18 @@ class AgregarParticipanteScreen extends ConsumerWidget {
     final cNivel = ref.watch(nivelAcademicoProv);
     final cCarrera = ref.watch(carreraProv);
     final camposLlenos = ref.watch(camposLlenosProv);
-    final cFolio = ref.watch(folioProyectoUsuarioLogin);
 
     //generosList = generos;
 
     return Scaffold(
         body: Fondo(
-            tituloPantalla: 'Registro de participante',
+            tituloPantalla: 'Completar registro lider',
             fontSize: 20,
             widget: Column(
               children: [
                 const SizedBox(height: 50),
                 const Text(
-                  'Ingrese datos del estudiante',
+                  'Ingrese datos del estudiante lider',
                   style: TextStyle(
                       color: AppTema.balticSea,
                       fontWeight: FontWeight.bold,
@@ -222,79 +149,7 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                       key: _formKey,
                       child: Column(
                         children: [
-                          const SizedBox(height: 20),
-                          const SizedBox(height: 20),
-                          TextFormField(
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            controller: cNombre,
-                            style: const TextStyle(
-                                color: AppTema.bluegrey700,
-                                fontWeight: FontWeight.bold),
-                            autocorrect: false,
-                            keyboardType: TextInputType.text,
-                            decoration:
-                                InputDecorations.registroLiderDecoration(
-                              hintText: 'Ingrese nombre(s)',
-                              labelText: 'Nombre(s)',
-                            ),
-                            //onChanged: (value) => registroLider.nombre = value,
-                            validator: (value) {
-                              return RegexUtil.nombres.hasMatch(value ?? '')
-                                  ? null
-                                  : 'Nombre no valido.';
-                            },
-                          ),
-                          const SizedBox(height: 20),
-                          TextFormField(
-                            controller: cApellidoP,
-                            style: const TextStyle(
-                                color: AppTema.bluegrey700,
-                                fontWeight: FontWeight.bold),
-                            autocorrect: false,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration:
-                                InputDecorations.registroLiderDecoration(
-                              hintText: 'Ingrese apellido paterno',
-                              labelText: 'Apellido paterno',
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          TextFormField(
-                            controller: cApellidoM,
-                            style: const TextStyle(
-                                color: AppTema.bluegrey700,
-                                fontWeight: FontWeight.bold),
-                            autocorrect: false,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration:
-                                InputDecorations.registroLiderDecoration(
-                              hintText: 'Ingrese apellido materno',
-                              labelText: 'Apellido materno',
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          TextFormField(
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            controller: cMatricula,
-                            autocorrect: false,
-                            keyboardType: TextInputType.emailAddress,
-                            style: const TextStyle(
-                                color: AppTema.bluegrey700,
-                                fontWeight: FontWeight.bold),
-                            decoration:
-                                InputDecorations.registroLiderDecoration(
-                              hintText: 'Ingrese matricula',
-                              labelText: 'Matricula',
-                            ),
-                            validator: (value) {
-                              return RegexUtil.matricula.hasMatch(value ?? '')
-                                  ? null
-                                  : 'Matricula no valida.';
-                            },
-                          ),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 40),
                           TextFormField(
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
@@ -355,27 +210,6 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                               return RegexUtil.ine.hasMatch(value ?? '')
                                   ? null
                                   : 'Credencial no valida.';
-                            },
-                          ),
-                          const SizedBox(height: 20),
-                          TextFormField(
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            controller: cCorreo,
-                            style: const TextStyle(
-                                color: AppTema.bluegrey700,
-                                fontWeight: FontWeight.bold),
-                            autocorrect: false,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration:
-                                InputDecorations.registroLiderDecoration(
-                              hintText: 'Ingrese correo electronico',
-                              labelText: 'Correo electronico',
-                            ),
-                            validator: (value) {
-                              return RegexUtil.correoEdu.hasMatch(value ?? '')
-                                  ? null
-                                  : 'Solo se acepta correo institucional.';
                             },
                           ),
                           const SizedBox(height: 20),
@@ -726,44 +560,39 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                                         _formKey.currentState!.validate());
                                 if (camposLlenos == true &&
                                     fecha != DateTime(0000, 00, 00)) {
-                                  String idPersona = Generar.idPersona(
-                                      cNombre.text.toUpperCase(),
-                                      cApellidoP.text.toUpperCase(),
-                                      cApellidoM.text.toUpperCase(),
-                                      cCorreo.text.toUpperCase());
-                                  bool result = await existente(idPersona);
                                   //print('1');
-                                  if (result) {
-                                    QuickAlert.show(
-                                      context: context,
-                                      type: QuickAlertType.error,
-                                      title: 'Usuario existente',
-                                      confirmBtnText: 'Hecho',
-                                      confirmBtnColor: AppTema.pizazz,
-                                    );
-                                  } else {
-                                    agregarParticipante(
-                                        idPersona,
-                                        cNombre.text.toUpperCase(),
-                                        cApellidoP.text.toUpperCase(),
-                                        cApellidoM.text.toUpperCase(),
-                                        cNumero.text,
-                                        cCorreo.text.toUpperCase(),
-                                        cIne.text,
-                                        cCurp.text.toUpperCase(),
-                                        cMatricula.text.toUpperCase(),
-                                        DateFormat('yyyy-MM-dd').format(fecha),
-                                        cPromedio.text,
-                                        cExpectativa,
-                                        cCarrera,
-                                        cGenero,
-                                        cSemestre,
-                                        cNivel,
-                                        cFolio);
+                                  bool si = await actualizarLider(
+                                    id,
+                                    cNumero.text,
+                                    cIne.text,
+                                    cCurp.text,
+                                    DateFormat('yyyy-MM-dd').format(fecha),
+                                    cPromedio.text,
+                                    cExpectativa,
+                                    cCarrera,
+                                    cGenero,
+                                    cSemestre,
+                                    cNivel,
+                                  );
+
+                                  if (si == true) {
                                     QuickAlert.show(
                                       context: context,
                                       type: QuickAlertType.success,
                                       title: 'Agregado correctamente',
+                                      confirmBtnText: 'Hecho',
+                                      confirmBtnColor: AppTema.pizazz,
+                                      onConfirmBtnTap: () {
+                                        context.pushReplacementNamed(
+                                            'participantes');
+                                      },
+                                    );
+                                  } else {
+                                    QuickAlert.show(
+                                      context: context,
+                                      type: QuickAlertType.error,
+                                      title: 'Error',
+                                      text: 'Porfavor intente mas tarde.',
                                       confirmBtnText: 'Hecho',
                                       confirmBtnColor: AppTema.pizazz,
                                       onConfirmBtnTap: () {

@@ -58,6 +58,32 @@ List<ModeloMenu> itemsMenu = const [
       pantalla: 'participantes'),
   ModeloMenu(
       titulo: "Criterios", icono: Icons.assignment, pantalla: 'criterios'),
+  ModeloMenu(
+      titulo: "Mis datos",
+      icono: Icons.desktop_mac_rounded,
+      pantalla: 'actualizar_lider'),
+  ModeloMenu(
+      titulo: "Requerimientos",
+      icono: Icons.home_repair_service_rounded,
+      pantalla: 'requerimientos'),
+  ModeloMenu(
+      titulo: "Categorias",
+      icono: Icons.category_rounded,
+      pantalla: 'categoria_admin'),
+  ModeloMenu(
+      titulo: "Estados", icono: Icons.map_rounded, pantalla: 'estado_admin'),
+  ModeloMenu(
+      titulo: "Nivel Academico",
+      icono: Icons.school_rounded,
+      pantalla: 'nivel_admin'),
+  ModeloMenu(
+      titulo: "Naturaleza Tecnica",
+      icono: Icons.school_rounded,
+      pantalla: 'naturaleza_admin'),
+  ModeloMenu(
+      titulo: "Regiones",
+      icono: Icons.school_rounded,
+      pantalla: 'region_admin'),
 ];
 
 List<ModeloMenu> itemsLider = const [

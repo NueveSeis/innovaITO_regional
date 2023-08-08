@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 
-import 'package:provider/provider.dart';
-
 class Fondo extends StatelessWidget {
   final Widget widget;
   final String tituloPantalla;

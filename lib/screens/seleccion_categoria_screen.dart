@@ -290,7 +290,7 @@ class SeleccionCategoriaScreen extends ConsumerWidget {
                             onPressed: () async {
                               QuickAlert.show(
                                 context: context,
-                                type: QuickAlertType.confirm,
+                                type: QuickAlertType.info,
                                 title: '¿Estás seguro?',
                                 text:
                                     'Categoría: $categoriaSelec \nÁrea: $areaSelec',

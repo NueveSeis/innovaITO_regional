@@ -20,3 +20,4 @@ export 'package:innova_ito/models/expectativa.dart';
 export 'package:innova_ito/models/genero.dart';
 export 'package:innova_ito/models/semestre.dart';
 export 'package:innova_ito/models/carrera.dart';
+export 'package:innova_ito/models/nivelAcademico.dart';

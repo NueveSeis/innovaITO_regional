@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:innova_ito/screens/estado_admin_screen.dart';
 import 'package:innova_ito/screens/screens.dart';
 
 // GoRouter configuration
@@ -119,6 +120,41 @@ final appRouter = GoRouter(
       path: '/criterios',
       name: CriteriosScreen.name,
       builder: (context, state) => CriteriosScreen(),
+    ),
+    GoRoute(
+      path: '/actualizar_lider',
+      name: ActualizarDatosLiderScreen.name,
+      builder: (context, state) => ActualizarDatosLiderScreen(),
+    ),
+    GoRoute(
+      path: '/requerimientos',
+      name: RequerimientosScreen.name,
+      builder: (context, state) => RequerimientosScreen(),
+    ),
+    GoRoute(
+      path: '/categoria_admin',
+      name: CategoriaAdminScreen.name,
+      builder: (context, state) => CategoriaAdminScreen(),
+    ),
+    GoRoute(
+      path: '/estado_admin',
+      name: EstadoAdminScreen.name,
+      builder: (context, state) => EstadoAdminScreen(),
+    ),
+    GoRoute(
+      path: '/nivel_admin',
+      name: NivelAdminScreen.name,
+      builder: (context, state) => NivelAdminScreen(),
+    ),
+    GoRoute(
+      path: '/naturaleza_admin',
+      name: NaturalezaAdminScreen.name,
+      builder: (context, state) => NaturalezaAdminScreen(),
+    ),
+    GoRoute(
+      path: '/region_admin',
+      name: RegionAdminScreen.name,
+      builder: (context, state) => RegionAdminScreen(),
     ),
 
     //  GoRoute(
