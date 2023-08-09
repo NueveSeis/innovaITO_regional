@@ -21,3 +21,7 @@ export 'package:innova_ito/models/genero.dart';
 export 'package:innova_ito/models/semestre.dart';
 export 'package:innova_ito/models/carrera.dart';
 export 'package:innova_ito/models/nivelAcademico.dart';
+export 'package:innova_ito/models/requerimiento.dart';
+export 'package:innova_ito/models/estado.dart';
+export 'package:innova_ito/models/region.dart';
+export 'package:innova_ito/models/proyecto.dart';

@@ -156,6 +156,26 @@ final appRouter = GoRouter(
       name: RegionAdminScreen.name,
       builder: (context, state) => RegionAdminScreen(),
     ),
+    GoRoute(
+      path: '/genero_admin',
+      name: GeneroAdminScreen.name,
+      builder: (context, state) => GeneroAdminScreen(),
+    ),
+    GoRoute(
+      path: '/modelo_negocio',
+      name: ModeloNegocioScreen.name,
+      builder: (context, state) => ModeloNegocioScreen(),
+    ),
+    GoRoute(
+      path: '/agregar_rubrica',
+      name: AgregarRubricaScreen.name,
+      builder: (context, state) => AgregarRubricaScreen(),
+    ),
+    GoRoute(
+      path: '/rubrica',
+      name: RubricaScreen.name,
+      builder: (context, state) => RubricaScreen(),
+    ),
 
     //  GoRoute(
     //   path: '/pdf',

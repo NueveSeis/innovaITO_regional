@@ -30,3 +30,6 @@ export 'package:innova_ito/screens/genero_admin_screen.dart';
 export 'package:innova_ito/screens/nivel_admin_screen.dart';
 export 'package:innova_ito/screens/naturaleza_admin_screen.dart';
 export 'package:innova_ito/screens/region_admin_screen.dart';
+export 'package:innova_ito/screens/modelo_negocio_screen.dart';
+export 'package:innova_ito/screens/agregar_rubrica_screen.dart';
+export 'package:innova_ito/screens/rubrica_screen.dart';

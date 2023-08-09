@@ -8,18 +8,18 @@ import 'package:innova_ito/widgets/widgets.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class NaturalezaAdminScreen extends ConsumerWidget {
-  static const String name = 'naturaleza_admin';
-  NaturalezaAdminScreen({super.key});
+class RubricaScreen extends ConsumerWidget {
+  static const String name = 'rubrica';
+  RubricaScreen({super.key});
 
-  List<Naturaleza> naturaleza = [];
+  List<Genero> genero = [];
 
-  Future<void> getNaturaleza(WidgetRef ref) async {
-    String url = 'https://evarafael.com/Aplicacion/rest/get_naturalezas.php';
+  Future<void> getGenero(WidgetRef ref) async {
+    String url = 'https://evarafael.com/Aplicacion/rest/get_genero.php';
     try {
       var response = await http.post(Uri.parse(url));
       if (response.statusCode == 200) {
-        naturaleza = naturalezaFromJson(response.body);
+        genero = generoFromJson(response.body);
       } else {
         print('La solicitud no fue exitosa: ${response.statusCode}');
       }
@@ -32,7 +32,7 @@ class NaturalezaAdminScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: Fondo(
-          tituloPantalla: 'Naturaleza Tecnica',
+          tituloPantalla: 'Rubrica',
           fontSize: 20,
           widget: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
@@ -51,19 +51,19 @@ class NaturalezaAdminScreen extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Agregar Naturaleza Tecnica',
+                          'Agregar Rubrica',
                           style:
-                              TextStyle(color: AppTema.grey100, fontSize: 18),
+                              TextStyle(color: AppTema.grey100, fontSize: 20),
                         ),
                       ],
                     ),
                     onPressed: () {
-                      _showDialogNaturaleza(ref, context);
+                      context.pushNamed('agregar_rubrica');
                     },
                   ),
                 ),
                 FutureBuilder(
-                  future: getNaturaleza(ref),
+                  future: getGenero(ref),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(
@@ -78,7 +78,7 @@ class NaturalezaAdminScreen extends ConsumerWidget {
                         return ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: naturaleza.length,
+                          itemCount: genero.length,
                           itemBuilder: (context, index) {
                             return Card(
                               margin: const EdgeInsets.symmetric(
@@ -104,7 +104,7 @@ class NaturalezaAdminScreen extends ConsumerWidget {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          naturaleza[index].idNaturalezaTecnica,
+                                          genero[index].idGenero,
                                           style: const TextStyle(
                                               color: AppTema.bluegrey700,
                                               fontWeight: FontWeight.bold,
@@ -125,7 +125,7 @@ class NaturalezaAdminScreen extends ConsumerWidget {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    naturaleza[index].tipo,
+                                                    genero[index].tipoGenero,
                                                     style: const TextStyle(
                                                         color:
                                                             AppTema.bluegrey700,
@@ -216,42 +216,6 @@ class NaturalezaAdminScreen extends ConsumerWidget {
               ],
             ),
           )),
-    );
-  }
-
-  void _showDialogNaturaleza(WidgetRef ref, BuildContext context) {
-    String nombreNaturaleza = '';
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Crear Naturaleza Tecnica'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextFormField(
-                maxLines: null,
-                decoration: const InputDecoration(
-                    labelText: 'Nombre de la naturaleza tecnica'),
-                onChanged: (value) => nombreNaturaleza = value,
-              ),
-              const SizedBox(height: 10),
-            ],
-          ),
-          actions: [
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text('Crear'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancelar'),
-            ),
-          ],
-        );
-      },
     );
   }
 }

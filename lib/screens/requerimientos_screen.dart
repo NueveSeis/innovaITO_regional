@@ -16,22 +16,14 @@ class RequerimientosScreen extends ConsumerWidget {
   static const String name = 'requerimientos';
   RequerimientosScreen({super.key});
 
-  String matricula = '';
-  List<DatosEstudiante> datosEstudiantes = [];
-  List matriculasParticpantes = [];
-  List folio = [];
+  List<Requerimientos> requerimientos = [];
 
-  //obtener datos del estudiante
-  Future<void> getDatosEstudiante(String folio, WidgetRef ref) async {
-    String url =
-        'https://evarafael.com/Aplicacion/rest/get_participanteProyecto.php?Folio=$folio';
+  Future<void> getRequerimientos(WidgetRef ref) async {
+    String url = 'https://evarafael.com/Aplicacion/rest/get_requerimientos.php';
     try {
       var response = await http.post(Uri.parse(url));
       if (response.statusCode == 200) {
-        datosEstudiantes = datosEstudianteFromJson(response.body);
-        ref
-            .read(numParticipantes.notifier)
-            .update((state) => datosEstudiantes.length);
+        requerimientos = requerimientosFromJson(response.body);
       } else {
         print('La solicitud no fue exitosa: ${response.statusCode}');
       }
@@ -40,24 +32,8 @@ class RequerimientosScreen extends ConsumerWidget {
     }
   }
 
-  //obtener forlio del proyecto del lider
-  Future<void> getFolioProyecto(String matricula) async {
-    String url =
-        'https://evarafael.com/Aplicacion/rest/get_Folio.php?Matricula=$matricula';
-    var response = await http.post(Uri.parse(url));
-    if (response.statusCode == 200) {
-      folio = jsonDecode(response.body);
-    } else {
-      print('nisiquiera carga');
-    }
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String matriculaProv = ref.watch(matriculaProvider);
-    final int nParticipantesProv = ref.watch(numParticipantes);
-    final String folioProv = ref.watch(folioProyectoUsuarioLogin);
-
     return Scaffold(
       body: Fondo(
           tituloPantalla: 'Requerimeintos',
@@ -91,7 +67,7 @@ class RequerimientosScreen extends ConsumerWidget {
                   ),
                 ),
                 FutureBuilder(
-                  future: getFolioProyecto(matriculaProv),
+                  future: getRequerimientos(ref),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(
@@ -103,194 +79,154 @@ class RequerimientosScreen extends ConsumerWidget {
                         return Center(
                             child: Text('Error: ${snapshot.error.toString()}'));
                       } else {
-                        return FutureBuilder(
-                          future: getDatosEstudiante(folio[0]['Folio'], ref),
-                          builder:
-                              (BuildContext context, AsyncSnapshot snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            } else if (snapshot.connectionState ==
-                                ConnectionState.done) {
-                              if (snapshot.hasError) {
-                                return Center(
-                                    child: Text(
-                                        'Error: ${snapshot.error.toString()}'));
-                              } else {
-                                return ListView.builder(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: datosEstudiantes.length,
-                                  itemBuilder: (context, index) {
-                                    return Card(
-                                      margin: const EdgeInsets.symmetric(
-                                          vertical: 10, horizontal: 10),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15)),
-                                      elevation: 10,
-                                      child: Container(
-                                        padding: const EdgeInsets.only(
-                                          bottom: 10,
-                                          top: 10,
-                                          left: 20,
-                                          right: 20,
+                        return ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: requerimientos.length,
+                          itemBuilder: (context, index) {
+                            return Card(
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15)),
+                              elevation: 10,
+                              child: Container(
+                                padding: const EdgeInsets.only(
+                                  bottom: 10,
+                                  top: 10,
+                                  left: 20,
+                                  right: 20,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: AppTema.grey100,
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          requerimientos[index]
+                                              .idRequerimientoEspecial,
+                                          style: const TextStyle(
+                                              color: AppTema.bluegrey700,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 10),
+                                          overflow: TextOverflow.visible,
                                         ),
-                                        decoration: BoxDecoration(
-                                          color: AppTema.grey100,
-                                          borderRadius:
-                                              BorderRadius.circular(15),
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 5),
+                                            child: Container(
+                                              //isExpanded: true,
+                                              //width: double.infinity,
+                                              padding: const EdgeInsets.only(
+                                                  left: 10),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    requerimientos[index].tipo,
+                                                    style: const TextStyle(
+                                                        color:
+                                                            AppTema.bluegrey700,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 18),
+                                                    overflow:
+                                                        TextOverflow.visible,
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Text(
+                                                    requerimientos[index]
+                                                        .descripcion,
+                                                    style: const TextStyle(
+                                                        color:
+                                                            AppTema.bluegrey700,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        fontSize: 15),
+                                                    overflow:
+                                                        TextOverflow.visible,
+                                                    textAlign:
+                                                        TextAlign.justify,
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  index.toString(),
-                                                  style: const TextStyle(
-                                                      color:
-                                                          AppTema.bluegrey700,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 18),
-                                                  overflow:
-                                                      TextOverflow.visible,
-                                                ),
-                                                Expanded(
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 5),
-                                                    child: Container(
-                                                      //isExpanded: true,
+                                        IconButton(
+                                            onPressed: () {
+                                              showModalBottomSheet(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return Container(
                                                       //width: double.infinity,
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 10),
+                                                      //color: AppTema.grey100,
+                                                      height: 200,
+
                                                       child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
                                                         children: [
-                                                          Text(
-                                                            'Cama King size',
-                                                            style: const TextStyle(
+                                                          const SizedBox(
+                                                            height: 15,
+                                                          ),
+                                                          const Text(
+                                                            'Administrar',
+                                                            style: TextStyle(
                                                                 color: AppTema
                                                                     .bluegrey700,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold,
-                                                                fontSize: 18),
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .visible,
+                                                                fontSize: 25),
                                                           ),
                                                           const SizedBox(
-                                                            height: 5,
+                                                            height: 15,
                                                           ),
-                                                          Text(
-                                                            'Do do commodo culpa incididunt laborum mollit enim quis. Quis dolor mollit do do et nulla veniam labore. Qui elit ad aliqua enim eiusmod ullamco anim laborum dolor magna nostrud. ',
-                                                            style: const TextStyle(
-                                                                color: AppTema
-                                                                    .bluegrey700,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
-                                                                fontSize: 15),
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .visible,
-                                                            textAlign: TextAlign
-                                                                .justify,
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 10,
-                                                          ),
+                                                          ListTile(
+                                                            splashColor: AppTema
+                                                                .primario,
+                                                            title: const Text(
+                                                              'Eliminar',
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 20),
+                                                            ),
+                                                            leading: const Icon(
+                                                              Icons.delete,
+                                                              color: AppTema
+                                                                  .redA400,
+                                                            ),
+                                                            onTap: () {},
+                                                          )
                                                         ],
                                                       ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                IconButton(
-                                                    onPressed: () {
-                                                      showModalBottomSheet(
-                                                          context: context,
-                                                          builder: (BuildContext
-                                                              context) {
-                                                            return Container(
-                                                              //width: double.infinity,
-                                                              //color: AppTema.grey100,
-                                                              height: 200,
-
-                                                              child: Column(
-                                                                children: [
-                                                                  const SizedBox(
-                                                                    height: 15,
-                                                                  ),
-                                                                  const Text(
-                                                                    'Administrar',
-                                                                    style: TextStyle(
-                                                                        color: AppTema
-                                                                            .bluegrey700,
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .bold,
-                                                                        fontSize:
-                                                                            25),
-                                                                  ),
-                                                                  const SizedBox(
-                                                                    height: 15,
-                                                                  ),
-                                                                  ListTile(
-                                                                    splashColor:
-                                                                        AppTema
-                                                                            .primario,
-                                                                    title:
-                                                                        const Text(
-                                                                      'Eliminar',
-                                                                      style: TextStyle(
-                                                                          fontWeight: FontWeight
-                                                                              .bold,
-                                                                          fontSize:
-                                                                              20),
-                                                                    ),
-                                                                    leading:
-                                                                        const Icon(
-                                                                      Icons
-                                                                          .delete,
-                                                                      color: AppTema
-                                                                          .redA400,
-                                                                    ),
-                                                                    onTap:
-                                                                        () {},
-                                                                  )
-                                                                ],
-                                                              ),
-                                                            );
-                                                          });
-                                                    },
-                                                    icon: const Icon(
-                                                      Icons.more_vert_outlined,
-                                                      color:
-                                                          AppTema.bluegrey700,
-                                                    )),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                );
-                              }
-                            } else {
-                              return const Center(
-                                  child: Text('¡Algo salió mal!'));
-                            }
+                                                    );
+                                                  });
+                                            },
+                                            icon: const Icon(
+                                              Icons.more_vert_outlined,
+                                              color: AppTema.bluegrey700,
+                                            )),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
                           },
                         );
                       }

@@ -84,6 +84,14 @@ List<ModeloMenu> itemsMenu = const [
       titulo: "Regiones",
       icono: Icons.school_rounded,
       pantalla: 'region_admin'),
+  ModeloMenu(
+      titulo: "Genero", icono: Icons.school_rounded, pantalla: 'genero_admin'),
+  ModeloMenu(
+      titulo: "Modelo de negocio",
+      icono: Icons.school_rounded,
+      pantalla: 'modelo_negocio'),
+  ModeloMenu(
+      titulo: "Rubricas", icono: Icons.school_rounded, pantalla: 'rubrica'),
 ];
 
 List<ModeloMenu> itemsLider = const [
