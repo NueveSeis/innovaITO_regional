@@ -25,3 +25,5 @@ export 'package:innova_ito/models/requerimiento.dart';
 export 'package:innova_ito/models/estado.dart';
 export 'package:innova_ito/models/region.dart';
 export 'package:innova_ito/models/proyecto.dart';
+export 'package:innova_ito/models/asesor.dart';
+export 'package:innova_ito/models/datosAsesor.dart';

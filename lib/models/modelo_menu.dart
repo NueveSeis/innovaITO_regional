@@ -88,10 +88,18 @@ List<ModeloMenu> itemsMenu = const [
       titulo: "Genero", icono: Icons.school_rounded, pantalla: 'genero_admin'),
   ModeloMenu(
       titulo: "Modelo de negocio",
-      icono: Icons.school_rounded,
+      icono: Icons.upload_file_rounded,
       pantalla: 'modelo_negocio'),
   ModeloMenu(
       titulo: "Rubricas", icono: Icons.school_rounded, pantalla: 'rubrica'),
+  ModeloMenu(
+      titulo: "Requerimientos Especiales",
+      icono: Icons.home_repair_service_rounded,
+      pantalla: 'requerimientos_lider'),
+  ModeloMenu(
+      titulo: "Asesor",
+      icono: Icons.person_add_alt_rounded,
+      pantalla: 'asesor_lider'),
 ];
 
 List<ModeloMenu> itemsLider = const [
@@ -107,6 +115,18 @@ List<ModeloMenu> itemsLider = const [
       titulo: "Participantes",
       icono: Icons.person_add_alt_1_rounded,
       pantalla: 'participantes'),
+  ModeloMenu(
+      titulo: "Requerimientos Especiales",
+      icono: Icons.home_repair_service_rounded,
+      pantalla: 'requerimientos_lider'),
+  ModeloMenu(
+      titulo: "Modelo de negocio",
+      icono: Icons.upload_file_rounded,
+      pantalla: 'modelo_negocio'),
+  ModeloMenu(
+      titulo: "Asesor",
+      icono: Icons.person_add_alt_rounded,
+      pantalla: 'asesor_lider'),
 ];
 
 List<ModeloMenu> itemsAsesor = const [
