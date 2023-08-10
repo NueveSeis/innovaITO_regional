@@ -27,3 +27,4 @@ export 'package:innova_ito/models/region.dart';
 export 'package:innova_ito/models/proyecto.dart';
 export 'package:innova_ito/models/asesor.dart';
 export 'package:innova_ito/models/datosAsesor.dart';
+export 'package:innova_ito/models/proyectoAsesor.dart';

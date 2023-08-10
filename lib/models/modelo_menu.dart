@@ -100,9 +100,17 @@ List<ModeloMenu> itemsMenu = const [
       titulo: "Asesor",
       icono: Icons.person_add_alt_rounded,
       pantalla: 'asesor_lider'),
+  ModeloMenu(
+      titulo: "Mis proyectos",
+      icono: Icons.person_add_alt_rounded,
+      pantalla: 'proyecto_asesor'),
 ];
 
 List<ModeloMenu> itemsLider = const [
+  ModeloMenu(
+      titulo: "Mis datos",
+      icono: Icons.desktop_mac_rounded,
+      pantalla: 'actualizar_lider'),
   ModeloMenu(
       titulo: "Ficha tecnica",
       icono: Icons.note_add_rounded,

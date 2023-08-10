@@ -10,8 +10,6 @@ import 'package:innova_ito/widgets/tarjeta_requerimientos.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:file_picker/file_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 
@@ -20,44 +18,6 @@ class AsesorLiderScreen extends ConsumerWidget {
   AsesorLiderScreen({super.key});
 
   List<Requerimientos> requerimientos = [];
-
-  Future<bool> fetchRequerimientos() async {
-    String url = 'https://evarafael.com/Aplicacion/rest/get_requerimientos.php';
-
-    try {
-      var response = await http.post(Uri.parse(url));
-      if (response.statusCode == 200) {
-        requerimientos = requerimientosFromJson(response.body);
-        return true;
-      } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
-        return false;
-      }
-    } catch (error) {
-      return false;
-      print('Error al realizar la solicitud: $error');
-    }
-  }
-
-  List<Requerimientos> misReq = [];
-  Future<bool> misRequerimientos(String req) async {
-    String url =
-        'https://evarafael.com/Aplicacion/rest/get_requerimientosWhere.php?Folio=$req';
-
-    try {
-      var response = await http.post(Uri.parse(url));
-      if (response.statusCode == 200) {
-        misReq = requerimientosFromJson(response.body);
-        return true;
-      } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
-        return false;
-      }
-    } catch (error) {
-      return false;
-      print('Error al realizar la solicitud: $error');
-    }
-  }
 
   List<DatosAsesor> asesores = [];
   Future<bool> getAsesor(String rfc) async {
@@ -79,26 +39,13 @@ class AsesorLiderScreen extends ConsumerWidget {
     }
   }
 
-  Future<bool> agregarRequerimiento(String foliop, String idReq) async {
+  Future<bool> agregarAsesorLider(String foliop, String asesor) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/agregar_requerimientoProyecto.php'; // Reemplaza con la URL del archivo PHP en tu servidor
+        'https://evarafael.com/Aplicacion/rest/agregar_asesorProyecto.php'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url), body: {
       'Folio': foliop,
-      'Id_requerimientoEspecial': idReq,
+      'Id_asesor': asesor,
     });
-    if (response.statusCode == 200) {
-      print('Modificado en la db');
-      return true;
-    } else {
-      print('No modificado');
-      return false;
-    }
-  }
-
-  Future<bool> eliminarRequerimiento(String foliop, String idReq) async {
-    var url =
-        'https://evarafael.com/Aplicacion/rest/delete_requerimientoProyecto.php?Id_requerimientoEspecial=$idReq&folio=$foliop'; // Reemplaza con la URL del archivo PHP en tu servidor
-    var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
       print('Modificado en la db');
       return true;
@@ -111,7 +58,7 @@ class AsesorLiderScreen extends ConsumerWidget {
   final listoAsesor = StateProvider(
     (ref) => false,
   );
-  TextEditingController cRFC = TextEditingController();
+  TextEditingController cRFCLider = TextEditingController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -135,7 +82,7 @@ class AsesorLiderScreen extends ConsumerWidget {
                 const SizedBox(height: 20),
                 TextFormField(
                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                  controller: cRFC,
+                  controller: cRFCLider,
                   style: const TextStyle(
                       color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
                   autocorrect: false,
@@ -160,9 +107,9 @@ class AsesorLiderScreen extends ConsumerWidget {
                       style: TextStyle(color: AppTema.grey100, fontSize: 25),
                     )),
                     onPressed: () async {
-                      print(cRFC.text);
+                      print(cRFCLider.text);
                       //verAsesor();
-                      if (cRFC.text.isNotEmpty) {
+                      if (cRFCLider.text.isNotEmpty) {
                         ref.read(listoAsesor.notifier).update((state) => true);
                       } else {
                         ref.read(listoAsesor.notifier).update((state) => false);
@@ -173,7 +120,20 @@ class AsesorLiderScreen extends ConsumerWidget {
                 const SizedBox(height: 50),
 
                 listo
-                    ? verAsesor(cRFC.text)
+                    ? Column(
+                        children: [
+                          const Text(
+                            'Para agregar al asesor solo da clic sobre el',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: AppTema.balticSea,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15),
+                          ),
+                          const SizedBox(height: 20),
+                          verAsesor(cRFCLider.text),
+                        ],
+                      )
                     : const Text(
                         'No has ingresado ningun RFC',
                         textAlign: TextAlign.justify,
@@ -189,6 +149,7 @@ class AsesorLiderScreen extends ConsumerWidget {
   }
 
   FutureBuilder<bool> verAsesor(String rfc) {
+    //cRFC.dispose();
     return FutureBuilder(
       future: getAsesor(rfc),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -228,36 +189,63 @@ class AsesorLiderScreen extends ConsumerWidget {
                               ' ' +
                               asesores[index].apellido2,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: AppTema.bluegrey700, fontSize: 18.0),
                         ),
                         const SizedBox(height: 10.0),
                         Text(
                           'Tecnologico: ' + asesores[index].nombreTecnologico,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: AppTema.bluegrey700, fontSize: 15.0),
                         ),
                         const SizedBox(height: 4.0),
                         Text(
                           'Departamento: ' + asesores[index].nombreDepartamento,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: AppTema.bluegrey700, fontSize: 15.0),
                         ),
                         const SizedBox(height: 4.0),
                         Text(
                           'RFC: ' + asesores[index].rfc,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: AppTema.bluegrey700, fontSize: 15.0),
                         ),
                         const SizedBox(height: 4.0),
                         Text(
                           'Telefono: ' + asesores[index].telefono,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: AppTema.bluegrey700, fontSize: 15.0),
                         ),
                       ],
                     ),
-                    onPressed: () async {});
+                    onPressed: () async {
+                      bool asesorAgregado = await agregarAsesorLider(
+                          'PRO2716', asesores[index].idAsesor);
+
+                      if (asesorAgregado) {
+                        QuickAlert.show(
+                          context: context,
+                          type: QuickAlertType.success,
+                          title: 'Requerimiento agregado',
+                          confirmBtnText: 'Hecho',
+                          confirmBtnColor: AppTema.pizazz,
+                          onConfirmBtnTap: () {
+                            context.pushReplacementNamed('asesor_lider');
+                          },
+                        );
+                      } else {
+                        QuickAlert.show(
+                          context: context,
+                          type: QuickAlertType.error,
+                          title: 'Ocurrio un error',
+                          confirmBtnText: 'Hecho',
+                          confirmBtnColor: AppTema.pizazz,
+                          onConfirmBtnTap: () {
+                            context.pushReplacementNamed('asesor_lider');
+                          },
+                        );
+                      }
+                    });
               },
             );
           }

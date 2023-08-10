@@ -10,6 +10,8 @@ class AppTema {
   static const Color bluegrey700 = Color(0xFF4B597B);
   static const Color redA400 = Color(0xFFEF003B);
   static const Color greenS400 = Color(0xFF66BB6A);
+  static const Color verdeBajo = Color.fromARGB(255, 218, 245, 219);
+  static const Color rojoBajo = Color.fromARGB(255, 245, 218, 218);
 
   static final ThemeData modoOscuro = ThemeData.dark().copyWith(
     scaffoldBackgroundColor: balticSea,

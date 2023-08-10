@@ -187,6 +187,11 @@ final appRouter = GoRouter(
       name: AsesorLiderScreen.name,
       builder: (context, state) => AsesorLiderScreen(),
     ),
+    GoRoute(
+      path: '/proyecto_asesor',
+      name: ProyectoAsesorScreen.name,
+      builder: (context, state) => ProyectoAsesorScreen(),
+    ),
 
     //  GoRoute(
     //   path: '/pdf',
