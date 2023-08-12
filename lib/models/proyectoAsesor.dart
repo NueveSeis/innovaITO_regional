@@ -16,6 +16,9 @@ class ProyectoAsesor {
   String fechaValidacion;
   String observaciones;
   String estado;
+  dynamic observacionesCoor;
+  String estadoCoor;
+  String fechaValidacionCoor;
   String folio;
   String calificacionGlobal;
   dynamic estadoAcreditacion;
@@ -58,6 +61,9 @@ class ProyectoAsesor {
     required this.fechaValidacion,
     required this.observaciones,
     required this.estado,
+    required this.observacionesCoor,
+    required this.estadoCoor,
+    required this.fechaValidacionCoor,
     required this.folio,
     required this.calificacionGlobal,
     required this.estadoAcreditacion,
@@ -101,6 +107,9 @@ class ProyectoAsesor {
         fechaValidacion: json["Fecha_validacion"],
         observaciones: json["Observaciones"],
         estado: json["Estado"],
+        observacionesCoor: json["ObservacionesCoor"],
+        estadoCoor: json["EstadoCoor"],
+        fechaValidacionCoor: json["Fecha_ValidacionCoor"],
         folio: json["Folio"],
         calificacionGlobal: json["Calificacion_global"],
         estadoAcreditacion: json["Estado_acreditacion"],
@@ -144,6 +153,9 @@ class ProyectoAsesor {
         "Fecha_validacion": fechaValidacion,
         "Observaciones": observaciones,
         "Estado": estado,
+        "ObservacionesCoor": observacionesCoor,
+        "EstadoCoor": estadoCoor,
+        "Fecha_ValidacionCoor": fechaValidacionCoor,
         "Folio": folio,
         "Calificacion_global": calificacionGlobal,
         "Estado_acreditacion": estadoAcreditacion,

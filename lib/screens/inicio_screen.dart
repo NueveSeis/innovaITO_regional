@@ -12,6 +12,8 @@ import 'package:html_editor_enhanced/utils/shims/flutter_inappwebview_fake.dart'
 import 'package:html_editor_enhanced/utils/toolbar.dart';
 import 'package:html_editor_enhanced/utils/utils.dart';
 import 'package:flutter_summernote/flutter_summernote.dart';
+import 'package:pluto_grid/pluto_grid.dart';
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 //import 'package:html_editor/html_editor.dart';
 
 class InicioScreen extends StatefulWidget {
@@ -38,45 +40,120 @@ class _InicioScreenState extends State<InicioScreen> {
           tituloPantalla: 'prubea',
           widget: Column(
             children: [
-              IconButton(
-                icon: Icon(Icons.save),
-                onPressed: () async {
-                  // final value = (await _keyEditor.currentState?.getText());
-                  // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  //   duration: Duration(seconds: 5),
-                  //   content: Text(value ?? '-'),
-                  // ));
-                  //String? simon = await _keyEditor.currentState?.getText();
-
-                  print(await controller.getText());
-                },
+              SizedBox(
+                height: 30,
               ),
-              // FlutterSummernote(
-              //   showBottomToolbar: true,
-              //   hint: 'Your text here...',
-              //   key: _keyEditor,
-              //   hasAttachment: true,
-              //   customToolbar: """
-              //    [
-              //      ['style', ['bold', 'italic', 'underline', 'clear']],
-              //      ['font', ['strikethrough', 'superscript', 'subscript']],
-              //      ['insert', ['link', 'table', 'hr']]
-              //    ]
-              //  """,
-              // ),
-              HtmlEditor(
-                controller: controller, //required
-                htmlEditorOptions: HtmlEditorOptions(
-                  characterLimit: 10,
-                  spellCheck: true,
-                  shouldEnsureVisible: true,
-                  hint: "Your text here...",
-                  //initalText: "text content initial, if any",
-                ),
-                otherOptions: OtherOptions(
-                  height: 400,
-                ),
+              SizedBox(
+                height: 30,
               ),
+              Center(
+                child: Container(
+                  width: 300, // Ancho de la tabla
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                  ),
+                  child: Table(
+                    columnWidths: {
+                      0: FixedColumnWidth(100), // Ancho de la primera columna
+                      1: FlexColumnWidth(
+                          200), // Segunda columna ocupa espacio restante
+                    }, // Ancho de la primera columna
+                    border: TableBorder.all(),
+                    children: [
+                      TableRow(
+                        children: [
+                          TableCell(
+                            child: Container(
+                              alignment: Alignment
+                                  .centerLeft, // Alineación a la izquierda
+                              padding: EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Text('Folio:'),
+                            ),
+                          ),
+                          TableCell(
+                            child: Center(child: Text('Columna 2')),
+                          ),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          TableCell(
+                            child: Container(
+                              alignment: Alignment
+                                  .centerLeft, // Alineación a la izquierda
+                              padding: EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Text('Nombre corto:'),
+                            ),
+                          ),
+                          TableCell(
+                            child: Center(child: Text('Columna 2')),
+                          ),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          TableCell(
+                            child: Container(
+                              alignment: Alignment
+                                  .centerLeft, // Alineación a la izquierda
+                              padding: EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Text('Nombre descriptivo:'),
+                            ),
+                          ),
+                          TableCell(
+                            child: Center(child: Text('Columna 2')),
+                          ),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          TableCell(
+                            child: Container(
+                              alignment: Alignment
+                                  .centerLeft, // Alineación a la izquierda
+                              padding: EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Text('Categoría:'),
+                            ),
+                          ),
+                          TableCell(
+                            child: Center(child: Text('Columna 2')),
+                          ),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          TableCell(
+                            child: Container(
+                              alignment: Alignment
+                                  .centerLeft, // Alineación a la izquierda
+                              padding: EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Text('Sector estratégico:'),
+                            ),
+                          ),
+                          TableCell(
+                            child: Center(child: Text('Columna 2')),
+                          ),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          TableCell(
+                            child: Container(
+                              alignment: Alignment
+                                  .centerLeft, // Alineación a la izquierda
+                              padding: EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Text('Naturaleza técnica:'),
+                            ),
+                          ),
+                          TableCell(
+                            child: Center(child: Text('Columna 2')),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              )
             ],
           )),
     );

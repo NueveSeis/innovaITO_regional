@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:innova_ito/models/models.dart';
@@ -89,8 +91,27 @@ class ProyectoAsesorScreen extends ConsumerWidget {
                 child:
                     pw.Text('Ficha Tecnica', style: pw.TextStyle(fontSize: 18)),
               ),
-              pw.Text('Folio del proyecto: ${proyectos[index].folio}',
-                  style: pw.TextStyle(fontSize: 18)),
+              pw.Text('MEMORIA DEL PROYECTO',
+                  style: pw.TextStyle(
+                    fontSize: 18,
+                    fontWeight: pw.FontWeight.bold,
+                  )),
+              pw.SizedBox(height: 20),
+              pw.TableHelper.fromTextArray(
+                //context: pw.Context()..style = pw.TextStyle(fontSize: 12),
+                columnWidths: {
+                  0: pw.FixedColumnWidth(150), // Ancho de la primera columna
+                  1: pw.FixedColumnWidth(300), // Ancho de la segunda columna
+                },
+                data: <List<String>>[
+                  ['Folio:', proyectos[index].folio],
+                  ['Nombre corto:', proyectos[index].nombreCorto],
+                  ['Nombre descriptivo:', proyectos[index].nombreProyecto],
+                  ['Categoría:', proyectos[index].nombreCategoria],
+                  ['Sector estratégico:', proyectos[index].nombreArea],
+                  ['Naturaleza técnica:', proyectos[index].tipo],
+                ],
+              ),
             ],
           );
         },
@@ -210,6 +231,24 @@ class ProyectoAsesorScreen extends ConsumerWidget {
                                         ),
                                         Text(
                                           'Naturaleza Tecnica: ${proyectos[index].tipo}',
+                                          style: const TextStyle(
+                                              color: AppTema.bluegrey700,
+                                              fontSize: 12),
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                          'Observaciones Asesora: ${proyectos[index].observaciones}',
+                                          style: const TextStyle(
+                                              color: AppTema.bluegrey700,
+                                              fontSize: 12),
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                          'Observaciones Coordinadora: ${proyectos[index].observacionesCoor ?? 'No tiene observaciones.'}',
                                           style: const TextStyle(
                                               color: AppTema.bluegrey700,
                                               fontSize: 12),
