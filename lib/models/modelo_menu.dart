@@ -104,6 +104,10 @@ List<ModeloMenu> itemsMenu = const [
       titulo: "Mis proyectos",
       icono: Icons.person_add_alt_rounded,
       pantalla: 'proyecto_asesor'),
+  ModeloMenu(
+      titulo: "Mis proyectos",
+      icono: Icons.person_add_alt_rounded,
+      pantalla: 'proyecto_coordinador'),
 ];
 
 List<ModeloMenu> itemsLider = const [

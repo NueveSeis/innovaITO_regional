@@ -35,3 +35,4 @@ export 'package:innova_ito/screens/agregar_rubrica_screen.dart';
 export 'package:innova_ito/screens/rubrica_screen.dart';
 export 'package:innova_ito/screens/requerimientos_lider_screen.dart';
 export 'package:innova_ito/screens/proyecto_asesor_screen.dart';
+export 'package:innova_ito/screens/proyecto_coordinador_screen.dart';
