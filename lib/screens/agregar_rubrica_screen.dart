@@ -16,18 +16,8 @@ class AgregarRubricaScreen extends ConsumerWidget {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  TextEditingController cNombre = TextEditingController();
-  TextEditingController cApellidoP = TextEditingController();
-  TextEditingController cApellidoM = TextEditingController();
-  TextEditingController cMatricula = TextEditingController();
-  TextEditingController cPromedio = TextEditingController();
-  TextEditingController cCurp = TextEditingController();
-  TextEditingController cIne = TextEditingController();
-  TextEditingController cCorreo = TextEditingController();
-  TextEditingController cNumero = TextEditingController();
-  bool _sliderStand = false;
-
-  List numCriterios = [3, 3, 4];
+  TextEditingController cNombreRubrica = TextEditingController();
+  TextEditingController cNumeroCriterios = TextEditingController();
 
   List<Genero> genero = [];
 
@@ -48,9 +38,17 @@ class AgregarRubricaScreen extends ConsumerWidget {
   final criteriosProvider = StateProvider<int>((ref) => 1);
   final List<List<TextEditingController>> _controllersList = [];
 
+  final switchStandProvider = StateProvider<bool>((ref) => false);
+  final switchSalaProvider = StateProvider<bool>((ref) => false);
+  final camposLLenosProvider = StateProvider<bool>((ref) => false);
+  //bool camposLlenos = true;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final criterios = ref.watch(criteriosProvider);
+    final isActiveStand = ref.watch(switchStandProvider);
+    final isActiveSala = ref.watch(switchSalaProvider);
+    final camposLLenosRubrica = ref.watch(camposLLenosProvider);
 
     _controllersList.clear();
     for (int i = 0; i < criterios; i++) {
@@ -86,7 +84,7 @@ class AgregarRubricaScreen extends ConsumerWidget {
                           TextFormField(
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
-                            controller: cNombre,
+                            controller: cNombreRubrica,
                             style: const TextStyle(
                                 color: AppTema.bluegrey700,
                                 fontWeight: FontWeight.bold),
@@ -115,21 +113,31 @@ class AgregarRubricaScreen extends ConsumerWidget {
                           SwitchListTile.adaptive(
                               title: const Text('Rubrica Stand  (Valor: 60%)'),
                               activeColor: AppTema.pizazz,
-                              value: _sliderStand,
+                              value: isActiveStand,
                               onChanged: (value) {
-                                _sliderStand = value ?? true;
+                                ref
+                                    .read(switchStandProvider.notifier)
+                                    .update((state) => value);
+                                ref
+                                    .read(switchSalaProvider.notifier)
+                                    .update((state) => !value);
                               }),
                           const SizedBox(height: 10),
                           SwitchListTile.adaptive(
                               title: const Text('Rubrica Sala  (Valor: 40%)'),
                               activeColor: AppTema.pizazz,
-                              value: _sliderStand,
+                              value: isActiveSala,
                               onChanged: (value) {
-                                _sliderStand = value ?? true;
+                                ref
+                                    .read(switchStandProvider.notifier)
+                                    .update((state) => !value);
+                                ref
+                                    .read(switchSalaProvider.notifier)
+                                    .update((state) => value);
                               }),
                           const SizedBox(height: 30),
                           TextFormField(
-                            controller: cApellidoP,
+                            controller: cNumeroCriterios,
                             style: const TextStyle(
                                 color: AppTema.bluegrey700,
                                 fontWeight: FontWeight.bold),
@@ -145,6 +153,19 @@ class AgregarRubricaScreen extends ConsumerWidget {
                                   .read(criteriosProvider.notifier)
                                   .update((state) => int.tryParse(value) ?? 1);
                             },
+                            validator: (value) {
+                              return RegexUtil.criterios.hasMatch(value ?? '')
+                                  ? null
+                                  : 'Numero no valido, puede crear hasta 100 criterios.';
+                            },
+                          ),
+                          const SizedBox(height: 20),
+                          const Text(
+                            'La suma total de los porcentajes de los criterios debe ser igual a 100.',
+                            style: TextStyle(
+                                color: AppTema.balticSea,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15),
                           ),
                           const SizedBox(height: 20),
                           Column(
@@ -152,17 +173,58 @@ class AgregarRubricaScreen extends ConsumerWidget {
                               criterios,
                               (index) => Column(
                                 children: [
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  Text(
+                                    'Criterio ${index + 1}',
+                                    style: const TextStyle(
+                                        color: AppTema.balticSea,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                  ),
                                   TextFormField(
-                                    decoration: InputDecoration(
-                                        labelText: 'Campo ${index + 1} - 1'),
+                                    style: const TextStyle(
+                                        color: AppTema.bluegrey700,
+                                        fontWeight: FontWeight.bold),
+                                    autocorrect: false,
+                                    keyboardType: TextInputType.text,
                                     controller: _controllersList[index][0],
+                                    decoration: InputDecorations
+                                        .registroLiderDecoration(
+                                      hintText:
+                                          'Ingrese descripcion del criterio',
+                                      labelText: 'Descripcion del criterio',
+                                    ),
+                                    validator: (value) {
+                                      return RegexUtil.nombres
+                                              .hasMatch(value ?? '')
+                                          ? null
+                                          : 'Descripcion no valida.';
+                                    },
                                   ),
+                                  const SizedBox(height: 10),
                                   TextFormField(
-                                    decoration: InputDecoration(
-                                        labelText: 'Campo ${index + 1} - 2'),
                                     controller: _controllersList[index][1],
+                                    style: const TextStyle(
+                                        color: AppTema.bluegrey700,
+                                        fontWeight: FontWeight.bold),
+                                    autocorrect: false,
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecorations
+                                        .registroLiderDecoration(
+                                      hintText:
+                                          'Ingrese porcentaje (%) del criterio',
+                                      labelText: 'Porcentaje (%) del criterio',
+                                    ),
+                                    validator: (value) {
+                                      return RegexUtil.criterios
+                                              .hasMatch(value ?? '')
+                                          ? null
+                                          : 'Numero no valido.';
+                                    },
                                   ),
-                                  SizedBox(height: 10),
+                                  const SizedBox(height: 10),
                                 ],
                               ),
                             ),
@@ -182,6 +244,23 @@ class AgregarRubricaScreen extends ConsumerWidget {
                                       color: AppTema.grey100, fontSize: 25),
                                 )),
                                 onPressed: () async {
+                                  ref
+                                      .read(camposLLenosProvider.notifier)
+                                      .update((state) =>
+                                          _formKey.currentState!.validate());
+
+                                  print(camposLLenosRubrica);
+                                  if (camposLLenosRubrica) {
+                                    print('llenos');
+                                  }
+
+                                  if (isActiveSala || isActiveStand) {
+                                    print('Switch 1: $isActiveSala');
+                                    print('Switch 2: $isActiveStand');
+                                  } else {
+                                    print('Ningún interruptor está activado');
+                                  }
+
                                   final values = ref.read(criteriosProvider);
 
                                   //suma de valores
