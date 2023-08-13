@@ -45,8 +45,20 @@ class AgregarRubricaScreen extends ConsumerWidget {
     }
   }
 
+  final criteriosProvider = StateProvider<int>((ref) => 1);
+  final List<List<TextEditingController>> _controllersList = [];
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final criterios = ref.watch(criteriosProvider);
+
+    _controllersList.clear();
+    for (int i = 0; i < criterios; i++) {
+      _controllersList.add([
+        TextEditingController(),
+        TextEditingController(),
+      ]);
+    }
     return Scaffold(
         body: Fondo(
             tituloPantalla: 'Registro rubricas',
@@ -128,65 +140,32 @@ class AgregarRubricaScreen extends ConsumerWidget {
                               hintText: 'Numero de criterios',
                               labelText: 'Numero de criterios',
                             ),
+                            onChanged: (value) {
+                              ref
+                                  .read(criteriosProvider.notifier)
+                                  .update((state) => int.tryParse(value) ?? 1);
+                            },
                           ),
                           const SizedBox(height: 20),
-                          ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: numCriterios.length,
-                            itemBuilder: (context, index) {
-                              return Column(
+                          Column(
+                            children: List.generate(
+                              criterios,
+                              (index) => Column(
                                 children: [
-                                  const SizedBox(height: 50),
                                   TextFormField(
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    controller: cNombre,
-                                    style: const TextStyle(
-                                        color: AppTema.bluegrey700,
-                                        fontWeight: FontWeight.bold),
-                                    autocorrect: false,
-                                    keyboardType: TextInputType.text,
-                                    decoration: InputDecorations
-                                        .registroLiderDecoration(
-                                      hintText: 'Ingrese nombre del criterio',
-                                      labelText: 'Nombre del criterio',
-                                    ),
-                                    //onChanged: (value) => registroLider.nombre = value,
-                                    validator: (value) {
-                                      return RegexUtil.nombres
-                                              .hasMatch(value ?? '')
-                                          ? null
-                                          : 'Nombre no valido.';
-                                    },
+                                    decoration: InputDecoration(
+                                        labelText: 'Campo ${index + 1} - 1'),
+                                    controller: _controllersList[index][0],
                                   ),
-                                  const SizedBox(height: 30),
                                   TextFormField(
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    controller: cNombre,
-                                    style: const TextStyle(
-                                        color: AppTema.bluegrey700,
-                                        fontWeight: FontWeight.bold),
-                                    autocorrect: false,
-                                    keyboardType: TextInputType.text,
-                                    decoration: InputDecorations
-                                        .registroLiderDecoration(
-                                      hintText:
-                                          'Ingrese el valor de porcentaje del criterio',
-                                      labelText: 'Porcentaje del criterio',
-                                    ),
-                                    //onChanged: (value) => registroLider.nombre = value,
-                                    validator: (value) {
-                                      return RegexUtil.nombres
-                                              .hasMatch(value ?? '')
-                                          ? null
-                                          : 'Nombre no valido.';
-                                    },
+                                    decoration: InputDecoration(
+                                        labelText: 'Campo ${index + 1} - 2'),
+                                    controller: _controllersList[index][1],
                                   ),
+                                  SizedBox(height: 10),
                                 ],
-                              );
-                            },
+                              ),
+                            ),
                           ),
                           const SizedBox(height: 20),
                           Container(
@@ -195,19 +174,42 @@ class AgregarRubricaScreen extends ConsumerWidget {
                             margin: const EdgeInsets.symmetric(
                                 vertical: 20, horizontal: 10),
                             child: ElevatedButton(
-                              child: const Center(
-                                  //height: 50,
-                                  child: Text(
-                                'Registrar rubrica',
-                                style: TextStyle(
-                                    color: AppTema.grey100, fontSize: 25),
-                              )),
-                              onPressed: () async {
-                                ref.read(camposLlenosProv.notifier).update(
-                                    (state) =>
-                                        _formKey.currentState!.validate());
-                              },
-                            ),
+                                child: const Center(
+                                    //height: 50,
+                                    child: Text(
+                                  'Registrar rubrica',
+                                  style: TextStyle(
+                                      color: AppTema.grey100, fontSize: 25),
+                                )),
+                                onPressed: () async {
+                                  final values = ref.read(criteriosProvider);
+
+                                  //suma de valores
+                                  int sum = 0;
+                                  for (int i = 0; i < values; i++) {
+                                    final text2 = _controllersList[i][1].text;
+                                    sum += int.tryParse(text2) ?? 0;
+                                  }
+                                  if (sum == 100) {
+                                    print('Felicidades');
+                                    for (int i = 0; i < values; i++) {
+                                      final text1 = _controllersList[i][0].text;
+                                      final text2 = _controllersList[i][1].text;
+                                      final intValue = int.tryParse(text2) ?? 0;
+
+                                      int minVal = 0;
+                                      int maxVal = intValue;
+
+                                      print(
+                                          'Campo $i - 2: Mínimo: $minVal, Máximo: $maxVal');
+                                      print('Campo $i - 1: $text1');
+                                      print('Campo $i - 2: $text2');
+                                    }
+                                  } else {
+                                    print('checar valores');
+                                  }
+//imprimir maximos y minimos de una campo
+                                }),
                           ),
                         ],
                       )),
@@ -215,4 +217,13 @@ class AgregarRubricaScreen extends ConsumerWidget {
               ],
             )));
   }
+}
+
+List<TextEditingController> _controllers = [];
+
+TextEditingController textControllerProvider(int index, int fieldIndex) {
+  while (_controllers.length <= index) {
+    _controllers.add(TextEditingController());
+  }
+  return _controllers[index];
 }
