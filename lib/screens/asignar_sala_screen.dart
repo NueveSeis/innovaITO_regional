@@ -337,8 +337,7 @@ class AsignarSalaScreen extends ConsumerWidget {
                                     confirmBtnText: 'Hecho',
                                     confirmBtnColor: AppTema.pizazz,
                                     onConfirmBtnTap: () {
-                                      context
-                                          .pushReplacementNamed('asignar_sala');
+                                      context.pushReplacementNamed('sala');
                                     },
                                   );
                                 } else {

@@ -31,3 +31,4 @@ export 'package:innova_ito/models/proyectoAsesor.dart';
 export 'package:innova_ito/models/asignacionProyecto.dart';
 export 'package:innova_ito/models/sala.dart';
 export 'package:innova_ito/models/stand.dart';
+export 'package:innova_ito/models/salaHS.dart';

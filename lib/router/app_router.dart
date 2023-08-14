@@ -208,5 +208,10 @@ final appRouter = GoRouter(
       name: AsignarStandScreen.name,
       builder: (context, state) => AsignarStandScreen(),
     ),
+    GoRoute(
+      path: '/sala',
+      name: SalaScreen.name,
+      builder: (context, state) => SalaScreen(),
+    ),
   ],
 );

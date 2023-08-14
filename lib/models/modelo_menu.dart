@@ -120,6 +120,8 @@ List<ModeloMenu> itemsMenu = const [
       titulo: "Asignar Stand",
       icono: Icons.person_add_alt_rounded,
       pantalla: 'asignar_stand'),
+  ModeloMenu(
+      titulo: "Sala", icono: Icons.person_add_alt_rounded, pantalla: 'Sala'),
 ];
 
 List<ModeloMenu> itemsLider = const [
