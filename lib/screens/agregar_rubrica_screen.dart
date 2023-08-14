@@ -9,6 +9,7 @@ import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:uuid/uuid.dart';
 
 class AgregarRubricaScreen extends ConsumerWidget {
   static const String name = 'agregar_rubrica';
@@ -32,6 +33,25 @@ class AgregarRubricaScreen extends ConsumerWidget {
       }
     } catch (error) {
       print('Error al realizar la solicitud: $error');
+    }
+  }
+
+  Future<bool> agregarRubrica(
+      String id, String descripcion, String medio, String porcentaje) async {
+    var url =
+        'https://evarafael.com/Aplicacion/rest/agregar_rubrica.php'; // Reemplaza con la URL del archivo PHP en tu servidor
+    var response = await http.post(Uri.parse(url), body: {
+      'Id_rubrica': 'RUB$id',
+      'Descripcion': descripcion,
+      'Medio_evaluacion': medio,
+      'Porcentaje_rubrica': porcentaje
+    });
+    if (response.statusCode == 200) {
+      print('Modificado en la db');
+      return true;
+    } else {
+      print('No modificado');
+      return false;
     }
   }
 
@@ -250,43 +270,66 @@ class AgregarRubricaScreen extends ConsumerWidget {
                                           _formKey.currentState!.validate());
 
                                   print(camposLLenosRubrica);
+                                  String id = Uuid().v4().substring(0, 8);
+                                  int valorRubrica = 0;
                                   if (camposLLenosRubrica) {
-                                    print('llenos');
-                                  }
+                                    if (isActiveSala || isActiveStand) {
+                                      print('Switch 1: $isActiveSala');
+                                      print('Switch 2: $isActiveStand');
+                                      final values =
+                                          ref.read(criteriosProvider);
 
-                                  if (isActiveSala || isActiveStand) {
-                                    print('Switch 1: $isActiveSala');
-                                    print('Switch 2: $isActiveStand');
-                                  } else {
-                                    print('Ningún interruptor está activado');
-                                  }
+                                      //suma de valores
+                                      int sum = 0;
+                                      for (int i = 0; i < values; i++) {
+                                        final text2 =
+                                            _controllersList[i][1].text;
+                                        sum += int.tryParse(text2) ?? 0;
+                                      }
+                                      if (sum == 100) {
+                                        print('Felicidades');
 
-                                  final values = ref.read(criteriosProvider);
+                                        //*Crear rubrica89
+                                        bool rubricaAdd = await agregarRubrica(
+                                            id,
+                                            cNombreRubrica.text,
+                                            (isActiveSala) ? 'SALA' : 'STAND',
+                                            (isActiveSala) ? '40' : '60');
 
-                                  //suma de valores
-                                  int sum = 0;
-                                  for (int i = 0; i < values; i++) {
-                                    final text2 = _controllersList[i][1].text;
-                                    sum += int.tryParse(text2) ?? 0;
-                                  }
-                                  if (sum == 100) {
-                                    print('Felicidades');
-                                    for (int i = 0; i < values; i++) {
-                                      final text1 = _controllersList[i][0].text;
-                                      final text2 = _controllersList[i][1].text;
-                                      final intValue = int.tryParse(text2) ?? 0;
+                                        if (rubricaAdd) {
+                                          for (int i = 0; i < values; i++) {
+                                            final text1 =
+                                                _controllersList[i][0].text;
+                                            final text2 =
+                                                _controllersList[i][1].text;
+                                            final intValue =
+                                                int.tryParse(text2) ?? 0;
 
-                                      int minVal = 0;
-                                      int maxVal = intValue;
+                                            int minVal = 0;
+                                            int maxVal = intValue;
 
-                                      print(
-                                          'Campo $i - 2: Mínimo: $minVal, Máximo: $maxVal');
-                                      print('Campo $i - 1: $text1');
-                                      print('Campo $i - 2: $text2');
+                                            print('Nombre de la rubrica:' +
+                                                cNombreRubrica.text);
+                                            print('Valor de la rubrica:' +
+                                                valorRubrica.toString());
+
+                                            print('Numero de criterios: ' +
+                                                values.toString());
+                                            print(
+                                                'Campo $i - 2: Mínimo: $minVal, Máximo: $maxVal');
+                                            print('Campo $i - 1: $text1');
+                                            print('Campo $i - 2: $text2');
+                                            print('Id: RUB' + id);
+                                          }
+                                        } else {}
+                                      } else {
+                                        print('checar valores');
+                                      }
+                                    } else {
+                                      print('Ningún interruptor está activado');
                                     }
-                                  } else {
-                                    print('checar valores');
                                   }
+
 //imprimir maximos y minimos de una campo
                                 }),
                           ),
