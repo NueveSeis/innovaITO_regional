@@ -3,12 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:innova_ito/helpers/helpers.dart';
 import 'package:innova_ito/theme/app_tema.dart';
-import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/widgets/widgets.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:quickalert/quickalert.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:uuid/uuid.dart';
 
 class AgregarRubricaScreen extends ConsumerWidget {
@@ -19,22 +19,6 @@ class AgregarRubricaScreen extends ConsumerWidget {
 
   TextEditingController cNombreRubrica = TextEditingController();
   TextEditingController cNumeroCriterios = TextEditingController();
-
-  List<Genero> genero = [];
-
-  Future<void> getGenero(WidgetRef ref) async {
-    String url = 'https://evarafael.com/Aplicacion/rest/get_genero.php';
-    try {
-      var response = await http.post(Uri.parse(url));
-      if (response.statusCode == 200) {
-        genero = generoFromJson(response.body);
-      } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
-      }
-    } catch (error) {
-      print('Error al realizar la solicitud: $error');
-    }
-  }
 
   Future<bool> agregarRubrica(
       String id, String descripcion, String medio, String porcentaje) async {
@@ -51,6 +35,39 @@ class AgregarRubricaScreen extends ConsumerWidget {
       return true;
     } else {
       print('No modificado');
+      return false;
+    }
+  }
+
+  Future<bool> agregarCriterio(
+      String idCri,
+      String nombreCri,
+      String valorMaxCri,
+      String valorMinCri,
+      String porcentajeCri,
+      String idRub) async {
+    var url = 'https://evarafael.com/Aplicacion/rest/agregar_criterio.php';
+    // Reemplaza con la URL del archivo PHP en tu servidor
+    try {
+      var response = await http.post(Uri.parse(url), body: {
+        'Id_criterio': 'CRI$idCri',
+        'Nombre_criterio': nombreCri,
+        'Valor_max': valorMaxCri,
+        'Valor_min': valorMinCri,
+        'Porcentaje_criterio': porcentajeCri,
+        'Id_rubrica': 'RUB$idRub'
+      });
+      print('Código de estado de la respuesta: ${response.statusCode}');
+      print('Cuerpo de la respuesta: ${response.body}');
+      if (response.statusCode == 200) {
+        print('Modificado en la db');
+        return true;
+      } else {
+        print('No modificado');
+        return false;
+      }
+    } catch (error) {
+      print('Error durante la solicitud HTTP: $error');
       return false;
     }
   }
@@ -271,7 +288,7 @@ class AgregarRubricaScreen extends ConsumerWidget {
 
                                   print(camposLLenosRubrica);
                                   String id = Uuid().v4().substring(0, 8);
-                                  int valorRubrica = 0;
+                                  // int valorRubrica = 0;
                                   if (camposLLenosRubrica) {
                                     if (isActiveSala || isActiveStand) {
                                       print('Switch 1: $isActiveSala');
@@ -302,32 +319,76 @@ class AgregarRubricaScreen extends ConsumerWidget {
                                                 _controllersList[i][0].text;
                                             final text2 =
                                                 _controllersList[i][1].text;
-                                            final intValue =
-                                                int.tryParse(text2) ?? 0;
 
-                                            int minVal = 0;
-                                            int maxVal = intValue;
+                                            // print('Nombre de la rubrica:' +
+                                            //     cNombreRubrica.text);
 
-                                            print('Nombre de la rubrica:' +
-                                                cNombreRubrica.text);
-                                            print('Valor de la rubrica:' +
-                                                valorRubrica.toString());
+                                            // print('Numero de criterios: ' +
+                                            //     values.toString());
+                                            // print(
+                                            //     'Campo $i - 2: Mínimo: $minVal, Máximo: $maxVal');
+                                            // print('Campo $i - 1: $text1');
+                                            // print('Campo $i - 2: $text2');
+                                            // print('Id: RUB' + id);
 
-                                            print('Numero de criterios: ' +
-                                                values.toString());
-                                            print(
-                                                'Campo $i - 2: Mínimo: $minVal, Máximo: $maxVal');
-                                            print('Campo $i - 1: $text1');
-                                            print('Campo $i - 2: $text2');
-                                            print('Id: RUB' + id);
+                                            String idCri =
+                                                Uuid().v4().substring(0, 8);
+
+                                            await agregarCriterio(idCri, text1,
+                                                text2, '0', text2, id);
                                           }
-                                        } else {}
+                                        } else {
+                                          //*No se agregaron criterios
+                                          QuickAlert.show(
+                                            context: context,
+                                            type: QuickAlertType.error,
+                                            title: 'Ocurrio un error',
+                                            confirmBtnText: 'Hecho',
+                                            confirmBtnColor: AppTema.pizazz,
+                                            onConfirmBtnTap: () {
+                                              context.pop();
+                                            },
+                                          );
+                                        }
                                       } else {
                                         print('checar valores');
+                                        QuickAlert.show(
+                                          context: context,
+                                          type: QuickAlertType.warning,
+                                          title:
+                                              'La suma de los valores no es igual a 100',
+                                          confirmBtnText: 'Hecho',
+                                          confirmBtnColor: AppTema.pizazz,
+                                          onConfirmBtnTap: () {
+                                            context.pop();
+                                          },
+                                        );
                                       }
                                     } else {
                                       print('Ningún interruptor está activado');
+                                      QuickAlert.show(
+                                        context: context,
+                                        type: QuickAlertType.warning,
+                                        title:
+                                            'No ha seleccionado tipo de rubrica',
+                                        confirmBtnText: 'Hecho',
+                                        confirmBtnColor: AppTema.pizazz,
+                                        onConfirmBtnTap: () {
+                                          context.pop();
+                                        },
+                                      );
                                     }
+                                  } else {
+                                    QuickAlert.show(
+                                      context: context,
+                                      type: QuickAlertType.warning,
+                                      title: 'Campos incompletos',
+                                      confirmBtnText: 'Hecho',
+                                      confirmBtnColor: AppTema.pizazz,
+                                      onConfirmBtnTap: () {
+                                        context.pop();
+                                      },
+                                    );
                                   }
 
 //imprimir maximos y minimos de una campo

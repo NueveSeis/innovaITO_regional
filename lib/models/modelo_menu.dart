@@ -112,6 +112,10 @@ List<ModeloMenu> itemsMenu = const [
       titulo: "Add Rubrica",
       icono: Icons.person_add_alt_rounded,
       pantalla: 'agregar_rubrica'),
+  ModeloMenu(
+      titulo: "Asignar Sala",
+      icono: Icons.person_add_alt_rounded,
+      pantalla: 'asignar_sala'),
 ];
 
 List<ModeloMenu> itemsLider = const [
