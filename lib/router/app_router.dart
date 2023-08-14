@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:innova_ito/screens/asesor_lider_screen.dart';
+import 'package:innova_ito/screens/asignar_stand_screen.dart';
 import 'package:innova_ito/screens/estado_admin_screen.dart';
 import 'package:innova_ito/screens/screens.dart';
 
@@ -201,6 +202,11 @@ final appRouter = GoRouter(
       path: '/asignar_sala',
       name: AsignarSalaScreen.name,
       builder: (context, state) => AsignarSalaScreen(),
+    ),
+    GoRoute(
+      path: '/asignar_stand',
+      name: AsignarStandScreen.name,
+      builder: (context, state) => AsignarStandScreen(),
     ),
   ],
 );

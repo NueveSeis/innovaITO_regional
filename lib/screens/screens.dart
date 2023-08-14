@@ -37,3 +37,4 @@ export 'package:innova_ito/screens/requerimientos_lider_screen.dart';
 export 'package:innova_ito/screens/proyecto_asesor_screen.dart';
 export 'package:innova_ito/screens/proyecto_coordinador_screen.dart';
 export 'package:innova_ito/screens/asignar_sala_screen.dart';
+export 'package:innova_ito/screens/asignar_stand_screen.dart';
