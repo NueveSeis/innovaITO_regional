@@ -39,3 +39,4 @@ export 'package:innova_ito/screens/proyecto_coordinador_screen.dart';
 export 'package:innova_ito/screens/asignar_sala_screen.dart';
 export 'package:innova_ito/screens/asignar_stand_screen.dart';
 export 'package:innova_ito/screens/sala_screen.dart';
+export 'package:innova_ito/screens/stand_screen.dart';

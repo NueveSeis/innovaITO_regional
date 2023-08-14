@@ -337,8 +337,7 @@ class AsignarStandScreen extends ConsumerWidget {
                                     confirmBtnText: 'Hecho',
                                     confirmBtnColor: AppTema.pizazz,
                                     onConfirmBtnTap: () {
-                                      context.pushReplacementNamed(
-                                          'asignar_stand');
+                                      context.pushReplacementNamed('stand');
                                     },
                                   );
                                 } else {
