@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/models/models.dart';
@@ -7,6 +8,9 @@ import 'package:innova_ito/widgets/widgets.dart';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:quickalert/quickalert.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:uuid/uuid.dart';
 
 class CategoriaAdminScreen extends ConsumerWidget {
   static const String name = 'categoria_admin';
@@ -25,6 +29,42 @@ class CategoriaAdminScreen extends ConsumerWidget {
       }
     } catch (error) {
       print('Error al realizar la solicitud: $error');
+    }
+  }
+
+  Future<bool> agregarCategoria(
+    String idCat,
+    String nombre,
+  ) async {
+    var url = 'https://evarafael.com/Aplicacion/rest/agregar_categoria.php';
+    try {
+      var response = await http.post(Uri.parse(url),
+          body: {'Id_categoria': 'CAT$idCat', 'Nombre_categoria': nombre});
+      print('Código de estado de la respuesta: ${response.statusCode}');
+      print('Cuerpo de la respuesta: ${response.body}');
+      if (response.statusCode == 200) {
+        print('Modificado en la db');
+        return true;
+      } else {
+        print('No modificado');
+        return false;
+      }
+    } catch (error) {
+      print('Error durante la solicitud HTTP: $error');
+      return false;
+    }
+  }
+
+  Future<bool> eliminarCategoria(String idCat) async {
+    var url =
+        'https://evarafael.com/Aplicacion/rest/delete_categoria.php?Id_categoria=$idCat'; // Reemplaza con la URL del archivo PHP en tu servidor
+    var response = await http.post(Uri.parse(url));
+    if (response.statusCode == 200) {
+      print('Modificado en la db');
+      return true;
+    } else {
+      print('No modificado');
+      return false;
     }
   }
 
@@ -189,7 +229,53 @@ class CategoriaAdminScreen extends ConsumerWidget {
                                                               color: AppTema
                                                                   .redA400,
                                                             ),
-                                                            onTap: () {},
+                                                            onTap: () async {
+                                                              bool eliminado =
+                                                                  await eliminarCategoria(
+                                                                      categorias[
+                                                                              index]
+                                                                          .idCategoria);
+                                                              if (eliminado) {
+                                                                QuickAlert.show(
+                                                                  context:
+                                                                      context,
+                                                                  type: QuickAlertType
+                                                                      .success,
+                                                                  title:
+                                                                      'Eliminado correctamente',
+                                                                  confirmBtnText:
+                                                                      'Hecho',
+                                                                  confirmBtnColor:
+                                                                      AppTema
+                                                                          .pizazz,
+                                                                  onConfirmBtnTap:
+                                                                      () {
+                                                                    context.pushReplacementNamed(
+                                                                        'categoria_admin');
+                                                                  },
+                                                                );
+                                                              } else {
+                                                                QuickAlert.show(
+                                                                  context:
+                                                                      context,
+                                                                  type:
+                                                                      QuickAlertType
+                                                                          .error,
+                                                                  title:
+                                                                      'Ocurrio un error',
+                                                                  confirmBtnText:
+                                                                      'Hecho',
+                                                                  confirmBtnColor:
+                                                                      AppTema
+                                                                          .pizazz,
+                                                                  onConfirmBtnTap:
+                                                                      () {
+                                                                    context
+                                                                        .pop();
+                                                                  },
+                                                                );
+                                                              }
+                                                            },
                                                           )
                                                         ],
                                                       ),
@@ -243,7 +329,33 @@ class CategoriaAdminScreen extends ConsumerWidget {
           ),
           actions: [
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                String idCat = Uuid().v4().substring(0, 8);
+                bool agregado = await agregarCategoria(idCat, nombreCate);
+                if (agregado) {
+                  QuickAlert.show(
+                    context: context,
+                    type: QuickAlertType.success,
+                    title: 'Agregado correctamente',
+                    confirmBtnText: 'Hecho',
+                    confirmBtnColor: AppTema.pizazz,
+                    onConfirmBtnTap: () {
+                      context.pushReplacementNamed('categoria_admin');
+                    },
+                  );
+                } else {
+                  QuickAlert.show(
+                    context: context,
+                    type: QuickAlertType.error,
+                    title: 'Ocurrio un error',
+                    confirmBtnText: 'Hecho',
+                    confirmBtnColor: AppTema.pizazz,
+                    onConfirmBtnTap: () {
+                      context.pop();
+                    },
+                  );
+                }
+              },
               child: Text('Crear'),
             ),
             TextButton(

@@ -5,6 +5,9 @@ import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:http/http.dart' as http;
+import 'package:quickalert/quickalert.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:uuid/uuid.dart';
 
 class EstadoAdminScreen extends ConsumerWidget {
   static const String name = 'estado_admin';
@@ -23,6 +26,42 @@ class EstadoAdminScreen extends ConsumerWidget {
       }
     } catch (error) {
       print('Error al realizar la solicitud: $error');
+    }
+  }
+
+  Future<bool> agregarEstado(
+    String idEst,
+    String nombre,
+  ) async {
+    var url = 'https://evarafael.com/Aplicacion/rest/agregar_estado.php';
+    try {
+      var response = await http.post(Uri.parse(url),
+          body: {'Id_estado': 'EST$idEst', 'Nombre_estado': nombre});
+      print('Código de estado de la respuesta: ${response.statusCode}');
+      print('Cuerpo de la respuesta: ${response.body}');
+      if (response.statusCode == 200) {
+        print('Modificado en la db');
+        return true;
+      } else {
+        print('No modificado');
+        return false;
+      }
+    } catch (error) {
+      print('Error durante la solicitud HTTP: $error');
+      return false;
+    }
+  }
+
+  Future<bool> eliminarEstado(String idEst) async {
+    var url =
+        'https://evarafael.com/Aplicacion/rest/delete_estado.php?Id_estado=$idEst'; // Reemplaza con la URL del archivo PHP en tu servidor
+    var response = await http.post(Uri.parse(url));
+    if (response.statusCode == 200) {
+      print('Modificado en la db');
+      return true;
+    } else {
+      print('No modificado');
+      return false;
     }
   }
 
@@ -186,7 +225,52 @@ class EstadoAdminScreen extends ConsumerWidget {
                                                               color: AppTema
                                                                   .redA400,
                                                             ),
-                                                            onTap: () {},
+                                                            onTap: () async {
+                                                              bool eliminado =
+                                                                  await eliminarEstado(
+                                                                      estado[index]
+                                                                          .idEstado);
+                                                              if (eliminado) {
+                                                                QuickAlert.show(
+                                                                  context:
+                                                                      context,
+                                                                  type: QuickAlertType
+                                                                      .success,
+                                                                  title:
+                                                                      'Eliminado correctamente',
+                                                                  confirmBtnText:
+                                                                      'Hecho',
+                                                                  confirmBtnColor:
+                                                                      AppTema
+                                                                          .pizazz,
+                                                                  onConfirmBtnTap:
+                                                                      () {
+                                                                    context.pushReplacementNamed(
+                                                                        'estado_admin');
+                                                                  },
+                                                                );
+                                                              } else {
+                                                                QuickAlert.show(
+                                                                  context:
+                                                                      context,
+                                                                  type:
+                                                                      QuickAlertType
+                                                                          .error,
+                                                                  title:
+                                                                      'Ocurrio un error',
+                                                                  confirmBtnText:
+                                                                      'Hecho',
+                                                                  confirmBtnColor:
+                                                                      AppTema
+                                                                          .pizazz,
+                                                                  onConfirmBtnTap:
+                                                                      () {
+                                                                    context
+                                                                        .pop();
+                                                                  },
+                                                                );
+                                                              }
+                                                            },
                                                           )
                                                         ],
                                                       ),
@@ -239,7 +323,33 @@ class EstadoAdminScreen extends ConsumerWidget {
           ),
           actions: [
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                String idEst = Uuid().v4().substring(0, 8);
+                bool agregado = await agregarEstado(idEst, nombreEstado);
+                if (agregado) {
+                  QuickAlert.show(
+                    context: context,
+                    type: QuickAlertType.success,
+                    title: 'Agregado correctamente',
+                    confirmBtnText: 'Hecho',
+                    confirmBtnColor: AppTema.pizazz,
+                    onConfirmBtnTap: () {
+                      context.pushReplacementNamed('estado_admin');
+                    },
+                  );
+                } else {
+                  QuickAlert.show(
+                    context: context,
+                    type: QuickAlertType.error,
+                    title: 'Ocurrio un error',
+                    confirmBtnText: 'Hecho',
+                    confirmBtnColor: AppTema.pizazz,
+                    onConfirmBtnTap: () {
+                      context.pop();
+                    },
+                  );
+                }
+              },
               child: Text('Crear'),
             ),
             TextButton(
