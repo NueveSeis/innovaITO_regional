@@ -56,8 +56,9 @@ List<ModeloMenu> itemsMenu = const [
       titulo: "Participantes",
       icono: Icons.person_add_alt_1_rounded,
       pantalla: 'participantes'),
-  ModeloMenu(
-      titulo: "Criterios", icono: Icons.assignment, pantalla: 'criterios'),
+  //! Quitar pantalla no necesaria
+  // ModeloMenu(
+  //     titulo: "Criterios", icono: Icons.assignment, pantalla: 'criterios'),
   ModeloMenu(
       titulo: "Mis datos",
       icono: Icons.desktop_mac_rounded,

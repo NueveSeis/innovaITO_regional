@@ -11,6 +11,9 @@ import 'package:innova_ito/widgets/widgets.dart';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:quickalert/quickalert.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:uuid/uuid.dart';
 
 class RequerimientosScreen extends ConsumerWidget {
   static const String name = 'requerimientos';
@@ -32,11 +35,51 @@ class RequerimientosScreen extends ConsumerWidget {
     }
   }
 
+  Future<bool> agregarRequerimiento(
+    String idReq,
+    String tipo,
+    String descripcion,
+  ) async {
+    var url = 'https://evarafael.com/Aplicacion/rest/agregar_requerimiento.php';
+    try {
+      var response = await http.post(Uri.parse(url), body: {
+        'Id_requerimientoEspecial': 'REQ$idReq',
+        'Tipo': tipo,
+        'Descripcion': descripcion
+      });
+      print('Código de estado de la respuesta: ${response.statusCode}');
+      print('Cuerpo de la respuesta: ${response.body}');
+      if (response.statusCode == 200) {
+        print('Modificado en la db');
+        return true;
+      } else {
+        print('No modificado');
+        return false;
+      }
+    } catch (error) {
+      print('Error durante la solicitud HTTP: $error');
+      return false;
+    }
+  }
+
+  Future<bool> eliminarRequerimiento(String idReq) async {
+    var url =
+        'https://evarafael.com/Aplicacion/rest/delete_requerimientoEspecial.php?Id_requerimientoEspecial=$idReq'; // Reemplaza con la URL del archivo PHP en tu servidor
+    var response = await http.post(Uri.parse(url));
+    if (response.statusCode == 200) {
+      print('Modificado en la db');
+      return true;
+    } else {
+      print('No modificado');
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: Fondo(
-          tituloPantalla: 'Requerimeintos',
+          tituloPantalla: 'Requerimientos',
           fontSize: 20,
           widget: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
@@ -210,7 +253,53 @@ class RequerimientosScreen extends ConsumerWidget {
                                                               color: AppTema
                                                                   .redA400,
                                                             ),
-                                                            onTap: () {},
+                                                            onTap: () async {
+                                                              bool eliminado =
+                                                                  await eliminarRequerimiento(
+                                                                      requerimientos[
+                                                                              index]
+                                                                          .idRequerimientoEspecial);
+                                                              if (eliminado) {
+                                                                QuickAlert.show(
+                                                                  context:
+                                                                      context,
+                                                                  type: QuickAlertType
+                                                                      .success,
+                                                                  title:
+                                                                      'Eliminado correctamente',
+                                                                  confirmBtnText:
+                                                                      'Hecho',
+                                                                  confirmBtnColor:
+                                                                      AppTema
+                                                                          .pizazz,
+                                                                  onConfirmBtnTap:
+                                                                      () {
+                                                                    context.pushReplacementNamed(
+                                                                        'requerimientos');
+                                                                  },
+                                                                );
+                                                              } else {
+                                                                QuickAlert.show(
+                                                                  context:
+                                                                      context,
+                                                                  type:
+                                                                      QuickAlertType
+                                                                          .error,
+                                                                  title:
+                                                                      'Ocurrio un error',
+                                                                  confirmBtnText:
+                                                                      'Hecho',
+                                                                  confirmBtnColor:
+                                                                      AppTema
+                                                                          .pizazz,
+                                                                  onConfirmBtnTap:
+                                                                      () {
+                                                                    context
+                                                                        .pop();
+                                                                  },
+                                                                );
+                                                              }
+                                                            },
                                                           )
                                                         ],
                                                       ),
@@ -273,7 +362,34 @@ class RequerimientosScreen extends ConsumerWidget {
           ),
           actions: [
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                String idReq = Uuid().v4().substring(0, 8);
+                bool agregado = await agregarRequerimiento(
+                    idReq, nombreReq, descripcionReq);
+                if (agregado) {
+                  QuickAlert.show(
+                    context: context,
+                    type: QuickAlertType.success,
+                    title: 'Agregado correctamente',
+                    confirmBtnText: 'Hecho',
+                    confirmBtnColor: AppTema.pizazz,
+                    onConfirmBtnTap: () {
+                      context.pushReplacementNamed('requerimientos');
+                    },
+                  );
+                } else {
+                  QuickAlert.show(
+                    context: context,
+                    type: QuickAlertType.error,
+                    title: 'Ocurrio un error',
+                    confirmBtnText: 'Hecho',
+                    confirmBtnColor: AppTema.pizazz,
+                    onConfirmBtnTap: () {
+                      context.pop();
+                    },
+                  );
+                }
+              },
               child: Text('Crear'),
             ),
             TextButton(
