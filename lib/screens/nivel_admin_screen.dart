@@ -11,6 +11,9 @@ import 'package:innova_ito/widgets/widgets.dart';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:quickalert/quickalert.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:uuid/uuid.dart';
 
 class NivelAdminScreen extends ConsumerWidget {
   static const String name = 'nivel_admin';
@@ -29,6 +32,46 @@ class NivelAdminScreen extends ConsumerWidget {
       }
     } catch (error) {
       print('Error al realizar la solicitud: $error');
+    }
+  }
+
+  Future<bool> agregarNivel(
+    String idNiv,
+    String nombreNivel,
+    String descripcionNivel,
+  ) async {
+    var url = 'https://evarafael.com/Aplicacion/rest/agregar_nivel.php';
+    try {
+      var response = await http.post(Uri.parse(url), body: {
+        'Id_nivel': 'NIV$idNiv',
+        'Nombre_nivel': nombreNivel,
+        'Descripcion_nivel': descripcionNivel
+      });
+      print('Código de estado de la respuesta: ${response.statusCode}');
+      print('Cuerpo de la respuesta: ${response.body}');
+      if (response.statusCode == 200) {
+        print('Modificado en la db');
+        return true;
+      } else {
+        print('No modificado');
+        return false;
+      }
+    } catch (error) {
+      print('Error durante la solicitud HTTP: $error');
+      return false;
+    }
+  }
+
+  Future<bool> eliminarNivel(String idNiv) async {
+    var url =
+        'https://evarafael.com/Aplicacion/rest/delete_nivel.php?Id_nivel=$idNiv'; // Reemplaza con la URL del archivo PHP en tu servidor
+    var response = await http.post(Uri.parse(url));
+    if (response.statusCode == 200) {
+      print('Modificado en la db');
+      return true;
+    } else {
+      print('No modificado');
+      return false;
     }
   }
 
@@ -210,7 +253,51 @@ class NivelAdminScreen extends ConsumerWidget {
                                                               color: AppTema
                                                                   .redA400,
                                                             ),
-                                                            onTap: () {},
+                                                            onTap: () async {
+                                                              bool eliminado =
+                                                                  await eliminarNivel(
+                                                                      nivelesAcademicos[
+                                                                              index]
+                                                                          .idNivel);
+                                                              if (eliminado) {
+                                                                QuickAlert.show(
+                                                                  context:
+                                                                      context,
+                                                                  type: QuickAlertType
+                                                                      .success,
+                                                                  title:
+                                                                      'Eliminado correctamente',
+                                                                  confirmBtnText:
+                                                                      'Hecho',
+                                                                  confirmBtnColor:
+                                                                      AppTema
+                                                                          .pizazz,
+                                                                  onConfirmBtnTap:
+                                                                      () {
+                                                                    context.pushReplacementNamed(
+                                                                        'nivel_admin');
+                                                                  },
+                                                                );
+                                                              } else {
+                                                                QuickAlert.show(
+                                                                    context:
+                                                                        context,
+                                                                    type: QuickAlertType
+                                                                        .error,
+                                                                    title:
+                                                                        'Ocurrio un error',
+                                                                    confirmBtnText:
+                                                                        'Hecho',
+                                                                    confirmBtnColor:
+                                                                        AppTema
+                                                                            .pizazz,
+                                                                    onConfirmBtnTap:
+                                                                        () {
+                                                                      context
+                                                                          .pop();
+                                                                    });
+                                                              }
+                                                            },
                                                           )
                                                         ],
                                                       ),
@@ -249,7 +336,7 @@ class NivelAdminScreen extends ConsumerWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Crear Requerimiento Especial'),
+          title: Text('Crear Nivel Academico'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -257,13 +344,13 @@ class NivelAdminScreen extends ConsumerWidget {
               TextFormField(
                 maxLines: null,
                 decoration:
-                    InputDecoration(labelText: 'Nombre del requerimiento'),
+                    InputDecoration(labelText: 'Nombre del nivel academico'),
                 onChanged: (value) => nombreNivel = value,
               ),
               SizedBox(height: 10),
               TextFormField(
-                decoration:
-                    InputDecoration(labelText: 'Descripcion del requerimiento'),
+                decoration: InputDecoration(
+                    labelText: 'Descripcion del nivel academico'),
                 keyboardType: TextInputType.text,
                 maxLines: null,
                 onChanged: (value) => descripcionNivel = value,
@@ -273,7 +360,34 @@ class NivelAdminScreen extends ConsumerWidget {
           ),
           actions: [
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                String idEst = Uuid().v4().substring(0, 8);
+                bool agregado =
+                    await agregarNivel(idEst, nombreNivel, descripcionNivel);
+                if (agregado) {
+                  QuickAlert.show(
+                    context: context,
+                    type: QuickAlertType.success,
+                    title: 'Agregado correctamente',
+                    confirmBtnText: 'Hecho',
+                    confirmBtnColor: AppTema.pizazz,
+                    onConfirmBtnTap: () {
+                      context.pushReplacementNamed('nivel_admin');
+                    },
+                  );
+                } else {
+                  QuickAlert.show(
+                    context: context,
+                    type: QuickAlertType.error,
+                    title: 'Ocurrio un error',
+                    confirmBtnText: 'Hecho',
+                    confirmBtnColor: AppTema.pizazz,
+                    onConfirmBtnTap: () {
+                      context.pop();
+                    },
+                  );
+                }
+              },
               child: Text('Crear'),
             ),
             TextButton(
