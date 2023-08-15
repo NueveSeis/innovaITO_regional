@@ -56,7 +56,7 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/carrera',
       name: CarreraScreen.name,
-      builder: (context, state) => const CarreraScreen(),
+      builder: (context, state) => CarreraScreen(),
     ),
     GoRoute(
       path: '/departamento',
@@ -66,7 +66,7 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/agregar_carrera',
       name: AgregarCarreraScreen.name,
-      builder: (context, state) => const AgregarCarreraScreen(),
+      builder: (context, state) => AgregarCarreraScreen(),
     ),
     GoRoute(
       path: '/asignacion_fechas',
