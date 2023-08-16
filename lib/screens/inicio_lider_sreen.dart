@@ -1,91 +1,20 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:innova_ito/models/models.dart';
-import 'package:innova_ito/screens/detalles_screen.dart';
-import 'package:innova_ito/screens/ficha_tecnica_screen.dart';
+import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/theme/app_tema.dart';
-import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
-
 import 'package:innova_ito/widgets/widgets.dart';
 
-class InicioLiderScreen extends StatefulWidget {
+class InicioLiderScreen extends ConsumerWidget {
   static const String name = 'inicioLider';
-  const InicioLiderScreen({super.key});
 
   @override
-  State<InicioLiderScreen> createState() => _InicioLiderScreenState();
-}
-
-class _InicioLiderScreenState extends State<InicioLiderScreen> {
-  List lista = [];
-
-  Future<void> getProyectos() async {
-    String url = 'https://evarafael.com/Aplicacion/rest/verProyectos.php';
-    var response = await http.get(Uri.parse(url));
-    setState(() {
-      lista = json.decode(response.body);
-    });
-    //return json.decode(response.body);
-  }
-
-  @override
-  void initState() {
-    getProyectos();
-    super.initState();
-  }
-
-  bool pendiente = true;
-  bool aprobados = false;
-
-  List<Map<String, dynamic>> listaItems = [
-    {
-      "titulo": "Mis datos",
-      "icono": Icons.desktop_mac_rounded,
-      "pantalla": 'actualizar_lider',
-    },
-    {
-      "titulo": "Ficha tecnica",
-      "icono": Icons.note_add_rounded,
-      "pantalla": 'ficha_tecnica',
-    },
-    {
-      "titulo": "Memoria tecnica",
-      "icono": Icons.edit_note_rounded,
-      "pantalla": 'memoria_tecnica',
-    },
-    {
-      "titulo": "Participantes",
-      "icono": Icons.person_add_alt_1_rounded,
-      "pantalla": 'participantes',
-    },
-    {
-      "titulo": "Requerimientos Especiales",
-      "icono": Icons.home_repair_service_rounded,
-      "pantalla": 'requerimientos_lider',
-    },
-    {
-      "titulo": "Modelo de negocio",
-      "icono": Icons.upload_file_rounded,
-      "pantalla": 'modelo_negocio',
-    },
-    {
-      "titulo": "Asesor",
-      "icono": Icons.person_add_alt_rounded,
-      "pantalla": 'asesor_lider',
-    },
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    // ProyectoModelo proyectoModelo = itemsProyecto.first;
-
+  Widget build(BuildContext context, WidgetRef ref) {
+    final rol = ref.watch(nombreRolLogin);
+    final folioLider = ref.watch(folioProyectoUsuarioLogin);
     return Scaffold(
-      //backgroundColor: AppTema.balticSea,
       body: Container(
-        //padding: EdgeInsets.only(bottom: 10),
         height: double.infinity,
         width: double.infinity,
         color: AppTema.primario,
@@ -96,26 +25,22 @@ class _InicioLiderScreenState extends State<InicioLiderScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                      iconSize: 45,
-                      color: Colors.white,
-                      onPressed: () {
-                        context.pushNamed('menu_lateral');
-                        // Navigator.pushNamed(context, 'menu_lateral');
-                      },
-                      icon: const Icon(Icons.clear_all_rounded)),
+                    iconSize: 45,
+                    color: Colors.white,
+                    onPressed: () {
+                      context.pushNamed('menu_lateral');
+                    },
+                    icon: const Icon(Icons.clear_all_rounded),
+                  ),
                   const Text(
                     'Inicio',
                     style: TextStyle(color: Colors.white, fontSize: 25),
                   ),
-                  SizedBox(
-                    width: 45,
-                  )
+                  const SizedBox(width: 45),
                 ],
               ),
-              //SizedBox(height: 10),
-              //BarraBotones(),
               Padding(
-                padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
@@ -126,56 +51,166 @@ class _InicioLiderScreenState extends State<InicioLiderScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      MaterialButton(
+                      if (folioLider != 'SN')
+                        MaterialButton(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
                           disabledColor: AppTema.grey100,
                           elevation: 10,
                           height: 30,
-                          color: (aprobados) ? AppTema.pizazz : AppTema.grey100,
+                          color: AppTema.grey100,
                           child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 12),
-                              child: Text(
-                                'SIN FOLIO',
-                                style: TextStyle(
-                                    color: (aprobados)
-                                        ? Colors.white
-                                        : AppTema.bluegrey700),
-                              )),
-                          onPressed: () {}),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 12,
+                            ),
+                            child: Text(
+                              folioLider != 'SN' ? folioLider : 'SIN FOLIO',
+                              style: const TextStyle(
+                                color: AppTema.bluegrey700,
+                              ),
+                            ),
+                          ),
+                          onPressed: () {},
+                        ),
+                      if (folioLider == 'SN')
+                        MaterialButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          disabledColor: AppTema.grey100,
+                          elevation: 10,
+                          height: 30,
+                          color: AppTema.grey100,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 12,
+                            ),
+                            child: Text(
+                              'BIENVENIDO',
+                              style: const TextStyle(
+                                color: AppTema.bluegrey700,
+                              ),
+                            ),
+                          ),
+                          onPressed: () {},
+                        ),
                     ],
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 2,
-              ),
-              Expanded(
-                child: Container(
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                    color: AppTema.indigo50,
-                    borderRadius: BorderRadius.only(
+              const SizedBox(height: 2),
+              if (rol.toLowerCase() == 'administrador')
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      color: AppTema.indigo50,
+                      borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(25),
-                        topRight: Radius.circular(25)),
-                  ),
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
+                        topRight: Radius.circular(25),
+                      ),
                     ),
-                    itemCount: listaItems.length,
-                    itemBuilder: (context, index) {
-                      return TareasLider(
-                        icono: listaItems[index]['icono'],
-                        texto: listaItems[index]['titulo'],
-                        ruta1: listaItems[index]['pantalla'],
-                      );
-                    },
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                      ),
+                      itemCount: itemsAdministrador.length,
+                      itemBuilder: (context, index) {
+                        return TareasLider(
+                          icono: itemsAdministrador[index].icono,
+                          texto: itemsAdministrador[index].titulo,
+                          ruta1: itemsAdministrador[index].pantalla.toString(),
+                        );
+                      },
+                    ),
                   ),
                 ),
-              )
+              if (rol.toLowerCase() == 'estudiante lider')
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      color: AppTema.indigo50,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25),
+                      ),
+                    ),
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                      ),
+                      itemCount: itemsLider.length,
+                      itemBuilder: (context, index) {
+                        return TareasLider(
+                          icono: itemsLider[index].icono,
+                          texto: itemsLider[index].titulo,
+                          ruta1: itemsLider[index].pantalla.toString(),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              if (rol.toLowerCase() == 'asesor')
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      color: AppTema.indigo50,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25),
+                      ),
+                    ),
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                      ),
+                      itemCount: itemsAsesor.length,
+                      itemBuilder: (context, index) {
+                        return TareasLider(
+                          icono: itemsAsesor[index].icono,
+                          texto: itemsAsesor[index].titulo,
+                          ruta1: itemsAsesor[index].pantalla.toString(),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              if (rol.toLowerCase() == 'coordinador local')
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      color: AppTema.indigo50,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25),
+                      ),
+                    ),
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                      ),
+                      itemCount: itemsCoordinadorLocal.length,
+                      itemBuilder: (context, index) {
+                        return TareasLider(
+                          icono: itemsCoordinadorLocal[index].icono,
+                          texto: itemsCoordinadorLocal[index].titulo,
+                          ruta1:
+                              itemsCoordinadorLocal[index].pantalla.toString(),
+                        );
+                      },
+                    ),
+                  ),
+                )
             ],
           ),
         ),

@@ -88,7 +88,7 @@ class _AccesoScreenState extends State<AccesoScreen> {
       getMatricula(dataUser[0].idUsuario);
       await Future.delayed(const Duration(seconds: 3), () {
         print('no encontrado');
-        context.goNamed('menu_lateral');
+        context.goNamed('inicioLider');
       });
     } else {
       print('nisiquiera carga');

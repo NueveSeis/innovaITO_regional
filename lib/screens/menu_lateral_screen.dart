@@ -70,6 +70,48 @@ class _MenuLateralState extends State<MenuLateral> {
                         esActivo: seleccionMenu == menu,
                       ),
                     ),
+                  if (rol.toLowerCase() == 'coordinador local')
+                    ...itemsCoordinadorLocal.map(
+                      (menu) => MenuLateralItem(
+                        menu: menu,
+                        press: () {
+                          context.push('/${menu.pantalla.toString()}');
+                          //Navigator.pushNamed(context, menu.pantalla.toString());
+                          setState(() {
+                            seleccionMenu = menu;
+                          });
+                        },
+                        esActivo: seleccionMenu == menu,
+                      ),
+                    ),
+                  if (rol.toLowerCase() == 'asesor')
+                    ...itemsAsesor.map(
+                      (menu) => MenuLateralItem(
+                        menu: menu,
+                        press: () {
+                          context.push('/${menu.pantalla.toString()}');
+                          //Navigator.pushNamed(context, menu.pantalla.toString());
+                          setState(() {
+                            seleccionMenu = menu;
+                          });
+                        },
+                        esActivo: seleccionMenu == menu,
+                      ),
+                    ),
+                  if (rol.toLowerCase() == 'administrador')
+                    ...itemsAdministrador.map(
+                      (menu) => MenuLateralItem(
+                        menu: menu,
+                        press: () {
+                          context.push('/${menu.pantalla.toString()}');
+                          //Navigator.pushNamed(context, menu.pantalla.toString());
+                          setState(() {
+                            seleccionMenu = menu;
+                          });
+                        },
+                        esActivo: seleccionMenu == menu,
+                      ),
+                    ),
                   if (rol.toLowerCase() == 'sn')
                     ...itemsMenu.map(
                       (menu) => MenuLateralItem(

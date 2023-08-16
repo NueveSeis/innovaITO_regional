@@ -131,6 +131,8 @@ List<ModeloMenu> itemsMenu = const [
 
 List<ModeloMenu> itemsLider = const [
   ModeloMenu(
+      titulo: "Inicio", icono: Icons.home_rounded, pantalla: 'inicioLider'),
+  ModeloMenu(
       titulo: "Mis datos",
       icono: Icons.desktop_mac_rounded,
       pantalla: 'actualizar_lider'),
@@ -162,12 +164,16 @@ List<ModeloMenu> itemsLider = const [
 
 List<ModeloMenu> itemsAsesor = const [
   ModeloMenu(
+      titulo: "Inicio", icono: Icons.home_rounded, pantalla: 'inicioLider'),
+  ModeloMenu(
       titulo: "Mis proyectos",
       icono: Icons.document_scanner_rounded,
       pantalla: 'proyecto_asesor'),
 ];
 
 List<ModeloMenu> itemsJuradoInterno = const [
+  ModeloMenu(
+      titulo: "Inicio", icono: Icons.home_rounded, pantalla: 'inicioLider'),
   ModeloMenu(
       titulo: "Seleccionar categoria",
       icono: Icons.category_rounded,
@@ -182,6 +188,8 @@ List<ModeloMenu> itemsJuradoExterno = const [
 ];
 
 List<ModeloMenu> itemsCoordinadorLocal = const [
+  ModeloMenu(
+      titulo: "Inicio", icono: Icons.home_rounded, pantalla: 'inicioLider'),
   ModeloMenu(
       titulo: "Registro de usuario",
       icono: Icons.group_add_rounded,
@@ -235,6 +243,8 @@ List<ModeloMenu> itemsCoordinadorNacional = const [
 
 List<ModeloMenu> itemsAdministrador = const [
   ModeloMenu(
+      titulo: "Inicio", icono: Icons.home_rounded, pantalla: 'inicioLider'),
+  ModeloMenu(
       titulo: "Categorias",
       icono: Icons.category_rounded,
       pantalla: 'categoria_admin'),
@@ -264,42 +274,4 @@ List<ModeloMenu> itemsConfig = const [
   ModeloMenu(titulo: "Cuenta", icono: Icons.person, pantalla: 'cuenta'),
   ModeloMenu(
       titulo: "Cerrar sesión", icono: Icons.logout_rounded, pantalla: 'acceso'),
-];
-
-List<Map<String, dynamic>> listaItems = [
-  {
-    "titulo": "Mis datos",
-    "icono": Icons.desktop_mac_rounded,
-    "pantalla": 'actualizar_lider',
-  },
-  {
-    "titulo": "Ficha tecnica",
-    "icono": Icons.note_add_rounded,
-    "pantalla": 'ficha_tecnica',
-  },
-  {
-    "titulo": "Memoria tecnica",
-    "icono": Icons.edit_note_rounded,
-    "pantalla": 'memoria_tecnica',
-  },
-  {
-    "titulo": "Participantes",
-    "icono": Icons.person_add_alt_1_rounded,
-    "pantalla": 'participantes',
-  },
-  {
-    "titulo": "Requerimientos Especiales",
-    "icono": Icons.home_repair_service_rounded,
-    "pantalla": 'requerimientos_lider',
-  },
-  {
-    "titulo": "Modelo de negocio",
-    "icono": Icons.upload_file_rounded,
-    "pantalla": 'modelo_negocio',
-  },
-  {
-    "titulo": "Asesor",
-    "icono": Icons.person_add_alt_rounded,
-    "pantalla": 'asesor_lider',
-  },
 ];
