@@ -7,6 +7,9 @@ import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:quickalert/quickalert.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:uuid/uuid.dart';
 
 class NaturalezaAdminScreen extends ConsumerWidget {
   static const String name = 'naturaleza_admin';
@@ -25,6 +28,42 @@ class NaturalezaAdminScreen extends ConsumerWidget {
       }
     } catch (error) {
       print('Error al realizar la solicitud: $error');
+    }
+  }
+
+  Future<bool> agregarNaturaleza(
+    String idNat,
+    String tipo,
+  ) async {
+    var url = 'https://evarafael.com/Aplicacion/rest/agregar_naturaleza.php';
+    try {
+      var response = await http.post(Uri.parse(url),
+          body: {'Id_naturalezaTecnica': 'NAT$idNat', 'Tipo': tipo});
+      print('Código de estado de la respuesta: ${response.statusCode}');
+      print('Cuerpo de la respuesta: ${response.body}');
+      if (response.statusCode == 200) {
+        print('Modificado en la db');
+        return true;
+      } else {
+        print('No modificado');
+        return false;
+      }
+    } catch (error) {
+      print('Error durante la solicitud HTTP: $error');
+      return false;
+    }
+  }
+
+  Future<bool> eliminarNaturaleza(String idNat) async {
+    var url =
+        'https://evarafael.com/Aplicacion/rest/delete_naturaleza.php?Id_naturalezaTecnica=$idNat'; // Reemplaza con la URL del archivo PHP en tu servidor
+    var response = await http.post(Uri.parse(url));
+    if (response.statusCode == 200) {
+      print('Modificado en la db');
+      return true;
+    } else {
+      print('No modificado');
+      return false;
     }
   }
 
@@ -188,7 +227,51 @@ class NaturalezaAdminScreen extends ConsumerWidget {
                                                               color: AppTema
                                                                   .redA400,
                                                             ),
-                                                            onTap: () {},
+                                                            onTap: () async {
+                                                              bool eliminado =
+                                                                  await eliminarNaturaleza(
+                                                                      naturaleza[
+                                                                              index]
+                                                                          .idNaturalezaTecnica);
+                                                              if (eliminado) {
+                                                                QuickAlert.show(
+                                                                  context:
+                                                                      context,
+                                                                  type: QuickAlertType
+                                                                      .success,
+                                                                  title:
+                                                                      'Eliminado correctamente',
+                                                                  confirmBtnText:
+                                                                      'Hecho',
+                                                                  confirmBtnColor:
+                                                                      AppTema
+                                                                          .pizazz,
+                                                                  onConfirmBtnTap:
+                                                                      () {
+                                                                    context.pushReplacementNamed(
+                                                                        'naturaleza_admin');
+                                                                  },
+                                                                );
+                                                              } else {
+                                                                QuickAlert.show(
+                                                                    context:
+                                                                        context,
+                                                                    type: QuickAlertType
+                                                                        .error,
+                                                                    title:
+                                                                        'Ocurrio un error',
+                                                                    confirmBtnText:
+                                                                        'Hecho',
+                                                                    confirmBtnColor:
+                                                                        AppTema
+                                                                            .pizazz,
+                                                                    onConfirmBtnTap:
+                                                                        () {
+                                                                      context
+                                                                          .pop();
+                                                                    });
+                                                              }
+                                                            },
                                                           )
                                                         ],
                                                       ),
@@ -242,7 +325,34 @@ class NaturalezaAdminScreen extends ConsumerWidget {
           ),
           actions: [
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                String idNat = Uuid().v4().substring(0, 8);
+                bool agregado =
+                    await agregarNaturaleza(idNat, nombreNaturaleza);
+                if (agregado) {
+                  QuickAlert.show(
+                    context: context,
+                    type: QuickAlertType.success,
+                    title: 'Agregado correctamente',
+                    confirmBtnText: 'Hecho',
+                    confirmBtnColor: AppTema.pizazz,
+                    onConfirmBtnTap: () {
+                      context.pushReplacementNamed('naturaleza_admin');
+                    },
+                  );
+                } else {
+                  QuickAlert.show(
+                    context: context,
+                    type: QuickAlertType.error,
+                    title: 'Ocurrio un error',
+                    confirmBtnText: 'Hecho',
+                    confirmBtnColor: AppTema.pizazz,
+                    onConfirmBtnTap: () {
+                      context.pop();
+                    },
+                  );
+                }
+              },
               child: const Text('Crear'),
             ),
             TextButton(

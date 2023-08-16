@@ -40,6 +40,44 @@ class _InicioLiderScreenState extends State<InicioLiderScreen> {
   bool pendiente = true;
   bool aprobados = false;
 
+  List<Map<String, dynamic>> listaItems = [
+    {
+      "titulo": "Mis datos",
+      "icono": Icons.desktop_mac_rounded,
+      "pantalla": 'actualizar_lider',
+    },
+    {
+      "titulo": "Ficha tecnica",
+      "icono": Icons.note_add_rounded,
+      "pantalla": 'ficha_tecnica',
+    },
+    {
+      "titulo": "Memoria tecnica",
+      "icono": Icons.edit_note_rounded,
+      "pantalla": 'memoria_tecnica',
+    },
+    {
+      "titulo": "Participantes",
+      "icono": Icons.person_add_alt_1_rounded,
+      "pantalla": 'participantes',
+    },
+    {
+      "titulo": "Requerimientos Especiales",
+      "icono": Icons.home_repair_service_rounded,
+      "pantalla": 'requerimientos_lider',
+    },
+    {
+      "titulo": "Modelo de negocio",
+      "icono": Icons.upload_file_rounded,
+      "pantalla": 'modelo_negocio',
+    },
+    {
+      "titulo": "Asesor",
+      "icono": Icons.person_add_alt_rounded,
+      "pantalla": 'asesor_lider',
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     // ProyectoModelo proyectoModelo = itemsProyecto.first;
@@ -123,44 +161,19 @@ class _InicioLiderScreenState extends State<InicioLiderScreen> {
                         topLeft: Radius.circular(25),
                         topRight: Radius.circular(25)),
                   ),
-                  child: SingleChildScrollView(
-                      child: Column(
-                    children: [
-                      TareasLider(
-                          listo: true,
-                          fase: 'Ficha Tecnica',
-                          ruta1: FichaTecnicaScreen.name,
-                          ruta2: FichaTecnicaScreen.name),
-                      TareasLider(
-                          listo: false,
-                          fase: 'Añadir Participantes',
-                          ruta1: FichaTecnicaScreen.name,
-                          ruta2: FichaTecnicaScreen.name),
-                      TareasLider(
-                          listo: true,
-                          fase: 'Seleccionar Asesor',
-                          ruta1: FichaTecnicaScreen.name,
-                          ruta2: FichaTecnicaScreen.name),
-                      TareasLider(
-                          listo: false,
-                          fase: 'Memoria Tecnica',
-                          ruta1: FichaTecnicaScreen.name,
-                          ruta2: FichaTecnicaScreen.name),
-                      TareasLider(
-                          listo: true,
-                          fase: 'Modelo de negocio',
-                          ruta1: FichaTecnicaScreen.name,
-                          ruta2: FichaTecnicaScreen.name),
-                      TareasLider(
-                          listo: false,
-                          fase: 'Requerimientos Especiales',
-                          ruta1: FichaTecnicaScreen.name,
-                          ruta2: FichaTecnicaScreen.name),
-                      const SizedBox(
-                        height: 70,
-                      )
-                    ],
-                  )),
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                    ),
+                    itemCount: listaItems.length,
+                    itemBuilder: (context, index) {
+                      return TareasLider(
+                        icono: listaItems[index]['icono'],
+                        texto: listaItems[index]['titulo'],
+                        ruta1: listaItems[index]['pantalla'],
+                      );
+                    },
+                  ),
                 ),
               )
             ],

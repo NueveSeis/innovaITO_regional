@@ -7,6 +7,9 @@ import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:quickalert/quickalert.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:uuid/uuid.dart';
 
 class GeneroAdminScreen extends ConsumerWidget {
   static const String name = 'genero_admin';
@@ -25,6 +28,42 @@ class GeneroAdminScreen extends ConsumerWidget {
       }
     } catch (error) {
       print('Error al realizar la solicitud: $error');
+    }
+  }
+
+  Future<bool> agregarGenero(
+    String idGen,
+    String tipoGen,
+  ) async {
+    var url = 'https://evarafael.com/Aplicacion/rest/agregar_genero.php';
+    try {
+      var response = await http.post(Uri.parse(url),
+          body: {'Id_genero': 'GEN$idGen', 'Tipo_genero': tipoGen});
+      print('Código de estado de la respuesta: ${response.statusCode}');
+      print('Cuerpo de la respuesta: ${response.body}');
+      if (response.statusCode == 200) {
+        print('Modificado en la db');
+        return true;
+      } else {
+        print('No modificado');
+        return false;
+      }
+    } catch (error) {
+      print('Error durante la solicitud HTTP: $error');
+      return false;
+    }
+  }
+
+  Future<bool> eliminarGenero(String idGen) async {
+    var url =
+        'https://evarafael.com/Aplicacion/rest/delete_genero.php?Id_genero=$idGen'; // Reemplaza con la URL del archivo PHP en tu servidor
+    var response = await http.post(Uri.parse(url));
+    if (response.statusCode == 200) {
+      print('Modificado en la db');
+      return true;
+    } else {
+      print('No modificado');
+      return false;
     }
   }
 
@@ -188,7 +227,50 @@ class GeneroAdminScreen extends ConsumerWidget {
                                                               color: AppTema
                                                                   .redA400,
                                                             ),
-                                                            onTap: () {},
+                                                            onTap: () async {
+                                                              bool eliminado =
+                                                                  await eliminarGenero(
+                                                                      genero[index]
+                                                                          .idGenero);
+                                                              if (eliminado) {
+                                                                QuickAlert.show(
+                                                                  context:
+                                                                      context,
+                                                                  type: QuickAlertType
+                                                                      .success,
+                                                                  title:
+                                                                      'Eliminado correctamente',
+                                                                  confirmBtnText:
+                                                                      'Hecho',
+                                                                  confirmBtnColor:
+                                                                      AppTema
+                                                                          .pizazz,
+                                                                  onConfirmBtnTap:
+                                                                      () {
+                                                                    context.pushReplacementNamed(
+                                                                        'genero_admin');
+                                                                  },
+                                                                );
+                                                              } else {
+                                                                QuickAlert.show(
+                                                                    context:
+                                                                        context,
+                                                                    type: QuickAlertType
+                                                                        .error,
+                                                                    title:
+                                                                        'Ocurrio un error',
+                                                                    confirmBtnText:
+                                                                        'Hecho',
+                                                                    confirmBtnColor:
+                                                                        AppTema
+                                                                            .pizazz,
+                                                                    onConfirmBtnTap:
+                                                                        () {
+                                                                      context
+                                                                          .pop();
+                                                                    });
+                                                              }
+                                                            },
                                                           )
                                                         ],
                                                       ),
@@ -241,7 +323,33 @@ class GeneroAdminScreen extends ConsumerWidget {
           ),
           actions: [
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                String idGen = Uuid().v4().substring(0, 8);
+                bool agregado = await agregarGenero(idGen, nombreGenero);
+                if (agregado) {
+                  QuickAlert.show(
+                    context: context,
+                    type: QuickAlertType.success,
+                    title: 'Agregado correctamente',
+                    confirmBtnText: 'Hecho',
+                    confirmBtnColor: AppTema.pizazz,
+                    onConfirmBtnTap: () {
+                      context.pushReplacementNamed('genero_admin');
+                    },
+                  );
+                } else {
+                  QuickAlert.show(
+                    context: context,
+                    type: QuickAlertType.error,
+                    title: 'Ocurrio un error',
+                    confirmBtnText: 'Hecho',
+                    confirmBtnColor: AppTema.pizazz,
+                    onConfirmBtnTap: () {
+                      context.pop();
+                    },
+                  );
+                }
+              },
               child: Text('Crear'),
             ),
             TextButton(

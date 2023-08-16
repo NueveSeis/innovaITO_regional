@@ -3,106 +3,68 @@ import 'package:go_router/go_router.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 
 class TareasLider extends StatelessWidget {
-  final bool listo;
-  final String fase;
+  final IconData? icono;
+  final String texto;
   final String ruta1;
-  final String ruta2;
 
   const TareasLider({
     super.key,
-    required this.listo,
-    required this.fase,
+    required this.icono,
+    required this.texto,
     required this.ruta1,
-    required this.ruta2,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-      elevation: 10,
-      shadowColor: (listo) ? AppTema.greenS400 : AppTema.redA400,
-      child: Container(
-        width: 350,
-        //height: 100,
-        padding: const EdgeInsets.all(10),
-        //margin: EdgeInsets.only(top: 15),
-        decoration: BoxDecoration(
-          color: AppTema.grey100,
-          borderRadius: BorderRadius.circular(25),
-        ),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Container(
-            padding: const EdgeInsets.only(left: 15),
+    return GestureDetector(
+        onTap: () {
+          context.pushReplacementNamed(ruta1);
+        },
+        child: Container(
+          width: 100,
+          height: 150, // Ajusta la altura para acomodar el icono y el texto
+          margin: const EdgeInsets.all(6),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Card(
+            elevation: 10, // Agrega la elevación a la tarjeta
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            color: AppTema.grey100, // Color de fondo de la tarjeta
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Center(
-                  child: Text(
-                    (listo) ? "COMPLETADO" : "NO COMPLETADO",
-                    style: TextStyle(
-                        color: (listo) ? AppTema.greenS400 : AppTema.redA400,
-                        //fontWeight: FontWeight.bold,
-                        fontSize: 20),
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppTema.indigo50,
+                  ),
+                  child: Center(
+                    child: Icon(
+                      icono,
+                      size: 30,
+                      color: AppTema.bluegrey700,
+                    ),
                   ),
                 ),
-                const SizedBox(height: 5),
-                Divider(
-                  // Aquí está el Divider para la línea horizontal
-                  thickness: 2.5,
-                  color: (listo) ? AppTema.greenS400 : AppTema.redA400,
-                ),
-                const SizedBox(height: 5),
+                const SizedBox(
+                    height: 10), // Agrega un espacio entre el icono y el texto
                 Text(
-                  fase,
+                  texto,
+                  textAlign: TextAlign.center,
                   style: const TextStyle(
-                      color: AppTema.bluegrey700,
-                      //fontWeight: FontWeight.bold,
-                      fontSize: 20),
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: AppTema.bluegrey700),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(
-                children: [
-                  IconButton(
-                      icon: const Icon(Icons.visibility_rounded, size: 25),
-                      onPressed: () {},
-                      color: AppTema.bluegrey700),
-                  const Text(
-                    'Visualizar',
-                    style: TextStyle(
-                      color: AppTema.bluegrey700,
-                    ),
-                  )
-                ],
-              ),
-              Column(
-                children: [
-                  IconButton(
-                      icon:
-                          const Icon(Icons.mode_edit_outline_rounded, size: 25),
-                      onPressed: () {
-                        context.goNamed(ruta1);
-                      },
-                      color: AppTema.bluegrey700),
-                  const Text(
-                    'Editar',
-                    style: TextStyle(
-                      color: AppTema.bluegrey700,
-                    ),
-                  )
-                ],
-              )
-            ],
-          ),
-        ]),
-      ),
-    );
+        ));
   }
 }

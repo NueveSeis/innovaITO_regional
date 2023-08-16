@@ -8,7 +8,8 @@ class ModeloMenu {
 }
 
 List<ModeloMenu> itemsMenu = const [
-  ModeloMenu(titulo: "Inicio", icono: Icons.home_rounded, pantalla: 'inicio'),
+  //!Quitar pantalla borrar
+  //ModeloMenu(titulo: "Inicio", icono: Icons.home_rounded, pantalla: 'inicio'),
   ModeloMenu(
       titulo: "Registro de usuario",
       icono: Icons.group_add_rounded,
@@ -16,20 +17,23 @@ List<ModeloMenu> itemsMenu = const [
   /////   titulo: "Registro de horario",
   //icono: Icons.calendar_month_rounded,
   //pantalla: 'acceso'),
-  ModeloMenu(
-      titulo: "Resultado de evaluación",
-      icono: Icons.playlist_add_check_circle_rounded,
-      pantalla: 'detalles'),
-  ModeloMenu(
-      titulo: "Proyectos",
-      icono: Icons.document_scanner_rounded,
-      pantalla: 'proyectos'),
+  //!Quitar panatalla borrar
+  // ModeloMenu(
+  //     titulo: "Resultado de evaluación",
+  //     icono: Icons.playlist_add_check_circle_rounded,
+  //     pantalla: 'detalles'),
+  //!Quitar pantalla no se utiliza
+  // ModeloMenu(
+  //     titulo: "Proyectos",
+  //     icono: Icons.document_scanner_rounded,
+  //     pantalla: 'proyectos'),
   ModeloMenu(
       titulo: "Carreras", icono: Icons.school_rounded, pantalla: 'carrera'),
   ModeloMenu(
       titulo: "Departamentos",
       icono: Icons.note_add_rounded,
       pantalla: 'departamento'),
+  //! Modificar
   ModeloMenu(
       titulo: "Fechas",
       icono: Icons.calendar_month_rounded,
@@ -50,6 +54,7 @@ List<ModeloMenu> itemsMenu = const [
       titulo: "Tablero de posiciones",
       icono: Icons.leaderboard_rounded,
       pantalla: 'tabla_posiciones'),
+  //Inicio para lider de proyecto
   ModeloMenu(
       titulo: "Inicio", icono: Icons.home_rounded, pantalla: 'inicioLider'),
   ModeloMenu(
@@ -79,7 +84,7 @@ List<ModeloMenu> itemsMenu = const [
       pantalla: 'nivel_admin'),
   ModeloMenu(
       titulo: "Naturaleza Tecnica",
-      icono: Icons.school_rounded,
+      icono: Icons.biotech_rounded,
       pantalla: 'naturaleza_admin'),
   ModeloMenu(
       titulo: "Regiones",
@@ -91,8 +96,9 @@ List<ModeloMenu> itemsMenu = const [
       titulo: "Modelo de negocio",
       icono: Icons.upload_file_rounded,
       pantalla: 'modelo_negocio'),
-  ModeloMenu(
-      titulo: "Rubricas", icono: Icons.school_rounded, pantalla: 'rubrica'),
+  //!Quitar pantalla
+  // ModeloMenu(
+  //     titulo: "Rubricas", icono: Icons.school_rounded, pantalla: 'rubrica'),
   ModeloMenu(
       titulo: "Requerimientos Especiales",
       icono: Icons.home_repair_service_rounded,
@@ -103,29 +109,23 @@ List<ModeloMenu> itemsMenu = const [
       pantalla: 'asesor_lider'),
   ModeloMenu(
       titulo: "Mis proyectos",
-      icono: Icons.person_add_alt_rounded,
+      icono: Icons.document_scanner_rounded,
       pantalla: 'proyecto_asesor'),
   ModeloMenu(
       titulo: "Mis proyectos",
-      icono: Icons.person_add_alt_rounded,
+      icono: Icons.document_scanner_rounded,
       pantalla: 'proyecto_coordinador'),
   ModeloMenu(
-      titulo: "Add Rubrica",
-      icono: Icons.person_add_alt_rounded,
+      titulo: "Agregar Rubrica",
+      icono: Icons.post_add_rounded,
       pantalla: 'agregar_rubrica'),
   ModeloMenu(
       titulo: "Asignar Sala",
-      icono: Icons.person_add_alt_rounded,
-      pantalla: 'asignar_sala'),
-  ModeloMenu(
-      titulo: "Asignar Stand",
-      icono: Icons.person_add_alt_rounded,
-      pantalla: 'asignar_stand'),
-  ModeloMenu(
-      titulo: "Sala", icono: Icons.person_add_alt_rounded, pantalla: 'Sala'),
+      icono: Icons.meeting_room_rounded,
+      pantalla: 'Sala'),
   ModeloMenu(
       titulo: "Asignar stand",
-      icono: Icons.person_add_alt_rounded,
+      icono: Icons.table_restaurant_rounded,
       pantalla: 'stand'),
 ];
 
@@ -162,30 +162,61 @@ List<ModeloMenu> itemsLider = const [
 
 List<ModeloMenu> itemsAsesor = const [
   ModeloMenu(
-      titulo: "Ficha tecnica",
-      icono: Icons.note_add_rounded,
-      pantalla: 'ficha_tecnica'),
+      titulo: "Mis proyectos",
+      icono: Icons.document_scanner_rounded,
+      pantalla: 'proyecto_asesor'),
 ];
 
 List<ModeloMenu> itemsJuradoInterno = const [
   ModeloMenu(
-      titulo: "Ficha tecnica",
-      icono: Icons.note_add_rounded,
-      pantalla: 'ficha_tecnica'),
+      titulo: "Seleccionar categoria",
+      icono: Icons.category_rounded,
+      pantalla: 'seleccionar_categoria'),
 ];
 
 List<ModeloMenu> itemsJuradoExterno = const [
   ModeloMenu(
-      titulo: "Ficha tecnica",
-      icono: Icons.note_add_rounded,
-      pantalla: 'ficha_tecnica'),
+      titulo: "Seleccionar categoria",
+      icono: Icons.category_rounded,
+      pantalla: 'seleccionar_categoria'),
 ];
 
 List<ModeloMenu> itemsCoordinadorLocal = const [
   ModeloMenu(
-      titulo: "Ficha tecnica",
+      titulo: "Registro de usuario",
+      icono: Icons.group_add_rounded,
+      pantalla: 'registro_usuario'),
+  ModeloMenu(
+      titulo: "Carreras", icono: Icons.school_rounded, pantalla: 'carrera'),
+  ModeloMenu(
+      titulo: "Departamentos",
       icono: Icons.note_add_rounded,
-      pantalla: 'ficha_tecnica'),
+      pantalla: 'departamento'),
+  //! Modificar
+  ModeloMenu(
+      titulo: "Fechas",
+      icono: Icons.calendar_month_rounded,
+      pantalla: 'asignacion_fechas'),
+  ModeloMenu(
+      titulo: "Mis proyectos",
+      icono: Icons.document_scanner_rounded,
+      pantalla: 'proyecto_coordinador'),
+  ModeloMenu(
+      titulo: "Agregar Rubrica",
+      icono: Icons.post_add_rounded,
+      pantalla: 'agregar_rubrica'),
+  ModeloMenu(
+      titulo: "Asignar Sala",
+      icono: Icons.meeting_room_rounded,
+      pantalla: 'Sala'),
+  ModeloMenu(
+      titulo: "Asignar stand",
+      icono: Icons.table_restaurant_rounded,
+      pantalla: 'stand'),
+  ModeloMenu(
+      titulo: "Tablero de posiciones",
+      icono: Icons.leaderboard_rounded,
+      pantalla: 'tabla_posiciones'),
 ];
 
 List<ModeloMenu> itemsCoordinadorRegional = const [
@@ -202,6 +233,29 @@ List<ModeloMenu> itemsCoordinadorNacional = const [
       pantalla: 'ficha_tecnica'),
 ];
 
+List<ModeloMenu> itemsAdministrador = const [
+  ModeloMenu(
+      titulo: "Categorias",
+      icono: Icons.category_rounded,
+      pantalla: 'categoria_admin'),
+  ModeloMenu(
+      titulo: "Estados", icono: Icons.map_rounded, pantalla: 'estado_admin'),
+  ModeloMenu(
+      titulo: "Nivel Academico",
+      icono: Icons.school_rounded,
+      pantalla: 'nivel_admin'),
+  ModeloMenu(
+      titulo: "Naturaleza Tecnica",
+      icono: Icons.biotech_rounded,
+      pantalla: 'naturaleza_admin'),
+  ModeloMenu(
+      titulo: "Regiones",
+      icono: Icons.school_rounded,
+      pantalla: 'region_admin'),
+  ModeloMenu(
+      titulo: "Genero", icono: Icons.school_rounded, pantalla: 'genero_admin'),
+];
+
 List<ModeloMenu> itemsConfig = const [
   ModeloMenu(
       titulo: "Notificaciones",
@@ -210,4 +264,42 @@ List<ModeloMenu> itemsConfig = const [
   ModeloMenu(titulo: "Cuenta", icono: Icons.person, pantalla: 'cuenta'),
   ModeloMenu(
       titulo: "Cerrar sesión", icono: Icons.logout_rounded, pantalla: 'acceso'),
+];
+
+List<Map<String, dynamic>> listaItems = [
+  {
+    "titulo": "Mis datos",
+    "icono": Icons.desktop_mac_rounded,
+    "pantalla": 'actualizar_lider',
+  },
+  {
+    "titulo": "Ficha tecnica",
+    "icono": Icons.note_add_rounded,
+    "pantalla": 'ficha_tecnica',
+  },
+  {
+    "titulo": "Memoria tecnica",
+    "icono": Icons.edit_note_rounded,
+    "pantalla": 'memoria_tecnica',
+  },
+  {
+    "titulo": "Participantes",
+    "icono": Icons.person_add_alt_1_rounded,
+    "pantalla": 'participantes',
+  },
+  {
+    "titulo": "Requerimientos Especiales",
+    "icono": Icons.home_repair_service_rounded,
+    "pantalla": 'requerimientos_lider',
+  },
+  {
+    "titulo": "Modelo de negocio",
+    "icono": Icons.upload_file_rounded,
+    "pantalla": 'modelo_negocio',
+  },
+  {
+    "titulo": "Asesor",
+    "icono": Icons.person_add_alt_rounded,
+    "pantalla": 'asesor_lider',
+  },
 ];
