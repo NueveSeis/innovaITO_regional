@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/widgets/widgets.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:uuid/uuid.dart';
+import 'package:go_router/go_router.dart';
 
 class RegionAdminScreen extends ConsumerWidget {
   static const String name = 'region_admin';
@@ -256,7 +258,7 @@ class RegionAdminScreen extends ConsumerWidget {
                                                                     type: QuickAlertType
                                                                         .error,
                                                                     title:
-                                                                        'Ocurrio un error',
+                                                                        'Ocurrió un error',
                                                                     confirmBtnText:
                                                                         'Hecho',
                                                                     confirmBtnColor:
@@ -323,7 +325,7 @@ class RegionAdminScreen extends ConsumerWidget {
           actions: [
             ElevatedButton(
               onPressed: () async {
-                String idReg = Uuid().v4().substring(0, 8);
+                String idReg = const Uuid().v4().substring(0, 8);
                 bool agregado = await agregarRegion(idReg, nombreRegion);
                 if (agregado) {
                   QuickAlert.show(
@@ -340,7 +342,7 @@ class RegionAdminScreen extends ConsumerWidget {
                   QuickAlert.show(
                     context: context,
                     type: QuickAlertType.error,
-                    title: 'Ocurrio un error',
+                    title: 'Ocurrió un error',
                     confirmBtnText: 'Hecho',
                     confirmBtnColor: AppTema.pizazz,
                     onConfirmBtnTap: () {

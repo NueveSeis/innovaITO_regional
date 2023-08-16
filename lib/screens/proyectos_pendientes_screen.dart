@@ -2,13 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/screens/detalles_screen.dart';
 import 'package:innova_ito/theme/app_tema.dart';
-import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
-
-import 'package:innova_ito/widgets/widgets.dart';
 
 class ProyectosPendientesScreen extends StatefulWidget {
   static const String name = 'proyectos';
@@ -157,7 +153,8 @@ class _ProyectosPendientesScreenState extends State<ProyectosPendientesScreen> {
                   child: SingleChildScrollView(
                       child: (aprobados)
                           ? const DetallesScreen()
-                          : Center(child: Text('NO HAY PROYECTOS PENDIENTES'))),
+                          : const Center(
+                              child: Text('NO HAY PROYECTOS PENDIENTES'))),
                 ),
               )
             ],

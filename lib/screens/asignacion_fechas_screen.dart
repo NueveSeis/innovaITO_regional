@@ -36,9 +36,9 @@ class AsignacionFechasScreen extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 5),
                             child: Container(
                               //padding: const EdgeInsets.only(right: 5),
-                              child: Text(
+                              child: const Text(
                                 ' nombreCarrera',
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: AppTema.bluegrey700,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18),
@@ -47,7 +47,7 @@ class AsignacionFechasScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Icon(
+                        const Icon(
                           Icons.arrow_forward_ios_rounded,
                           color: AppTema.primario,
                         ),

@@ -114,14 +114,14 @@ class _DetallesScreenState extends State<DetallesScreen> {
                               )
                             ],
                           ),
-                          Column(
+                          const Column(
                             children: [
                               Switch(
                                 value: true,
-                                onChanged: (value) => print('hola'),
+                                onChanged: null,
                                 activeColor: AppTema.pizazz,
                               ),
-                              const Text(
+                              Text(
                                 'Aceptar',
                                 style: TextStyle(
                                   color: AppTema.bluegrey700,

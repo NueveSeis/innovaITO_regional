@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+
 import 'package:innova_ito/theme/app_tema.dart';
-import 'package:provider/provider.dart';
 
 class BarraBotones extends StatefulWidget {
   const BarraBotones({
@@ -20,7 +20,7 @@ class _BarraBotonesState extends State<BarraBotones> {
     // bool aprobados = false;
 
     return Padding(
-      padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),

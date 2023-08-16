@@ -2,14 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:innova_ito/theme/app_tema.dart';
-import 'package:innova_ito/widgets/tarjeta_participante.dart';
-import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/models/models.dart';
-
 import 'package:innova_ito/widgets/widgets.dart';
-
-import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
@@ -79,7 +73,7 @@ class NivelAdminScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: Fondo(
-          tituloPantalla: 'Nivel Academico',
+          tituloPantalla: 'Nivel Académico',
           fontSize: 20,
           widget: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
@@ -285,7 +279,7 @@ class NivelAdminScreen extends ConsumerWidget {
                                                                     type: QuickAlertType
                                                                         .error,
                                                                     title:
-                                                                        'Ocurrio un error',
+                                                                        'Ocurrió un error',
                                                                     confirmBtnText:
                                                                         'Hecho',
                                                                     confirmBtnColor:
@@ -336,32 +330,32 @@ class NivelAdminScreen extends ConsumerWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Crear Nivel Academico'),
+          title: const Text('Crear Nivel Académico'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
                 maxLines: null,
-                decoration:
-                    InputDecoration(labelText: 'Nombre del nivel academico'),
+                decoration: const InputDecoration(
+                    labelText: 'Nombre del nivel académico'),
                 onChanged: (value) => nombreNivel = value,
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextFormField(
-                decoration: InputDecoration(
-                    labelText: 'Descripcion del nivel academico'),
+                decoration: const InputDecoration(
+                    labelText: 'Descripcion del nivel académico'),
                 keyboardType: TextInputType.text,
                 maxLines: null,
                 onChanged: (value) => descripcionNivel = value,
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
             ],
           ),
           actions: [
             ElevatedButton(
               onPressed: () async {
-                String idEst = Uuid().v4().substring(0, 8);
+                String idEst = const Uuid().v4().substring(0, 8);
                 bool agregado =
                     await agregarNivel(idEst, nombreNivel, descripcionNivel);
                 if (agregado) {
@@ -379,7 +373,7 @@ class NivelAdminScreen extends ConsumerWidget {
                   QuickAlert.show(
                     context: context,
                     type: QuickAlertType.error,
-                    title: 'Ocurrio un error',
+                    title: 'Ocurrió un error',
                     confirmBtnText: 'Hecho',
                     confirmBtnColor: AppTema.pizazz,
                     onConfirmBtnTap: () {
@@ -388,11 +382,11 @@ class NivelAdminScreen extends ConsumerWidget {
                   );
                 }
               },
-              child: Text('Crear'),
+              child: const Text('Crear'),
             ),
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('Cancelar'),
+              child: const Text('Cancelar'),
             ),
           ],
         );

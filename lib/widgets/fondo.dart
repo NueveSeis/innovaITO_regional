@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:innova_ito/theme/app_tema.dart';
+
+import 'package:go_router/go_router.dart';
 
 class Fondo extends StatelessWidget {
   final Widget widget;
@@ -33,7 +35,7 @@ class Fondo extends StatelessWidget {
 
                     //Navigator.pushNamed(context, 'menu_lateral');
                   },
-                  icon: Icon(Icons.clear_all_rounded)),
+                  icon: const Icon(Icons.clear_all_rounded)),
               Text(
                 tituloPantalla,
                 style: TextStyle(color: Colors.white, fontSize: fontSize),
@@ -42,13 +44,13 @@ class Fondo extends StatelessWidget {
                   iconSize: 40,
                   color: Colors.white,
                   onPressed: () {},
-                  icon: Icon(Icons.search)),
+                  icon: const Icon(Icons.search)),
             ],
           ),
           Expanded(
             child: Container(
               width: double.infinity,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: AppTema.indigo50,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(25),

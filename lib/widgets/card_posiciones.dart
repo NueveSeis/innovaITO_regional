@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:innova_ito/theme/app_tema.dart';
 
 class CardPosiciones extends StatelessWidget {
@@ -18,7 +19,7 @@ class CardPosiciones extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double califica = double.parse(calificacion) / 10.0;
-    double  cal = double.parse(calificacion);
+    double cal = double.parse(calificacion);
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -81,14 +82,14 @@ class CardPosiciones extends StatelessWidget {
                                 fontSize: 13),
                             overflow: TextOverflow.visible,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           LinearProgressIndicator(
                             value: califica,
                             backgroundColor: AppTema.indigo50,
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(AppTema.primario),
+                            valueColor: const AlwaysStoppedAnimation<Color>(
+                                AppTema.primario),
                           )
                         ],
                       ),

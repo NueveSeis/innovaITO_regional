@@ -73,7 +73,7 @@ class AsesorLiderScreen extends ConsumerWidget {
               children: [
                 const SizedBox(height: 50),
                 const Text(
-                  'Busqueda de asesor',
+                  'Búsqueda de asesor',
                   style: TextStyle(
                       color: AppTema.balticSea,
                       fontWeight: FontWeight.bold,
@@ -135,7 +135,7 @@ class AsesorLiderScreen extends ConsumerWidget {
                         ],
                       )
                     : const Text(
-                        'No has ingresado ningun RFC',
+                        'No has ingresado ningún RFC',
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                             color: AppTema.balticSea,
@@ -194,25 +194,25 @@ class AsesorLiderScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: 10.0),
                         Text(
-                          'Tecnologico: ' + asesores[index].nombreTecnologico,
+                          'Tecnologico: ${asesores[index].nombreTecnologico}',
                           style: const TextStyle(
                               color: AppTema.bluegrey700, fontSize: 15.0),
                         ),
                         const SizedBox(height: 4.0),
                         Text(
-                          'Departamento: ' + asesores[index].nombreDepartamento,
+                          'Departamento: ${asesores[index].nombreDepartamento}',
                           style: const TextStyle(
                               color: AppTema.bluegrey700, fontSize: 15.0),
                         ),
                         const SizedBox(height: 4.0),
                         Text(
-                          'RFC: ' + asesores[index].rfc,
+                          'RFC: ${asesores[index].rfc}',
                           style: const TextStyle(
                               color: AppTema.bluegrey700, fontSize: 15.0),
                         ),
                         const SizedBox(height: 4.0),
                         Text(
-                          'Telefono: ' + asesores[index].telefono,
+                          'Telefono: ${asesores[index].telefono}',
                           style: const TextStyle(
                               color: AppTema.bluegrey700, fontSize: 15.0),
                         ),

@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/helpers/helpers.dart';
@@ -133,7 +132,7 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
                   children: [
                     Consumer(builder: (context, ref, child) {
                       idPersona = ref.watch(idUsuarioLogin);
-                      return SizedBox();
+                      return const SizedBox();
                     }),
                     const SizedBox(height: 20),
                     FutureBuilder(
@@ -150,7 +149,7 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
                               return cateSeleccion(ref);
                             });
                           } else {
-                            return CircularProgressIndicator();
+                            return const CircularProgressIndicator();
                           }
                         }),
                     Consumer(builder: (context, ref, child) {
@@ -167,10 +166,10 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
                                     ConnectionState.done) {
                                   return areaDrop(areas);
                                 } else {
-                                  return CircularProgressIndicator();
+                                  return const CircularProgressIndicator();
                                 }
                               })
-                          : SizedBox();
+                          : const SizedBox();
                     }),
                     FutureBuilder(
                       future: obtenerNaturaleza(),
@@ -199,7 +198,7 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
                       validator: (value) {
                         return (!RegexUtil.datos.hasMatch(value ?? ''))
                             ? null
-                            : 'No contiene ningun dato.';
+                            : 'No contiene ningún dato.';
                       },
                       //onChanged: (value) => accesoFormulario.correo = value,
                     ),
@@ -244,7 +243,7 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
                       validator: (value) {
                         return (!RegexUtil.datos.hasMatch(value ?? ''))
                             ? null
-                            : 'No contiene ningun dato.';
+                            : 'No contiene ningún dato.';
                       },
                       //onChanged: (value) => accesoFormulario.correo = value,
                     ),
@@ -268,7 +267,7 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
                       validator: (value) {
                         return (!RegexUtil.datos.hasMatch(value ?? ''))
                             ? null
-                            : 'No contiene ningun dato.';
+                            : 'No contiene ningún dato.';
                       },
                       //onChanged: (value) => accesoFormulario.correo = value,
                     ),
@@ -291,7 +290,7 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
                       validator: (value) {
                         return (!RegexUtil.datos.hasMatch(value ?? ''))
                             ? null
-                            : 'No contiene ningun dato.';
+                            : 'No contiene ningún dato.';
                       },
                     ),
                     Container(
@@ -347,7 +346,7 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
           // padding: EdgeInsets.only(right: 2.0),
           alignment: Alignment.topLeft,
           child: const Text(
-            'Seleccione categoria:',
+            'Seleccione categoría:',
             style: TextStyle(
                 color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
             textAlign: TextAlign.right,

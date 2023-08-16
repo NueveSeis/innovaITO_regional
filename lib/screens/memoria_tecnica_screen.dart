@@ -58,7 +58,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Fondo(
-        tituloPantalla: 'Memoria tecnica',
+        tituloPantalla: 'Memoria técnica',
         fontSize: 25,
         widget: Column(children: [
           const SizedBox(height: 50),
@@ -94,7 +94,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                       validator: (value) {
                         return (!RegexUtil.datos.hasMatch(value ?? ''))
                             ? null
-                            : 'No contiene ningun dato.';
+                            : 'No contiene ningún dato.';
                       },
                     ),
                     const SizedBox(height: 20),
@@ -116,7 +116,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                       validator: (value) {
                         return (!RegexUtil.datos.hasMatch(value ?? ''))
                             ? null
-                            : 'No contiene ningun dato.';
+                            : 'No contiene ningún dato.';
                       },
                     ),
                     const SizedBox(height: 20),
@@ -161,7 +161,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                       validator: (value) {
                         return (!RegexUtil.datos.hasMatch(value ?? ''))
                             ? null
-                            : 'No contiene ningun dato.';
+                            : 'No contiene ningún dato.';
                       },
                     ),
                     const SizedBox(height: 20),
@@ -182,7 +182,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                       validator: (value) {
                         return (!RegexUtil.datos.hasMatch(value ?? ''))
                             ? null
-                            : 'No contiene ningun dato.';
+                            : 'No contiene ningún dato.';
                       },
                     ),
                     const SizedBox(height: 20),
@@ -203,7 +203,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                       validator: (value) {
                         return (!RegexUtil.datos.hasMatch(value ?? ''))
                             ? null
-                            : 'No contiene ningun dato.';
+                            : 'No contiene ningún dato.';
                       },
                     ),
                     const SizedBox(height: 20),
@@ -224,7 +224,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                       validator: (value) {
                         return (!RegexUtil.datos.hasMatch(value ?? ''))
                             ? null
-                            : 'No contiene ningun dato.';
+                            : 'No contiene ningún dato.';
                       },
                     ),
                     const SizedBox(height: 20),
@@ -246,7 +246,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                       validator: (value) {
                         return (!RegexUtil.datos.hasMatch(value ?? ''))
                             ? null
-                            : 'No contiene ningun dato.';
+                            : 'No contiene ningún dato.';
                       },
                     ),
                     const SizedBox(height: 20),
@@ -267,7 +267,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                       validator: (value) {
                         return (!RegexUtil.datos.hasMatch(value ?? ''))
                             ? null
-                            : 'No contiene ningun dato.';
+                            : 'No contiene ningún dato.';
                       },
                     ),
                     const SizedBox(height: 20),
@@ -288,7 +288,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                       validator: (value) {
                         return (!RegexUtil.datos.hasMatch(value ?? ''))
                             ? null
-                            : 'No contiene ningun dato.';
+                            : 'No contiene ningún dato.';
                       },
                     ),
                     Container(

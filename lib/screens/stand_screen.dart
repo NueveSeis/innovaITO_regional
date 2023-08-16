@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:innova_ito/theme/app_tema.dart';
-import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/widgets/widgets.dart';
-import 'dart:convert';
+
+import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
@@ -131,9 +131,9 @@ class StandScreen extends ConsumerWidget {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(
+                                                  const Text(
                                                     'Nombre del proyecto: ',
-                                                    style: const TextStyle(
+                                                    style: TextStyle(
                                                         color:
                                                             AppTema.bluegrey700,
                                                         fontWeight:
@@ -296,7 +296,7 @@ class StandScreen extends ConsumerWidget {
                                                                       QuickAlertType
                                                                           .error,
                                                                   title:
-                                                                      'Ocurrio un error',
+                                                                      'Ocurrió un error',
                                                                   confirmBtnText:
                                                                       'Hecho',
                                                                   confirmBtnColor:

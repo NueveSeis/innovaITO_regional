@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:innova_ito/theme/app_tema.dart';
-import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/widgets/widgets.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
@@ -71,7 +69,7 @@ class NaturalezaAdminScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: Fondo(
-          tituloPantalla: 'Naturaleza Tecnica',
+          tituloPantalla: 'Naturaleza Técnica',
           fontSize: 20,
           widget: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
@@ -90,7 +88,7 @@ class NaturalezaAdminScreen extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Agregar Naturaleza Tecnica',
+                          'Agregar Naturaleza Técnica',
                           style:
                               TextStyle(color: AppTema.grey100, fontSize: 18),
                         ),
@@ -259,7 +257,7 @@ class NaturalezaAdminScreen extends ConsumerWidget {
                                                                     type: QuickAlertType
                                                                         .error,
                                                                     title:
-                                                                        'Ocurrio un error',
+                                                                        'Ocurrió un error',
                                                                     confirmBtnText:
                                                                         'Hecho',
                                                                     confirmBtnColor:
@@ -309,7 +307,7 @@ class NaturalezaAdminScreen extends ConsumerWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Crear Naturaleza Tecnica'),
+          title: const Text('Crear Naturaleza Técnica'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -317,7 +315,7 @@ class NaturalezaAdminScreen extends ConsumerWidget {
               TextFormField(
                 maxLines: null,
                 decoration: const InputDecoration(
-                    labelText: 'Nombre de la naturaleza tecnica'),
+                    labelText: 'Nombre de la naturaleza técnica'),
                 onChanged: (value) => nombreNaturaleza = value,
               ),
               const SizedBox(height: 10),
@@ -326,7 +324,7 @@ class NaturalezaAdminScreen extends ConsumerWidget {
           actions: [
             ElevatedButton(
               onPressed: () async {
-                String idNat = Uuid().v4().substring(0, 8);
+                String idNat = const Uuid().v4().substring(0, 8);
                 bool agregado =
                     await agregarNaturaleza(idNat, nombreNaturaleza);
                 if (agregado) {
@@ -344,7 +342,7 @@ class NaturalezaAdminScreen extends ConsumerWidget {
                   QuickAlert.show(
                     context: context,
                     type: QuickAlertType.error,
-                    title: 'Ocurrio un error',
+                    title: 'Ocurrió un error',
                     confirmBtnText: 'Hecho',
                     confirmBtnColor: AppTema.pizazz,
                     onConfirmBtnTap: () {

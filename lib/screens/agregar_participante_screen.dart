@@ -369,8 +369,8 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                             keyboardType: TextInputType.emailAddress,
                             decoration:
                                 InputDecorations.registroLiderDecoration(
-                              hintText: 'Ingrese correo electronico',
-                              labelText: 'Correo electronico',
+                              hintText: 'Ingrese correo electrónico',
+                              labelText: 'Correo electrónico',
                             ),
                             validator: (value) {
                               return RegexUtil.correoEdu.hasMatch(value ?? '')
@@ -390,13 +390,13 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                             keyboardType: TextInputType.number,
                             decoration:
                                 InputDecorations.registroLiderDecoration(
-                              hintText: 'Ingrese Numero telefonico',
-                              labelText: 'Numero telefonico',
+                              hintText: 'Ingrese Numero telefónico',
+                              labelText: 'Numero telefónico',
                             ),
                             validator: (value) {
                               return RegexUtil.telefono.hasMatch(value ?? '')
                                   ? null
-                                  : 'Solo se aceptan numeros.';
+                                  : 'Solo se aceptan números.';
                             },
                           ),
                           const SizedBox(height: 20),
@@ -433,7 +433,7 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                                 }),
                             loading: () => const CircularProgressIndicator(),
                             error: (error, stackTrace) =>
-                                const Text('Error al cargar los generos'),
+                                const Text('Error al cargar los géneros'),
                           ),
                           const SizedBox(height: 20),
                           Container(
@@ -517,7 +517,7 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                           Container(
                             alignment: Alignment.topLeft,
                             child: const Text(
-                              'Nivel academico',
+                              'Nivel académico',
                               style: TextStyle(
                                   color: AppTema.bluegrey700,
                                   fontWeight: FontWeight.bold),
@@ -547,7 +547,7 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                                 }),
                             loading: () => const CircularProgressIndicator(),
                             error: (error, stackTrace) => const Text(
-                                'Error al cargar los niveles academicos.'),
+                                'Error al cargar los niveles académicos.'),
                           ),
                           const SizedBox(height: 20),
                           Container(
@@ -625,7 +625,7 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                                 }),
                             loading: () => const CircularProgressIndicator(),
                             error: (error, stackTrace) =>
-                                const Text('Error al cargar los tecnologicos.'),
+                                const Text('Error al cargar los tecnológicos.'),
                           ),
                           const SizedBox(
                             height: 20,
@@ -665,7 +665,7 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                                 }),
                             loading: () => const CircularProgressIndicator(),
                             error: (error, stackTrace) =>
-                                const Text('Error al cargar los tecnologicos.'),
+                                const Text('Error al cargar los tecnológicos.'),
                           ),
                           const SizedBox(
                             height: 20,
@@ -776,7 +776,7 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                                   QuickAlert.show(
                                     context: context,
                                     type: QuickAlertType.warning,
-                                    title: 'Existen campos vacios',
+                                    title: 'Existen campos vacíos',
                                     confirmBtnText: 'Hecho',
                                     confirmBtnColor: AppTema.pizazz,
                                   );

@@ -234,7 +234,7 @@ class AgregarCarreraScreen extends ConsumerWidget {
                           }),
                       loading: () => const CircularProgressIndicator(),
                       error: (error, stackTrace) =>
-                          const Text('Error al cargar niveles.'),
+                          const Text('Error al cargar niveles académicos.'),
                     ),
                     const SizedBox(height: 25),
                     Row(
@@ -261,7 +261,7 @@ class AgregarCarreraScreen extends ConsumerWidget {
                             ),
                           ),
                           onPressed: () async {
-                            String idCarr = Uuid().v4().substring(0, 8);
+                            String idCarr = const Uuid().v4().substring(0, 8);
                             String carreraSeleccionada = selectedCarrera;
                             if (selectedCarrera == 'Otra...') {
                               carreraSeleccionada = _carreraController.text;
@@ -288,7 +288,7 @@ class AgregarCarreraScreen extends ConsumerWidget {
                                 QuickAlert.show(
                                   context: context,
                                   type: QuickAlertType.error,
-                                  title: 'Ocurrio un error',
+                                  title: 'Ocurrió un error',
                                   confirmBtnText: 'Hecho',
                                   confirmBtnColor: AppTema.pizazz,
                                   onConfirmBtnTap: () {
@@ -300,7 +300,7 @@ class AgregarCarreraScreen extends ConsumerWidget {
                               QuickAlert.show(
                                 context: context,
                                 type: QuickAlertType.warning,
-                                title: 'Campos Vacios',
+                                title: 'Campos Vacíos',
                                 confirmBtnText: 'Hecho',
                                 confirmBtnColor: AppTema.pizazz,
                               );

@@ -1,14 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:html_editor_enhanced/utils/utils.dart';
-import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
-
-import 'package:innova_ito/models/models.dart';
-import 'package:innova_ito/providers/providers.dart';
-import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/widgets/widgets.dart';
-import 'package:quickalert/quickalert.dart';
 
 import '../providers/criterios_provider.dart';
 
@@ -61,7 +53,7 @@ class CriteriosScreen extends ConsumerWidget {
                   // Show a dialog to create a new rubric
                   _showCreateRubricDialog(ref, context);
                 },
-                child: Text('Agregar Rubrica'),
+                child: const Text('Agregar Rubrica'),
               ),
             ],
           ),
@@ -94,28 +86,30 @@ class CriteriosScreen extends ConsumerWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Crear Rubrica'),
+          title: const Text('Crear Rubrica'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
-                decoration: InputDecoration(labelText: 'Nombre de la Rubrica'),
+                decoration:
+                    const InputDecoration(labelText: 'Nombre de la Rubrica'),
                 onChanged: (value) => rubricName = value,
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Valor Mínimo'),
+                decoration: const InputDecoration(labelText: 'Valor Mínimo'),
                 keyboardType: TextInputType.number,
                 onChanged: (value) => minValue = double.tryParse(value) ?? 0,
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Valor Máximo (%)'),
+                decoration:
+                    const InputDecoration(labelText: 'Valor Máximo (%)'),
                 keyboardType: TextInputType.number,
                 onChanged: (value) => maxValue = double.tryParse(value) ?? 0,
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 'Suma de Valores Máximos: ${_calculateTotalMax(ref, maxValue)}%',
               ),
@@ -139,11 +133,11 @@ class CriteriosScreen extends ConsumerWidget {
                   Navigator.pop(context);
                 }*/
               },
-              child: Text('Crear'),
+              child: const Text('Crear'),
             ),
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('Cancelar'),
+              child: const Text('Cancelar'),
             ),
           ],
         );

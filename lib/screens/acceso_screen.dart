@@ -86,7 +86,7 @@ class _AccesoScreenState extends State<AccesoScreen> {
     if (response.statusCode == 200) {
       dataUser = usuarioDataFromJson(response.body);
       getMatricula(dataUser[0].idUsuario);
-      await Future.delayed(const Duration(seconds: 3), () {
+      await Future.delayed(const Duration(seconds: 1), () {
         print('no encontrado');
         context.goNamed('inicioLider');
       });
@@ -144,8 +144,8 @@ class _AccesoScreenState extends State<AccesoScreen> {
                             autocorrect: false,
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecorations.accesoInputDecoration(
-                                hintText: 'Correo electronico',
-                                labelText: 'Correo electronico',
+                                hintText: 'Correo electrónico',
+                                labelText: 'Correo electrónico',
                                 prefixIcon: Icons.person),
                             // onChanged: (value) => accesoFormulario.correo = value,
                             validator: (value) {
@@ -170,7 +170,7 @@ class _AccesoScreenState extends State<AccesoScreen> {
                             validator: (value) {
                               return RegexUtil.contrasena.hasMatch(value ?? '')
                                   ? null
-                                  : 'No es una contraseña valida.';
+                                  : 'No es una contraseña valida ortográfico.';
                             },
                           ),
                           const SizedBox(
@@ -210,7 +210,7 @@ class _AccesoScreenState extends State<AccesoScreen> {
                                     print(comparado);
                                     if (comparado == true) {
                                       acceso();
-                                      Future.delayed(Duration(seconds: 3), () {
+                                      Future.delayed(Duration(seconds: 1), () {
                                         //obtener iniciales del nombre
                                         String ini = Apoyo.obtenerIniciales(
                                             dataUser[0]
@@ -264,7 +264,7 @@ class _AccesoScreenState extends State<AccesoScreen> {
                                       type: QuickAlertType.error,
                                       title: 'Datos incorrectos',
                                       text:
-                                          'Verifique su correo electronico y contraseña',
+                                          'Verifique su correo electrónico y contraseña',
                                       confirmBtnText: 'Hecho',
                                       confirmBtnColor: AppTema.pizazz,
                                     );

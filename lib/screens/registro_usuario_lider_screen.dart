@@ -1,15 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'dart:convert';
-
-import 'package:quickalert/quickalert.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
 
 import 'package:innova_ito/theme/app_tema.dart';
-
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:innova_ito/helpers/helpers.dart';
+
+import 'package:http/http.dart' as http;
+import 'package:go_router/go_router.dart';
+import 'package:quickalert/quickalert.dart';
 
 class RegistroUsuarioLiderScreen extends StatefulWidget {
   static const String name = 'registro_usuario_lider';
@@ -102,12 +101,12 @@ class _RegistroUsuarioLiderScreenState
 
     return Scaffold(
         body: Fondo(
-            tituloPantalla: 'Registro lider de proyecto',
+            tituloPantalla: 'Registro líder de proyecto',
             fontSize: 20,
             widget: Column(
               children: [
                 const SizedBox(height: 50),
-                Text(
+                const Text(
                   'Ingrese datos del estudiante',
                   style: TextStyle(
                       color: AppTema.balticSea,
@@ -232,8 +231,8 @@ class _RegistroUsuarioLiderScreenState
                             keyboardType: TextInputType.emailAddress,
                             decoration:
                                 InputDecorations.registroLiderDecoration(
-                              hintText: 'Ingrese correo electronico',
-                              labelText: 'Correo electronico',
+                              hintText: 'Ingrese correo electrónico',
+                              labelText: 'Correo electrónico',
                             ),
                             validator: (value) {
                               return RegexUtil.correoEdu.hasMatch(value ?? '')

@@ -267,7 +267,7 @@ class DepartamentoScreen extends ConsumerWidget {
                                                                     type: QuickAlertType
                                                                         .error,
                                                                     title:
-                                                                        'Ocurrio un error',
+                                                                        'Ocurrió un error',
                                                                     confirmBtnText:
                                                                         'Hecho',
                                                                     confirmBtnColor:
@@ -338,7 +338,7 @@ class DepartamentoScreen extends ConsumerWidget {
           actions: [
             ElevatedButton(
               onPressed: () async {
-                String idDep = Uuid().v4().substring(0, 8);
+                String idDep = const Uuid().v4().substring(0, 8);
                 bool agregado =
                     await agregarDepartamento(idDep, nombreDep, 'TEC01');
                 if (agregado) {
@@ -356,7 +356,7 @@ class DepartamentoScreen extends ConsumerWidget {
                   QuickAlert.show(
                     context: context,
                     type: QuickAlertType.error,
-                    title: 'Ocurrio un error',
+                    title: 'Ocurrió un error',
                     confirmBtnText: 'Hecho',
                     confirmBtnColor: AppTema.pizazz,
                     onConfirmBtnTap: () {

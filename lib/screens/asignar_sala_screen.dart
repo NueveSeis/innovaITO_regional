@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:innova_ito/helpers/helpers.dart';
 import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/models/models.dart';
-import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/widgets/widgets.dart';
-
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
-import 'package:uuid/uuid.dart';
 
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 
@@ -130,7 +126,7 @@ class AsignarSalaScreen extends ConsumerWidget {
 
     return Scaffold(
         body: Fondo(
-            tituloPantalla: 'Asignacion de Sala',
+            tituloPantalla: 'Asignación de Sala',
             fontSize: 20,
             widget: Column(
               children: [
@@ -181,7 +177,7 @@ class AsignarSalaScreen extends ConsumerWidget {
                             }),
                         loading: () => const CircularProgressIndicator(),
                         error: (error, stackTrace) => const Text(
-                            'Error al cargar los niveles academicos.'),
+                            'Error al cargar los niveles académicos.'),
                       ),
                       const SizedBox(height: 20),
                       Container(
@@ -217,7 +213,7 @@ class AsignarSalaScreen extends ConsumerWidget {
                             }),
                         loading: () => const CircularProgressIndicator(),
                         error: (error, stackTrace) => const Text(
-                            'Error al cargar los niveles academicos.'),
+                            'Error al cargar los niveles académicos.'),
                       ),
                       const SizedBox(height: 20),
                       ElevatedButton(
@@ -243,10 +239,10 @@ class AsignarSalaScreen extends ConsumerWidget {
                       const SizedBox(height: 20),
                       TimePickerSpinner(
                         is24HourMode: true,
-                        normalTextStyle:
-                            TextStyle(fontSize: 24, color: AppTema.bluegrey700),
-                        highlightedTextStyle:
-                            TextStyle(fontSize: 30, color: AppTema.pizazz),
+                        normalTextStyle: const TextStyle(
+                            fontSize: 24, color: AppTema.bluegrey700),
+                        highlightedTextStyle: const TextStyle(
+                            fontSize: 30, color: AppTema.pizazz),
                         spacing: 50,
                         itemHeight: 40,
                         isForce2Digits: true,
@@ -270,10 +266,10 @@ class AsignarSalaScreen extends ConsumerWidget {
                       const SizedBox(height: 20),
                       TimePickerSpinner(
                         is24HourMode: true,
-                        normalTextStyle:
-                            TextStyle(fontSize: 24, color: AppTema.bluegrey700),
-                        highlightedTextStyle:
-                            TextStyle(fontSize: 30, color: AppTema.pizazz),
+                        normalTextStyle: const TextStyle(
+                            fontSize: 24, color: AppTema.bluegrey700),
+                        highlightedTextStyle: const TextStyle(
+                            fontSize: 30, color: AppTema.pizazz),
                         spacing: 50,
                         itemHeight: 40,
                         isForce2Digits: true,
@@ -316,12 +312,12 @@ class AsignarSalaScreen extends ConsumerWidget {
                                 final endMinute =
                                     horaFin!.minute.toString().padLeft(2, '0');
 
-                                print(cSala);
-                                print(cProyecto);
-                                print(DateFormat('yyyy-MM-dd').format(fecha));
-                                print(
-                                    "Hora de inicio: $startHour:$startMinute");
-                                print("Hora de inicio: $endHour:$endMinute");
+                                // print(cSala);
+                                // print(cProyecto);
+                                // print(DateFormat('yyyy-MM-dd').format(fecha));
+                                // print(
+                                //     "Hora de inicio: $startHour:$startMinute");
+                                // print("Hora de inicio: $endHour:$endMinute");
 
                                 bool agregada = await agregarHSala(
                                     cSala,
@@ -344,7 +340,7 @@ class AsignarSalaScreen extends ConsumerWidget {
                                   QuickAlert.show(
                                     context: context,
                                     type: QuickAlertType.error,
-                                    title: 'Ocurrio un error',
+                                    title: 'Ocurrió un error',
                                     confirmBtnText: 'Hecho',
                                     confirmBtnColor: AppTema.pizazz,
                                     onConfirmBtnTap: () {
@@ -356,7 +352,7 @@ class AsignarSalaScreen extends ConsumerWidget {
                                 QuickAlert.show(
                                   context: context,
                                   type: QuickAlertType.warning,
-                                  title: 'Fecha vacia',
+                                  title: 'Fecha vacía',
                                   confirmBtnText: 'Hecho',
                                   confirmBtnColor: AppTema.pizazz,
                                 );

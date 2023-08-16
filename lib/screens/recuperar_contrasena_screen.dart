@@ -1,30 +1,26 @@
 import 'dart:convert';
-import 'package:go_router/go_router.dart';
-import 'package:innova_ito/providers/providers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:http/http.dart' as http;
-import 'package:quickalert/models/quickalert_type.dart';
-import 'package:quickalert/widgets/quickalert_dialog.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/helpers/helpers.dart';
-import 'package:innova_ito/providers/acceso_formulario_prov.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/theme/app_tema.dart';
+
+import 'package:http/http.dart' as http;
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class RecuperarContrasenaScreen extends StatefulWidget {
   static const String name = 'RecuperarContrasena';
   RecuperarContrasenaScreen({Key? key}) : super(key: key);
 
   @override
-  State<RecuperarContrasenaScreen> createState() => _RecuperarContrasenaScreenState();
+  State<RecuperarContrasenaScreen> createState() =>
+      _RecuperarContrasenaScreenState();
 }
 
 class _RecuperarContrasenaScreenState extends State<RecuperarContrasenaScreen> {
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool camposLlenos = true;
   TextEditingController correo = TextEditingController();
@@ -43,19 +39,17 @@ class _RecuperarContrasenaScreenState extends State<RecuperarContrasenaScreen> {
       print('buscando usuario...');
       getUser(correo.text);
       enviar();
-      
-      //Navigator.pushReplacementNamed(context, 'menu_lateral');
-    }else{
-      QuickAlert.show(
-                                      context: context,
-                                      type: QuickAlertType.error,
-                                      title: 'Correo no existente',
-                                      text:
-                                          'Verifique el correo electronico proporcionado',
-                                      confirmBtnText: 'Hecho',
-                                      confirmBtnColor: AppTema.pizazz,
-                                    );
 
+      //Navigator.pushReplacementNamed(context, 'menu_lateral');
+    } else {
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        title: 'Correo no existente',
+        text: 'Verifique el correo electrónico proporcionado',
+        confirmBtnText: 'Hecho',
+        confirmBtnColor: AppTema.pizazz,
+      );
     }
   }
 
@@ -72,36 +66,28 @@ class _RecuperarContrasenaScreenState extends State<RecuperarContrasenaScreen> {
       String ap1 = Apoyo.capitalizar(dataUser[0].apellido1.toString());
       String ap2 = Apoyo.capitalizar(dataUser[0].apellido2.toString());
       Correo.recuperacionContrasena(
-          context,
-          correo.text.toUpperCase(),
-          contrasena,
-          nombre,
-          ap1,
-          ap2);
-      
-      //Navigator.pushReplacementNamed(context, 'menu_lateral');
-    }else{
-      QuickAlert.show(
-                                      context: context,
-                                      type: QuickAlertType.error,
-                                      title: 'Intente mas tarde',
-                                      text:
-                                          'Problemas al enviar el correo electronico.',
-                                      confirmBtnText: 'Hecho',
-                                      confirmBtnColor: AppTema.pizazz,
-                                    );
+          context, correo.text.toUpperCase(), contrasena, nombre, ap1, ap2);
 
+      //Navigator.pushReplacementNamed(context, 'menu_lateral');
+    } else {
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        title: 'Intente mas tarde',
+        text: 'Problemas al enviar el correo electrónico.',
+        confirmBtnText: 'Hecho',
+        confirmBtnColor: AppTema.pizazz,
+      );
     }
   }
 
-   Future<void> getUser(String correo) async {
+  Future<void> getUser(String correo) async {
     String url = 'https://evarafael.com/Aplicacion/rest/get_dataUser.php';
     var response = await http.post(Uri.parse(url), body: {
       "Nombre_usuario": correo,
     });
     if (response.statusCode == 200) {
       dataUser = usuarioDataFromJson(response.body);
-      
     } else {
       print('nisiquiera carga');
     }
@@ -136,13 +122,12 @@ class _RecuperarContrasenaScreenState extends State<RecuperarContrasenaScreen> {
                     height: 25,
                   ),
                   const Text(
-                    'Por favor, cómpartenos tu correo registrado en el evento para recuperar tu contraseña.',
+                    'Por favor, compártenos tu correo registrado en el evento para recuperar tu contraseña.',
                     textAlign: TextAlign.justify,
                     style: TextStyle(
                         color: AppTema.balticSea,
                         fontSize: 15,
-                        fontStyle: FontStyle.italic
-                        ),
+                        fontStyle: FontStyle.italic),
                   ),
                   const SizedBox(
                     height: 30,
@@ -157,8 +142,8 @@ class _RecuperarContrasenaScreenState extends State<RecuperarContrasenaScreen> {
                             autocorrect: false,
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecorations.accesoInputDecoration(
-                                hintText: 'Correo electronico',
-                                labelText: 'Correo electronico',
+                                hintText: 'Correo electrónico',
+                                labelText: 'Correo electrónico',
                                 prefixIcon: Icons.person),
                             // onChanged: (value) => accesoFormulario.correo = value,
                             validator: (value) {
@@ -170,32 +155,28 @@ class _RecuperarContrasenaScreenState extends State<RecuperarContrasenaScreen> {
                           const SizedBox(
                             height: 30,
                           ),
-                          
-                             MaterialButton(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
-                                disabledColor: Colors.grey,
-                                elevation: 10,
-                                color: const Color.fromRGBO(250, 122, 30, 1),
-                                child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 80, vertical: 15),
-                                    child: const Text(
-                                      'Enviar',
-                                      style: TextStyle(color: Colors.white),
-                                    )),
-                                onPressed: () async {
-                                  FocusScope.of(context)
-                                      .requestFocus(FocusNode());
-                                       contrasena = Generar.contrasenaAleatoria();
-                                  contrasenaHash =
-                                      Generar.hashContrasena(contrasena);
-                                      acceso();
-                                      
-                                
-                                }),
-                          
+                          MaterialButton(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              disabledColor: Colors.grey,
+                              elevation: 10,
+                              color: const Color.fromRGBO(250, 122, 30, 1),
+                              child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 80, vertical: 15),
+                                  child: const Text(
+                                    'Enviar',
+                                    style: TextStyle(color: Colors.white),
+                                  )),
+                              onPressed: () async {
+                                FocusScope.of(context)
+                                    .requestFocus(FocusNode());
+                                contrasena = Generar.contrasenaAleatoria();
+                                contrasenaHash =
+                                    Generar.hashContrasena(contrasena);
+                                acceso();
+                              }),
                         ])),
                   ),
                   const SizedBox(

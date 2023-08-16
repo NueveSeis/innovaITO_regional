@@ -1,15 +1,12 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/models/models.dart';
-import 'package:innova_ito/widgets/tarjeta_requerimientos.dart';
 import 'package:innova_ito/widgets/widgets.dart';
-import 'package:http/http.dart' as http;
 
-import 'package:file_picker/file_picker.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:http/http.dart' as http;
+import 'package:go_router/go_router.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 
@@ -317,11 +314,10 @@ class RequerimientosLiderScreen extends ConsumerWidget {
                   future: fetchRequerimientos(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     } else if (snapshot.hasError) {
                       return Center(child: Text(snapshot.error.toString()));
                     } else {
-                      //inal requirementos = snapshot.data;
                       return ListView.builder(
                         shrinkWrap: true,
                         itemCount: requerimientos.length,
@@ -341,7 +337,7 @@ class RequerimientosLiderScreen extends ConsumerWidget {
                                 child: Container(
                                     child: Text(
                                   requerimientos[index].tipo,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: AppTema.bluegrey700, fontSize: 18),
                                 )),
                                 onPressed: () async {
@@ -366,7 +362,7 @@ class RequerimientosLiderScreen extends ConsumerWidget {
                                     QuickAlert.show(
                                       context: context,
                                       type: QuickAlertType.error,
-                                      title: 'Ocurrio un error',
+                                      title: 'Ocurrió un error',
                                       confirmBtnText: 'Hecho',
                                       confirmBtnColor: AppTema.pizazz,
                                       onConfirmBtnTap: () {
@@ -384,7 +380,7 @@ class RequerimientosLiderScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 30),
                 const Text(
-                  'Nota: Esto aplica para proyectos cuyo prototipo presenten exceso de dimensiones como maquinarias o vehículos, o para proyectos que utilicen algun tipo de material peligroso o inflamble (gas,combustible).',
+                  'Nota: Esto aplica para proyectos cuyo prototipo presenten exceso de dimensiones como maquinarias o vehículos, o para proyectos que utilicen algún tipo de material peligroso o inflamable (gas,combustible).',
                   textAlign: TextAlign.justify,
                   style: TextStyle(
                       color: AppTema.balticSea,

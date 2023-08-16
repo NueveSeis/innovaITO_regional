@@ -1,19 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
-import 'package:html_editor_enhanced/utils/callbacks.dart';
-import 'package:html_editor_enhanced/utils/file_upload_model.dart';
-import 'package:html_editor_enhanced/utils/options.dart';
-import 'package:html_editor_enhanced/utils/plugins.dart';
-import 'package:html_editor_enhanced/utils/shims/dart_ui.dart';
-import 'package:html_editor_enhanced/utils/shims/dart_ui_fake.dart';
-import 'package:html_editor_enhanced/utils/shims/dart_ui_real.dart';
-import 'package:html_editor_enhanced/utils/shims/flutter_inappwebview_fake.dart';
-import 'package:html_editor_enhanced/utils/toolbar.dart';
-import 'package:html_editor_enhanced/utils/utils.dart';
 import 'package:flutter_summernote/flutter_summernote.dart';
-import 'package:pluto_grid/pluto_grid.dart';
-import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
 //import 'package:html_editor/html_editor.dart';
 
 class InicioScreen extends StatefulWidget {
@@ -32,18 +21,16 @@ class _InicioScreenState extends State<InicioScreen> {
   Widget build(BuildContext context) {
     //HtmlEditorController controller = HtmlEditorController();
 
-    HtmlEditorController controller = HtmlEditorController();
-
     return Scaffold(
       body: Fondo(
           fontSize: 20,
-          tituloPantalla: 'prubea',
+          tituloPantalla: 'prueba',
           widget: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Center(
@@ -53,7 +40,7 @@ class _InicioScreenState extends State<InicioScreen> {
                     border: Border.all(color: Colors.black),
                   ),
                   child: Table(
-                    columnWidths: {
+                    columnWidths: const {
                       0: FixedColumnWidth(100), // Ancho de la primera columna
                       1: FlexColumnWidth(
                           200), // Segunda columna ocupa espacio restante
@@ -66,11 +53,12 @@ class _InicioScreenState extends State<InicioScreen> {
                             child: Container(
                               alignment: Alignment
                                   .centerLeft, // Alineación a la izquierda
-                              padding: EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Text('Folio:'),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: const Text('Folio:'),
                             ),
                           ),
-                          TableCell(
+                          const TableCell(
                             child: Center(child: Text('Columna 2')),
                           ),
                         ],
@@ -81,11 +69,12 @@ class _InicioScreenState extends State<InicioScreen> {
                             child: Container(
                               alignment: Alignment
                                   .centerLeft, // Alineación a la izquierda
-                              padding: EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Text('Nombre corto:'),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: const Text('Nombre corto:'),
                             ),
                           ),
-                          TableCell(
+                          const TableCell(
                             child: Center(child: Text('Columna 2')),
                           ),
                         ],
@@ -96,11 +85,12 @@ class _InicioScreenState extends State<InicioScreen> {
                             child: Container(
                               alignment: Alignment
                                   .centerLeft, // Alineación a la izquierda
-                              padding: EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Text('Nombre descriptivo:'),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: const Text('Nombre descriptivo:'),
                             ),
                           ),
-                          TableCell(
+                          const TableCell(
                             child: Center(child: Text('Columna 2')),
                           ),
                         ],
@@ -111,11 +101,12 @@ class _InicioScreenState extends State<InicioScreen> {
                             child: Container(
                               alignment: Alignment
                                   .centerLeft, // Alineación a la izquierda
-                              padding: EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Text('Categoría:'),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: const Text('Categoría:'),
                             ),
                           ),
-                          TableCell(
+                          const TableCell(
                             child: Center(child: Text('Columna 2')),
                           ),
                         ],
@@ -126,11 +117,12 @@ class _InicioScreenState extends State<InicioScreen> {
                             child: Container(
                               alignment: Alignment
                                   .centerLeft, // Alineación a la izquierda
-                              padding: EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Text('Sector estratégico:'),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: const Text('Sector estratégico:'),
                             ),
                           ),
-                          TableCell(
+                          const TableCell(
                             child: Center(child: Text('Columna 2')),
                           ),
                         ],
@@ -141,11 +133,12 @@ class _InicioScreenState extends State<InicioScreen> {
                             child: Container(
                               alignment: Alignment
                                   .centerLeft, // Alineación a la izquierda
-                              padding: EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Text('Naturaleza técnica:'),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: const Text('Naturaleza técnica:'),
                             ),
                           ),
-                          TableCell(
+                          const TableCell(
                             child: Center(child: Text('Columna 2')),
                           ),
                         ],

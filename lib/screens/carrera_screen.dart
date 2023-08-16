@@ -90,9 +90,9 @@ class CarreraScreen extends ConsumerWidget {
                   margin:
                       const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                   child: ElevatedButton(
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
                         Icon(Icons.add_circle_outline_rounded),
                         Text(
                           '  Añadir carrera',
@@ -275,7 +275,7 @@ class CarreraScreen extends ConsumerWidget {
                                                                       type: QuickAlertType
                                                                           .error,
                                                                       title:
-                                                                          'Ocurrio un error',
+                                                                          'Ocurrió un error',
                                                                       confirmBtnText:
                                                                           'Hecho',
                                                                       confirmBtnColor:

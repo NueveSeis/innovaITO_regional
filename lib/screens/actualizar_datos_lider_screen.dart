@@ -129,13 +129,13 @@ class ActualizarDatosLiderScreen extends ConsumerWidget {
 
     return Scaffold(
         body: Fondo(
-            tituloPantalla: 'Completar registro lider',
+            tituloPantalla: 'Completar registro líder',
             fontSize: 20,
             widget: Column(
               children: [
                 const SizedBox(height: 50),
                 const Text(
-                  'Ingrese datos del estudiante lider',
+                  'Ingrese datos del estudiante líder',
                   style: TextStyle(
                       color: AppTema.balticSea,
                       fontWeight: FontWeight.bold,
@@ -224,13 +224,13 @@ class ActualizarDatosLiderScreen extends ConsumerWidget {
                             keyboardType: TextInputType.number,
                             decoration:
                                 InputDecorations.registroLiderDecoration(
-                              hintText: 'Ingrese Numero telefonico',
-                              labelText: 'Numero telefonico',
+                              hintText: 'Ingrese Numero telefónico',
+                              labelText: 'Numero telefónico',
                             ),
                             validator: (value) {
                               return RegexUtil.telefono.hasMatch(value ?? '')
                                   ? null
-                                  : 'Solo se aceptan numeros.';
+                                  : 'Solo se aceptan números.';
                             },
                           ),
                           const SizedBox(height: 20),
@@ -267,7 +267,7 @@ class ActualizarDatosLiderScreen extends ConsumerWidget {
                                 }),
                             loading: () => const CircularProgressIndicator(),
                             error: (error, stackTrace) =>
-                                const Text('Error al cargar los generos'),
+                                const Text('Error al cargar los géneros'),
                           ),
                           const SizedBox(height: 20),
                           Container(
@@ -351,7 +351,7 @@ class ActualizarDatosLiderScreen extends ConsumerWidget {
                           Container(
                             alignment: Alignment.topLeft,
                             child: const Text(
-                              'Nivel academico',
+                              'Nivel académico',
                               style: TextStyle(
                                   color: AppTema.bluegrey700,
                                   fontWeight: FontWeight.bold),
@@ -381,7 +381,7 @@ class ActualizarDatosLiderScreen extends ConsumerWidget {
                                 }),
                             loading: () => const CircularProgressIndicator(),
                             error: (error, stackTrace) => const Text(
-                                'Error al cargar los niveles academicos.'),
+                                'Error al cargar los niveles académicos.'),
                           ),
                           const SizedBox(height: 20),
                           Container(
@@ -459,7 +459,7 @@ class ActualizarDatosLiderScreen extends ConsumerWidget {
                                 }),
                             loading: () => const CircularProgressIndicator(),
                             error: (error, stackTrace) =>
-                                const Text('Error al cargar los tecnologicos.'),
+                                const Text('Error al cargar los tecnológicos.'),
                           ),
                           const SizedBox(
                             height: 20,
@@ -498,8 +498,8 @@ class ActualizarDatosLiderScreen extends ConsumerWidget {
                                   ref.refresh(futureCarreraProv);
                                 }),
                             loading: () => const CircularProgressIndicator(),
-                            error: (error, stackTrace) =>
-                                const Text('Error al cargar los tecnologicos.'),
+                            error: (error, stackTrace) => const Text(
+                                'Error al cargar los departamentos.'),
                           ),
                           const SizedBox(
                             height: 20,
@@ -592,7 +592,7 @@ class ActualizarDatosLiderScreen extends ConsumerWidget {
                                       context: context,
                                       type: QuickAlertType.error,
                                       title: 'Error',
-                                      text: 'Porfavor intente mas tarde.',
+                                      text: 'Por favor intente mas tarde.',
                                       confirmBtnText: 'Hecho',
                                       confirmBtnColor: AppTema.pizazz,
                                       onConfirmBtnTap: () {
@@ -605,7 +605,7 @@ class ActualizarDatosLiderScreen extends ConsumerWidget {
                                   QuickAlert.show(
                                     context: context,
                                     type: QuickAlertType.warning,
-                                    title: 'Existen campos vacios',
+                                    title: 'Existen campos vacíos',
                                     confirmBtnText: 'Hecho',
                                     confirmBtnColor: AppTema.pizazz,
                                   );

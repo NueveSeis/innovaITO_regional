@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:innova_ito/theme/app_tema.dart';
 
+import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/widgets/widgets.dart';
+
+import 'package:go_router/go_router.dart';
 
 class RegistroUsuarioScreen extends StatelessWidget {
   static const String name = 'registro_usuario';
@@ -45,7 +46,7 @@ class RegistroUsuarioScreen extends StatelessWidget {
                           color: AppTema.grey100,
                           child: Container(
                               child: const Text(
-                            'Lider de proyecto',
+                            'Líder de proyecto',
                             style: TextStyle(
                                 color: AppTema.bluegrey700, fontSize: 25),
                           )),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/theme/app_tema.dart';
-import 'package:provider/provider.dart';
 
 class AceptarProVinculacion extends StatelessWidget {
   final ProyectoModelo proyecto;
@@ -30,19 +30,20 @@ class AceptarProVinculacion extends StatelessWidget {
               children: [
                 Text(
                   proyecto.titulo,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: AppTema.bluegrey700,
                       //fontWeight: FontWeight.bold,
                       fontSize: 20),
                 ),
                 Text(
-                  'Categoria: ${proyecto.categoria}',
-                  style: TextStyle(color: AppTema.bluegrey700, fontSize: 12),
+                  'Categoría: ${proyecto.categoria}',
+                  style:
+                      const TextStyle(color: AppTema.bluegrey700, fontSize: 12),
                 ),
               ],
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -52,7 +53,7 @@ class AceptarProVinculacion extends StatelessWidget {
                       icon: const Icon(Icons.visibility_rounded, size: 30),
                       onPressed: () {},
                       color: AppTema.bluegrey700),
-                  Text(
+                  const Text(
                     'Visualizar',
                     style: TextStyle(
                       color: AppTema.bluegrey700,
@@ -60,7 +61,7 @@ class AceptarProVinculacion extends StatelessWidget {
                   )
                 ],
               ),
-              Column(
+              const Column(
                 children: [
                   IconButton(
                     icon: Icon(Icons.trip_origin_rounded,
@@ -83,7 +84,7 @@ class AceptarProVinculacion extends StatelessWidget {
                     onChanged: (value) => print('hola'),
                     activeColor: AppTema.pizazz,
                   ),
-                  Text(
+                  const Text(
                     'Aceptar',
                     style: TextStyle(
                       color: AppTema.bluegrey700,

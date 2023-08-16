@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:innova_ito/theme/app_tema.dart';
-import 'package:innova_ito/widgets/tarjeta_participante.dart';
-import 'package:innova_ito/providers/providers.dart';
-import 'package:innova_ito/models/models.dart';
 
+import 'package:innova_ito/theme/app_tema.dart';
+import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 
-import 'dart:convert';
-
+import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
@@ -286,7 +282,7 @@ class RequerimientosScreen extends ConsumerWidget {
                                                                       QuickAlertType
                                                                           .error,
                                                                   title:
-                                                                      'Ocurrio un error',
+                                                                      'Ocurrió un error',
                                                                   confirmBtnText:
                                                                       'Hecho',
                                                                   confirmBtnColor:
@@ -338,32 +334,32 @@ class RequerimientosScreen extends ConsumerWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Crear Requerimiento Especial'),
+          title: const Text('Crear Requerimiento Especial'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
                 maxLines: null,
-                decoration:
-                    InputDecoration(labelText: 'Nombre del requerimiento'),
+                decoration: const InputDecoration(
+                    labelText: 'Nombre del requerimiento'),
                 onChanged: (value) => nombreReq = value,
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextFormField(
-                decoration:
-                    InputDecoration(labelText: 'Descripcion del requerimiento'),
+                decoration: const InputDecoration(
+                    labelText: 'Descripción del requerimiento'),
                 keyboardType: TextInputType.text,
                 maxLines: null,
                 onChanged: (value) => descripcionReq = value,
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
             ],
           ),
           actions: [
             ElevatedButton(
               onPressed: () async {
-                String idReq = Uuid().v4().substring(0, 8);
+                String idReq = const Uuid().v4().substring(0, 8);
                 bool agregado = await agregarRequerimiento(
                     idReq, nombreReq, descripcionReq);
                 if (agregado) {
@@ -381,7 +377,7 @@ class RequerimientosScreen extends ConsumerWidget {
                   QuickAlert.show(
                     context: context,
                     type: QuickAlertType.error,
-                    title: 'Ocurrio un error',
+                    title: 'Ocurrió un error',
                     confirmBtnText: 'Hecho',
                     confirmBtnColor: AppTema.pizazz,
                     onConfirmBtnTap: () {
@@ -390,11 +386,11 @@ class RequerimientosScreen extends ConsumerWidget {
                   );
                 }
               },
-              child: Text('Crear'),
+              child: const Text('Crear'),
             ),
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('Cancelar'),
+              child: const Text('Cancelar'),
             ),
           ],
         );

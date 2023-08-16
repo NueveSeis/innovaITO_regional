@@ -257,7 +257,7 @@ class EstadoAdminScreen extends ConsumerWidget {
                                                                       QuickAlertType
                                                                           .error,
                                                                   title:
-                                                                      'Ocurrio un error',
+                                                                      'Ocurrió un error',
                                                                   confirmBtnText:
                                                                       'Hecho',
                                                                   confirmBtnColor:
@@ -308,23 +308,24 @@ class EstadoAdminScreen extends ConsumerWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Crear Estado'),
+          title: const Text('Crear Estado'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
                 maxLines: null,
-                decoration: InputDecoration(labelText: 'Nombre del estado'),
+                decoration:
+                    const InputDecoration(labelText: 'Nombre del estado'),
                 onChanged: (value) => nombreEstado = value,
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
             ],
           ),
           actions: [
             ElevatedButton(
               onPressed: () async {
-                String idEst = Uuid().v4().substring(0, 8);
+                String idEst = const Uuid().v4().substring(0, 8);
                 bool agregado = await agregarEstado(idEst, nombreEstado);
                 if (agregado) {
                   QuickAlert.show(
@@ -341,7 +342,7 @@ class EstadoAdminScreen extends ConsumerWidget {
                   QuickAlert.show(
                     context: context,
                     type: QuickAlertType.error,
-                    title: 'Ocurrio un error',
+                    title: 'Ocurrió un error',
                     confirmBtnText: 'Hecho',
                     confirmBtnColor: AppTema.pizazz,
                     onConfirmBtnTap: () {
@@ -350,11 +351,11 @@ class EstadoAdminScreen extends ConsumerWidget {
                   );
                 }
               },
-              child: Text('Crear'),
+              child: const Text('Crear'),
             ),
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('Cancelar'),
+              child: const Text('Cancelar'),
             ),
           ],
         );

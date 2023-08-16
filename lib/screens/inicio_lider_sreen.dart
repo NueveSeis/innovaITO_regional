@@ -88,9 +88,9 @@ class InicioLiderScreen extends ConsumerWidget {
                               horizontal: 20,
                               vertical: 12,
                             ),
-                            child: Text(
+                            child: const Text(
                               'BIENVENIDO',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: AppTema.bluegrey700,
                               ),
                             ),

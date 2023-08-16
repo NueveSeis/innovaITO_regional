@@ -202,7 +202,7 @@ class ModeloNegocioScreen extends ConsumerWidget {
                                         QuickAlert.show(
                                           context: context,
                                           type: QuickAlertType.error,
-                                          title: 'Ocurrio un error',
+                                          title: 'Ocurrió un error',
                                           confirmBtnText: 'Hecho',
                                           confirmBtnColor: AppTema.pizazz,
                                           onConfirmBtnTap: () {
@@ -215,7 +215,7 @@ class ModeloNegocioScreen extends ConsumerWidget {
                                       QuickAlert.show(
                                         context: context,
                                         type: QuickAlertType.error,
-                                        title: 'Ocurrio un error',
+                                        title: 'Ocurrió un error',
                                         confirmBtnText: 'Hecho',
                                         confirmBtnColor: AppTema.pizazz,
                                         onConfirmBtnTap: () {
@@ -314,7 +314,7 @@ class ModeloNegocioScreen extends ConsumerWidget {
                                       QuickAlert.show(
                                         context: context,
                                         type: QuickAlertType.error,
-                                        title: 'Ocurrio un error',
+                                        title: 'Ocurrió un error',
                                         confirmBtnText: 'Hecho',
                                         confirmBtnColor: AppTema.pizazz,
                                         onConfirmBtnTap: () {

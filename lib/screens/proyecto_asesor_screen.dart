@@ -1,23 +1,21 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/theme/app_tema.dart';
-import 'package:http/http.dart' as http;
-
 import 'package:innova_ito/widgets/widgets.dart';
+
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:printing/printing.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
-import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:http/http.dart' as http;
+import 'package:go_router/go_router.dart';
+import 'dart:convert';
+import 'dart:io';
 
 class ProyectoAsesorScreen extends ConsumerWidget {
   static const String name = 'proyecto_asesor';
@@ -85,11 +83,11 @@ class ProyectoAsesorScreen extends ConsumerWidget {
               ),
               pw.Center(
                 child: pw.Text('InnovaITO 2023',
-                    style: pw.TextStyle(fontSize: 20)),
+                    style: const pw.TextStyle(fontSize: 20)),
               ),
               pw.Center(
-                child:
-                    pw.Text('Ficha Tecnica', style: pw.TextStyle(fontSize: 18)),
+                child: pw.Text('Ficha Técnica',
+                    style: const pw.TextStyle(fontSize: 18)),
               ),
               pw.Text('MEMORIA DEL PROYECTO',
                   style: pw.TextStyle(
@@ -100,8 +98,10 @@ class ProyectoAsesorScreen extends ConsumerWidget {
               pw.TableHelper.fromTextArray(
                 //context: pw.Context()..style = pw.TextStyle(fontSize: 12),
                 columnWidths: {
-                  0: pw.FixedColumnWidth(150), // Ancho de la primera columna
-                  1: pw.FixedColumnWidth(300), // Ancho de la segunda columna
+                  0: const pw.FixedColumnWidth(
+                      150), // Ancho de la primera columna
+                  1: const pw.FixedColumnWidth(
+                      300), // Ancho de la segunda columna
                 },
                 data: <List<String>>[
                   ['Folio:', proyectos[index].folio],
@@ -230,7 +230,7 @@ class ProyectoAsesorScreen extends ConsumerWidget {
                                           height: 5,
                                         ),
                                         Text(
-                                          'Naturaleza Tecnica: ${proyectos[index].tipo}',
+                                          'Naturaleza Técnica: ${proyectos[index].tipo}',
                                           style: const TextStyle(
                                               color: AppTema.bluegrey700,
                                               fontSize: 12),
@@ -284,7 +284,7 @@ class ProyectoAsesorScreen extends ConsumerWidget {
                                       Column(
                                         children: [
                                           IconButton(
-                                            icon: Icon(
+                                            icon: const Icon(
                                                 Icons.add_comment_rounded,
                                                 color: AppTema.bluegrey700,
                                                 size: 25),
@@ -295,7 +295,7 @@ class ProyectoAsesorScreen extends ConsumerWidget {
                                             },
                                           ),
                                           //SizedBox(zi),
-                                          Text(
+                                          const Text(
                                             'Observaciones',
                                             style: TextStyle(
                                               color: AppTema.bluegrey700,
@@ -334,7 +334,7 @@ class ProyectoAsesorScreen extends ConsumerWidget {
                                                 QuickAlert.show(
                                                   context: context,
                                                   type: QuickAlertType.error,
-                                                  title: 'Ocurrio un error',
+                                                  title: 'Ocurrió un error',
                                                   confirmBtnText: 'Hecho',
                                                   confirmBtnColor:
                                                       AppTema.pizazz,
@@ -382,15 +382,15 @@ class ProyectoAsesorScreen extends ConsumerWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Añada retroalimentacion'),
+          title: const Text('Añada retroalimentación'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
                 maxLines: null,
-                decoration:
-                    InputDecoration(labelText: 'Ingrese retroalimentacion'),
+                decoration: const InputDecoration(
+                    labelText: 'Ingrese retroalimentación'),
                 onChanged: (value) => comentario = value,
               ),
               const SizedBox(height: 10),
@@ -405,7 +405,7 @@ class ProyectoAsesorScreen extends ConsumerWidget {
                   QuickAlert.show(
                     context: context,
                     type: QuickAlertType.success,
-                    title: 'Retroalimentacion enviada',
+                    title: 'Retroalimentación enviada',
                     confirmBtnText: 'Hecho',
                     confirmBtnColor: AppTema.pizazz,
                     onConfirmBtnTap: () {
@@ -416,7 +416,7 @@ class ProyectoAsesorScreen extends ConsumerWidget {
                   QuickAlert.show(
                     context: context,
                     type: QuickAlertType.error,
-                    title: 'Ocurrio un error',
+                    title: 'Ocurrió un error',
                     confirmBtnText: 'Hecho',
                     confirmBtnColor: AppTema.pizazz,
                     onConfirmBtnTap: () {
@@ -425,11 +425,11 @@ class ProyectoAsesorScreen extends ConsumerWidget {
                   );
                 }
               },
-              child: Text('Enviar'),
+              child: const Text('Enviar'),
             ),
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('Cancelar'),
+              child: const Text('Cancelar'),
             ),
           ],
         );

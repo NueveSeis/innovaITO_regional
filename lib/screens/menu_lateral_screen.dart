@@ -53,7 +53,7 @@ class _MenuLateralState extends State<MenuLateral> {
                     ),
                     child: Text(
                       'Menu'.toUpperCase(),
-                      style: TextStyle(color: AppTema.bluegrey700),
+                      style: const TextStyle(color: AppTema.bluegrey700),
                     ),
                   ),
                   if (rol.toLowerCase() == 'estudiante lider')
@@ -134,7 +134,7 @@ class _MenuLateralState extends State<MenuLateral> {
                     ),
                     child: Text(
                       'Ajustes'.toUpperCase(),
-                      style: TextStyle(color: AppTema.bluegrey700),
+                      style: const TextStyle(color: AppTema.bluegrey700),
                     ),
                   ),
                   ...itemsConfig.map(

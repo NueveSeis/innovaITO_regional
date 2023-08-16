@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/widgets/tarjeta_participante.dart';
 import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/models/models.dart';
-
 import 'package:innova_ito/widgets/widgets.dart';
 
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
+import 'package:go_router/go_router.dart';
 
 class ParticipanteScreen extends ConsumerWidget {
   static const String name = 'participantes';
@@ -75,21 +74,21 @@ class ParticipanteScreen extends ConsumerWidget {
                   margin:
                       const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                   child: ElevatedButton(
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Agregar Particpante',
-                          style:
-                              TextStyle(color: AppTema.grey100, fontSize: 20),
-                        ),
-                      ],
-                    ),
                     onPressed: nParticipantesProv >= 5
                         ? null
                         : () {
                             context.pushNamed('agregar_participantes');
                           },
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Agregar Participante',
+                          style:
+                              TextStyle(color: AppTema.grey100, fontSize: 20),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 FutureBuilder(
@@ -130,16 +129,8 @@ class ParticipanteScreen extends ConsumerWidget {
                                       idParticipante:
                                           datosEstudiantes[index].id.toString(),
                                       numero: index + 1,
-                                      nombre: datosEstudiantes[index]
-                                              .nombrePersona +
-                                          ' ' +
-                                          datosEstudiantes[index]
-                                              .apellido1
-                                              .toString() +
-                                          ' ' +
-                                          datosEstudiantes[index]
-                                              .apellido2
-                                              .toString(),
+                                      nombre:
+                                          '${datosEstudiantes[index].nombrePersona} ${datosEstudiantes[index].apellido1} ${datosEstudiantes[index].apellido2}',
                                       semestre: datosEstudiantes[index]
                                               .numeroSemestre ??
                                           'no asignado',

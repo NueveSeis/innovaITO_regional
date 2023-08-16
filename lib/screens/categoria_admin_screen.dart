@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:innova_ito/theme/app_tema.dart';
-import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/widgets/widgets.dart';
-import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:quickalert/quickalert.dart';
@@ -72,7 +70,7 @@ class CategoriaAdminScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: Fondo(
-          tituloPantalla: 'Categorias',
+          tituloPantalla: 'Categorías',
           fontSize: 20,
           widget: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
@@ -262,7 +260,7 @@ class CategoriaAdminScreen extends ConsumerWidget {
                                                                       QuickAlertType
                                                                           .error,
                                                                   title:
-                                                                      'Ocurrio un error',
+                                                                      'Ocurrió un error',
                                                                   confirmBtnText:
                                                                       'Hecho',
                                                                   confirmBtnColor:
@@ -313,7 +311,7 @@ class CategoriaAdminScreen extends ConsumerWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Crear Categoria'),
+          title: const Text('Crear Categoría'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -321,16 +319,16 @@ class CategoriaAdminScreen extends ConsumerWidget {
               TextFormField(
                 maxLines: null,
                 decoration:
-                    InputDecoration(labelText: 'Nombre de la categoria'),
+                    const InputDecoration(labelText: 'Nombre de la categoría'),
                 onChanged: (value) => nombreCate = value,
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
             ],
           ),
           actions: [
             ElevatedButton(
               onPressed: () async {
-                String idCat = Uuid().v4().substring(0, 8);
+                String idCat = const Uuid().v4().substring(0, 8);
                 bool agregado = await agregarCategoria(idCat, nombreCate);
                 if (agregado) {
                   QuickAlert.show(
@@ -347,7 +345,7 @@ class CategoriaAdminScreen extends ConsumerWidget {
                   QuickAlert.show(
                     context: context,
                     type: QuickAlertType.error,
-                    title: 'Ocurrio un error',
+                    title: 'Ocurrió un error',
                     confirmBtnText: 'Hecho',
                     confirmBtnColor: AppTema.pizazz,
                     onConfirmBtnTap: () {
@@ -356,11 +354,11 @@ class CategoriaAdminScreen extends ConsumerWidget {
                   );
                 }
               },
-              child: Text('Crear'),
+              child: const Text('Crear'),
             ),
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('Cancelar'),
+              child: const Text('Cancelar'),
             ),
           ],
         );

@@ -132,7 +132,6 @@ class AgregarRubricaScreen extends ConsumerWidget {
                               hintText: 'Ingrese nombre de la rubrica',
                               labelText: 'Nombre de la rubrica',
                             ),
-                            //onChanged: (value) => registroLider.nombre = value,
                             validator: (value) {
                               return RegexUtil.nombres.hasMatch(value ?? '')
                                   ? null
@@ -230,14 +229,14 @@ class AgregarRubricaScreen extends ConsumerWidget {
                                     decoration: InputDecorations
                                         .registroLiderDecoration(
                                       hintText:
-                                          'Ingrese descripcion del criterio',
-                                      labelText: 'Descripcion del criterio',
+                                          'Ingrese descripción del criterio',
+                                      labelText: 'Descripción del criterio',
                                     ),
                                     validator: (value) {
                                       return RegexUtil.nombres
                                               .hasMatch(value ?? '')
                                           ? null
-                                          : 'Descripcion no valida.';
+                                          : 'Descripción no valida.';
                                     },
                                   ),
                                   const SizedBox(height: 10),
@@ -320,19 +319,9 @@ class AgregarRubricaScreen extends ConsumerWidget {
                                             final text2 =
                                                 _controllersList[i][1].text;
 
-                                            // print('Nombre de la rubrica:' +
-                                            //     cNombreRubrica.text);
-
-                                            // print('Numero de criterios: ' +
-                                            //     values.toString());
-                                            // print(
-                                            //     'Campo $i - 2: Mínimo: $minVal, Máximo: $maxVal');
-                                            // print('Campo $i - 1: $text1');
-                                            // print('Campo $i - 2: $text2');
-                                            // print('Id: RUB' + id);
-
-                                            String idCri =
-                                                Uuid().v4().substring(0, 8);
+                                            String idCri = const Uuid()
+                                                .v4()
+                                                .substring(0, 8);
 
                                             await agregarCriterio(idCri, text1,
                                                 text2, '0', text2, id);
@@ -342,7 +331,7 @@ class AgregarRubricaScreen extends ConsumerWidget {
                                           QuickAlert.show(
                                             context: context,
                                             type: QuickAlertType.error,
-                                            title: 'Ocurrio un error',
+                                            title: 'Ocurrió un error',
                                             confirmBtnText: 'Hecho',
                                             confirmBtnColor: AppTema.pizazz,
                                             onConfirmBtnTap: () {
@@ -351,7 +340,6 @@ class AgregarRubricaScreen extends ConsumerWidget {
                                           );
                                         }
                                       } else {
-                                        print('checar valores');
                                         QuickAlert.show(
                                           context: context,
                                           type: QuickAlertType.warning,
@@ -365,7 +353,6 @@ class AgregarRubricaScreen extends ConsumerWidget {
                                         );
                                       }
                                     } else {
-                                      print('Ningún interruptor está activado');
                                       QuickAlert.show(
                                         context: context,
                                         type: QuickAlertType.warning,
@@ -390,8 +377,6 @@ class AgregarRubricaScreen extends ConsumerWidget {
                                       },
                                     );
                                   }
-
-//imprimir maximos y minimos de una campo
                                 }),
                           ),
                         ],

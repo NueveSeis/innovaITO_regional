@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 
@@ -38,7 +39,7 @@ class ProyectoAceptado extends StatelessWidget {
                       fontSize: 20),
                 ),
                 Text(
-                  'Categoria: ${proyecto.categoria}',
+                  'Categoría: ${proyecto.categoria}',
                   style:
                       const TextStyle(color: AppTema.bluegrey700, fontSize: 12),
                 ),

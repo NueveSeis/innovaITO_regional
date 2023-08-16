@@ -1,18 +1,16 @@
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/screens/screens.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/widgets/widgets.dart';
-import 'package:http/http.dart' as http;
 
+import 'package:http/http.dart' as http;
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:printing/printing.dart';
 
 class TablaPosicionesScreen extends StatelessWidget {
@@ -58,8 +56,8 @@ class TablaPosicionesScreen extends StatelessWidget {
     tablero = tableroFromJson(response.body);
     tablero.sort((a, b) => double.parse(b.calificacionGlobal)
         .compareTo(double.parse(a.calificacionGlobal)));
-        print('hola');
-  print( tablero[0].nombreArea);
+    print('hola');
+    print(tablero[0].nombreArea);
   }
 
   @override
@@ -111,40 +109,38 @@ class TablaPosicionesScreen extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-             
               FutureBuilder(
-                  future: obtenerPosiciones(),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
+                future: obtenerPosiciones(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasError) {
+                      return Center(
+                          child: Text('Error: ${snapshot.error.toString()}'));
+                    } else {
+                      return ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: tablero.length,
+                        itemBuilder: (context, index) {
+                          return CardPosiciones(
+                            posicion: index + 1,
+                            nombreCategoria: tablero[index].nombreArea,
+                            nombreProyecto: tablero[index].nombreCorto,
+                            nombreTecnologico: tablero[index].nombreArea,
+                            calificacion: tablero[index].calificacionGlobal,
+                          );
+                        },
                       );
-                    } else if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error.toString()}'));
-              } else {
-                return ListView.builder(
-                         physics: NeverScrollableScrollPhysics(),
-                         shrinkWrap: true,
-                         itemCount: tablero.length,
-                         itemBuilder: (context, index) {
-                           return CardPosiciones(
-                             posicion: index + 1,
-                             nombreCategoria: tablero[index].nombreArea,
-                             nombreProyecto: tablero[index].nombreCorto,
-                             nombreTecnologico: tablero[index].nombreArea,
-                             calificacion: tablero[index].calificacionGlobal,
-                           );
-                         },
-                       );
-              }
-            } else {
-              return Center(child: Text('Something went wrong!'));
-            }
-          },
-                  
-                  ),
-                 
+                    }
+                  } else {
+                    return const Center(child: Text('Something went wrong!'));
+                  }
+                },
+              ),
             ],
           ),
         ));

@@ -1,15 +1,15 @@
 import 'dart:convert';
-import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:quickalert/quickalert.dart';
-//import 'package:animated_custom_dropdown/custom_dropdown.dart';
 
 import 'package:innova_ito/helpers/helpers.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:innova_ito/models/models.dart';
+
+import 'package:http/http.dart' as http;
+import 'package:quickalert/quickalert.dart';
+import 'package:go_router/go_router.dart';
 
 class RegistroUsuarioAsesorScreen extends StatefulWidget {
   static const String name = 'registro_usuario_asesor';
@@ -131,7 +131,6 @@ class _RegistroUsuarioAsesorScreenState
         'https://evarafael.com/Aplicacion/rest/get_tecnologico.php?Id_tipoTec=$valueTipo';
     var response = await http.get(Uri.parse(url));
     tecnologicoM = tecnologicoFromJson(response.body);
-    //print(tecnologicoM[0].nombreTecnologico);
     setState(() {
       cargando2 = true;
     });
@@ -166,7 +165,6 @@ class _RegistroUsuarioAsesorScreenState
               ? null
               : 'Los datos ingresados no son validos.';
         },
-        //onChanged: (value) => accesoFormulario.correo = value,
       );
     }
 
@@ -208,7 +206,6 @@ class _RegistroUsuarioAsesorScreenState
               ? null
               : 'Los datos ingresados no son validos.';
         },
-        //onChanged: (value) => accesoFormulario.correo = value,
       );
     }
 
@@ -296,8 +293,6 @@ class _RegistroUsuarioAsesorScreenState
                         hintText: 'Ingrese apellido paterno',
                         labelText: 'Apellido paterno',
                       ),
-
-                      //onChanged: (value) => accesoFormulario.correo = value,
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
@@ -310,10 +305,7 @@ class _RegistroUsuarioAsesorScreenState
                       decoration: InputDecorations.registroLiderDecoration(
                         hintText: 'Ingrese apellido materno',
                         labelText: 'Apellido materno',
-                        //prefixIcon: Icons.person
                       ),
-
-                      //onChanged: (value) => accesoFormulario.correo = value,
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
@@ -327,14 +319,12 @@ class _RegistroUsuarioAsesorScreenState
                       decoration: InputDecorations.registroLiderDecoration(
                         hintText: 'Ingrese correo institucional',
                         labelText: 'Correo institucional',
-                        //prefixIcon: Icons.person
                       ),
                       validator: (value) {
                         return RegexUtil.correoEdu.hasMatch(value ?? '')
                             ? null
-                            : 'Correo electronico invalido.';
+                            : 'Correo electrónico invalido.';
                       },
-                      //onChanged: (value) => accesoFormulario.correo = value,
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
@@ -407,19 +397,17 @@ class _RegistroUsuarioAsesorScreenState
                           color: AppTema.bluegrey700,
                           fontWeight: FontWeight.bold),
                       decoration: InputDecorations.registroLiderDecoration(
-                        hintText: 'Ingrese numero telefonico',
-                        labelText: 'Numero telefonico',
+                        hintText: 'Ingrese numero telefónico',
+                        labelText: 'Numero telefónico',
                       ),
                       validator: (value) {
                         return RegexUtil.telefono.hasMatch(value ?? '')
                             ? null
-                            : 'El numero telefonico no es valido.';
+                            : 'El numero telefónico no es valido.';
                       },
-                      //onChanged: (value) => accesoFormulario.correo = value,
                     ),
                     const SizedBox(height: 20),
                     Container(
-                      // padding: EdgeInsets.only(right: 2.0),
                       alignment: Alignment.topLeft,
                       child: const Text(
                         'Tipo de asesor',
@@ -464,7 +452,7 @@ class _RegistroUsuarioAsesorScreenState
                       // padding: EdgeInsets.only(right: 2.0),
                       alignment: Alignment.topLeft,
                       child: const Text(
-                        'Nivel academico',
+                        'Nivel académico',
                         style: TextStyle(
                             color: AppTema.bluegrey700,
                             fontWeight: FontWeight.bold),
@@ -616,7 +604,7 @@ class _RegistroUsuarioAsesorScreenState
           // padding: EdgeInsets.only(right: 2.0),
           alignment: Alignment.topLeft,
           child: const Text(
-            'Instituto de pertenecia',
+            'Instituto de pertenecía',
             style: TextStyle(
                 color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
             textAlign: TextAlign.right,

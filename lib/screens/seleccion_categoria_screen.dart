@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:html_editor_enhanced/utils/utils.dart';
-import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/widgets/widgets.dart';
+
+import 'package:http/http.dart' as http;
 import 'package:quickalert/quickalert.dart';
 
 class SeleccionCategoriaScreen extends ConsumerWidget {
@@ -203,7 +202,7 @@ class SeleccionCategoriaScreen extends ConsumerWidget {
                               return Column(
                                 children: [
                                   const Text(
-                                    'Seleccione su área de interes',
+                                    'Seleccione su área de interés',
                                     style: TextStyle(
                                         color: AppTema.balticSea,
                                         fontWeight: FontWeight.bold,
