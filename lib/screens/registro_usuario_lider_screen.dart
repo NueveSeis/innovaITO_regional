@@ -123,15 +123,20 @@ class _RegistroUsuarioLiderScreenState
                         children: [
                           const SizedBox(height: 20),
                           DropdownButtonFormField(
-                              value: 'Seleccione una opción',
+                              hint: const Text(
+                                'Seleccione nivel académico',
+                                overflow: TextOverflow.visible,
+                                style: TextStyle(
+                                    color: AppTema.bluegrey700,
+                                    fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.start,
+                              ),
+                              isExpanded: true,
+                              //value: null,
                               style: const TextStyle(
                                   color: AppTema.bluegrey700,
                                   fontWeight: FontWeight.bold),
                               items: const [
-                                DropdownMenuItem(
-                                  value: 'Seleccione una opción',
-                                  child: Text('Seleccione una opción'),
-                                ),
                                 DropdownMenuItem(
                                   value: 'Licenciatura',
                                   child: Text('Licenciatura'),
@@ -201,9 +206,14 @@ class _RegistroUsuarioLiderScreenState
                             keyboardType: TextInputType.emailAddress,
                             decoration:
                                 InputDecorations.registroLiderDecoration(
-                              hintText: 'Ingrese apellido paterno',
-                              labelText: 'Apellido paterno',
+                              hintText: 'Ingrese primer apellido',
+                              labelText: 'Primer apellido',
                             ),
+                            validator: (value) {
+                              return RegexUtil.nombres.hasMatch(value ?? '')
+                                  ? null
+                                  : 'Nombre no valido.';
+                            },
                           ),
                           const SizedBox(height: 20),
                           TextFormField(
@@ -215,8 +225,8 @@ class _RegistroUsuarioLiderScreenState
                             keyboardType: TextInputType.emailAddress,
                             decoration:
                                 InputDecorations.registroLiderDecoration(
-                              hintText: 'Ingrese apellido materno',
-                              labelText: 'Apellido materno',
+                              hintText: 'Ingrese segundo apellido',
+                              labelText: 'Segundo apellido',
                             ),
                           ),
                           const SizedBox(height: 20),

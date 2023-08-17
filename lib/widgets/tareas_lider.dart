@@ -33,6 +33,11 @@ class TareasLider extends StatelessWidget {
             elevation: 10, // Agrega la elevación a la tarjeta
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
+              side: BorderSide(
+                color: AppTema.primario
+                    .withOpacity(0.5), // Color rojo para el borde
+                width: 2, // Grosor del borde
+              ),
             ),
             color: AppTema.grey100, // Color de fondo de la tarjeta
             child: Column(

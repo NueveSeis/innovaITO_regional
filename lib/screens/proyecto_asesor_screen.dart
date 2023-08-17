@@ -189,21 +189,21 @@ class ProyectoAsesorScreen extends ConsumerWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          proyectos[index].nombreCorto,
-                                          textAlign: TextAlign.center,
+                                          proyectos[index].nombreProyecto,
                                           style: const TextStyle(
                                               color: AppTema.bluegrey700,
-                                              fontWeight: FontWeight.bold,
+                                              //fontWeight: FontWeight.bold,
                                               fontSize: 20),
                                         ),
                                         const SizedBox(
                                           height: 8,
                                         ),
                                         Text(
-                                          proyectos[index].nombreProyecto,
+                                          proyectos[index].nombreCorto,
+                                          textAlign: TextAlign.center,
                                           style: const TextStyle(
                                               color: AppTema.bluegrey700,
-                                              //fontWeight: FontWeight.bold,
+                                              fontWeight: FontWeight.bold,
                                               fontSize: 20),
                                         ),
                                         const SizedBox(
@@ -405,7 +405,7 @@ class ProyectoAsesorScreen extends ConsumerWidget {
                   QuickAlert.show(
                     context: context,
                     type: QuickAlertType.success,
-                    title: 'Retroalimentación enviada',
+                    title: 'Asesor asignado',
                     confirmBtnText: 'Hecho',
                     confirmBtnColor: AppTema.pizazz,
                     onConfirmBtnTap: () {

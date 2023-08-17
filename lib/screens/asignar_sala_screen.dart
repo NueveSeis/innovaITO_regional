@@ -230,6 +230,17 @@ class AsignarSalaScreen extends ConsumerWidget {
                       Container(
                         alignment: Alignment.topLeft,
                         child: const Text(
+                          'Recuerde que las horas asignadas deberán cumplir con el horario laboral de 8:00 hrs a 18:00 hrs.',
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(
+                              color: AppTema.bluegrey700,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        child: const Text(
                           'Seleccione hora de incio:',
                           style: TextStyle(
                               color: AppTema.bluegrey700,
@@ -303,50 +314,98 @@ class AsignarSalaScreen extends ConsumerWidget {
                               );
                             } else {
                               if (fecha != DateTime(0000, 00, 00)) {
-                                final startHour =
-                                    horaIni!.hour.toString().padLeft(2, '0');
-                                final startMinute =
-                                    horaIni!.minute.toString().padLeft(2, '0');
-                                final endHour =
-                                    horaFin!.hour.toString().padLeft(2, '0');
-                                final endMinute =
-                                    horaFin!.minute.toString().padLeft(2, '0');
+                                final startHour = int.parse(
+                                    horaIni!.hour.toString().padLeft(2, '0'));
+                                final startMinute = int.parse(
+                                    horaIni!.minute.toString().padLeft(2, '0'));
+                                final endHour = int.parse(
+                                    horaFin!.hour.toString().padLeft(2, '0'));
+                                final endMinute = int.parse(
+                                    horaFin!.minute.toString().padLeft(2, '0'));
 
-                                // print(cSala);
+                                // print(cStand);
                                 // print(cProyecto);
                                 // print(DateFormat('yyyy-MM-dd').format(fecha));
                                 // print(
                                 //     "Hora de inicio: $startHour:$startMinute");
                                 // print("Hora de inicio: $endHour:$endMinute");
+                                TimeOfDay rangoInicio = const TimeOfDay(
+                                    hour: 8,
+                                    minute: 0); // Hora de inicio permitida
+                                TimeOfDay rangoFinal =
+                                    const TimeOfDay(hour: 18, minute: 0);
 
-                                bool agregada = await agregarHSala(
-                                    cSala,
-                                    cProyecto,
-                                    DateFormat('yyyy-MM-dd').format(fecha),
-                                    "$startHour:$startMinute",
-                                    "$endHour:$endMinute");
-                                if (agregada) {
-                                  QuickAlert.show(
-                                    context: context,
-                                    type: QuickAlertType.success,
-                                    title: 'Agregado correctamente',
-                                    confirmBtnText: 'Hecho',
-                                    confirmBtnColor: AppTema.pizazz,
-                                    onConfirmBtnTap: () {
-                                      context.pushReplacementNamed('sala');
-                                    },
-                                  );
-                                } else {
+                                if (startHour > endHour ||
+                                    (startHour == endHour &&
+                                        startMinute >= endMinute)) {
+                                  // Hora de inicio es mayor o igual a la hora de fin
+
                                   QuickAlert.show(
                                     context: context,
                                     type: QuickAlertType.error,
-                                    title: 'Ocurrió un error',
+                                    title:
+                                        'La hora de inicio no puede ser mayor o igual a la hora de término.',
                                     confirmBtnText: 'Hecho',
                                     confirmBtnColor: AppTema.pizazz,
-                                    onConfirmBtnTap: () {
-                                      context.pop();
-                                    },
                                   );
+                                } else {
+                                  final startSelectedTime = TimeOfDay(
+                                      hour: startHour, minute: startMinute);
+                                  final endSelectedTime = TimeOfDay(
+                                      hour: endHour, minute: endMinute);
+
+                                  if (startSelectedTime.hour <
+                                          rangoInicio.hour ||
+                                      (startSelectedTime.hour ==
+                                              rangoInicio.hour &&
+                                          startSelectedTime.minute <
+                                              rangoInicio.minute) ||
+                                      endSelectedTime.hour > rangoFinal.hour ||
+                                      (endSelectedTime.hour ==
+                                              rangoFinal.hour &&
+                                          endSelectedTime.minute >
+                                              rangoFinal.minute)) {
+                                    // Hora de inicio o fin está fuera del rango permitido
+                                    QuickAlert.show(
+                                      context: context,
+                                      type: QuickAlertType.error,
+                                      title:
+                                          'Hora inválida, la hora de inicio o fin está fuera del rango permitido.',
+                                      confirmBtnText: 'Hecho',
+                                      confirmBtnColor: AppTema.pizazz,
+                                    );
+                                  } else {
+                                    // Hora válida, puedes proceder con el registro
+                                    bool agregada = await agregarHSala(
+                                        cSala,
+                                        cProyecto,
+                                        DateFormat('yyyy-MM-dd').format(fecha),
+                                        "$startHour:$startMinute",
+                                        "$endHour:$endMinute");
+                                    if (agregada) {
+                                      QuickAlert.show(
+                                        context: context,
+                                        type: QuickAlertType.success,
+                                        title: 'Agregado correctamente',
+                                        confirmBtnText: 'Hecho',
+                                        confirmBtnColor: AppTema.pizazz,
+                                        onConfirmBtnTap: () {
+                                          context.pushReplacementNamed('sala');
+                                        },
+                                      );
+                                    } else {
+                                      QuickAlert.show(
+                                        context: context,
+                                        type: QuickAlertType.error,
+                                        title: 'Ocurrió un error',
+                                        confirmBtnText: 'Hecho',
+                                        confirmBtnColor: AppTema.pizazz,
+                                        onConfirmBtnTap: () {
+                                          context.pop();
+                                        },
+                                      );
+                                    }
+                                  }
                                 }
                               } else {
                                 QuickAlert.show(

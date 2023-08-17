@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/helpers/helpers.dart';
@@ -135,6 +136,49 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
                       return const SizedBox();
                     }),
                     const SizedBox(height: 20),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      controller: cNombreComercial,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      maxLength: 30,
+                      autocorrect: false,
+                      keyboardType: TextInputType.emailAddress,
+                      style: const TextStyle(
+                          color: AppTema.bluegrey700,
+                          fontWeight: FontWeight.bold),
+                      decoration: InputDecorations.registroLiderDecoration(
+                        hintText: 'Ingrese nombre corto (nombre comercial)',
+                        labelText: 'Nombre corto (nombre comercial)',
+                      ),
+                      validator: (value) {
+                        return (!RegexUtil.datos.hasMatch(value ?? ''))
+                            ? null
+                            : 'No contiene ningún dato.';
+                      },
+                      //onChanged: (value) => accesoFormulario.correo = value,
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      controller: cNombreDescriptivo,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      maxLength: 100,
+                      maxLines: null,
+                      style: const TextStyle(
+                          color: AppTema.bluegrey700,
+                          fontWeight: FontWeight.bold),
+                      autocorrect: false,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecorations.registroLiderDecoration(
+                        hintText: 'Ingrese nombre descriptivo',
+                        labelText: 'Nombre descriptivo',
+                      ),
+                      validator: (value) {
+                        return (!RegexUtil.datos.hasMatch(value ?? ''))
+                            ? null
+                            : 'No contiene ningun dato.';
+                      },
+                      //onChanged: (value) => accesoFormulario.correo = value,
+                    ),
                     FutureBuilder(
                         future: obtenerCategorias(),
                         builder:
@@ -180,49 +224,6 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
                           return const CircularProgressIndicator();
                         }
                       },
-                    ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      controller: cNombreComercial,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      maxLength: 30,
-                      autocorrect: false,
-                      keyboardType: TextInputType.emailAddress,
-                      style: const TextStyle(
-                          color: AppTema.bluegrey700,
-                          fontWeight: FontWeight.bold),
-                      decoration: InputDecorations.registroLiderDecoration(
-                        hintText: 'Ingrese nombre corto (nombre comercial)',
-                        labelText: 'Nombre corto (nombre comercial)',
-                      ),
-                      validator: (value) {
-                        return (!RegexUtil.datos.hasMatch(value ?? ''))
-                            ? null
-                            : 'No contiene ningún dato.';
-                      },
-                      //onChanged: (value) => accesoFormulario.correo = value,
-                    ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      controller: cNombreDescriptivo,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      maxLength: 100,
-                      maxLines: null,
-                      style: const TextStyle(
-                          color: AppTema.bluegrey700,
-                          fontWeight: FontWeight.bold),
-                      autocorrect: false,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecorations.registroLiderDecoration(
-                        hintText: 'Ingrese nombre descriptivo',
-                        labelText: 'Nombre descriptivo',
-                      ),
-                      validator: (value) {
-                        return (!RegexUtil.datos.hasMatch(value ?? ''))
-                            ? null
-                            : 'No contiene ningun dato.';
-                      },
-                      //onChanged: (value) => accesoFormulario.correo = value,
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
@@ -315,6 +316,16 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
                               //print('Matricula es: ' + matricula.toString());
                               // agregarFichaTecnica(
                               //   idFichaUnica, matricula.toString());
+                              QuickAlert.show(
+                                context: context,
+                                type: QuickAlertType.success,
+                                title: 'Agregado correctamente',
+                                confirmBtnText: 'Hecho',
+                                confirmBtnColor: AppTema.pizazz,
+                                onConfirmBtnTap: () {
+                                  context.pushReplacementNamed('inicioLider');
+                                },
+                              );
                             } else {
                               QuickAlert.show(
                                 context: context,

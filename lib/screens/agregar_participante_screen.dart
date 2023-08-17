@@ -136,52 +136,21 @@ class AgregarParticipanteScreen extends ConsumerWidget {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  TextEditingController cNombre = TextEditingController();
-  TextEditingController cApellidoP = TextEditingController();
-  TextEditingController cApellidoM = TextEditingController();
-  TextEditingController cMatricula = TextEditingController();
-  TextEditingController cPromedio = TextEditingController();
-  TextEditingController cCurp = TextEditingController();
-  TextEditingController cIne = TextEditingController();
-  TextEditingController cCorreo = TextEditingController();
-  TextEditingController cNumero = TextEditingController();
-
   String id = '';
-  DateTime? fechaSeleccionada;
-  DateTime fecha = DateTime(0000, 00, 00);
 
-  Future _mostrarDatePicker(context, ref) async {
-    final seleccion = await showDatePicker(
-      context: context,
-      locale: const Locale("es", "ES"),
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1950),
-      lastDate: DateTime(2024),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: AppTema.pizazz,
-            ),
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                  primary: AppTema.pizazz // button text color
-                  ),
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
-
-    if (seleccion != null && seleccion != fechaSeleccionada) {
-      fechaSeleccionada = seleccion;
-      fecha = DateTime(seleccion.year, seleccion.month, seleccion.day);
-    }
-  }
+  final fechaSeleccionadaAPSProv = StateProvider<DateTime?>((ref) => null);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    TextEditingController cNombre = TextEditingController();
+    TextEditingController cApellidoP = TextEditingController();
+    TextEditingController cApellidoM = TextEditingController();
+    TextEditingController cMatricula = TextEditingController();
+    TextEditingController cPromedio = TextEditingController();
+    TextEditingController cCurp = TextEditingController();
+    TextEditingController cIne = TextEditingController();
+    TextEditingController cCorreo = TextEditingController();
+    TextEditingController cNumero = TextEditingController();
     final generos = ref.watch(futureGeneroProv);
     final semestres = ref.watch(futureSemestreProv);
     final expectativas = ref.watch(futureExpectativaProv);
@@ -197,8 +166,43 @@ class AgregarParticipanteScreen extends ConsumerWidget {
     final cCarrera = ref.watch(carreraProv);
     final camposLlenos = ref.watch(camposLlenosProv);
     final cFolio = ref.watch(folioProyectoUsuarioLogin);
+    final fechas = ref.watch(fechaSeleccionadaAPSProv);
+    String eNacimiento = '';
 
-    //generosList = generos;
+    DateTime? fechaSeleccionada;
+    DateTime fecha = DateTime(0000, 00, 00);
+
+    Future _mostrarDatePicker(context, ref) async {
+      final seleccion = await showDatePicker(
+        context: context,
+        locale: const Locale("es", "ES"),
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1950),
+        lastDate: DateTime.now(),
+        builder: (context, child) {
+          return Theme(
+            data: Theme.of(context).copyWith(
+              colorScheme: const ColorScheme.light(
+                primary: AppTema.pizazz,
+              ),
+              textButtonTheme: TextButtonThemeData(
+                style: TextButton.styleFrom(
+                    primary: AppTema.pizazz // button text color
+                    ),
+              ),
+            ),
+            child: child!,
+          );
+        },
+      );
+
+      if (seleccion != null && seleccion != fechaSeleccionada) {
+        fechaSeleccionada = seleccion;
+        fecha = DateTime(seleccion.year, seleccion.month, seleccion.day);
+
+        ref.read(fechaSeleccionadaAPSProv.notifier).update((state) => fecha);
+      }
+    }
 
     return Scaffold(
         body: Fondo(
@@ -255,8 +259,8 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                             keyboardType: TextInputType.emailAddress,
                             decoration:
                                 InputDecorations.registroLiderDecoration(
-                              hintText: 'Ingrese apellido paterno',
-                              labelText: 'Apellido paterno',
+                              hintText: 'Ingrese primer apellido',
+                              labelText: 'Primer apellido',
                             ),
                           ),
                           const SizedBox(height: 20),
@@ -269,8 +273,8 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                             keyboardType: TextInputType.emailAddress,
                             decoration:
                                 InputDecorations.registroLiderDecoration(
-                              hintText: 'Ingrese apellido materno',
-                              labelText: 'Apellido materno',
+                              hintText: 'Ingrese segundo apellido',
+                              labelText: 'Segundo apellido',
                             ),
                           ),
                           const SizedBox(height: 20),
@@ -315,8 +319,109 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                                   : 'Promedio no valido.';
                             },
                           ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: const Text(
+                              'Género',
+                              style: TextStyle(
+                                  color: AppTema.bluegrey700,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          generos.when(
+                            data: (data) => DropdownButtonFormField<String>(
+                                hint: const Text(
+                                  'Seleccione una opción',
+                                  overflow: TextOverflow.visible,
+                                  style: TextStyle(
+                                      color: AppTema.bluegrey700,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.start,
+                                ),
+                                isExpanded: true,
+                                value: null,
+                                style: const TextStyle(
+                                    color: AppTema.bluegrey700,
+                                    fontWeight: FontWeight.bold),
+                                items: data.map((itemone) {
+                                  return DropdownMenuItem<String>(
+                                    alignment: Alignment.centerLeft,
+                                    value: itemone.idGenero,
+                                    child: Text(
+                                      itemone.tipoGenero,
+                                      overflow: TextOverflow.visible,
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  ref
+                                      .read(generoProv.notifier)
+                                      .update((state) => value.toString());
+                                }),
+                            loading: () => const CircularProgressIndicator(),
+                            error: (error, stackTrace) =>
+                                const Text('Error al cargar los géneros'),
+                          ),
+                          const SizedBox(height: 20),
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: const Text(
+                              'Estado de nacimiento',
+                              style: TextStyle(
+                                  color: AppTema.bluegrey700,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          DropdownButtonFormField<String>(
+                            hint: const Text(
+                              'Seleccione estado de nacimiento',
+                              overflow: TextOverflow.visible,
+                              style: TextStyle(
+                                  color: AppTema.bluegrey700,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.start,
+                            ),
+                            isExpanded: true,
+                            style: const TextStyle(
+                                color: AppTema.bluegrey700,
+                                fontWeight: FontWeight.bold),
+                            value: null,
+                            onChanged: (value) {
+                              eNacimiento = value.toString();
+                              // setState(() {
+                              //  // selectedState = newValue;
+                              // });
+                            },
+                            items: estadosAbreviaturas.keys
+                                .map<DropdownMenuItem<String>>((String estado) {
+                              return DropdownMenuItem<String>(
+                                value: estado,
+                                child: Text(
+                                  estado,
+                                  overflow: TextOverflow.visible,
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                          const SizedBox(height: 20),
+                          ElevatedButton(
+                            child: Text(
+                              fechaSeleccionada != null
+                                  ? 'Fecha seleccionada: ${DateFormat('yyyy-MM-dd').format(fecha)}'
+                                  : 'Seleccione fecha de nacimiento',
+                            ),
+                            onPressed: fechaSeleccionada != null
+                                ? null
+                                : () => _mostrarDatePicker(context, ref),
+                          ),
                           const SizedBox(height: 20),
                           TextFormField(
+                            maxLength: 18,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             controller: cCurp,
@@ -331,13 +436,47 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                               labelText: 'CURP',
                             ),
                             validator: (value) {
-                              return RegexUtil.curp.hasMatch(value ?? '')
-                                  ? null
-                                  : 'CURP no valida.';
+                              //String gen = cGenero
+                              print(cNombre.text);
+                              print(cApellidoP);
+                              print(cApellidoM);
+                              print(fecha);
+                              print(cGenero);
+                              print(eNacimiento);
+                              int curpLength = value?.length ?? 0;
+                              if (RegexUtil.curp.hasMatch(value ?? '')) {
+                                // Genera la CURP para compararla
+                                String curpGenerada =
+                                    CurpGenerator.generateCurp(
+                                        cNombre.text,
+                                        cApellidoP.text,
+                                        cApellidoM.text,
+                                        fecha,
+                                        cGenero,
+                                        eNacimiento);
+
+                                print(curpGenerada);
+                                print(fecha);
+
+                                // Compara la CURP ingresada con la generada
+                                if (curpLength == 18) {
+                                  if (curpGenerada.substring(0, 16) ==
+                                      cCurp.text.substring(0, 16)) {
+                                    return null;
+                                  } else {
+                                    return 'La CURP ingresada no coincide con la generada.';
+                                  } // CURP válida
+                                } else {
+                                  return 'La CURP ingresada no coincide con la generada.';
+                                }
+                              } else {
+                                return 'La CURP ingresada no es válida.';
+                              }
                             },
                           ),
                           const SizedBox(height: 20),
                           TextFormField(
+                            maxLength: 13,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             controller: cIne,
@@ -380,6 +519,7 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                           ),
                           const SizedBox(height: 20),
                           TextFormField(
+                            maxLength: 10,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             controller: cNumero,
@@ -400,41 +540,6 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                             },
                           ),
                           const SizedBox(height: 20),
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: const Text(
-                              'Genero',
-                              style: TextStyle(
-                                  color: AppTema.bluegrey700,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          generos.when(
-                            data: (data) => DropdownButtonFormField<String>(
-                                value: null,
-                                style: const TextStyle(
-                                    color: AppTema.bluegrey700,
-                                    fontWeight: FontWeight.bold),
-                                items: data.map((itemone) {
-                                  return DropdownMenuItem<String>(
-                                    alignment: Alignment.centerLeft,
-                                    value: itemone.idGenero,
-                                    child: Text(
-                                      itemone.tipoGenero,
-                                      overflow: TextOverflow.visible,
-                                    ),
-                                  );
-                                }).toList(),
-                                onChanged: (value) {
-                                  ref
-                                      .read(generoProv.notifier)
-                                      .update((state) => value.toString());
-                                }),
-                            loading: () => const CircularProgressIndicator(),
-                            error: (error, stackTrace) =>
-                                const Text('Error al cargar los géneros'),
-                          ),
                           const SizedBox(height: 20),
                           Container(
                             alignment: Alignment.topLeft,
@@ -448,6 +553,15 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                           const SizedBox(height: 10),
                           expectativas.when(
                             data: (data) => DropdownButtonFormField<String>(
+                                hint: const Text(
+                                  'Seleccione una opción',
+                                  overflow: TextOverflow.visible,
+                                  style: TextStyle(
+                                      color: AppTema.bluegrey700,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.start,
+                                ),
+                                isExpanded: true,
                                 value: null,
                                 style: const TextStyle(
                                     color: AppTema.bluegrey700,
@@ -484,6 +598,15 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                           const SizedBox(height: 10),
                           semestres.when(
                             data: (data) => DropdownButtonFormField<String>(
+                                hint: const Text(
+                                  'Seleccione una opción',
+                                  overflow: TextOverflow.visible,
+                                  style: TextStyle(
+                                      color: AppTema.bluegrey700,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.start,
+                                ),
+                                isExpanded: true,
                                 value: null,
                                 style: const TextStyle(
                                     color: AppTema.bluegrey700,
@@ -508,12 +631,6 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                                 const Text('Error al cargar los semestres.'),
                           ),
                           const SizedBox(height: 20),
-                          Center(
-                              child: ElevatedButton(
-                            child: const Text('Seleccione fecha de nacimiento'),
-                            onPressed: () => _mostrarDatePicker(context, ref),
-                          )),
-                          const SizedBox(height: 20),
                           Container(
                             alignment: Alignment.topLeft,
                             child: const Text(
@@ -526,6 +643,15 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                           const SizedBox(height: 10),
                           niveles.when(
                             data: (data) => DropdownButtonFormField<String>(
+                                hint: const Text(
+                                  'Seleccione una opción',
+                                  overflow: TextOverflow.visible,
+                                  style: TextStyle(
+                                      color: AppTema.bluegrey700,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.start,
+                                ),
+                                isExpanded: true,
                                 value: null,
                                 style: const TextStyle(
                                     color: AppTema.bluegrey700,
@@ -562,6 +688,14 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                           const SizedBox(height: 10),
                           tiposTec.when(
                             data: (data) => DropdownButtonFormField<String>(
+                                hint: const Text(
+                                  'Seleccione una opción',
+                                  overflow: TextOverflow.visible,
+                                  style: TextStyle(
+                                      color: AppTema.bluegrey700,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.start,
+                                ),
                                 isExpanded: true,
                                 value: null,
                                 style: const TextStyle(
@@ -601,8 +735,16 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                           const SizedBox(height: 10),
                           tecnologicos.when(
                             data: (data) => DropdownButtonFormField<String>(
-                                value: null,
+                                hint: const Text(
+                                  'Seleccione una opción',
+                                  overflow: TextOverflow.visible,
+                                  style: TextStyle(
+                                      color: AppTema.bluegrey700,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.start,
+                                ),
                                 isExpanded: true,
+                                value: null,
                                 style: const TextStyle(
                                     color: AppTema.bluegrey700,
                                     fontWeight: FontWeight.bold),
@@ -642,6 +784,14 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                           const SizedBox(height: 10),
                           departamentos.when(
                             data: (data) => DropdownButtonFormField<String>(
+                                hint: const Text(
+                                  'Seleccione una opción',
+                                  overflow: TextOverflow.visible,
+                                  style: TextStyle(
+                                      color: AppTema.bluegrey700,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.start,
+                                ),
                                 value: null,
                                 isExpanded: true,
                                 style: const TextStyle(
@@ -664,8 +814,8 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                                   ref.refresh(futureCarreraProv);
                                 }),
                             loading: () => const CircularProgressIndicator(),
-                            error: (error, stackTrace) =>
-                                const Text('Error al cargar los tecnológicos.'),
+                            error: (error, stackTrace) => const Text(
+                                'Error al cargar los departamentos.'),
                           ),
                           const SizedBox(
                             height: 20,
@@ -682,6 +832,14 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                           const SizedBox(height: 10),
                           carreras.when(
                             data: (data) => DropdownButtonFormField<String>(
+                                hint: const Text(
+                                  'Seleccione una opción',
+                                  overflow: TextOverflow.visible,
+                                  style: TextStyle(
+                                      color: AppTema.bluegrey700,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.start,
+                                ),
                                 value: null,
                                 isExpanded: true,
                                 style: const TextStyle(

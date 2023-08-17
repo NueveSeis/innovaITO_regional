@@ -13,8 +13,8 @@ String asignacionProyectoToJson(List<AsignacionProyecto> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class AsignacionProyecto {
-  String folio;
-  String calificacionGlobal;
+  dynamic folio;
+  dynamic calificacionGlobal;
   dynamic estadoAcreditacion;
   dynamic estadoAsistencia;
   dynamic oficioAsistencia;
@@ -22,9 +22,9 @@ class AsignacionProyecto {
   dynamic posicionActual;
   dynamic estadoEvaluacion;
   dynamic modeloNegocio;
-  String planNegocio;
+  dynamic planNegocio;
   dynamic idMemoriaTecnica;
-  String idFichaTecnica;
+  dynamic idFichaTecnica;
   dynamic descripcionProblematica;
   dynamic estadoArte;
   dynamic descripcionInnovacion;
@@ -39,17 +39,17 @@ class AsignacionProyecto {
   dynamic imagenPropiedadIntelectual;
   dynamic interpretacionResultados;
   dynamic fuentesConsultadas;
-  String nombreCorto;
-  String nombreProyecto;
-  String objetivo;
-  String descripcionGeneral;
-  String prospectoResultados;
-  String idNaturalezaTecnica;
-  String tipo;
-  String idArea;
-  String nombreArea;
-  String idCategoria;
-  String nombreCategoria;
+  dynamic nombreCorto;
+  dynamic nombreProyecto;
+  dynamic objetivo;
+  dynamic descripcionGeneral;
+  dynamic prospectoResultados;
+  dynamic idNaturalezaTecnica;
+  dynamic tipo;
+  dynamic idArea;
+  dynamic nombreArea;
+  dynamic idCategoria;
+  dynamic nombreCategoria;
 
   AsignacionProyecto({
     required this.folio,
