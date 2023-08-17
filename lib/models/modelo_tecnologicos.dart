@@ -442,3 +442,46 @@ class ModeloTecnologicos {
     '21',
   ];
 }
+
+Map<String, String> estadosAbreviaturas = {
+  'AGUASCALIENTES': 'AS',
+  'BAJA CALIFORNIA': 'BC',
+  'BAJA CALIFORNIA SUR': 'BS',
+  'CAMPECHE': 'CC',
+  'COAHUILA': 'CL',
+  'COLIMA': 'CM',
+  'CHIAPAS': 'CS',
+  'CHIHUAHUA': 'CH',
+  'DISTRITO FEDERAL': 'DF',
+  'DURANGO': 'DG',
+  'GUANAJUATO': 'GT',
+  'GUERRERO': 'GR',
+  'HIDALGO': 'HG',
+  'JALISCO': 'JC',
+  'ESTADO DE MEXICO': 'MC',
+  'MICHOACAN': 'MN',
+  'MORELOS': 'MS',
+  'NAYARIT': 'NT',
+  'NUEVO LEON': 'NL',
+  'OAXACA': 'OC',
+  'PUEBLA': 'PL',
+  'QUERETARO': 'QT',
+  'QUINTANA ROO': 'QR',
+  'SAN LUIS POTOSI': 'SP',
+  'SINALOA': 'SL',
+  'SONORA': 'SR',
+  'TABASCO': 'TC',
+  'TAMAULIPAS': 'TS',
+  'TLAXCALA': 'TL',
+  'VERACRUZ': 'VZ',
+  'YUCATAN': 'YN',
+  'ZACATECAS': 'ZS',
+  'DOBLE NACIONALIDAD': 'NE',
+  'NACIDO EXTRANJERO O NATURALIZADO': 'NE',
+};
+
+List<Map<String, String>> generos = [
+  {'nombre': 'Masculino', 'abreviatura': 'H'},
+  {'nombre': 'Femenino', 'abreviatura': 'M'}
+  // Agrega más géneros según sea necesario
+];

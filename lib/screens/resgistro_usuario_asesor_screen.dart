@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:innova_ito/helpers/helpers.dart';
 import 'package:innova_ito/theme/app_tema.dart';
@@ -9,6 +10,7 @@ import 'package:innova_ito/widgets/widgets.dart';
 import 'package:innova_ito/models/models.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:go_router/go_router.dart';
 
@@ -61,6 +63,8 @@ class _RegistroUsuarioAsesorScreenState
   late String idPersona;
   late String contrasena;
   late String contrasenaHash;
+  String eNacimiento = '';
+  String genero = '';
 
   Future agregarAsesor() async {
     var url = 'https://evarafael.com/Aplicacion/rest/agregarAsesor.php';
@@ -147,8 +151,45 @@ class _RegistroUsuarioAsesorScreenState
     });
   }
 
+  final fechaSeleccionadaRUASProv = StateProvider<DateTime?>((ref) => null);
+
   @override
   Widget build(BuildContext context) {
+    DateTime? fechaSeleccionada;
+    DateTime fecha = DateTime(0000, 00, 00);
+
+    Future _mostrarDatePicker(context, ref) async {
+      final seleccion = await showDatePicker(
+        context: context,
+        locale: const Locale("es", "ES"),
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1950),
+        lastDate: DateTime.now(),
+        builder: (context, child) {
+          return Theme(
+            data: Theme.of(context).copyWith(
+              colorScheme: const ColorScheme.light(
+                primary: AppTema.pizazz,
+              ),
+              textButtonTheme: TextButtonThemeData(
+                style: TextButton.styleFrom(
+                    primary: AppTema.pizazz // button text color
+                    ),
+              ),
+            ),
+            child: child!,
+          );
+        },
+      );
+
+      if (seleccion != null && seleccion != fechaSeleccionada) {
+        fechaSeleccionada = seleccion;
+        fecha = DateTime(seleccion.year, seleccion.month, seleccion.day);
+
+        ref.read(fechaSeleccionadaRUASProv.notifier).update((state) => fecha);
+      }
+    }
+
     Widget _Licenciatura() {
       return TextFormField(
         controller: cLicenciatura,
@@ -328,6 +369,84 @@ class _RegistroUsuarioAsesorScreenState
                       },
                     ),
                     const SizedBox(height: 20),
+                    DropdownButtonFormField<String>(
+                      hint: const Text(
+                        'Seleccione estado de nacimiento',
+                        overflow: TextOverflow.visible,
+                        style: TextStyle(
+                            color: AppTema.bluegrey700,
+                            fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.start,
+                      ),
+                      isExpanded: true,
+                      style: const TextStyle(
+                          color: AppTema.bluegrey700,
+                          fontWeight: FontWeight.bold),
+                      value: null,
+                      onChanged: (value) {
+                        eNacimiento = value.toString();
+                        // setState(() {
+                        //  // selectedState = newValue;
+                        // });
+                      },
+                      items: estadosAbreviaturas.keys
+                          .map<DropdownMenuItem<String>>((String estado) {
+                        return DropdownMenuItem<String>(
+                          value: estado,
+                          child: Text(
+                            estado,
+                            overflow: TextOverflow.visible,
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(height: 20),
+                    DropdownButtonFormField<String>(
+                      hint: const Text(
+                        'Seleccione genero',
+                        overflow: TextOverflow.visible,
+                        style: TextStyle(
+                            color: AppTema.bluegrey700,
+                            fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.start,
+                      ),
+                      isExpanded: true,
+                      style: const TextStyle(
+                          color: AppTema.bluegrey700,
+                          fontWeight: FontWeight.bold),
+                      //value: null,
+                      onChanged: (value) {
+                        genero = value.toString();
+                        // setState(() {
+                        //  // selectedState = newValue;
+                        // });
+                      },
+                      items: generos.map<DropdownMenuItem<String>>(
+                          (Map<String, String> genero) {
+                        return DropdownMenuItem<String>(
+                          value: genero['abreviatura'],
+                          child: Text(genero['nombre']!),
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(height: 20),
+                    Consumer(
+                      builder: (context, ref, _) {
+                        final fechas = ref.watch(fechaSeleccionadaRUASProv);
+                        return ElevatedButton(
+                          child: Text(
+                            fechaSeleccionada != null
+                                ? 'Fecha seleccionada: ${DateFormat('yyyy-MM-dd').format(fecha)}'
+                                : 'Seleccione fecha de nacimiento',
+                          ),
+                          onPressed: fechaSeleccionada != null
+                              ? null
+                              : () => _mostrarDatePicker(context, ref),
+                        );
+                      },
+                    ),
+
+                    const SizedBox(height: 20),
                     TextFormField(
                       maxLength: 18,
                       controller: cCurp,
@@ -342,9 +461,31 @@ class _RegistroUsuarioAsesorScreenState
                         labelText: 'CURP',
                       ),
                       validator: (value) {
-                        return RegexUtil.curp.hasMatch(value ?? '')
-                            ? null
-                            : 'La CURP ingresada no es valida.';
+                        int curpLength = value?.length ?? 0;
+                        if (RegexUtil.curp.hasMatch(value ?? '')) {
+                          // Genera la CURP para compararla
+                          String curpGenerada = CurpGenerator.generateCurp(
+                              cNombres.text,
+                              cApellido1.text,
+                              cApellido2.text,
+                              fecha,
+                              genero,
+                              eNacimiento);
+
+                          // Compara la CURP ingresada con la generada
+                          if (curpLength == 18) {
+                            if (curpGenerada.substring(0, 16) ==
+                                cCurp.text.substring(0, 16)) {
+                              return null;
+                            } else {
+                              return 'La CURP ingresada no coincide con la generada.';
+                            } // CURP válida
+                          } else {
+                            return 'La CURP ingresada no coincide con la generada.';
+                          }
+                        } else {
+                          return 'La CURP ingresada no es válida.';
+                        }
                       },
                       //onChanged: (value) => accesoFormulario.correo = value,
                     ),
@@ -363,9 +504,31 @@ class _RegistroUsuarioAsesorScreenState
                         labelText: 'RFC',
                       ),
                       validator: (value) {
-                        return RegexUtil.rfc.hasMatch(value ?? '')
-                            ? null
-                            : 'El RFC no es valido.';
+                        int curpLength = value?.length ?? 0;
+                        if (RegexUtil.rfc.hasMatch(value ?? '')) {
+                          // Genera la CURP para compararla
+                          String curpGenerada = CurpGenerator.generateCurp(
+                              cNombres.text,
+                              cApellido1.text,
+                              cApellido2.text,
+                              fecha,
+                              genero,
+                              eNacimiento);
+
+                          // Compara la CURP ingresada con la generada
+                          if (curpLength == 13) {
+                            if (curpGenerada.substring(0, 10) ==
+                                cCurp.text.substring(0, 10)) {
+                              return null;
+                            } else {
+                              return 'El RFC ingresado no coincide con la generado.';
+                            } // CURP válida
+                          } else {
+                            return 'El RFC ingresado no coincide con la generado.';
+                          }
+                        } else {
+                          return 'El rfc ingresado no es válido.';
+                        }
                       },
                       //onChanged: (value) => accesoFormulario.correo = value,
                     ),
@@ -554,6 +717,12 @@ class _RegistroUsuarioAsesorScreenState
                           //   );
                           // }
 
+                          print(genero);
+                          print(eNacimiento);
+                          //CurpGenerator.generateCurp(cNombres.text,cApellido1.text,cApellido2.text,fecha,);
+                          print(
+                            DateFormat('yyyy-MM-dd').format(fecha),
+                          );
                           print(CurpGenerator.generateCurp(
                               'Juliana Margarita',
                               'Lopez',
@@ -575,20 +744,15 @@ class _RegistroUsuarioAsesorScreenState
   Column _departamentoAdscrito(List<Departamento> dep) {
     return Column(
       children: [
-        Container(
-          alignment: Alignment.topLeft,
-          child: const Text(
-            'Departamento adscrito',
-            style: TextStyle(
-                color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.right,
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
         DropdownButtonFormField(
           //value: 'Licenciatura',
+          hint: const Text(
+            'Seleccione departamento adscrito',
+            overflow: TextOverflow.visible,
+            style: TextStyle(
+                color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.start,
+          ),
           isExpanded: true,
           style: const TextStyle(
               color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
@@ -613,20 +777,14 @@ class _RegistroUsuarioAsesorScreenState
   Column _institutoPertenencia(List<Tecnologico> tecsD) {
     return Column(
       children: [
-        Container(
-          // padding: EdgeInsets.only(right: 2.0),
-          alignment: Alignment.topLeft,
-          child: const Text(
-            'Instituto de pertenecía',
+        DropdownButtonFormField(
+          hint: const Text(
+            'Seleccione instituto de pertenecía',
+            overflow: TextOverflow.visible,
             style: TextStyle(
                 color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.right,
+            textAlign: TextAlign.start,
           ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        DropdownButtonFormField(
           isExpanded: true,
           //value: 'Licenciatura',
           style: const TextStyle(
@@ -657,20 +815,14 @@ class _RegistroUsuarioAsesorScreenState
   Column _tipoTecnologico(List<TipoTecnologico> tipo) {
     return Column(
       children: [
-        Container(
-          // padding: EdgeInsets.only(right: 2.0),
-          alignment: Alignment.topLeft,
-          child: const Text(
-            'Tipo de instituto o centro de investigación',
+        DropdownButtonFormField(
+          hint: const Text(
+            'Seleccione tipo de instituto o centro de investigación',
+            overflow: TextOverflow.visible,
             style: TextStyle(
                 color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.right,
+            textAlign: TextAlign.start,
           ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        DropdownButtonFormField(
           isExpanded: true,
           style: const TextStyle(
               color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
