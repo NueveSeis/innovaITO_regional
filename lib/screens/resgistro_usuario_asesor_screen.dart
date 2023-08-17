@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'package:innova_ito/helpers/helpers.dart';
@@ -290,8 +291,8 @@ class _RegistroUsuarioAsesorScreenState
                       autocorrect: false,
                       keyboardType: TextInputType.text,
                       decoration: InputDecorations.registroLiderDecoration(
-                        hintText: 'Ingrese apellido paterno',
-                        labelText: 'Apellido paterno',
+                        hintText: 'Ingrese primer apellido ',
+                        labelText: 'Primer apellido',
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -303,8 +304,8 @@ class _RegistroUsuarioAsesorScreenState
                       autocorrect: false,
                       keyboardType: TextInputType.text,
                       decoration: InputDecorations.registroLiderDecoration(
-                        hintText: 'Ingrese apellido materno',
-                        labelText: 'Apellido materno',
+                        hintText: 'Ingrese segundo apellido',
+                        labelText: 'Segundo apellido',
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -328,6 +329,7 @@ class _RegistroUsuarioAsesorScreenState
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
+                      maxLength: 18,
                       controller: cCurp,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       autocorrect: false,
@@ -348,6 +350,7 @@ class _RegistroUsuarioAsesorScreenState
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
+                      maxLength: 13,
                       controller: cRfc,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       autocorrect: false,
@@ -368,6 +371,7 @@ class _RegistroUsuarioAsesorScreenState
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
+                      maxLength: 13,
                       controller: cNumIne,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       autocorrect: false,
@@ -389,6 +393,7 @@ class _RegistroUsuarioAsesorScreenState
 //                      SizedBox(height: 20),
                     const SizedBox(height: 20),
                     TextFormField(
+                      maxLength: 10,
                       controller: cTelefono,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       autocorrect: false,
@@ -523,31 +528,39 @@ class _RegistroUsuarioAsesorScreenState
                           style:
                               TextStyle(color: AppTema.grey100, fontSize: 25),
                         )),
-                        onPressed: () async {
-                          setState(() {
-                            camposLlenos = _formKey.currentState!.validate();
-                            print(camposLlenos);
-                          });
-                          if (camposLlenos) {
-                            idPersona = Generar.idPersona(
-                                cNombres.text.toUpperCase(),
-                                cApellido1.text.toUpperCase(),
-                                cApellido2.text.toUpperCase(),
-                                cCorreo.text.toUpperCase());
-                            contrasena = Generar.contrasenaAleatoria();
-                            contrasenaHash = Generar.hashContrasena(contrasena);
-                            existente();
-                            // print(contrasena);
-                          } else {
-                            QuickAlert.show(
-                              context: context,
-                              type: QuickAlertType.warning,
-                              title: 'Cuidado',
-                              text: 'Rellena los campos faltantes',
-                              confirmBtnText: 'Hecho',
-                              confirmBtnColor: AppTema.pizazz,
-                            );
-                          }
+                        onPressed: () {
+                          // setState(() {
+                          //   camposLlenos = _formKey.currentState!.validate();
+                          //   print(camposLlenos);
+                          // });
+                          // if (camposLlenos) {
+                          //   idPersona = Generar.idPersona(
+                          //       cNombres.text.toUpperCase(),
+                          //       cApellido1.text.toUpperCase(),
+                          //       cApellido2.text.toUpperCase(),
+                          //       cCorreo.text.toUpperCase());
+                          //   contrasena = Generar.contrasenaAleatoria();
+                          //   contrasenaHash = Generar.hashContrasena(contrasena);
+                          //   existente();
+                          //   // print(contrasena);
+                          // } else {
+                          //   QuickAlert.show(
+                          //     context: context,
+                          //     type: QuickAlertType.warning,
+                          //     title: 'Cuidado',
+                          //     text: 'Rellena los campos faltantes',
+                          //     confirmBtnText: 'Hecho',
+                          //     confirmBtnColor: AppTema.pizazz,
+                          //   );
+                          // }
+
+                          print(CurpGenerator.generateCurp(
+                              'Juliana Margarita',
+                              'Lopez',
+                              'Gines',
+                              DateTime(1997, 05, 16),
+                              'M',
+                              'Oaxaca'));
                         },
                       ),
                     ),
