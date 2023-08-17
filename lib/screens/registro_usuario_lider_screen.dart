@@ -35,21 +35,35 @@ class _RegistroUsuarioLiderScreenState
   String idNivel = '';
   bool camposLlenos = true;
 
-  Future agregarPersona() async {
+  Future<bool> agregarPersona() async {
     var url = 'https://evarafael.com/Aplicacion/rest/agregarLider.php';
-    await http.post(Uri.parse(url), body: {
-      'Id_persona': id,
-      'Nombre_persona': nombre.text.toUpperCase(),
-      'Apellido1': apellidoP.text.toUpperCase(),
-      'Apellido2': apellidoM.text.toUpperCase(),
-      'Correo_electronico': correo.text.toUpperCase(),
-      'Id_usuario': id,
-      'Nombre_usuario': correo.text.toUpperCase(),
-      'Contrasena': contrasenaHash,
-      'Id_rol': 'ROL02',
-      'Matricula': matricula.text.toUpperCase(),
-      'Id_nivel': idNivel
-    });
+    try {
+      var response = await http.post(Uri.parse(url), body: {
+        'Id_persona': id,
+        'Nombre_persona': nombre.text.toUpperCase(),
+        'Apellido1': apellidoP.text.toUpperCase(),
+        'Apellido2': apellidoM.text.toUpperCase(),
+        'Correo_electronico': correo.text.toUpperCase(),
+        'Id_usuario': id,
+        'Nombre_usuario': correo.text.toUpperCase(),
+        'Contrasena': contrasenaHash,
+        'Id_rol': 'ROL02',
+        'Matricula': matricula.text.toUpperCase(),
+        'Id_nivel': idNivel
+      });
+      print('Código de estado de la respuesta: ${response.statusCode}');
+      print('Cuerpo de la respuesta: ${response.body}');
+      if (response.statusCode == 200) {
+        print('Modificado en la db');
+        return true;
+      } else {
+        print('No modificado');
+        return false;
+      }
+    } catch (error) {
+      print('Error durante la solicitud HTTP: $error');
+      return false;
+    }
   }
 
   Future<String> obtenerNivelLider(String nivel) async {
@@ -282,7 +296,30 @@ class _RegistroUsuarioLiderScreenState
                                   contrasenaHash =
                                       Generar.hashContrasena(contrasena);
                                   //print(contrasenaHash);
-                                  existente();
+                                  bool agregado = await existente();
+                                  if (agregado) {
+                                    QuickAlert.show(
+                                      context: context,
+                                      type: QuickAlertType.success,
+                                      title: 'Agregado correctamente',
+                                      confirmBtnText: 'Hecho',
+                                      confirmBtnColor: AppTema.pizazz,
+                                      onConfirmBtnTap: () {
+                                        context.pushReplacementNamed(
+                                            'registro_usuario_lider');
+                                      },
+                                    );
+                                  } else {
+                                    QuickAlert.show(
+                                        context: context,
+                                        type: QuickAlertType.error,
+                                        title: 'Ocurrió un error',
+                                        confirmBtnText: 'Hecho',
+                                        confirmBtnColor: AppTema.pizazz,
+                                        onConfirmBtnTap: () {
+                                          context.pop();
+                                        });
+                                  }
                                 } else {
                                   QuickAlert.show(
                                     context: context,

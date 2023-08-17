@@ -66,30 +66,42 @@ class _RegistroUsuarioAsesorScreenState
   String eNacimiento = '';
   String genero = '';
 
-  Future agregarAsesor() async {
+  Future<bool> agregarAsesor() async {
     var url = 'https://evarafael.com/Aplicacion/rest/agregarAsesor.php';
-    await http.post(Uri.parse(url), body: {
-      'Id_persona': idPersona,
-      'Nombre_persona': cNombres.text.toUpperCase(),
-      'Apellido1': cApellido1.text.toUpperCase(),
-      'Apellido2': cApellido2.text.toUpperCase(),
-      'Telefono': cTelefono.text,
-      'Correo_electronico': cCorreo.text.toUpperCase(),
-      'Num_ine': cNumIne.text,
-      'Curp': cCurp.text.toUpperCase(),
-      'Id_usuario': 'USU$idPersona',
-      'Nombre_usuario': cCorreo.text,
-      'Contrasena': contrasenaHash,
-      'Id_rol': 'ROL03',
-      'Id_asesor': 'ASE$idPersona',
-      'RFC': cRfc.text.toUpperCase(),
-      'Abreviatura_profesional': cTitulo.text,
-      'Licenciatura': cLicenciatura.text.toUpperCase(),
-      'Maestria': cMaestria.text.toUpperCase(),
-      'Doctorado': cDoctorado.text.toUpperCase(),
-      'Id_departamento': valueDepartamento,
-      'Id_cargoAsesor': tipoAsesor,
-    });
+    try {
+      var response = await http.post(Uri.parse(url), body: {
+        'Id_persona': idPersona,
+        'Nombre_persona': cNombres.text.toUpperCase(),
+        'Apellido1': cApellido1.text.toUpperCase(),
+        'Apellido2': cApellido2.text.toUpperCase(),
+        'Telefono': cTelefono.text,
+        'Correo_electronico': cCorreo.text.toUpperCase(),
+        'Num_ine': cNumIne.text,
+        'Curp': cCurp.text.toUpperCase(),
+        'Id_usuario': 'USU$idPersona',
+        'Nombre_usuario': cCorreo.text,
+        'Contrasena': contrasenaHash,
+        'Id_rol': 'ROL03',
+        'Id_asesor': 'ASE$idPersona',
+        'RFC': cRfc.text.toUpperCase(),
+        'Abreviatura_profesional': cTitulo.text,
+        'Licenciatura': cLicenciatura.text.toUpperCase(),
+        'Maestria': cMaestria.text.toUpperCase(),
+        'Doctorado': cDoctorado.text.toUpperCase(),
+        'Id_departamento': valueDepartamento,
+        'Id_cargoAsesor': tipoAsesor,
+      });
+      if (response.statusCode == 200) {
+        print('Modificado en la db');
+        return true;
+      } else {
+        print('No modificado');
+        return false;
+      }
+    } catch (error) {
+      print('Error durante la solicitud HTTP: $error');
+      return false;
+    }
   }
 
   Future existente() async {
@@ -369,9 +381,23 @@ class _RegistroUsuarioAsesorScreenState
                       },
                     ),
                     const SizedBox(height: 20),
+                    Container(
+                      // padding: EdgeInsets.only(right: 2.0),
+                      alignment: Alignment.topLeft,
+                      child: const Text(
+                        'Estado de nacimiento',
+                        style: TextStyle(
+                            color: AppTema.bluegrey700,
+                            fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     DropdownButtonFormField<String>(
                       hint: const Text(
-                        'Seleccione estado de nacimiento',
+                        'Seleccione una opción',
                         overflow: TextOverflow.visible,
                         style: TextStyle(
                             color: AppTema.bluegrey700,
@@ -401,9 +427,23 @@ class _RegistroUsuarioAsesorScreenState
                       }).toList(),
                     ),
                     const SizedBox(height: 20),
+                    Container(
+                      // padding: EdgeInsets.only(right: 2.0),
+                      alignment: Alignment.topLeft,
+                      child: const Text(
+                        'Género',
+                        style: TextStyle(
+                            color: AppTema.bluegrey700,
+                            fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     DropdownButtonFormField<String>(
                       hint: const Text(
-                        'Seleccione genero',
+                        'Seleccione una opción',
                         overflow: TextOverflow.visible,
                         style: TextStyle(
                             color: AppTema.bluegrey700,
@@ -518,7 +558,7 @@ class _RegistroUsuarioAsesorScreenState
                           // Compara la CURP ingresada con la generada
                           if (curpLength == 13) {
                             if (curpGenerada.substring(0, 10) ==
-                                cCurp.text.substring(0, 10)) {
+                                cRfc.text.substring(0, 10)) {
                               return null;
                             } else {
                               return 'El RFC ingresado no coincide con la generado.';
@@ -691,45 +731,67 @@ class _RegistroUsuarioAsesorScreenState
                           style:
                               TextStyle(color: AppTema.grey100, fontSize: 25),
                         )),
-                        onPressed: () {
-                          // setState(() {
-                          //   camposLlenos = _formKey.currentState!.validate();
-                          //   print(camposLlenos);
-                          // });
-                          // if (camposLlenos) {
-                          //   idPersona = Generar.idPersona(
-                          //       cNombres.text.toUpperCase(),
-                          //       cApellido1.text.toUpperCase(),
-                          //       cApellido2.text.toUpperCase(),
-                          //       cCorreo.text.toUpperCase());
-                          //   contrasena = Generar.contrasenaAleatoria();
-                          //   contrasenaHash = Generar.hashContrasena(contrasena);
-                          //   existente();
-                          //   // print(contrasena);
-                          // } else {
-                          //   QuickAlert.show(
-                          //     context: context,
-                          //     type: QuickAlertType.warning,
-                          //     title: 'Cuidado',
-                          //     text: 'Rellena los campos faltantes',
-                          //     confirmBtnText: 'Hecho',
-                          //     confirmBtnColor: AppTema.pizazz,
-                          //   );
-                          // }
+                        onPressed: () async {
+                          setState(() {
+                            camposLlenos = _formKey.currentState!.validate();
+                            print(camposLlenos);
+                          });
+                          if (camposLlenos) {
+                            idPersona = Generar.idPersona(
+                                cNombres.text.toUpperCase(),
+                                cApellido1.text.toUpperCase(),
+                                cApellido2.text.toUpperCase(),
+                                cCorreo.text.toUpperCase());
+                            contrasena = Generar.contrasenaAleatoria();
+                            contrasenaHash = Generar.hashContrasena(contrasena);
+                            bool agregado = await existente();
+                            if (agregado) {
+                              QuickAlert.show(
+                                  context: context,
+                                  type: QuickAlertType.success,
+                                  title: 'Agregado correctamente',
+                                  confirmBtnText: 'Hecho',
+                                  confirmBtnColor: AppTema.pizazz,
+                                  onConfirmBtnTap: () {
+                                    context
+                                        .pushReplacementNamed('genero_admin');
+                                  });
+                            } else {
+                              QuickAlert.show(
+                                  context: context,
+                                  type: QuickAlertType.error,
+                                  title: 'Ocurrió un error',
+                                  confirmBtnText: 'Hecho',
+                                  confirmBtnColor: AppTema.pizazz,
+                                  onConfirmBtnTap: () {
+                                    context.pop();
+                                  });
+                            }
+                            //   // print(contrasena);
+                          } else {
+                            QuickAlert.show(
+                              context: context,
+                              type: QuickAlertType.warning,
+                              title: 'Cuidado',
+                              text: 'Rellena los campos faltantes',
+                              confirmBtnText: 'Hecho',
+                              confirmBtnColor: AppTema.pizazz,
+                            );
+                          }
 
-                          print(genero);
-                          print(eNacimiento);
-                          //CurpGenerator.generateCurp(cNombres.text,cApellido1.text,cApellido2.text,fecha,);
-                          print(
-                            DateFormat('yyyy-MM-dd').format(fecha),
-                          );
-                          print(CurpGenerator.generateCurp(
-                              'Juliana Margarita',
-                              'Lopez',
-                              'Gines',
-                              DateTime(1997, 05, 16),
-                              'M',
-                              'Oaxaca'));
+                          // print(genero);
+                          // print(eNacimiento);
+                          // //CurpGenerator.generateCurp(cNombres.text,cApellido1.text,cApellido2.text,fecha,);
+                          // print(
+                          //   DateFormat('yyyy-MM-dd').format(fecha),
+                          // );
+                          // print(CurpGenerator.generateCurp(
+                          //     'Juliana Margarita',
+                          //     'Lopez',
+                          //     'Gines',
+                          //     DateTime(1997, 05, 16),
+                          //     'M',
+                          //     'Oaxaca'));
                         },
                       ),
                     ),
@@ -744,10 +806,23 @@ class _RegistroUsuarioAsesorScreenState
   Column _departamentoAdscrito(List<Departamento> dep) {
     return Column(
       children: [
+        Container(
+          // padding: EdgeInsets.only(right: 2.0),
+          alignment: Alignment.topLeft,
+          child: const Text(
+            'Departamento adscrito',
+            style: TextStyle(
+                color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.right,
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
         DropdownButtonFormField(
           //value: 'Licenciatura',
           hint: const Text(
-            'Seleccione departamento adscrito',
+            'Seleccione una opción',
             overflow: TextOverflow.visible,
             style: TextStyle(
                 color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
@@ -777,9 +852,22 @@ class _RegistroUsuarioAsesorScreenState
   Column _institutoPertenencia(List<Tecnologico> tecsD) {
     return Column(
       children: [
+        Container(
+          // padding: EdgeInsets.only(right: 2.0),
+          alignment: Alignment.topLeft,
+          child: const Text(
+            'Instituto de pertenecía',
+            style: TextStyle(
+                color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.right,
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
         DropdownButtonFormField(
           hint: const Text(
-            'Seleccione instituto de pertenecía',
+            'Seleccione una opción',
             overflow: TextOverflow.visible,
             style: TextStyle(
                 color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
@@ -815,9 +903,22 @@ class _RegistroUsuarioAsesorScreenState
   Column _tipoTecnologico(List<TipoTecnologico> tipo) {
     return Column(
       children: [
+        Container(
+          // padding: EdgeInsets.only(right: 2.0),
+          alignment: Alignment.topLeft,
+          child: const Text(
+            'Tipo de instituto o centro de investigación',
+            style: TextStyle(
+                color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.right,
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
         DropdownButtonFormField(
           hint: const Text(
-            'Seleccione tipo de instituto o centro de investigación',
+            'Seleccione una opción',
             overflow: TextOverflow.visible,
             style: TextStyle(
                 color: AppTema.bluegrey700, fontWeight: FontWeight.bold),

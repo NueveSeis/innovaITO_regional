@@ -168,197 +168,221 @@ class ProyectoAsesorScreen extends ConsumerWidget {
                               margin: const EdgeInsets.symmetric(
                                   vertical: 8, horizontal: 10),
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25)),
+                                borderRadius: BorderRadius.circular(25),
+                              ),
                               elevation: 10,
-                              child: Container(
-                                width: 350,
-                                //height: 100,
-                                padding: const EdgeInsets.all(10),
-                                //margin: EdgeInsets.only(top: 15),
-                                decoration: BoxDecoration(
-                                  color: (proyectos[index].estado != '1')
-                                      ? AppTema.rojoBajo
-                                      : AppTema.verdeBajo,
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
-                                child: Column(children: [
+                              child: Stack(
+                                children: [
                                   Container(
-                                    padding: const EdgeInsets.only(left: 15),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          proyectos[index].nombreProyecto,
-                                          style: const TextStyle(
-                                              color: AppTema.bluegrey700,
-                                              //fontWeight: FontWeight.bold,
-                                              fontSize: 20),
+                                    width: 350,
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: AppTema.grey100,
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
+                                    child: Column(children: [
+                                      Container(
+                                        padding:
+                                            const EdgeInsets.only(left: 15),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const SizedBox(
+                                              height: 25,
+                                            ),
+                                            Text(
+                                              proyectos[index].nombreProyecto,
+                                              style: const TextStyle(
+                                                  color: AppTema.bluegrey700,
+                                                  //fontWeight: FontWeight.bold,
+                                                  fontSize: 20),
+                                            ),
+                                            const SizedBox(
+                                              height: 8,
+                                            ),
+                                            Text(
+                                              proyectos[index].nombreCorto,
+                                              textAlign: TextAlign.center,
+                                              style: const TextStyle(
+                                                  color: AppTema.bluegrey700,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20),
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Text(
+                                              'Categoria: ${proyectos[index].nombreCategoria}',
+                                              textAlign: TextAlign.end,
+                                              style: const TextStyle(
+                                                  color: AppTema.bluegrey700,
+                                                  fontSize: 12),
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Text(
+                                              'Area: ${proyectos[index].nombreArea}',
+                                              textAlign: TextAlign.end,
+                                              style: const TextStyle(
+                                                  color: AppTema.bluegrey700,
+                                                  fontSize: 12),
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Text(
+                                              'Naturaleza Tecnica: ${proyectos[index].tipo}',
+                                              style: const TextStyle(
+                                                  color: AppTema.bluegrey700,
+                                                  fontSize: 12),
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Text(
+                                              'Observaciones realizadas: ${proyectos[index].observaciones ?? 'No tiene observaciones.'}',
+                                              style: const TextStyle(
+                                                  color: AppTema.bluegrey700,
+                                                  fontSize: 12),
+                                            ),
+                                          ],
                                         ),
-                                        const SizedBox(
-                                          height: 8,
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Column(
+                                            children: [
+                                              IconButton(
+                                                  icon: const Icon(
+                                                      Icons
+                                                          .cloud_download_rounded,
+                                                      size: 25),
+                                                  onPressed: () async {
+                                                    String ruta =
+                                                        await createPDF(
+                                                            proyectos, index);
+                                                    OpenFilex.open(ruta);
+                                                  },
+                                                  color: AppTema.bluegrey700),
+                                              const Text(
+                                                'Descargar',
+                                                style: TextStyle(
+                                                  color: AppTema.bluegrey700,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              IconButton(
+                                                icon: const Icon(
+                                                    Icons.add_comment_rounded,
+                                                    color: AppTema.bluegrey700,
+                                                    size: 25),
+                                                onPressed: () {
+                                                  _showDialogComentarios(
+                                                      proyectos[index].folio,
+                                                      context);
+                                                },
+                                              ),
+                                              //SizedBox(zi),
+                                              const Text(
+                                                'Observaciones',
+                                                style: TextStyle(
+                                                  color: AppTema.bluegrey700,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              Switch(
+                                                value:
+                                                    (proyectos[index].estado !=
+                                                            '1')
+                                                        ? false
+                                                        : true,
+                                                onChanged: (value) async {
+                                                  bool actua =
+                                                      await putProyectosAsesor(
+                                                          proyectos[index]
+                                                              .folio,
+                                                          'Estado',
+                                                          (value) ? '1' : '2');
+                                                  print(proyectos[index].folio);
+                                                  print(value);
+                                                  if (actua) {
+                                                    QuickAlert.show(
+                                                      context: context,
+                                                      type: QuickAlertType
+                                                          .success,
+                                                      title:
+                                                          'Estado modificado',
+                                                      confirmBtnText: 'Hecho',
+                                                      confirmBtnColor:
+                                                          AppTema.pizazz,
+                                                      onConfirmBtnTap: () {
+                                                        context.pushReplacementNamed(
+                                                            'proyecto_asesor');
+                                                      },
+                                                    );
+                                                  } else {
+                                                    QuickAlert.show(
+                                                      context: context,
+                                                      type:
+                                                          QuickAlertType.error,
+                                                      title: 'Ocurrió un error',
+                                                      confirmBtnText: 'Hecho',
+                                                      confirmBtnColor:
+                                                          AppTema.pizazz,
+                                                      onConfirmBtnTap: () {
+                                                        context.pushReplacementNamed(
+                                                            'proyecto_asesor');
+                                                      },
+                                                    );
+                                                  }
+                                                },
+                                                activeColor: AppTema.pizazz,
+                                              ),
+                                              const Text(
+                                                'Aceptar',
+                                                style: TextStyle(
+                                                  color: AppTema.bluegrey700,
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ]),
+                                  ),
+                                  Positioned(
+                                    top: 10,
+                                    right: 10,
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5, horizontal: 10),
+                                      decoration: BoxDecoration(
+                                        color: (proyectos[index].estado != '1')
+                                            ? Colors.red
+                                            : Colors.green,
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: Text(
+                                        'Estado',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                        Text(
-                                          proyectos[index].nombreCorto,
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                              color: AppTema.bluegrey700,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 20),
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          'Categoria: ${proyectos[index].nombreCategoria}',
-                                          textAlign: TextAlign.end,
-                                          style: const TextStyle(
-                                              color: AppTema.bluegrey700,
-                                              fontSize: 12),
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          'Area: ${proyectos[index].nombreArea}',
-                                          textAlign: TextAlign.end,
-                                          style: const TextStyle(
-                                              color: AppTema.bluegrey700,
-                                              fontSize: 12),
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          'Naturaleza Técnica: ${proyectos[index].tipo}',
-                                          style: const TextStyle(
-                                              color: AppTema.bluegrey700,
-                                              fontSize: 12),
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          'Observaciones Asesora: ${proyectos[index].observaciones}',
-                                          style: const TextStyle(
-                                              color: AppTema.bluegrey700,
-                                              fontSize: 12),
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          'Observaciones Coordinadora: ${proyectos[index].observacionesCoor ?? 'No tiene observaciones.'}',
-                                          style: const TextStyle(
-                                              color: AppTema.bluegrey700,
-                                              fontSize: 12),
-                                        ),
-                                      ],
+                                      ),
                                     ),
                                   ),
-                                  const SizedBox(height: 10),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Column(
-                                        children: [
-                                          IconButton(
-                                              icon: const Icon(
-                                                  Icons.cloud_download_rounded,
-                                                  size: 25),
-                                              onPressed: () async {
-                                                String ruta = await createPDF(
-                                                    proyectos, index);
-                                                OpenFilex.open(ruta);
-                                              },
-                                              color: AppTema.bluegrey700),
-                                          const Text(
-                                            'Descargar',
-                                            style: TextStyle(
-                                              color: AppTema.bluegrey700,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      Column(
-                                        children: [
-                                          IconButton(
-                                            icon: const Icon(
-                                                Icons.add_comment_rounded,
-                                                color: AppTema.bluegrey700,
-                                                size: 25),
-                                            onPressed: () {
-                                              _showDialogComentarios(
-                                                  proyectos[index].folio,
-                                                  context);
-                                            },
-                                          ),
-                                          //SizedBox(zi),
-                                          const Text(
-                                            'Observaciones',
-                                            style: TextStyle(
-                                              color: AppTema.bluegrey700,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      Column(
-                                        children: [
-                                          Switch(
-                                            value:
-                                                (proyectos[index].estado != '1')
-                                                    ? false
-                                                    : true,
-                                            onChanged: (value) async {
-                                              bool actua =
-                                                  await putProyectosAsesor(
-                                                      proyectos[index].folio,
-                                                      'Estado',
-                                                      (value) ? '1' : '2');
-                                              if (actua) {
-                                                QuickAlert.show(
-                                                  context: context,
-                                                  type: QuickAlertType.success,
-                                                  title: 'Estado modificado',
-                                                  confirmBtnText: 'Hecho',
-                                                  confirmBtnColor:
-                                                      AppTema.pizazz,
-                                                  onConfirmBtnTap: () {
-                                                    context
-                                                        .pushReplacementNamed(
-                                                            'proyecto_asesor');
-                                                  },
-                                                );
-                                              } else {
-                                                QuickAlert.show(
-                                                  context: context,
-                                                  type: QuickAlertType.error,
-                                                  title: 'Ocurrió un error',
-                                                  confirmBtnText: 'Hecho',
-                                                  confirmBtnColor:
-                                                      AppTema.pizazz,
-                                                  onConfirmBtnTap: () {
-                                                    context
-                                                        .pushReplacementNamed(
-                                                            'proyecto_asesor');
-                                                  },
-                                                );
-                                              }
-                                            },
-                                            activeColor: AppTema.pizazz,
-                                          ),
-                                          const Text(
-                                            'Aceptar',
-                                            style: TextStyle(
-                                              color: AppTema.bluegrey700,
-                                            ),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ]),
+                                ],
                               ),
                             );
                           },

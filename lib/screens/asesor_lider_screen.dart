@@ -216,6 +216,11 @@ class AsesorLiderScreen extends ConsumerWidget {
                           style: const TextStyle(
                               color: AppTema.bluegrey700, fontSize: 15.0),
                         ),
+                        Text(
+                          'Correo electrónico: ${asesores[index].correoElectronico}',
+                          style: const TextStyle(
+                              color: AppTema.bluegrey700, fontSize: 15.0),
+                        ),
                       ],
                     ),
                     onPressed: () async {
