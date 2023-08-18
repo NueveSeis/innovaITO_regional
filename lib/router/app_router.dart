@@ -218,5 +218,10 @@ final appRouter = GoRouter(
       name: StandScreen.name,
       builder: (context, state) => StandScreen(),
     ),
+    GoRoute(
+      path: '/registroUsuarioJurado',
+      name: RegistroUsuarioJuradoScreen.name,
+      builder: (context, state) => RegistroUsuarioJuradoScreen(),
+    ),
   ],
 );

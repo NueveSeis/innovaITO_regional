@@ -280,15 +280,16 @@ class AgregarRubricaScreen extends ConsumerWidget {
                                       color: AppTema.grey100, fontSize: 25),
                                 )),
                                 onPressed: () async {
-                                  ref
-                                      .read(camposLLenosProvider.notifier)
-                                      .update((state) =>
-                                          _formKey.currentState!.validate());
+                                  // ref
+                                  //     .read(camposLLenosProvider.notifier)
+                                  //     .update((state) =>
+                                  //         _formKey.currentState!.validate());
 
                                   print(camposLLenosRubrica);
                                   String id = Uuid().v4().substring(0, 8);
                                   // int valorRubrica = 0;
-                                  if (camposLLenosRubrica) {
+                                  bool criteriosAgregados = false;
+                                  if (_formKey.currentState!.validate()) {
                                     if (isActiveSala || isActiveStand) {
                                       print('Switch 1: $isActiveSala');
                                       print('Switch 2: $isActiveStand');
@@ -323,8 +324,38 @@ class AgregarRubricaScreen extends ConsumerWidget {
                                                 .v4()
                                                 .substring(0, 8);
 
-                                            await agregarCriterio(idCri, text1,
-                                                text2, '0', text2, id);
+                                            criteriosAgregados =
+                                                await agregarCriterio(
+                                                    idCri,
+                                                    text1,
+                                                    text2,
+                                                    '0',
+                                                    text2,
+                                                    id);
+                                          }
+                                          if (criteriosAgregados) {
+                                            QuickAlert.show(
+                                              context: context,
+                                              type: QuickAlertType.success,
+                                              title: 'Agregado correctamente',
+                                              confirmBtnText: 'Hecho',
+                                              confirmBtnColor: AppTema.pizazz,
+                                              onConfirmBtnTap: () {
+                                                context.pushReplacementNamed(
+                                                    'agregar_rubrica');
+                                              },
+                                            );
+                                          } else {
+                                            QuickAlert.show(
+                                              context: context,
+                                              type: QuickAlertType.error,
+                                              title: 'Ocurrió un error',
+                                              confirmBtnText: 'Hecho',
+                                              confirmBtnColor: AppTema.pizazz,
+                                              onConfirmBtnTap: () {
+                                                context.pop();
+                                              },
+                                            );
                                           }
                                         } else {
                                           //*No se agregaron criterios

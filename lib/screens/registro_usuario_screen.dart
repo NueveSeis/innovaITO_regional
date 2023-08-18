@@ -57,7 +57,7 @@ class RegistroUsuarioScreen extends StatelessWidget {
                           }),
                     ),
                     const SizedBox(
-                      height: 30,
+                      height: 20,
                     ),
                     Container(
                       width: double.infinity,
@@ -79,6 +79,33 @@ class RegistroUsuarioScreen extends StatelessWidget {
                           )),
                           onPressed: () {
                             context.pushNamed('registro_usuario_asesor');
+                            // Navigator.pushNamed(
+                            //   context, 'registro_usuario_asesor');
+                          }),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 20),
+                      child: MaterialButton(
+                          splashColor: AppTema.pizazz,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          height: 200,
+                          elevation: 15.0,
+                          color: AppTema.grey100,
+                          child: Container(
+                              child: const Text(
+                            'Jurado',
+                            style: TextStyle(
+                                color: AppTema.bluegrey700, fontSize: 25),
+                          )),
+                          onPressed: () {
+                            context.pushNamed('registroUsuarioJurado');
                             // Navigator.pushNamed(
                             //   context, 'registro_usuario_asesor');
                           }),
