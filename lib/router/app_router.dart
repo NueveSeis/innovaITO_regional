@@ -223,5 +223,10 @@ final appRouter = GoRouter(
       name: RegistroUsuarioJuradoScreen.name,
       builder: (context, state) => RegistroUsuarioJuradoScreen(),
     ),
+    GoRoute(
+      path: '/salaLiderScreen',
+      name: SalaLiderScreen.name,
+      builder: (context, state) => SalaLiderScreen(),
+    ),
   ],
 );

@@ -127,6 +127,10 @@ List<ModeloMenu> itemsMenu = const [
       titulo: "Asignar stand",
       icono: Icons.table_restaurant_rounded,
       pantalla: 'stand'),
+  ModeloMenu(
+      titulo: "Sala Lider",
+      icono: Icons.person_add_alt_rounded,
+      pantalla: 'salaLiderScreen'),
 ];
 
 List<ModeloMenu> itemsLider = const [
@@ -160,6 +164,10 @@ List<ModeloMenu> itemsLider = const [
       titulo: "Asesor",
       icono: Icons.person_add_alt_rounded,
       pantalla: 'asesor_lider'),
+  ModeloMenu(
+      titulo: "Lugar de evaluación",
+      icono: Icons.person_add_alt_rounded,
+      pantalla: 'salaLiderScreen'),
 ];
 
 List<ModeloMenu> itemsAsesor = const [

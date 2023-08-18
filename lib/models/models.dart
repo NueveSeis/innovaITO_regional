@@ -34,3 +34,5 @@ export 'package:innova_ito/models/stand.dart';
 export 'package:innova_ito/models/salaHS.dart';
 export 'package:innova_ito/models/standHS.dart';
 export 'package:innova_ito/models/carreraCoor.dart';
+export 'package:innova_ito/models/salaLider.dart';
+export 'package:innova_ito/models/standLider.dart';

@@ -504,6 +504,8 @@ class _RegistroUsuarioAsesorScreenState
                         int curpLength = value?.length ?? 0;
                         if (RegexUtil.curp.hasMatch(value ?? '')) {
                           // Genera la CURP para compararla
+                          print(genero);
+                          print(eNacimiento);
                           String curpGenerada = CurpGenerator.generateCurp(
                               cNombres.text,
                               cApellido1.text,
@@ -511,7 +513,7 @@ class _RegistroUsuarioAsesorScreenState
                               fecha,
                               genero,
                               eNacimiento);
-
+                          print(curpGenerada);
                           // Compara la CURP ingresada con la generada
                           if (curpLength == 18) {
                             if (curpGenerada.substring(0, 16) ==

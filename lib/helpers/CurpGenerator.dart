@@ -103,7 +103,19 @@ class CurpGenerator {
         getSegundaConsonante(apellidoPaterno);
     final segundaConsonanteApellidoMaterno =
         getSegundaConsonante(apellidoMaterno);
-    final segundaConsonanteNombre = getSegundaConsonante(nombre);
+
+    // Obtener la segunda consonante del nombre correctamente
+    String segundaConsonanteNombre = 'X';
+    for (var i = 1; i < nombre.length; i++) {
+      final letra = nombre[i];
+      if ('AEIOU'.contains(letra.toUpperCase())) {
+        continue;
+      }
+      if ('BCDFGHJKLMNPQRSTVWXYZ'.contains(letra.toUpperCase())) {
+        segundaConsonanteNombre = letra.toUpperCase();
+        break;
+      }
+    }
 
     final homoclave = '${Random().nextInt(100).toString().padLeft(2, '0')}';
 
@@ -112,4 +124,10 @@ class CurpGenerator {
 
     return curp;
   }
+}
+
+void main() {
+  String curp = CurpGenerator.generateCurp('Usiel Alberto', 'Torres', 'Sanchez',
+      DateTime(1999, 2, 13), 'Masculino', 'Oaxaca');
+  print(curp); // Debería imprimir: TOSU990213HOCRNS57
 }
