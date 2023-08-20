@@ -36,3 +36,7 @@ export 'package:innova_ito/models/standHS.dart';
 export 'package:innova_ito/models/carreraCoor.dart';
 export 'package:innova_ito/models/salaLider.dart';
 export 'package:innova_ito/models/standLider.dart';
+export 'package:innova_ito/models/proyectosEvaluar.dart';
+export 'package:innova_ito/models/rubricaCriterio.dart';
+export 'package:innova_ito/models/proyectoCoord.dart';
+export 'package:innova_ito/models/proyectoAsesorWF.dart';

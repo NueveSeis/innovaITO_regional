@@ -1,20 +1,20 @@
 // To parse this JSON data, do
 //
-//     final proyectoAsesor = proyectoAsesorFromJson(jsonString);
+//     final proyectoCoord = proyectoCoordFromJson(jsonString);
 
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
-List<ProyectoAsesor> proyectoAsesorFromJson(String str) =>
-    List<ProyectoAsesor>.from(
-        json.decode(str).map((x) => ProyectoAsesor.fromJson(x)));
+List<ProyectoCoord> proyectoCoordFromJson(String str) =>
+    List<ProyectoCoord>.from(
+        json.decode(str).map((x) => ProyectoCoord.fromJson(x)));
 
-String proyectoAsesorToJson(List<ProyectoAsesor> data) =>
+String proyectoCoordToJson(List<ProyectoCoord> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class ProyectoAsesor {
+class ProyectoCoord {
   String fechaValidacion;
-  String observaciones;
+  dynamic observaciones;
   String estado;
   String folio;
   String calificacionGlobal;
@@ -54,7 +54,7 @@ class ProyectoAsesor {
   String idCategoria;
   String nombreCategoria;
 
-  ProyectoAsesor({
+  ProyectoCoord({
     required this.fechaValidacion,
     required this.observaciones,
     required this.estado,
@@ -97,7 +97,7 @@ class ProyectoAsesor {
     required this.nombreCategoria,
   });
 
-  factory ProyectoAsesor.fromJson(Map<String, dynamic> json) => ProyectoAsesor(
+  factory ProyectoCoord.fromJson(Map<String, dynamic> json) => ProyectoCoord(
         fechaValidacion: json["Fecha_validacion"],
         observaciones: json["Observaciones"],
         estado: json["Estado"],

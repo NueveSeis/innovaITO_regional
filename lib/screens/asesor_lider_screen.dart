@@ -39,6 +39,26 @@ class AsesorLiderScreen extends ConsumerWidget {
     }
   }
 
+  List<ProyectoAsesorWf> asesoWF = [];
+  Future<bool> getAsesorWhere(String idfol) async {
+    String url =
+        'https://evarafael.com/Aplicacion/rest/get_proyectoAsesorWhere.php?Folio=$idfol';
+
+    try {
+      var response = await http.post(Uri.parse(url));
+      if (response.statusCode == 200) {
+        asesoWF = proyectoAsesorWfFromJson(response.body);
+        return true;
+      } else {
+        print('La solicitud no fue exitosa: ${response.statusCode}');
+        return false;
+      }
+    } catch (error) {
+      return false;
+      print('Error al realizar la solicitud: $error');
+    }
+  }
+
   Future<bool> agregarAsesorLider(String foliop, String asesor) async {
     var url =
         'https://evarafael.com/Aplicacion/rest/agregar_asesorProyecto.php'; // Reemplaza con la URL del archivo PHP en tu servidor
@@ -64,88 +84,133 @@ class AsesorLiderScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final listo = ref.watch(listoAsesor);
     return Scaffold(
-      body: Fondo(
-          tituloPantalla: 'Agregar asesor',
-          fontSize: 20,
-          widget: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-            child: Column(
-              children: [
-                const SizedBox(height: 50),
-                const Text(
-                  'Búsqueda de asesor',
-                  style: TextStyle(
-                      color: AppTema.balticSea,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  controller: cRFCLider,
-                  style: const TextStyle(
-                      color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
-                  autocorrect: false,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecorations.registroLiderDecoration(
-                    hintText: 'Ingrese RFC del asesor',
-                    labelText: 'RFC del asesor',
-                  ),
-                  //onChanged: (value) => registroLider.nombre = value,
-                  validator: (value) {
-                    return RegexUtil.rfc.hasMatch(value ?? '')
-                        ? null
-                        : 'RFC no valido.';
-                  },
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                    child: const Center(
-                        //height: 50,
-                        child: Text(
-                      'Buscar asesor',
-                      style: TextStyle(color: AppTema.grey100, fontSize: 25),
-                    )),
-                    onPressed: () async {
-                      print(cRFCLider.text);
-                      //verAsesor();
-                      if (cRFCLider.text.isNotEmpty) {
-                        ref.read(listoAsesor.notifier).update((state) => true);
+        body: Fondo(
+            tituloPantalla: 'Agregar asesor',
+            fontSize: 20,
+            widget: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                child: FutureBuilder(
+                  future: getAsesorWhere('PRO2716'),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.done) {
+                      if (snapshot.hasError) {
+                        return Center(
+                            child: Text('Error: ${snapshot.error.toString()}'));
                       } else {
-                        ref.read(listoAsesor.notifier).update((state) => false);
+                        return asesoWF.isEmpty
+                            ? Column(
+                                children: [
+                                  const SizedBox(height: 50),
+                                  const Text(
+                                    'Búsqueda de asesor',
+                                    style: TextStyle(
+                                        color: AppTema.balticSea,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  TextFormField(
+                                    autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
+                                    controller: cRFCLider,
+                                    style: const TextStyle(
+                                        color: AppTema.bluegrey700,
+                                        fontWeight: FontWeight.bold),
+                                    autocorrect: false,
+                                    keyboardType: TextInputType.text,
+                                    decoration: InputDecorations
+                                        .registroLiderDecoration(
+                                      hintText: 'Ingrese RFC del asesor',
+                                      labelText: 'RFC del asesor',
+                                    ),
+                                    //onChanged: (value) => registroLider.nombre = value,
+                                    validator: (value) {
+                                      return RegexUtil.rfc.hasMatch(value ?? '')
+                                          ? null
+                                          : 'RFC no valido.';
+                                    },
+                                  ),
+                                  const SizedBox(height: 20),
+                                  ElevatedButton(
+                                      child: const Center(
+                                          //height: 50,
+                                          child: Text(
+                                        'Buscar asesor',
+                                        style: TextStyle(
+                                            color: AppTema.grey100,
+                                            fontSize: 25),
+                                      )),
+                                      onPressed: () async {
+                                        print(cRFCLider.text);
+                                        //verAsesor();
+                                        if (cRFCLider.text.isNotEmpty) {
+                                          ref
+                                              .read(listoAsesor.notifier)
+                                              .update((state) => true);
+                                        } else {
+                                          ref
+                                              .read(listoAsesor.notifier)
+                                              .update((state) => false);
+                                        }
+                                      }),
+                                  //verAsesor(),
+
+                                  const SizedBox(height: 50),
+
+                                  listo
+                                      ? Column(
+                                          children: [
+                                            const Text(
+                                              'Para agregar al asesor solo da clic sobre el',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  color: AppTema.balticSea,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15),
+                                            ),
+                                            const SizedBox(height: 20),
+                                            verAsesor(cRFCLider.text),
+                                          ],
+                                        )
+                                      : const Text(
+                                          'No has ingresado ningún RFC',
+                                          textAlign: TextAlign.justify,
+                                          style: TextStyle(
+                                              color: AppTema.balticSea,
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 18),
+                                        ),
+                                ],
+                              )
+                            : const Column(
+                                children: [
+                                  SizedBox(
+                                    height: 50,
+                                  ),
+                                  Center(
+                                    child: Text(
+                                      'Ya has seleccionado tu asesor',
+                                      textAlign: TextAlign.justify,
+                                      style: TextStyle(
+                                          color: AppTema.redA400,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18),
+                                    ),
+                                  ),
+                                ],
+                              );
                       }
-                    }),
-                //verAsesor(),
-
-                const SizedBox(height: 50),
-
-                listo
-                    ? Column(
-                        children: [
-                          const Text(
-                            'Para agregar al asesor solo da clic sobre el',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: AppTema.balticSea,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15),
-                          ),
-                          const SizedBox(height: 20),
-                          verAsesor(cRFCLider.text),
-                        ],
-                      )
-                    : const Text(
-                        'No has ingresado ningún RFC',
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                            color: AppTema.balticSea,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 18),
-                      ),
-              ],
-            ),
-          )),
-    );
+                    } else {
+                      return const Center(child: Text('¡Algo salió mal!'));
+                    }
+                  },
+                ))));
   }
 
   FutureBuilder<bool> verAsesor(String rfc) {
@@ -231,7 +296,7 @@ class AsesorLiderScreen extends ConsumerWidget {
                         QuickAlert.show(
                           context: context,
                           type: QuickAlertType.success,
-                          title: 'Requerimiento agregado',
+                          title: 'Asesor agregado',
                           confirmBtnText: 'Hecho',
                           confirmBtnColor: AppTema.pizazz,
                           onConfirmBtnTap: () {

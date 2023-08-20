@@ -1,21 +1,22 @@
 // To parse this JSON data, do
 //
-//     final proyectoAsesor = proyectoAsesorFromJson(jsonString);
+//     final proyectosEvaluar = proyectosEvaluarFromJson(jsonString);
 
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
-List<ProyectoAsesor> proyectoAsesorFromJson(String str) =>
-    List<ProyectoAsesor>.from(
-        json.decode(str).map((x) => ProyectoAsesor.fromJson(x)));
+List<ProyectosEvaluar> proyectosEvaluarFromJson(String str) =>
+    List<ProyectosEvaluar>.from(
+        json.decode(str).map((x) => ProyectosEvaluar.fromJson(x)));
 
-String proyectoAsesorToJson(List<ProyectoAsesor> data) =>
+String proyectosEvaluarToJson(List<ProyectosEvaluar> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class ProyectoAsesor {
-  String fechaValidacion;
-  String observaciones;
-  String estado;
+class ProyectosEvaluar {
+  String proyectosEvaluarEstadoEvaluacion;
+  dynamic observacionesCoor;
+  dynamic estadoCoor;
+  dynamic fechaValidacionCoor;
   String folio;
   String calificacionGlobal;
   dynamic estadoAcreditacion;
@@ -54,10 +55,11 @@ class ProyectoAsesor {
   String idCategoria;
   String nombreCategoria;
 
-  ProyectoAsesor({
-    required this.fechaValidacion,
-    required this.observaciones,
-    required this.estado,
+  ProyectosEvaluar({
+    required this.proyectosEvaluarEstadoEvaluacion,
+    required this.observacionesCoor,
+    required this.estadoCoor,
+    required this.fechaValidacionCoor,
     required this.folio,
     required this.calificacionGlobal,
     required this.estadoAcreditacion,
@@ -97,10 +99,12 @@ class ProyectoAsesor {
     required this.nombreCategoria,
   });
 
-  factory ProyectoAsesor.fromJson(Map<String, dynamic> json) => ProyectoAsesor(
-        fechaValidacion: json["Fecha_validacion"],
-        observaciones: json["Observaciones"],
-        estado: json["Estado"],
+  factory ProyectosEvaluar.fromJson(Map<String, dynamic> json) =>
+      ProyectosEvaluar(
+        proyectosEvaluarEstadoEvaluacion: json["estadoEvaluacion"],
+        observacionesCoor: json["ObservacionesCoor"],
+        estadoCoor: json["EstadoCoor"],
+        fechaValidacionCoor: json["Fecha_ValidacionCoor"],
         folio: json["Folio"],
         calificacionGlobal: json["Calificacion_global"],
         estadoAcreditacion: json["Estado_acreditacion"],
@@ -141,9 +145,10 @@ class ProyectoAsesor {
       );
 
   Map<String, dynamic> toJson() => {
-        "Fecha_validacion": fechaValidacion,
-        "Observaciones": observaciones,
-        "Estado": estado,
+        "estadoEvaluacion": proyectosEvaluarEstadoEvaluacion,
+        "ObservacionesCoor": observacionesCoor,
+        "EstadoCoor": estadoCoor,
+        "Fecha_ValidacionCoor": fechaValidacionCoor,
         "Folio": folio,
         "Calificacion_global": calificacionGlobal,
         "Estado_acreditacion": estadoAcreditacion,

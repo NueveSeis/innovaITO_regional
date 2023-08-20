@@ -21,7 +21,7 @@ class ProyectoCoordinadorScreen extends ConsumerWidget {
   static const String name = 'proyecto_coordinador';
   ProyectoCoordinadorScreen({super.key});
 
-  List<ProyectoAsesor> proyectos = [];
+  List<ProyectoCoord> proyectos = [];
 
   Future<bool> getProyectosCoordinador(String id) async {
     String url =
@@ -29,7 +29,7 @@ class ProyectoCoordinadorScreen extends ConsumerWidget {
     try {
       var response = await http.post(Uri.parse(url));
       if (response.statusCode == 200) {
-        proyectos = proyectoAsesorFromJson(response.body);
+        proyectos = proyectoCoordFromJson(response.body);
         return true;
       } else {
         return false;
@@ -63,7 +63,7 @@ class ProyectoCoordinadorScreen extends ConsumerWidget {
     }
   }
 
-  Future<String> createPDF(List<ProyectoAsesor> proyecto, int index) async {
+  Future<String> createPDF(List<ProyectoCoord> proyecto, int index) async {
     final pdf = pw.Document();
     final educacion = await networkImage(
         'https://evarafael.com/Aplicacion/rest/logos/educacion.png');
@@ -283,11 +283,11 @@ class ProyectoCoordinadorScreen extends ConsumerWidget {
                                           Column(
                                             children: [
                                               Switch(
-                                                value: (proyectos[index]
-                                                            .estadoCoor !=
-                                                        '1')
-                                                    ? false
-                                                    : true,
+                                                value:
+                                                    (proyectos[index].estado !=
+                                                            '1')
+                                                        ? false
+                                                        : true,
                                                 onChanged: (value) async {
                                                   bool actua =
                                                       await putProyectosCoordinador(
@@ -347,10 +347,9 @@ class ProyectoCoordinadorScreen extends ConsumerWidget {
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 5, horizontal: 10),
                                       decoration: BoxDecoration(
-                                        color:
-                                            (proyectos[index].estadoCoor != '1')
-                                                ? Colors.red
-                                                : Colors.green,
+                                        color: (proyectos[index].estado != '1')
+                                            ? Colors.red
+                                            : Colors.green,
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                       child: Text(

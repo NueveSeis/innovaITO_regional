@@ -63,6 +63,31 @@ class ProyectoAsesorScreen extends ConsumerWidget {
     }
   }
 
+  Future<bool> putProyectosCoord(
+      String idcoor, String fol, String fechaV, String obs, String est) async {
+    String url =
+        'https://evarafael.com/Aplicacion/rest/agregar_validacionProyectoC.php';
+    try {
+      var response = await http.put(Uri.parse(url),
+          body: jsonEncode(<String, dynamic>{
+            'Id_coordinador': idcoor,
+            'Folio': fol,
+            'Fecha_validacion': fechaV,
+            'Observaciones': obs,
+            'Estado': est
+          }));
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+        print('La solicitud no fue exitosa: ${response.statusCode}');
+      }
+    } catch (error) {
+      return false;
+      print('Error al realizar la solicitud: $error');
+    }
+  }
+
   Future<String> createPDF(List<ProyectoAsesor> proyecto, int index) async {
     final pdf = pw.Document();
     final educacion = await networkImage(
@@ -331,6 +356,12 @@ class ProyectoAsesorScreen extends ConsumerWidget {
                                                             'proyecto_asesor');
                                                       },
                                                     );
+                                                    putProyectosCoord(
+                                                        'COO01',
+                                                        proyectos[index].folio,
+                                                        '0000-00-00',
+                                                        '',
+                                                        '2');
                                                   } else {
                                                     QuickAlert.show(
                                                       context: context,

@@ -5,10 +5,7 @@ import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 
-import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
-import 'package:quickalert/quickalert.dart';
-import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class SalaLiderScreen extends ConsumerWidget {
   static const String name = 'salaLiderScreen';
@@ -125,8 +122,39 @@ class SalaLiderScreen extends ConsumerWidget {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
+                                                  const SizedBox(
+                                                    height: 10,
+                                                  ),
                                                   Text(
-                                                    'Fecha: ${salas[index].fecha}',
+                                                    'Nombre sala: ${salas[index].nombreSala}',
+                                                    style: const TextStyle(
+                                                        color:
+                                                            AppTema.bluegrey700,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        fontSize: 15),
+                                                    overflow:
+                                                        TextOverflow.visible,
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text(
+                                                    'Lugar: ${salas[index].lugar}',
+                                                    style: const TextStyle(
+                                                        color:
+                                                            AppTema.bluegrey700,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        fontSize: 15),
+                                                    overflow:
+                                                        TextOverflow.visible,
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text(
+                                                    'Fecha: ${salas[index].fecha.day}-${salas[index].fecha.month}-${salas[index].fecha.year}',
                                                     style: const TextStyle(
                                                         color:
                                                             AppTema.bluegrey700,
@@ -155,34 +183,6 @@ class SalaLiderScreen extends ConsumerWidget {
                                                   ),
                                                   Text(
                                                     'Hora fin: ${salas[index].horaFinal}',
-                                                    style: const TextStyle(
-                                                        color:
-                                                            AppTema.bluegrey700,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontSize: 15),
-                                                    overflow:
-                                                        TextOverflow.visible,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Text(
-                                                    'Nombre sala: ${salas[index].nombreSala}',
-                                                    style: const TextStyle(
-                                                        color:
-                                                            AppTema.bluegrey700,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontSize: 15),
-                                                    overflow:
-                                                        TextOverflow.visible,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Text(
-                                                    'Lugar: ${salas[index].lugar}',
                                                     style: const TextStyle(
                                                         color:
                                                             AppTema.bluegrey700,
@@ -282,7 +282,21 @@ class SalaLiderScreen extends ConsumerWidget {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'Fecha: ${stands[index].fecha}',
+                                                    'Lugar: ${stands[index].lugar}',
+                                                    style: const TextStyle(
+                                                        color:
+                                                            AppTema.bluegrey700,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        fontSize: 15),
+                                                    overflow:
+                                                        TextOverflow.visible,
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text(
+                                                    'Fecha: ${stands[index].fecha.day}-${stands[index].fecha.month}-${stands[index].fecha.year}',
                                                     style: const TextStyle(
                                                         color:
                                                             AppTema.bluegrey700,
@@ -311,20 +325,6 @@ class SalaLiderScreen extends ConsumerWidget {
                                                   ),
                                                   Text(
                                                     'Hora fin: ${stands[index].horaFinal}',
-                                                    style: const TextStyle(
-                                                        color:
-                                                            AppTema.bluegrey700,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontSize: 15),
-                                                    overflow:
-                                                        TextOverflow.visible,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Text(
-                                                    'Lugar: ${stands[index].lugar}',
                                                     style: const TextStyle(
                                                         color:
                                                             AppTema.bluegrey700,
