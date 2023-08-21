@@ -43,3 +43,7 @@ export 'package:innova_ito/screens/stand_screen.dart';
 export 'package:innova_ito/screens/registro_usuario_jurado_screen.dart';
 export 'package:innova_ito/screens/sala_lider_screen.dart';
 export 'package:innova_ito/screens/proyectos_evaluar_screen.dart';
+export 'package:innova_ito/screens/asignar_proyecto_jurado_screen.dart';
+export 'package:innova_ito/screens/selecciona_proyecto_jurado_screen.dart';
+export 'package:innova_ito/screens/proyectos_evaluar_stand_screen.dart';
+export 'package:innova_ito/screens/evaluar_sala_screen.dart';

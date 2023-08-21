@@ -7,19 +7,19 @@ import 'package:innova_ito/widgets/widgets.dart';
 
 import 'package:http/http.dart' as http;
 
-class ProyectoEvaluarSreen extends ConsumerWidget {
-  static const String name = 'proyectoEvaluarSreen';
-  ProyectoEvaluarSreen({super.key});
+class ProyectoEvaluarStandSreen extends ConsumerWidget {
+  static const String name = 'ProyectoEvaluarStandSreen';
+  ProyectoEvaluarStandSreen({super.key});
 
-  List<EvaluacionProJuradoSala> proyectos = [];
+  List<EvaluacionProJuradoStand> proyectos = [];
 
   Future<void> getProyectosEvaluar(String idjur) async {
     String url =
-        'https://evarafael.com/Aplicacion/rest/get_evaluacionProJuradoSala.php?Id_jurado=$idjur';
+        'https://evarafael.com/Aplicacion/rest/get_evaluacionProJuradoStand.php?Id_jurado=$idjur';
     try {
       var response = await http.post(Uri.parse(url));
       if (response.statusCode == 200) {
-        proyectos = evaluacionProJuradoSalaFromJson(response.body);
+        proyectos = evaluacionProJuradoStandFromJson(response.body);
       } else {
         print('La solicitud no fue exitosa: ${response.statusCode}');
       }
@@ -32,7 +32,7 @@ class ProyectoEvaluarSreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: Fondo(
-          tituloPantalla: 'Evaluaciones Sala',
+          tituloPantalla: 'Evaluaciones Stand',
           fontSize: 20,
           widget: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),

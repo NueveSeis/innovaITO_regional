@@ -40,3 +40,8 @@ export 'package:innova_ito/models/proyectosEvaluar.dart';
 export 'package:innova_ito/models/rubricaCriterio.dart';
 export 'package:innova_ito/models/proyectoCoord.dart';
 export 'package:innova_ito/models/proyectoAsesorWF.dart';
+export 'package:innova_ito/models/proyectosJuradoASJS.dart';
+export 'package:innova_ito/models/proyectosSelecJuradoPSJ.dart';
+export 'package:innova_ito/models/evaluacionProJuradoSala.dart';
+export 'package:innova_ito/models/evaluacionProJuradoStand.dart';
+export 'package:innova_ito/models/criterioRubrica.dart';

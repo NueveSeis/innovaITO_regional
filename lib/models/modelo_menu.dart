@@ -132,9 +132,21 @@ List<ModeloMenu> itemsMenu = const [
       icono: Icons.person_add_alt_rounded,
       pantalla: 'salaLiderScreen'),
   ModeloMenu(
-      titulo: "Evaluaciones pendientes",
+      titulo: "Evaluaciones pendientes sala",
       icono: Icons.person_add_alt_rounded,
       pantalla: 'proyectoEvaluarScreen'),
+  ModeloMenu(
+      titulo: "Asignar Proyecto a jurado",
+      icono: Icons.person_add_alt_rounded,
+      pantalla: 'AsignarProyectoJuradoScreen'),
+  ModeloMenu(
+      titulo: "Evaluaciones pendientes stand",
+      icono: Icons.person_add_alt_rounded,
+      pantalla: 'ProyectoEvaluarStandSreen'),
+  ModeloMenu(
+      titulo: "Evaluacion sala",
+      icono: Icons.person_add_alt_rounded,
+      pantalla: 'EvaluarSalaSreen'),
 ];
 
 List<ModeloMenu> itemsLider = const [
