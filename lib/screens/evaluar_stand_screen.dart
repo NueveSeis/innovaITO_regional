@@ -14,9 +14,9 @@ import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:uuid/uuid.dart';
 
-class EvaluarSalaScreen extends ConsumerWidget {
-  static const String name = 'EvaluarSalaScreen';
-  EvaluarSalaScreen({super.key});
+class EvaluarStandScreen extends ConsumerWidget {
+  static const String name = 'EvaluarStandScreen';
+  EvaluarStandScreen({super.key});
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -63,10 +63,10 @@ class EvaluarSalaScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final datosProyectoPESSvar = ref.watch(proyectoDatosPESS);
+    final datosProyectoPESSTvar = ref.watch(proyectoDatosPESST);
     return Scaffold(
       body: Fondo(
-          tituloPantalla: 'Evaluaciones Sala',
+          tituloPantalla: 'Evaluaciones Stand',
           fontSize: 20,
           widget: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
@@ -88,7 +88,7 @@ class EvaluarSalaScreen extends ConsumerWidget {
                 Form(
                   key: _formKey,
                   child: FutureBuilder(
-                    future: getRubrica('SALA'),
+                    future: getRubrica('STAND'),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(
@@ -251,7 +251,7 @@ class EvaluarSalaScreen extends ConsumerWidget {
                           agregarCalificacion(
                               id,
                               _controllersListCriterios[index][0].text,
-                              datosProyectoPESSvar.first.folio,
+                              datosProyectoPESSTvar.first.folio,
                               rubrica[index].idCriterio,
                               'JUR02',
                               _controllersListCriterios[index][1].text,
@@ -264,8 +264,8 @@ class EvaluarSalaScreen extends ConsumerWidget {
                           confirmBtnText: 'Hecho',
                           confirmBtnColor: AppTema.pizazz,
                           onConfirmBtnTap: () {
-                            context
-                                .pushReplacementNamed('proyectoEvaluarSreen');
+                            context.pushReplacementNamed(
+                                'ProyectoEvaluarStandSreen');
                           },
                         );
                       } else {

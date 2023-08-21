@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:innova_ito/providers/providers.dart';
 
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/models/models.dart';
@@ -72,6 +74,13 @@ class ProyectoEvaluarStandSreen extends ConsumerWidget {
                             return ElevatedButton(
                               onPressed: () {
                                 // Acción a realizar cuando se presiona el botón
+                                List<EvaluacionProJuradoStand> proyecto = [
+                                  proyectos[index]
+                                ];
+                                ref
+                                    .read(proyectoDatosPESST.notifier)
+                                    .update((state) => proyecto);
+                                context.pushNamed('EvaluarStandScreen');
                               },
                               style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.zero,

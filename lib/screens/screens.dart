@@ -47,3 +47,4 @@ export 'package:innova_ito/screens/asignar_proyecto_jurado_screen.dart';
 export 'package:innova_ito/screens/selecciona_proyecto_jurado_screen.dart';
 export 'package:innova_ito/screens/proyectos_evaluar_stand_screen.dart';
 export 'package:innova_ito/screens/evaluar_sala_screen.dart';
+export 'package:innova_ito/screens/evaluar_stand_screen.dart';
