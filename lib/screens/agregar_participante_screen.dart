@@ -75,60 +75,6 @@ Future<List<Carrera>> obtenerCarrera(ref) async {
   return carrera;
 }
 
-Future<bool> existente(String idPersona) async {
-  String url = 'https://evarafael.com/Aplicacion/rest/existePersona.php';
-  var response = await http.post(Uri.parse(url), body: {
-    'Id_persona': idPersona,
-  });
-
-  var data = json.decode(response.body);
-  if (data == "Realizado") {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-Future agregarParticipante(
-    String id,
-    String nombre,
-    String ap1,
-    String ap2,
-    String telefono,
-    String correo,
-    String ine,
-    String curp,
-    String matricula,
-    String fecha,
-    String promedio,
-    String expectativa,
-    String carrera,
-    String genero,
-    String semestre,
-    String nivel,
-    String folio) async {
-  var url = 'https://evarafael.com/Aplicacion/rest/agregar_participante.php';
-  await http.post(Uri.parse(url), body: {
-    'Id_persona': id,
-    'Nombre_persona': nombre,
-    'Apellido1': ap1,
-    'Apellido2': ap2,
-    'Telefono': telefono,
-    'Correo_electronico': correo,
-    'Num_ine': ine,
-    'Curp': curp,
-    'Matricula': matricula,
-    'Fecha_nacimiento': fecha,
-    'Promedio': promedio,
-    'Id_expectativa': expectativa,
-    'Id_carrera': carrera,
-    'Id_genero': genero,
-    'Id_semestre': semestre,
-    'Id_nivel': nivel,
-    'Folio': folio,
-  });
-}
-
 class AgregarParticipanteScreen extends ConsumerWidget {
   static const String name = 'agregar_participantes';
 
@@ -139,6 +85,60 @@ class AgregarParticipanteScreen extends ConsumerWidget {
   String id = '';
 
   final fechaSeleccionadaAPSProv = StateProvider<DateTime?>((ref) => null);
+
+  Future<bool> existente(String idPersona) async {
+    String url = 'https://evarafael.com/Aplicacion/rest/existePersona.php';
+    var response = await http.post(Uri.parse(url), body: {
+      'Id_persona': idPersona,
+    });
+
+    var data = json.decode(response.body);
+    if (data == "Realizado") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future agregarParticipante(
+      String id,
+      String nombre,
+      String ap1,
+      String ap2,
+      String telefono,
+      String correo,
+      String ine,
+      String curp,
+      String matricula,
+      String fecha,
+      String promedio,
+      String expectativa,
+      String carrera,
+      String genero,
+      String semestre,
+      String nivel,
+      String folio) async {
+    var url = 'https://evarafael.com/Aplicacion/rest/agregar_participante.php';
+    await http.post(Uri.parse(url), body: {
+      'Id_persona': id,
+      'Nombre_persona': nombre,
+      'Apellido1': ap1,
+      'Apellido2': ap2,
+      'Telefono': telefono,
+      'Correo_electronico': correo,
+      'Num_ine': ine,
+      'Curp': curp,
+      'Matricula': matricula,
+      'Fecha_nacimiento': fecha,
+      'Promedio': promedio,
+      'Id_expectativa': expectativa,
+      'Id_carrera': carrera,
+      'Id_genero': genero,
+      'Id_semestre': semestre,
+      'Id_nivel': nivel,
+      'Folio': folio,
+    });
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

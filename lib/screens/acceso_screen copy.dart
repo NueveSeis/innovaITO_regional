@@ -35,8 +35,21 @@ class _AccesoScreenState extends State<AccesoScreen> {
   String matricula = '';
   String asesorID = '';
   String juradoID = '';
-  // List folio = [];
-  String folio = '';
+  List folio = [];
+
+  Future<String> getUsuario(String usuario) async {
+    String url =
+        'https://evarafael.com/Aplicacion/rest/obtenerUsuario.php?Nombre_usuario=$usuario';
+    var response = await http.post(Uri.parse(url));
+    if (response.statusCode == 200) {
+      var datos = jsonDecode(response.body);
+      String miString = datos[0]['Contrasena'].toString();
+      return miString;
+    } else {
+      return '';
+      print('Error al obtener datos de la API');
+    }
+  }
 
   Future<String> getMatricula(String idpersona) async {
     String url =
@@ -49,7 +62,7 @@ class _AccesoScreenState extends State<AccesoScreen> {
       //await Future.delayed(Duration(seconds: 2));
       return matricula;
     } else {
-      return 'SN';
+      return '';
       print('Error al obtener datos de la API');
     }
   }
@@ -63,9 +76,9 @@ class _AccesoScreenState extends State<AccesoScreen> {
       asesorID = datos[0]['Id_asesor'].toString();
       print(asesorID);
       //await Future.delayed(Duration(seconds: 2));
-      return asesorID;
+      return matricula;
     } else {
-      return 'SN';
+      return '';
       print('Error al obtener datos de la API');
     }
   }
@@ -79,40 +92,53 @@ class _AccesoScreenState extends State<AccesoScreen> {
       juradoID = datos[0]['Id_jurado'].toString();
       print(juradoID);
       //await Future.delayed(Duration(seconds: 2));
+
       return juradoID;
     } else {
-      return 'SN';
+      return '';
       print('Error al obtener datos de la API');
     }
   }
 
-  List<DatosUsuariosLogin> datosU = [];
+  Future acceso() async {
+    String url = 'https://evarafael.com/Aplicacion/rest/login.php';
+    var response = await http.post(Uri.parse(url), body: {
+      "Nombre_usuario": correo.text,
+    });
 
-  Future<bool> getUsuarioLogin(String correo) async {
-    String url =
-        'https://evarafael.com/Aplicacion/rest/get_datosUsuario.php?Nombre_usuario=$correo';
-    var response = await http.post(Uri.parse(url));
+    var data = json.decode(response.body);
+    if (data == "Realizado") {
+      print('buscando usuario...');
+      getUser(correo.text);
+    }
+  }
+
+  Future<void> getUser(String correo) async {
+    String url = 'https://evarafael.com/Aplicacion/rest/get_dataUser.php';
+    var response = await http.post(Uri.parse(url), body: {
+      "Nombre_usuario": correo,
+    });
     if (response.statusCode == 200) {
-      datosU = datosUsuariosLoginFromJson(response.body);
-      return true;
+      dataUser = usuarioDataFromJson(response.body);
+      // print('encontrado');
+      // context.goNamed('inicioLider');
+      Future.delayed(const Duration(seconds: 2), () {
+        print('encontrado');
+        context.goNamed('inicioLider');
+      });
     } else {
-      return false;
-      print('Error al obtener datos de la API');
+      print('nisiquiera carga');
     }
   }
 
   //oBTENER FOLIO DEL PROYECTO EN EL QUE PARTICIPA EL ESTUDIANTE
-  Future<String> getFolioProyecto(String matricula) async {
+  Future<void> getFolioProyecto(String matricula) async {
     String url =
         'https://evarafael.com/Aplicacion/rest/get_Folio.php?Matricula=$matricula';
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
-      var datos = jsonDecode(response.body);
-      folio = datos[0]['Folio'].toString();
-
-      return folio;
+      folio = jsonDecode(response.body);
     } else {
-      return 'SN';
       print('nisiquiera carga');
     }
   }
@@ -213,33 +239,56 @@ class _AccesoScreenState extends State<AccesoScreen> {
                                     print(camposLlenos);
                                   });
                                   if (camposLlenos) {
-                                    bool buscar =
-                                        await getUsuarioLogin(correo.text);
-
-                                    print('buscar: $buscar');
-                                    if (buscar) {
-                                      print('si fue buscado');
-                                      if (datosU.isEmpty) {
-                                        print('no existe');
-                                      } else {
-                                        print('si existe');
-
-                                        String ini = Apoyo.obtenerIniciales(
-                                            datosU.first.nombrePersona);
-                                        String nombreUsuario =
-                                            Apoyo.capitalizar(
-                                                datosU.first.nombrePersona +
-                                                    ' ' +
-                                                    datosU.first.apellido1 +
-                                                    ' ' +
-                                                    datosU.first.apellido2);
-                                        String rolUsuario = Apoyo.capitalizar(
-                                            datosU.first.nombreRol);
+                                    String pass = await getUsuario(correo.text);
+                                    print('Contraseña encontrada: $pass');
+                                    bool comparado = Generar.compararContrasena(
+                                        contrasena.text.toString(), pass);
+                                    print('contraseña igual : $comparado');
+                                    if (comparado == true) {
+                                      acceso();
+                                      Future.delayed(Duration(seconds: 1), () {
+                                        //obtener iniciales del nombre
 
                                         ref
+                                            .read(juradoIDProvider.notifier)
+                                            .update((state) => getMatricula(
+                                                    dataUser[0].idUsuario)
+                                                .toString());
+
+                                        getMatricula(dataUser[0].idUsuario);
+                                        getJurado(dataUser[0].idUsuario);
+                                        getAsesor(dataUser[0].idUsuario);
+
+                                        String ini = Apoyo.obtenerIniciales(
+                                            dataUser[0]
+                                                .nombrePersona
+                                                .toString());
+                                        //obtener nombre completo del usuario
+                                        String nombreUsuario =
+                                            Apoyo.capitalizar(dataUser[0]
+                                                    .nombrePersona
+                                                    .toString() +
+                                                ' ' +
+                                                dataUser[0]
+                                                    .apellido1
+                                                    .toString() +
+                                                ' ' +
+                                                dataUser[0]
+                                                    .apellido2
+                                                    .toString());
+                                        //obtener rol del usuario
+                                        String rolUsuario = Apoyo.capitalizar(
+                                            dataUser[0].nombreRol.toString());
+
+                                        //guardar datos en el riverpood
+                                        //Guardar id de persona usuaurio y asesor en provider
+
+                                        //print('jurado id : $juradoID');
+                                        ref
                                             .read(idUsuarioLogin.notifier)
-                                            .update((state) =>
-                                                datosU.first.idUsuario);
+                                            .update((state) => dataUser[0]
+                                                .idUsuario
+                                                .toString());
                                         ref
                                             .read(nombreUsuarioLogin.notifier)
                                             .update((state) => nombreUsuario);
@@ -249,47 +298,24 @@ class _AccesoScreenState extends State<AccesoScreen> {
                                         ref
                                             .read(inicialesUsuario.notifier)
                                             .update((state) => ini);
+                                        ref
+                                            .read(matriculaProvider.notifier)
+                                            .update((state) => matricula);
+                                        ref
+                                            .read(folioProyectoUsuarioLogin
+                                                .notifier)
+                                            .update(
+                                                (state) => folio[0]['Folio']);
 
-                                        if (datosU.first.nombreRol
-                                                .toLowerCase() ==
-                                            'jurado interno') {
-                                          String juraId = await getJurado(
-                                              datosU.first.idUsuario);
-                                          ref
-                                              .read(juradoIDProvider.notifier)
-                                              .update((state) => juraId);
-                                          context.goNamed('inicioLider');
-                                        }
+                                        ref
+                                            .read(juradoIDProvider.notifier)
+                                            .update((state) => juradoID);
+                                        print('jurado id : $juradoID');
 
-                                        if (datosU.first.nombreRol
-                                                .toLowerCase() ==
-                                            'asesor') {
-                                          String aseId = await getAsesor(
-                                              datosU.first.idUsuario);
-                                          ref
-                                              .read(asesorIDProvider.notifier)
-                                              .update((state) => aseId);
-
-                                          context.goNamed('inicioLider');
-                                        }
-                                        if (datosU.first.nombreRol
-                                                .toLowerCase() ==
-                                            'estudiante lider') {
-                                          String matID = await getMatricula(
-                                              datosU.first.idUsuario);
-                                          ref
-                                              .read(matriculaProvider.notifier)
-                                              .update((state) => matID);
-                                          String fol =
-                                              await getFolioProyecto(matID);
-
-                                          ref
-                                              .read(folioProyectoUsuarioLogin
-                                                  .notifier)
-                                              .update((state) => fol);
-                                          context.goNamed('inicioLider');
-                                        }
-                                      }
+                                        ref
+                                            .read(asesorIDProvider.notifier)
+                                            .update((state) => asesorID);
+                                      });
                                     }
                                   } else {
                                     QuickAlert.show(
