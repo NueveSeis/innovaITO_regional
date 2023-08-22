@@ -140,17 +140,22 @@ class AgregarParticipanteScreen extends ConsumerWidget {
     });
   }
 
+  TextEditingController cNombre = TextEditingController();
+  TextEditingController cApellidoP = TextEditingController();
+  TextEditingController cApellidoM = TextEditingController();
+  TextEditingController cMatricula = TextEditingController();
+  TextEditingController cPromedio = TextEditingController();
+  TextEditingController cCurp = TextEditingController();
+  TextEditingController cIne = TextEditingController();
+  TextEditingController cCorreo = TextEditingController();
+  TextEditingController cNumero = TextEditingController();
+  String eNacimiento = '';
+  String tipoGeneroAbreviado = '';
+
+  DateTime? fechaSeleccionada;
+  DateTime fecha = DateTime(0000, 00, 00);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    TextEditingController cNombre = TextEditingController();
-    TextEditingController cApellidoP = TextEditingController();
-    TextEditingController cApellidoM = TextEditingController();
-    TextEditingController cMatricula = TextEditingController();
-    TextEditingController cPromedio = TextEditingController();
-    TextEditingController cCurp = TextEditingController();
-    TextEditingController cIne = TextEditingController();
-    TextEditingController cCorreo = TextEditingController();
-    TextEditingController cNumero = TextEditingController();
     final generos = ref.watch(futureGeneroProv);
     final semestres = ref.watch(futureSemestreProv);
     final expectativas = ref.watch(futureExpectativaProv);
@@ -167,10 +172,6 @@ class AgregarParticipanteScreen extends ConsumerWidget {
     final camposLlenos = ref.watch(camposLlenosProv);
     final cFolio = ref.watch(folioProyectoUsuarioLogin);
     final fechas = ref.watch(fechaSeleccionadaAPSProv);
-    String eNacimiento = '';
-
-    DateTime? fechaSeleccionada;
-    DateTime fecha = DateTime(0000, 00, 00);
 
     Future _mostrarDatePicker(context, ref) async {
       final seleccion = await showDatePicker(
@@ -358,6 +359,28 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                                   );
                                 }).toList(),
                                 onChanged: (value) {
+                                  final selectedTipoGenero = data
+                                      .firstWhere(
+                                          (itemone) =>
+                                              itemone.idGenero == value,
+                                          orElse: () => Genero(
+                                              idGenero: '',
+                                              tipoGenero: 'Desconocido'))
+                                      .tipoGenero;
+
+                                  tipoGeneroAbreviado;
+
+                                  if (selectedTipoGenero == 'MASCULINO') {
+                                    tipoGeneroAbreviado = 'H';
+                                  } else if (selectedTipoGenero == 'FEMENINO') {
+                                    tipoGeneroAbreviado = 'M';
+                                  } else {
+                                    tipoGeneroAbreviado = 'Otro';
+                                  }
+                                  // print('idGenero seleccionado: $value');
+                                  // print(
+                                  //     'tipoGenero seleccionado: $selectedTipoGenero');
+
                                   ref
                                       .read(generoProv.notifier)
                                       .update((state) => value.toString());
@@ -437,12 +460,12 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                             ),
                             validator: (value) {
                               //String gen = cGenero
-                              print(cNombre.text);
-                              print(cApellidoP);
-                              print(cApellidoM);
-                              print(fecha);
-                              print(cGenero);
-                              print(eNacimiento);
+                              // print(cNombre.text);
+                              // print(cApellidoP);
+                              // print(cApellidoM);
+                              // print(fecha);
+                              // print(cGenero);
+                              // print(eNacimiento);
                               int curpLength = value?.length ?? 0;
                               if (RegexUtil.curp.hasMatch(value ?? '')) {
                                 // Genera la CURP para compararla
@@ -452,7 +475,7 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                                         cApellidoP.text,
                                         cApellidoM.text,
                                         fecha,
-                                        cGenero,
+                                        tipoGeneroAbreviado,
                                         eNacimiento);
 
                                 print(curpGenerada);
@@ -460,6 +483,7 @@ class AgregarParticipanteScreen extends ConsumerWidget {
 
                                 // Compara la CURP ingresada con la generada
                                 if (curpLength == 18) {
+                                  //  print(o)
                                   if (curpGenerada.substring(0, 16) ==
                                       cCurp.text.substring(0, 16)) {
                                     return null;
