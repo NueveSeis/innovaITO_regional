@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:innova_ito/models/models.dart';
+import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 
@@ -154,6 +155,7 @@ class ProyectoAsesorScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final asesorID = ref.watch(asesorIDProvider);
     return Scaffold(
       body: Fondo(
           tituloPantalla: 'Mis proyectos',
@@ -172,7 +174,7 @@ class ProyectoAsesorScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 20),
                 FutureBuilder(
-                  future: getProyectosAsesor('ASE02'),
+                  future: getProyectosAsesor(asesorID),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(

@@ -183,6 +183,33 @@ class InicioLiderScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
+              if (rol.toLowerCase() == 'jurado interno')
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      color: AppTema.indigo50,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25),
+                      ),
+                    ),
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                      ),
+                      itemCount: itemsJuradoInterno.length,
+                      itemBuilder: (context, index) {
+                        return TareasLider(
+                          icono: itemsJuradoInterno[index].icono,
+                          texto: itemsJuradoInterno[index].titulo,
+                          ruta1: itemsJuradoInterno[index].pantalla.toString(),
+                        );
+                      },
+                    ),
+                  ),
+                ),
               if (rol.toLowerCase() == 'coordinador local')
                 Expanded(
                   child: Container(

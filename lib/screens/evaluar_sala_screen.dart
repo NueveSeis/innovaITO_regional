@@ -59,11 +59,27 @@ class EvaluarSalaScreen extends ConsumerWidget {
     }
   }
 
+  Future<bool> updateEvaluacionSala(
+      String foliop, String idjur, String eva) async {
+    var url =
+        'https://evarafael.com/Aplicacion/rest/update_evaluacionSala.php'; // Reemplaza con la URL del archivo PHP en tu servidor
+    var response = await http.post(Uri.parse(url),
+        body: {'Folio': foliop, 'Id_jurado': idjur, 'Estado_evaluacion': eva});
+    if (response.statusCode == 200) {
+      print('Modificado en la db');
+      return true;
+    } else {
+      print('No modificado');
+      return false;
+    }
+  }
+
   final List<List<TextEditingController>> _controllersListCriterios = [];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final datosProyectoPESSvar = ref.watch(proyectoDatosPESS);
+    final String juradoID = ref.watch(juradoIDProvider);
     return Scaffold(
       body: Fondo(
           tituloPantalla: 'Evaluaciones Sala',
@@ -238,25 +254,30 @@ class EvaluarSalaScreen extends ConsumerWidget {
                         for (int index = 0;
                             index < _controllersListCriterios.length;
                             index++) {
-                          print('Valores para el índice $index:');
+                          // print('Valores para el índice $index:');
                           print(
                               'Primer TextEditingController: ${_controllersListCriterios[index][0].text}');
                           print(
                               'Segundo TextEditingController: ${_controllersListCriterios[index][1].text}');
                           print(
                               'Tercer TextEditingController: ${_controllersListCriterios[index][2].text}');
-                          print('---');
-                          // Separador entre conjuntos de TextEditingController
+                          print(datosProyectoPESSvar.first.folio);
+                          print(rubrica[index].idCriterio);
+                          print(juradoID);
+                          // print('---');
+                          // // Separador entre conjuntos de TextEditingController
                           String id = Uuid().v4().substring(0, 8);
                           agregarCalificacion(
                               id,
                               _controllersListCriterios[index][0].text,
                               datosProyectoPESSvar.first.folio,
                               rubrica[index].idCriterio,
-                              'JUR02',
+                              juradoID,
                               _controllersListCriterios[index][1].text,
                               _controllersListCriterios[index][2].text);
                         }
+                        updateEvaluacionSala(
+                            datosProyectoPESSvar.first.folio, juradoID, '1');
                         QuickAlert.show(
                           context: context,
                           type: QuickAlertType.success,

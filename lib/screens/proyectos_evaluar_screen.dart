@@ -32,6 +32,7 @@ class ProyectoEvaluarSreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final String juradoID = ref.watch(juradoIDProvider);
     return Scaffold(
       body: Fondo(
           tituloPantalla: 'Evaluaciones Sala',
@@ -54,7 +55,7 @@ class ProyectoEvaluarSreen extends ConsumerWidget {
                   height: 10,
                 ),
                 FutureBuilder(
-                  future: getProyectosEvaluar('JUR02'),
+                  future: getProyectosEvaluar(juradoID),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(
@@ -72,16 +73,20 @@ class ProyectoEvaluarSreen extends ConsumerWidget {
                           itemCount: proyectos.length,
                           itemBuilder: (context, index) {
                             return ElevatedButton(
-                              onPressed: () {
-                                // Acción a realizar cuando se presiona el botón
-                                List<EvaluacionProJuradoSala> proyecto = [
-                                  proyectos[index]
-                                ];
-                                ref
-                                    .read(proyectoDatosPESS.notifier)
-                                    .update((state) => proyecto);
-                                context.pushNamed('EvaluarSalaScreen');
-                              },
+                              onPressed: proyectos[index].estadoEvaluacion ==
+                                      '1'
+                                  ? null
+                                  : () {
+                                      print(juradoID);
+                                      // Acción a realizar cuando se presiona el botón
+                                      List<EvaluacionProJuradoSala> proyecto = [
+                                        proyectos[index]
+                                      ];
+                                      ref
+                                          .read(proyectoDatosPESS.notifier)
+                                          .update((state) => proyecto);
+                                      context.pushNamed('EvaluarSalaScreen');
+                                    },
                               style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.zero,
                                 shape: RoundedRectangleBorder(

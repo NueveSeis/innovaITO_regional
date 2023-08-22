@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final idUsuarioLogin = StateProvider(
-  (ref) => "81a43dc7c1",
+  (ref) => "SN",
 );
 
 final nombreUsuarioLogin = StateProvider<String>(
@@ -21,9 +21,16 @@ final idPersona = StateProvider<String>(
 );
 
 final matriculaProvider = StateProvider<String>(
-  (ref) => "17161411",
+  (ref) => "SN",
 );
 
 final folioProyectoUsuarioLogin = StateProvider(
   (ref) => 'SN',
-);//PRO5298
+); //PRO5298
+
+final juradoIDProvider = StateProvider<String>(
+  (ref) => "SN",
+);
+final asesorIDProvider = StateProvider<String>(
+  (ref) => "SN",
+);

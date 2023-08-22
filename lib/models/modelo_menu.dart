@@ -127,26 +127,26 @@ List<ModeloMenu> itemsMenu = const [
       titulo: "Asignar stand",
       icono: Icons.table_restaurant_rounded,
       pantalla: 'stand'),
+  //! Lugar de evaluacion del proyecto - Lider
   ModeloMenu(
       titulo: "Sala Lider",
-      icono: Icons.person_add_alt_rounded,
+      icono: Icons.location_pin,
       pantalla: 'salaLiderScreen'),
+  //! Jurado
   ModeloMenu(
       titulo: "Evaluaciones pendientes sala",
-      icono: Icons.person_add_alt_rounded,
+      icono: Icons.assignment_turned_in_outlined,
       pantalla: 'proyectoEvaluarScreen'),
+  //!Asignar proyecto a jurado - Coordinador
   ModeloMenu(
       titulo: "Asignar Proyecto a jurado",
-      icono: Icons.person_add_alt_rounded,
+      icono: Icons.assignment_ind_rounded,
       pantalla: 'AsignarProyectoJuradoScreen'),
+  //! Jurado
   ModeloMenu(
       titulo: "Evaluaciones pendientes stand",
-      icono: Icons.person_add_alt_rounded,
+      icono: Icons.assignment_turned_in_outlined,
       pantalla: 'ProyectoEvaluarStandSreen'),
-  ModeloMenu(
-      titulo: "Evaluacion sala",
-      icono: Icons.person_add_alt_rounded,
-      pantalla: 'EvaluarSalaSreen'),
 ];
 
 List<ModeloMenu> itemsLider = const [
@@ -184,6 +184,11 @@ List<ModeloMenu> itemsLider = const [
       titulo: "Lugar de evaluación",
       icono: Icons.person_add_alt_rounded,
       pantalla: 'salaLiderScreen'),
+  //! Lugar de evaluacion del proyecto - Lider
+  ModeloMenu(
+      titulo: "Sala Lider",
+      icono: Icons.location_pin,
+      pantalla: 'salaLiderScreen'),
 ];
 
 List<ModeloMenu> itemsAsesor = const [
@@ -202,6 +207,15 @@ List<ModeloMenu> itemsJuradoInterno = const [
       titulo: "Seleccionar categoria",
       icono: Icons.category_rounded,
       pantalla: 'seleccionar_categoria'),
+  //! Jurado
+  ModeloMenu(
+      titulo: "Evaluaciones Sala",
+      icono: Icons.assignment_turned_in_outlined,
+      pantalla: 'proyectoEvaluarScreen'),
+  ModeloMenu(
+      titulo: "Evaluaciones Stand",
+      icono: Icons.assignment_turned_in_outlined,
+      pantalla: 'ProyectoEvaluarStandSreen'),
 ];
 
 List<ModeloMenu> itemsJuradoExterno = const [
@@ -224,11 +238,11 @@ List<ModeloMenu> itemsCoordinadorLocal = const [
       titulo: "Departamentos",
       icono: Icons.note_add_rounded,
       pantalla: 'departamento'),
-  //! Modificar
-  ModeloMenu(
-      titulo: "Fechas",
-      icono: Icons.calendar_month_rounded,
-      pantalla: 'asignacion_fechas'),
+  // //! Modificar
+  // ModeloMenu(
+  //     titulo: "Fechas",
+  //     icono: Icons.calendar_month_rounded,
+  //     pantalla: 'asignacion_fechas'),
   ModeloMenu(
       titulo: "Mis proyectos",
       icono: Icons.document_scanner_rounded,
@@ -245,6 +259,11 @@ List<ModeloMenu> itemsCoordinadorLocal = const [
       titulo: "Asignar stand",
       icono: Icons.table_restaurant_rounded,
       pantalla: 'stand'),
+  //!Asignar proyecto a jurado - Coordinador
+  ModeloMenu(
+      titulo: "Asignar Proyecto a jurado",
+      icono: Icons.assignment_ind_rounded,
+      pantalla: 'AsignarProyectoJuradoScreen'),
   ModeloMenu(
       titulo: "Tablero de posiciones",
       icono: Icons.leaderboard_rounded,
@@ -291,11 +310,11 @@ List<ModeloMenu> itemsAdministrador = const [
 ];
 
 List<ModeloMenu> itemsConfig = const [
-  ModeloMenu(
-      titulo: "Notificaciones",
-      icono: Icons.notifications,
-      pantalla: 'notificaciones'),
-  ModeloMenu(titulo: "Cuenta", icono: Icons.person, pantalla: 'cuenta'),
+  // ModeloMenu(
+  //     titulo: "Notificaciones",
+  //     icono: Icons.notifications,
+  //     pantalla: 'notificaciones'),
+  // ModeloMenu(titulo: "Cuenta", icono: Icons.person, pantalla: 'cuenta'),
   ModeloMenu(
       titulo: "Cerrar sesión", icono: Icons.logout_rounded, pantalla: 'acceso'),
 ];

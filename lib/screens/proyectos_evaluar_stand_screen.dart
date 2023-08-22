@@ -72,16 +72,18 @@ class ProyectoEvaluarStandSreen extends ConsumerWidget {
                           itemCount: proyectos.length,
                           itemBuilder: (context, index) {
                             return ElevatedButton(
-                              onPressed: () {
-                                // Acción a realizar cuando se presiona el botón
-                                List<EvaluacionProJuradoStand> proyecto = [
-                                  proyectos[index]
-                                ];
-                                ref
-                                    .read(proyectoDatosPESST.notifier)
-                                    .update((state) => proyecto);
-                                context.pushNamed('EvaluarStandScreen');
-                              },
+                              onPressed: proyectos[index].estadoEvaluacion ==
+                                      '1'
+                                  ? null
+                                  : () {
+                                      // Acción a realizar cuando se presiona el botón
+                                      List<EvaluacionProJuradoStand> proyecto =
+                                          [proyectos[index]];
+                                      ref
+                                          .read(proyectoDatosPESST.notifier)
+                                          .update((state) => proyecto);
+                                      context.pushNamed('EvaluarStandScreen');
+                                    },
                               style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.zero,
                                 shape: RoundedRectangleBorder(

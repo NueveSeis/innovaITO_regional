@@ -45,3 +45,4 @@ export 'package:innova_ito/models/proyectosSelecJuradoPSJ.dart';
 export 'package:innova_ito/models/evaluacionProJuradoSala.dart';
 export 'package:innova_ito/models/evaluacionProJuradoStand.dart';
 export 'package:innova_ito/models/criterioRubrica.dart';
+export 'package:innova_ito/models/preferencias.dart';
