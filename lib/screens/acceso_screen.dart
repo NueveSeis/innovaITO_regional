@@ -105,15 +105,27 @@ class _AccesoScreenState extends State<AccesoScreen> {
   Future<String> getFolioProyecto(String matricula) async {
     String url =
         'https://evarafael.com/Aplicacion/rest/get_Folio.php?Matricula=$matricula';
-    var response = await http.post(Uri.parse(url));
-    if (response.statusCode == 200) {
-      var datos = jsonDecode(response.body);
-      folio = datos[0]['Folio'].toString();
+    var response = await http.get(Uri.parse(url));
 
-      return folio;
+    if (response.statusCode == 200) {
+      var responseData = response.body;
+
+      if (responseData.isNotEmpty) {
+        var datos = jsonDecode(responseData);
+
+        if (datos is Map && datos.containsKey("message")) {
+          return 'SN';
+        } else {
+          folio = datos[0]['Folio'].toString();
+          return folio;
+        }
+      } else {
+        print('La respuesta está vacía.');
+        return 'SN';
+      }
     } else {
+      print('Error en la solicitud HTTP: ${response.statusCode}');
       return 'SN';
-      print('nisiquiera carga');
     }
   }
 
@@ -287,6 +299,17 @@ class _AccesoScreenState extends State<AccesoScreen> {
                                               .read(folioProyectoUsuarioLogin
                                                   .notifier)
                                               .update((state) => fol);
+                                          context.goNamed('inicioLider');
+                                        }
+                                        if (datosU.first.nombreRol
+                                                .toLowerCase() ==
+                                            'coordinador local') {
+                                          // String aseId = await getAsesor(
+                                          //     datosU.first.idUsuario);
+                                          // ref
+                                          //     .read(asesorIDProvider.notifier)
+                                          //     .update((state) => aseId);
+
                                           context.goNamed('inicioLider');
                                         }
                                       }

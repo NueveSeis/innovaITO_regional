@@ -329,48 +329,18 @@ class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
                                                       print(datosJuradoSLVar
                                                           .first.idJurado);
 
-                                                      bool agregado =
-                                                          await agregarEvaluacionStand(
-                                                              idEvalua,
-                                                              proyectos[index]
-                                                                  .folio,
-                                                              proyectos[index]
-                                                                  .idStand,
-                                                              datosJuradoSLVar
-                                                                  .first
-                                                                  .idJurado);
-
-                                                      bool agrega =
-                                                          await agregarProyectoJurado(
-                                                              proyectos[index]
-                                                                  .folio,
-                                                              datosJuradoSLVar
-                                                                  .first
-                                                                  .idJurado);
-
-                                                      if (agregado && agrega) {
+                                                      if (proyectos[index]
+                                                                  .idStand ==
+                                                              null ||
+                                                          proyectos[index]
+                                                                  .idStand ==
+                                                              "null") {
                                                         QuickAlert.show(
                                                           context: context,
                                                           type: QuickAlertType
-                                                              .success,
+                                                              .warning,
                                                           title:
-                                                              'Asignado correctamente',
-                                                          confirmBtnText:
-                                                              'Hecho',
-                                                          confirmBtnColor:
-                                                              AppTema.pizazz,
-                                                          onConfirmBtnTap: () {
-                                                            context.pushReplacementNamed(
-                                                                'AsignarProyectoJuradoScreen');
-                                                          },
-                                                        );
-                                                      } else {
-                                                        QuickAlert.show(
-                                                          context: context,
-                                                          type: QuickAlertType
-                                                              .error,
-                                                          title:
-                                                              'Ocurrió un error',
+                                                              'Este proyecto aun no tiene stand asignado',
                                                           confirmBtnText:
                                                               'Hecho',
                                                           confirmBtnColor:
@@ -379,6 +349,61 @@ class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
                                                             context.pop();
                                                           },
                                                         );
+                                                      } else {
+                                                        bool agregado =
+                                                            await agregarEvaluacionStand(
+                                                                idEvalua,
+                                                                proyectos[index]
+                                                                    .folio,
+                                                                proyectos[index]
+                                                                    .idStand,
+                                                                datosJuradoSLVar
+                                                                    .first
+                                                                    .idJurado);
+
+                                                        bool agrega =
+                                                            await agregarProyectoJurado(
+                                                                proyectos[index]
+                                                                    .folio,
+                                                                datosJuradoSLVar
+                                                                    .first
+                                                                    .idJurado);
+
+                                                        if (agregado &&
+                                                            agrega) {
+                                                          QuickAlert.show(
+                                                            context: context,
+                                                            type: QuickAlertType
+                                                                .success,
+                                                            title:
+                                                                'Asignado correctamente',
+                                                            confirmBtnText:
+                                                                'Hecho',
+                                                            confirmBtnColor:
+                                                                AppTema.pizazz,
+                                                            onConfirmBtnTap:
+                                                                () {
+                                                              context.pushReplacementNamed(
+                                                                  'AsignarProyectoJuradoScreen');
+                                                            },
+                                                          );
+                                                        } else {
+                                                          QuickAlert.show(
+                                                            context: context,
+                                                            type: QuickAlertType
+                                                                .error,
+                                                            title:
+                                                                'Ocurrió un error',
+                                                            confirmBtnText:
+                                                                'Hecho',
+                                                            confirmBtnColor:
+                                                                AppTema.pizazz,
+                                                            onConfirmBtnTap:
+                                                                () {
+                                                              context.pop();
+                                                            },
+                                                          );
+                                                        }
                                                       }
                                                     },
                                                     child: const Text(
@@ -414,48 +439,20 @@ class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
                                                       print(datosJuradoSLVar
                                                           .first.idJurado);
 
-                                                      bool agregado =
-                                                          await agregarEvaluacionSala(
-                                                              idEva,
-                                                              proyectos[index]
-                                                                  .folio,
-                                                              proyectos[index]
-                                                                  .idSala,
-                                                              datosJuradoSLVar
-                                                                  .first
-                                                                  .idJurado);
-
-                                                      bool agrega =
-                                                          await agregarProyectoJurado(
-                                                              proyectos[index]
-                                                                  .folio,
-                                                              datosJuradoSLVar
-                                                                  .first
-                                                                  .idJurado);
-
-                                                      if (agregado && agrega) {
+                                                      if (proyectos[index]
+                                                                  .idSala ==
+                                                              null ||
+                                                          proyectos[index]
+                                                                  .idSala ==
+                                                              "null") {
+                                                        // Si idSala es nulo, hacer algo diferente
+                                                        // Por ejemplo, mostrar un mensaje de "Sin sala asignada"
                                                         QuickAlert.show(
                                                           context: context,
                                                           type: QuickAlertType
-                                                              .success,
+                                                              .warning,
                                                           title:
-                                                              'Asignado correctamente',
-                                                          confirmBtnText:
-                                                              'Hecho',
-                                                          confirmBtnColor:
-                                                              AppTema.pizazz,
-                                                          onConfirmBtnTap: () {
-                                                            context.pushReplacementNamed(
-                                                                'AsignarProyectoJuradoScreen');
-                                                          },
-                                                        );
-                                                      } else {
-                                                        QuickAlert.show(
-                                                          context: context,
-                                                          type: QuickAlertType
-                                                              .error,
-                                                          title:
-                                                              'Ocurrió un error',
+                                                              'Este proyecto aun no tiene sala asignada',
                                                           confirmBtnText:
                                                               'Hecho',
                                                           confirmBtnColor:
@@ -464,6 +461,64 @@ class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
                                                             context.pop();
                                                           },
                                                         );
+                                                      } else {
+                                                        // Si idSala tiene datos, hacer algo diferente
+                                                        // Por ejemplo, mostrar el ID de la sala
+
+                                                        bool agregado =
+                                                            await agregarEvaluacionSala(
+                                                                idEva,
+                                                                proyectos[index]
+                                                                    .folio,
+                                                                proyectos[index]
+                                                                    .idSala,
+                                                                datosJuradoSLVar
+                                                                    .first
+                                                                    .idJurado);
+
+                                                        bool agrega =
+                                                            await agregarProyectoJurado(
+                                                                proyectos[index]
+                                                                    .folio,
+                                                                datosJuradoSLVar
+                                                                    .first
+                                                                    .idJurado);
+
+                                                        if (agregado &&
+                                                            agrega) {
+                                                          QuickAlert.show(
+                                                            context: context,
+                                                            type: QuickAlertType
+                                                                .success,
+                                                            title:
+                                                                'Asignado correctamente',
+                                                            confirmBtnText:
+                                                                'Hecho',
+                                                            confirmBtnColor:
+                                                                AppTema.pizazz,
+                                                            onConfirmBtnTap:
+                                                                () {
+                                                              context.pushReplacementNamed(
+                                                                  'AsignarProyectoJuradoScreen');
+                                                            },
+                                                          );
+                                                        } else {
+                                                          QuickAlert.show(
+                                                            context: context,
+                                                            type: QuickAlertType
+                                                                .error,
+                                                            title:
+                                                                'Ocurrió un error',
+                                                            confirmBtnText:
+                                                                'Hecho',
+                                                            confirmBtnColor:
+                                                                AppTema.pizazz,
+                                                            onConfirmBtnTap:
+                                                                () {
+                                                              context.pop();
+                                                            },
+                                                          );
+                                                        }
                                                       }
                                                     },
                                                     child: const Text(

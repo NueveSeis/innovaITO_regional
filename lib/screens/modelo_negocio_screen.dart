@@ -237,7 +237,7 @@ class ModeloNegocioScreen extends ConsumerWidget {
                             const SizedBox(height: 50),
                             const Text('Ya ha subido un archivo anteriormente.',
                                 style: TextStyle(
-                                    color: AppTema.redA400,
+                                    color: AppTema.bluegrey700,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18)),
                             const SizedBox(

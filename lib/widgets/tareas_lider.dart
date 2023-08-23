@@ -20,7 +20,7 @@ class TareasLider extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          context.pushReplacementNamed(ruta1);
+          context.pushNamed(ruta1);
         },
         child: Container(
           width: 100,

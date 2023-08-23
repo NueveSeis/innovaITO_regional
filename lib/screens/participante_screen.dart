@@ -55,7 +55,7 @@ class ParticipanteScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final String matriculaProv = ref.watch(matriculaProvider);
     final int nParticipantesProv = ref.watch(numParticipantes);
-    final String folioProv = ref.watch(folioProyectoUsuarioLogin);
+    final String? folioProv = ref.watch(folioProyectoUsuarioLogin);
 
     return Scaffold(
       body: Fondo(

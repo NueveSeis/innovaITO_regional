@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:innova_ito/providers/providers.dart';
 
 import 'package:innova_ito/theme/app_tema.dart';
 
@@ -7,7 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 
-class TarjetaParticipante extends StatelessWidget {
+class TarjetaParticipante extends ConsumerWidget {
   //final String nombreCarrera;
   final String idParticipante;
   final String nombre;
@@ -51,7 +53,9 @@ class TarjetaParticipante extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final mat = ref.watch(matriculaProvider);
+
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -167,23 +171,6 @@ class TarjetaParticipante extends StatelessWidget {
                                   ListTile(
                                     splashColor: AppTema.primario,
                                     title: const Text(
-                                      'Renombrar',
-                                      style: TextStyle(
-                                          //color: AppTema.bluegrey700,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
-                                    leading: const Icon(
-                                      Icons.edit,
-                                      //color: AppTema.bluegrey700,
-                                    ),
-                                    onTap: () {
-                                      print(idParticipante);
-                                    },
-                                  ),
-                                  ListTile(
-                                    splashColor: AppTema.primario,
-                                    title: const Text(
                                       'Eliminar',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
@@ -194,8 +181,19 @@ class TarjetaParticipante extends StatelessWidget {
                                       color: AppTema.redA400,
                                     ),
                                     onTap: () {
-                                      eliminarParticipante(control, folio,
-                                          idParticipante, context);
+                                      if (control == mat) {
+                                        QuickAlert.show(
+                                          context: context,
+                                          type: QuickAlertType.warning,
+                                          title:
+                                              'No se puede eliminar al líder del proyecto',
+                                          confirmBtnText: 'Hecho',
+                                          confirmBtnColor: AppTema.pizazz,
+                                        );
+                                      } else {
+                                        eliminarParticipante(control, folio,
+                                            idParticipante, context);
+                                      }
                                     },
                                   )
                                 ],

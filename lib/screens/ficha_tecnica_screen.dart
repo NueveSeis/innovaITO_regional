@@ -108,245 +108,317 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
     );
   }
 
+  Future<void> agregarValidacionProyectoC(
+      String coor, String fol, dynamic fechaV, dynamic obs, dynamic est) async {
+    var url =
+        'https://evarafael.com/Aplicacion/rest/agregar_validacionProyectoC.php';
+    var response = await http.post(
+      Uri.parse(url),
+      body: {
+        'Id_coordinador': coor,
+        'Folio': fol,
+        'Fecha_validacion': fechaV,
+        'Observaciones': obs,
+        'Estado': est
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // La solicitud se completó exitosamente
+      print('Solicitud completada: ${response.body}');
+    } else {
+      // Manejo de errores
+      print('Error en la solicitud: ${response.statusCode}');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     //final bool catProv = ref.watch(categoriaCargandoProvider);
 
     return Scaffold(
       body: Fondo(
-        tituloPantalla: 'Ficha tecnica',
-        fontSize: 25,
-        widget: Column(children: [
-          const SizedBox(height: 50),
-          const Text(
-            'Datos del proyecto',
-            style: TextStyle(
-                color: AppTema.balticSea,
-                fontWeight: FontWeight.bold,
-                fontSize: 20),
-          ),
-          SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-            child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    Consumer(builder: (context, ref, child) {
-                      idPersona = ref.watch(idUsuarioLogin);
-                      return const SizedBox();
-                    }),
-                    const SizedBox(height: 20),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      controller: cNombreComercial,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      maxLength: 30,
-                      autocorrect: false,
-                      keyboardType: TextInputType.emailAddress,
-                      style: const TextStyle(
-                          color: AppTema.bluegrey700,
-                          fontWeight: FontWeight.bold),
-                      decoration: InputDecorations.registroLiderDecoration(
-                        hintText: 'Ingrese nombre corto (nombre comercial)',
-                        labelText: 'Nombre corto (nombre comercial)',
-                      ),
-                      validator: (value) {
-                        return (!RegexUtil.datos.hasMatch(value ?? ''))
-                            ? null
-                            : 'No contiene ningún dato.';
-                      },
-                      //onChanged: (value) => accesoFormulario.correo = value,
+          tituloPantalla: 'Ficha tecnica',
+          fontSize: 25,
+          widget: Consumer(builder: (context, ref, child) {
+            final String? folioProyecto = ref.watch(folioProyectoUsuarioLogin);
+            return (folioProyecto == 'SN' || folioProyecto == null)
+                ? Column(children: [
+                    const SizedBox(height: 50),
+                    const Text(
+                      'Datos del proyecto',
+                      style: TextStyle(
+                          color: AppTema.balticSea,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
                     ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      controller: cNombreDescriptivo,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      maxLength: 100,
-                      maxLines: null,
-                      style: const TextStyle(
-                          color: AppTema.bluegrey700,
-                          fontWeight: FontWeight.bold),
-                      autocorrect: false,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecorations.registroLiderDecoration(
-                        hintText: 'Ingrese nombre descriptivo',
-                        labelText: 'Nombre descriptivo',
-                      ),
-                      validator: (value) {
-                        return (!RegexUtil.datos.hasMatch(value ?? ''))
-                            ? null
-                            : 'No contiene ningun dato.';
-                      },
-                      //onChanged: (value) => accesoFormulario.correo = value,
-                    ),
-                    FutureBuilder(
-                        future: obtenerCategorias(),
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.done) {
-                            return Consumer(builder: (context, ref, child) {
-                              final bool areaProvLoad =
-                                  ref.watch(categoriaCargandoProvider);
-                              final String areaProvSelec =
-                                  ref.watch(categoriaSelecProvider);
-                              return cateSeleccion(ref);
-                            });
-                          } else {
-                            return const CircularProgressIndicator();
-                          }
-                        }),
-                    Consumer(builder: (context, ref, child) {
-                      final bool areaProvLoad =
-                          ref.watch(categoriaCargandoProvider);
-                      final String areaProvSelec =
-                          ref.watch(categoriaSelecProvider);
-                      return (areaProvLoad)
-                          ? FutureBuilder(
-                              future: obtenerAreas(areaProvSelec),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.done) {
-                                  return areaDrop(areas);
-                                } else {
-                                  return const CircularProgressIndicator();
-                                }
-                              })
-                          : const SizedBox();
-                    }),
-                    FutureBuilder(
-                      future: obtenerNaturaleza(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          return naturalezaDrop(naturalezas);
-                        } else {
-                          return const CircularProgressIndicator();
-                        }
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      controller: cObjetivo,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      maxLength: 500,
-                      maxLines: null,
-                      style: const TextStyle(
-                          color: AppTema.bluegrey700,
-                          fontWeight: FontWeight.bold),
-                      autocorrect: false,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecorations.registroLiderDecoration(
-                        hintText:
-                            'Plantear el objetivo general respondiendo a: ¿Qué?, ¿Cómo?, ¿Para qué?, ¿Qué soluciona?',
-                        labelText: 'Objetivo del proyecto',
-                      ),
-                      validator: (value) {
-                        return (!RegexUtil.datos.hasMatch(value ?? ''))
-                            ? null
-                            : 'No contiene ningún dato.';
-                      },
-                      //onChanged: (value) => accesoFormulario.correo = value,
-                    ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      controller: cProblematica,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      maxLength: 600,
-                      maxLines: null,
-                      style: const TextStyle(
-                          color: AppTema.bluegrey700,
-                          fontWeight: FontWeight.bold),
-                      autocorrect: false,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecorations.registroLiderDecoration(
-                        hintText:
-                            'Explicar qué necesidad, problemática u oportunidad del entorno se atiende, justificar por qué se quiere desarrollar este proyecto.',
-                        labelText: 'Problemática identificada',
-                        //prefixIcon: Icons.person
-                      ),
-                      validator: (value) {
-                        return (!RegexUtil.datos.hasMatch(value ?? ''))
-                            ? null
-                            : 'No contiene ningún dato.';
-                      },
-                      //onChanged: (value) => accesoFormulario.correo = value,
-                    ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      controller: cResultados,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      maxLength: 600,
-                      maxLines: null,
-                      style: const TextStyle(
-                          color: AppTema.bluegrey700,
-                          fontWeight: FontWeight.bold),
-                      autocorrect: false,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecorations.registroLiderDecoration(
-                        hintText:
-                            'Describir los beneficios cualitativos y cuantitativos de la propuesta.',
-                        labelText: 'Resultados esperados del proyecto',
-                      ),
-                      validator: (value) {
-                        return (!RegexUtil.datos.hasMatch(value ?? ''))
-                            ? null
-                            : 'No contiene ningún dato.';
-                      },
-                    ),
-                    Container(
-                      height: 50,
-                      width: double.infinity,
-                      margin: const EdgeInsets.symmetric(
+                    SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(
                           vertical: 20, horizontal: 10),
-                      child: ElevatedButton(
-                        child: const Center(
-                            child: Text(
-                          'Registrar',
-                          style:
-                              TextStyle(color: AppTema.grey100, fontSize: 25),
-                        )),
-                        onPressed: () {
-                          setState(() {
-                            camposLlenos = _formKey.currentState!.validate();
-                            if (camposLlenos) {
-                              idFichaUnica =
-                                  Generar.idProyecto(cNombreComercial.text);
-                              getMatricula(idPersona);
-                              //print('Matricula es: ' + matricula.toString());
-                              // agregarFichaTecnica(
-                              //   idFichaUnica, matricula.toString());
-                              QuickAlert.show(
-                                context: context,
-                                type: QuickAlertType.success,
-                                title: 'Agregado correctamente',
-                                confirmBtnText: 'Hecho',
-                                confirmBtnColor: AppTema.pizazz,
-                                onConfirmBtnTap: () {
-                                  context.pushReplacementNamed('inicioLider');
+                      child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              Consumer(builder: (context, ref, child) {
+                                idPersona = ref.watch(idUsuarioLogin);
+                                return const SizedBox();
+                              }),
+                              const SizedBox(height: 20),
+                              const SizedBox(height: 20),
+                              TextFormField(
+                                controller: cNombreComercial,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                maxLength: 30,
+                                autocorrect: false,
+                                keyboardType: TextInputType.emailAddress,
+                                style: const TextStyle(
+                                    color: AppTema.bluegrey700,
+                                    fontWeight: FontWeight.bold),
+                                decoration:
+                                    InputDecorations.registroLiderDecoration(
+                                  hintText:
+                                      'Ingrese nombre corto (nombre comercial)',
+                                  labelText: 'Nombre corto (nombre comercial)',
+                                ),
+                                validator: (value) {
+                                  return (!RegexUtil.datos
+                                          .hasMatch(value ?? ''))
+                                      ? null
+                                      : 'No contiene ningún dato.';
                                 },
-                              );
-                            } else {
-                              QuickAlert.show(
-                                context: context,
-                                type: QuickAlertType.warning,
-                                title: 'Cuidado',
-                                text: 'Rellena los campos faltantes',
-                                confirmBtnText: 'Hecho',
-                                confirmBtnColor: AppTema.pizazz,
-                              );
-                            }
-                          });
+                                //onChanged: (value) => accesoFormulario.correo = value,
+                              ),
+                              const SizedBox(height: 20),
+                              TextFormField(
+                                controller: cNombreDescriptivo,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                maxLength: 100,
+                                maxLines: null,
+                                style: const TextStyle(
+                                    color: AppTema.bluegrey700,
+                                    fontWeight: FontWeight.bold),
+                                autocorrect: false,
+                                keyboardType: TextInputType.emailAddress,
+                                decoration:
+                                    InputDecorations.registroLiderDecoration(
+                                  hintText: 'Ingrese nombre descriptivo',
+                                  labelText: 'Nombre descriptivo',
+                                ),
+                                validator: (value) {
+                                  return (!RegexUtil.datos
+                                          .hasMatch(value ?? ''))
+                                      ? null
+                                      : 'No contiene ningun dato.';
+                                },
+                                //onChanged: (value) => accesoFormulario.correo = value,
+                              ),
+                              FutureBuilder(
+                                  future: obtenerCategorias(),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.done) {
+                                      return Consumer(
+                                          builder: (context, ref, child) {
+                                        final bool areaProvLoad = ref
+                                            .watch(categoriaCargandoProvider);
+                                        final String areaProvSelec =
+                                            ref.watch(categoriaSelecProvider);
+                                        return cateSeleccion(ref);
+                                      });
+                                    } else {
+                                      return const CircularProgressIndicator();
+                                    }
+                                  }),
+                              Consumer(builder: (context, ref, child) {
+                                final bool areaProvLoad =
+                                    ref.watch(categoriaCargandoProvider);
+                                final String areaProvSelec =
+                                    ref.watch(categoriaSelecProvider);
+                                return (areaProvLoad)
+                                    ? FutureBuilder(
+                                        future: obtenerAreas(areaProvSelec),
+                                        builder: (BuildContext context,
+                                            AsyncSnapshot snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.done) {
+                                            return areaDrop(areas);
+                                          } else {
+                                            return const CircularProgressIndicator();
+                                          }
+                                        })
+                                    : const SizedBox();
+                              }),
+                              FutureBuilder(
+                                future: obtenerNaturaleza(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    return naturalezaDrop(naturalezas);
+                                  } else {
+                                    return const CircularProgressIndicator();
+                                  }
+                                },
+                              ),
+                              const SizedBox(height: 20),
+                              TextFormField(
+                                controller: cObjetivo,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                maxLength: 500,
+                                maxLines: null,
+                                style: const TextStyle(
+                                    color: AppTema.bluegrey700,
+                                    fontWeight: FontWeight.bold),
+                                autocorrect: false,
+                                keyboardType: TextInputType.emailAddress,
+                                decoration:
+                                    InputDecorations.registroLiderDecoration(
+                                  hintText:
+                                      'Plantear el objetivo general respondiendo a: ¿Qué?, ¿Cómo?, ¿Para qué?, ¿Qué soluciona?',
+                                  labelText: 'Objetivo del proyecto',
+                                ),
+                                validator: (value) {
+                                  return (!RegexUtil.datos
+                                          .hasMatch(value ?? ''))
+                                      ? null
+                                      : 'No contiene ningún dato.';
+                                },
+                                //onChanged: (value) => accesoFormulario.correo = value,
+                              ),
+                              const SizedBox(height: 20),
+                              TextFormField(
+                                controller: cProblematica,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                maxLength: 600,
+                                maxLines: null,
+                                style: const TextStyle(
+                                    color: AppTema.bluegrey700,
+                                    fontWeight: FontWeight.bold),
+                                autocorrect: false,
+                                keyboardType: TextInputType.emailAddress,
+                                decoration:
+                                    InputDecorations.registroLiderDecoration(
+                                  hintText:
+                                      'Explicar qué necesidad, problemática u oportunidad del entorno se atiende, justificar por qué se quiere desarrollar este proyecto.',
+                                  labelText: 'Problemática identificada',
+                                  //prefixIcon: Icons.person
+                                ),
+                                validator: (value) {
+                                  return (!RegexUtil.datos
+                                          .hasMatch(value ?? ''))
+                                      ? null
+                                      : 'No contiene ningún dato.';
+                                },
+                                //onChanged: (value) => accesoFormulario.correo = value,
+                              ),
+                              const SizedBox(height: 20),
+                              TextFormField(
+                                controller: cResultados,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                maxLength: 600,
+                                maxLines: null,
+                                style: const TextStyle(
+                                    color: AppTema.bluegrey700,
+                                    fontWeight: FontWeight.bold),
+                                autocorrect: false,
+                                keyboardType: TextInputType.emailAddress,
+                                decoration:
+                                    InputDecorations.registroLiderDecoration(
+                                  hintText:
+                                      'Describir los beneficios cualitativos y cuantitativos de la propuesta.',
+                                  labelText:
+                                      'Resultados esperados del proyecto',
+                                ),
+                                validator: (value) {
+                                  return (!RegexUtil.datos
+                                          .hasMatch(value ?? ''))
+                                      ? null
+                                      : 'No contiene ningún dato.';
+                                },
+                              ),
+                              Container(
+                                height: 50,
+                                width: double.infinity,
+                                margin: const EdgeInsets.symmetric(
+                                    vertical: 20, horizontal: 10),
+                                child: ElevatedButton(
+                                  child: const Center(
+                                      child: Text(
+                                    'Registrar',
+                                    style: TextStyle(
+                                        color: AppTema.grey100, fontSize: 25),
+                                  )),
+                                  onPressed: () {
+                                    setState(() {
+                                      camposLlenos =
+                                          _formKey.currentState!.validate();
+                                      if (camposLlenos) {
+                                        idFichaUnica = Generar.idProyecto(
+                                            cNombreComercial.text);
+                                        getMatricula(idPersona);
+                                        //print('Matricula es: ' + matricula.toString());
+                                        agregarFichaTecnica(
+                                            idFichaUnica, matricula.toString());
+                                        agregarValidacionProyectoC('COO01',
+                                            'F$idFichaUnica', null, null, null);
+                                        ref
+                                            .read(folioProyectoUsuarioLogin
+                                                .notifier)
+                                            .update(
+                                                (state) => 'F$idFichaUnica');
+                                        QuickAlert.show(
+                                          context: context,
+                                          type: QuickAlertType.success,
+                                          title: 'Agregado correctamente',
+                                          confirmBtnText: 'Hecho',
+                                          confirmBtnColor: AppTema.pizazz,
+                                          onConfirmBtnTap: () {
+                                            context.pushReplacementNamed(
+                                                'inicioLider');
+                                          },
+                                        );
+                                      } else {
+                                        QuickAlert.show(
+                                          context: context,
+                                          type: QuickAlertType.warning,
+                                          title: 'Cuidado',
+                                          text: 'Rellena los campos faltantes',
+                                          confirmBtnText: 'Hecho',
+                                          confirmBtnColor: AppTema.pizazz,
+                                        );
+                                      }
+                                    });
 
-                          //context.pushNamed('registro_usuario_lider');
-                        },
-                      ),
+                                    //context.pushNamed('registro_usuario_lider');
+                                  },
+                                ),
+                              ),
+                            ],
+                          )),
                     ),
-                  ],
-                )),
-          ),
-        ]),
-      ),
+                  ])
+                : const Center(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 50,
+                        ),
+                        Text(
+                          'Ya haz subido la ficha técnica',
+                          style: TextStyle(
+                              color: AppTema.bluegrey700,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20),
+                        ),
+                      ],
+                    ),
+                  );
+          })),
     );
   }
 

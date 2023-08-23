@@ -236,6 +236,7 @@ class AsignarProyectoJuradoScreen extends ConsumerWidget {
                                               juradoSeleccionado = [
                                             jurados[index]
                                           ];
+                                          //  print(jurados[index].)
                                           ref
                                               .read(juradoDatosSL.notifier)
                                               .update((state) =>

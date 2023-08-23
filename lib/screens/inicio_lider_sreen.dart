@@ -66,7 +66,7 @@ class InicioLiderScreen extends ConsumerWidget {
                               vertical: 12,
                             ),
                             child: Text(
-                              folioLider != 'SN' ? folioLider : 'SIN FOLIO',
+                              (folioLider ?? 'SIN FOLIO'),
                               style: const TextStyle(
                                 color: AppTema.bluegrey700,
                               ),

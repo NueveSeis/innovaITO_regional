@@ -198,7 +198,7 @@ class AsesorLiderScreen extends ConsumerWidget {
                                       'Ya has seleccionado tu asesor',
                                       textAlign: TextAlign.justify,
                                       style: TextStyle(
-                                          color: AppTema.redA400,
+                                          color: AppTema.bluegrey700,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 18),
                                     ),

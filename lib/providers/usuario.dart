@@ -24,7 +24,7 @@ final matriculaProvider = StateProvider<String>(
   (ref) => "SN",
 );
 
-final folioProyectoUsuarioLogin = StateProvider(
+final folioProyectoUsuarioLogin = StateProvider<String>(
   (ref) => 'SN',
 ); //PRO5298
 

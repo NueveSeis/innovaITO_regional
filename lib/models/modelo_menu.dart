@@ -180,10 +180,6 @@ List<ModeloMenu> itemsLider = const [
       titulo: "Asesor",
       icono: Icons.person_add_alt_rounded,
       pantalla: 'asesor_lider'),
-  ModeloMenu(
-      titulo: "Lugar de evaluación",
-      icono: Icons.person_add_alt_rounded,
-      pantalla: 'salaLiderScreen'),
   //! Lugar de evaluacion del proyecto - Lider
   ModeloMenu(
       titulo: "Sala Lider",
