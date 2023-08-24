@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:innova_ito/helpers/helpers.dart';
 
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/theme/app_tema.dart';
@@ -266,10 +267,12 @@ class ProyectoCoordinadorScreen extends ConsumerWidget {
                                                           .cloud_download_rounded,
                                                       size: 25),
                                                   onPressed: () async {
-                                                    String ruta =
-                                                        await createPDF(
-                                                            proyectos, index);
-                                                    OpenFilex.open(ruta);
+                                                    String si = await pdf
+                                                        .registro('Hola');
+                                                    // String ruta =
+                                                    //     await createPDF(
+                                                    //         proyectos, index);
+                                                    OpenFilex.open(si);
                                                   },
                                                   color: AppTema.bluegrey700),
                                               const Text(

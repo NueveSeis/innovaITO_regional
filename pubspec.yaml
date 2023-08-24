@@ -64,6 +64,7 @@ dependencies:
   syncfusion_flutter_datagrid: ^22.2.8
   uuid: ^3.0.7
   flutter_time_picker_spinner: ^2.0.0
+  flutter_html_to_pdf: ^0.7.0
   
 
   
