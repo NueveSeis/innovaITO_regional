@@ -133,7 +133,7 @@ class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
                 child: Column(
                   children: [
                     const SizedBox(height: 50),
-                    Text(
+                    const Text(
                       'Evaluador',
                       style: TextStyle(
                           color: AppTema.balticSea,
@@ -142,7 +142,7 @@ class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
                     ),
                     Text(
                       '${datosJuradoSLVar.first.nombrePersona} ${datosJuradoSLVar.first.apellido1} ${datosJuradoSLVar.first.apellido2}',
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: AppTema.balticSea,
                           fontWeight: FontWeight.bold,
                           fontSize: 18),

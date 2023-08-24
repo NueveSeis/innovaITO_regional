@@ -6,7 +6,7 @@ import 'package:innova_ito/screens/screens.dart';
 
 // GoRouter configuration
 final appRouter = GoRouter(
-  initialLocation: '/menu_lateral',
+  initialLocation: '/acceso',
   routes: [
     GoRoute(
       path: '/inicio',

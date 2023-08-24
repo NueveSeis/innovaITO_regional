@@ -70,42 +70,6 @@ class TablaPosicionesScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
           child: Column(
             children: [
-              Container(
-                height: 50,
-                width: size.width / 2,
-                margin:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                child: ElevatedButton(
-                  child: const Center(
-                      child: Column(
-                    children: [
-                      Icon(Icons.cloud_download_rounded),
-                      Text(
-                        'Descargar tablero',
-                        style: TextStyle(color: AppTema.grey100, fontSize: 15),
-                      ),
-                    ],
-                  )),
-                  onPressed: () {
-                    // final pdf = pw.Document();
-                    // final font = await PdfGoogleFonts.nunitoExtraLight();
-                    // pdf.addPage(pw.Page(
-                    //     pageFormat: PdfPageFormat.a4,
-                    //     build: (pw.Context context) {
-                    //       return pw.Center(
-                    //         child: pw.Text('Hello World',
-                    //             style: pw.TextStyle(font: font, fontSize: 40)),
-                    //       ); // Center
-                    //     }));
-                    // final output = await getTemporaryDirectory();
-                    // final file = File("${output.path}/example.pdf");
-                    // //final file = File("example.pdf");
-                    // await file.writeAsBytes(await pdf.save());
-                    //context.goNamed();
-                    PdfScreen(archivo: generatePdf());
-                  },
-                ),
-              ),
               SizedBox(
                 height: 20,
               ),
@@ -118,22 +82,86 @@ class TablaPosicionesScreen extends StatelessWidget {
                     );
                   } else if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasError) {
-                      return Center(
-                          child: Text('Error: ${snapshot.error.toString()}'));
+                      // return Center(
+                      //     child: Text('Error: ${snapshot.error.toString()}'));
+                      return Column(
+                        children: [
+                          const SizedBox(
+                            height: 50,
+                          ),
+                          const Text(
+                            'Calificaciones no asignadas',
+                            style: TextStyle(
+                                color: AppTema.bluegrey700,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          ),
+                          Container(
+                            height: 60,
+                            width: size.width / 2,
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 10),
+                            child: ElevatedButton(
+                              child: const Center(
+                                  child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Icon(Icons.gavel_rounded),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    'Finalizar Evento',
+                                    style: TextStyle(
+                                        color: AppTema.grey100, fontSize: 15),
+                                  ),
+                                ],
+                              )),
+                              onPressed: () {},
+                            ),
+                          ),
+                        ],
+                      );
                     } else {
-                      return ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: tablero.length,
-                        itemBuilder: (context, index) {
-                          return CardPosiciones(
-                            posicion: index + 1,
-                            nombreCategoria: tablero[index].nombreArea,
-                            nombreProyecto: tablero[index].nombreCorto,
-                            nombreTecnologico: tablero[index].nombreArea,
-                            calificacion: tablero[index].calificacionGlobal,
-                          );
-                        },
+                      return Column(
+                        children: [
+                          Container(
+                            height: 50,
+                            width: size.width / 2,
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 10),
+                            child: ElevatedButton(
+                              child: const Center(
+                                  child: Column(
+                                children: [
+                                  Icon(Icons.cloud_download_rounded),
+                                  Text(
+                                    'Descargar tablero',
+                                    style: TextStyle(
+                                        color: AppTema.grey100, fontSize: 15),
+                                  ),
+                                ],
+                              )),
+                              onPressed: () {},
+                            ),
+                          ),
+                          ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: tablero.length,
+                            itemBuilder: (context, index) {
+                              return CardPosiciones(
+                                posicion: index + 1,
+                                nombreCategoria: tablero[index].nombreArea,
+                                nombreProyecto: tablero[index].nombreCorto,
+                                nombreTecnologico: tablero[index].nombreArea,
+                                calificacion: tablero[index].calificacionGlobal,
+                              );
+                            },
+                          ),
+                        ],
                       );
                     }
                   } else {
