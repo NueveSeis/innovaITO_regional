@@ -312,6 +312,11 @@ class _AccesoScreenState extends State<AccesoScreen> {
 
                                           context.goNamed('inicioLider');
                                         }
+                                        if (datosU.first.nombreRol
+                                                .toLowerCase() ==
+                                            'administrador') {
+                                          context.goNamed('inicioLider');
+                                        }
                                       }
                                     }
                                   } else {

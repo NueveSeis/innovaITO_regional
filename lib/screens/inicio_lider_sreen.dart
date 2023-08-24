@@ -102,7 +102,7 @@ class InicioLiderScreen extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 2),
-              if (rol.toLowerCase() == 'administrador')
+              if (rol.toUpperCase() == 'ADMINISTRADOR')
                 Expanded(
                   child: Container(
                     width: double.infinity,

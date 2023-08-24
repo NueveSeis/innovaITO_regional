@@ -342,7 +342,7 @@ class AgregarRubricaScreen extends ConsumerWidget {
                                               confirmBtnColor: AppTema.pizazz,
                                               onConfirmBtnTap: () {
                                                 context.pushReplacementNamed(
-                                                    'agregar_rubrica');
+                                                    'RubricaScreen');
                                               },
                                             );
                                           } else {

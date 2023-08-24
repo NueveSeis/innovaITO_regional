@@ -174,7 +174,7 @@ final appRouter = GoRouter(
       builder: (context, state) => AgregarRubricaScreen(),
     ),
     GoRoute(
-      path: '/rubrica',
+      path: '/RubricaScreen',
       name: RubricaScreen.name,
       builder: (context, state) => RubricaScreen(),
     ),

@@ -244,9 +244,9 @@ List<ModeloMenu> itemsCoordinadorLocal = const [
       icono: Icons.document_scanner_rounded,
       pantalla: 'proyecto_coordinador'),
   ModeloMenu(
-      titulo: "Agregar Rubrica",
+      titulo: "Rubricas",
       icono: Icons.post_add_rounded,
-      pantalla: 'agregar_rubrica'),
+      pantalla: 'RubricaScreen'),
   ModeloMenu(
       titulo: "Asignar Sala",
       icono: Icons.meeting_room_rounded,
