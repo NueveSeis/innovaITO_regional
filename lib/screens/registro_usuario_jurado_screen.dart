@@ -29,6 +29,7 @@ Future<bool> existenteJ(String idPersona) async {
 }
 
 Future<bool> agregarJurado(
+  BuildContext context,
   String id,
   String nombre,
   String ap1,
@@ -38,6 +39,7 @@ Future<bool> agregarJurado(
   String ine,
   String curp,
   String contrasena,
+  String contrasenahs,
   String rol,
   String idj,
   String rfc,
@@ -55,12 +57,16 @@ Future<bool> agregarJurado(
       'Curp': curp,
       'Id_usuario': id,
       'Nombre_usuario': correo,
-      'Contrasena': contrasena,
+      'Contrasena': contrasenahs,
       'Id_rol': rol,
       'Id_jurado': 'JUR$idj',
       'rfc': rfc
     });
+
     if (response.statusCode == 200) {
+      Correo.registroJurado(context, correo.toUpperCase(), contrasena,
+          nombre.toUpperCase(), ap1.toUpperCase(), ap2.toUpperCase());
+
       return true;
     } else {
       return false;
@@ -514,16 +520,18 @@ class RegistroUsuarioJuradoScreen extends ConsumerWidget {
                                     String idju =
                                         const Uuid().v4().substring(0, 8);
                                     bool agregado = await agregarJurado(
+                                        context,
                                         idPersona,
                                         cNombre.text.toUpperCase(),
                                         cApellidoP.text.toUpperCase(),
                                         cApellidoM.text.toUpperCase(),
                                         cNumero.text,
-                                        cCorreo.text.toUpperCase(),
+                                        cCorreo.text,
                                         cIne.text,
                                         cCurp.text.toUpperCase(),
+                                        contrasena,
                                         contrasenaHash,
-                                        'ROL05',
+                                        'ROL04',
                                         idju,
                                         cRfc.text.toUpperCase());
 

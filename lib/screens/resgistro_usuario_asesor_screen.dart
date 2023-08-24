@@ -75,10 +75,10 @@ class _RegistroUsuarioAsesorScreenState
         'Apellido1': cApellido1.text.toUpperCase(),
         'Apellido2': cApellido2.text.toUpperCase(),
         'Telefono': cTelefono.text,
-        'Correo_electronico': cCorreo.text.toUpperCase(),
+        'Correo_electronico': cCorreo.text,
         'Num_ine': cNumIne.text,
         'Curp': cCurp.text.toUpperCase(),
-        'Id_usuario': 'USU$idPersona',
+        'Id_usuario': idPersona,
         'Nombre_usuario': cCorreo.text,
         'Contrasena': contrasenaHash,
         'Id_rol': 'ROL03',
@@ -104,7 +104,7 @@ class _RegistroUsuarioAsesorScreenState
     }
   }
 
-  Future existente() async {
+  Future<bool> existente() async {
     String url = 'https://evarafael.com/Aplicacion/rest/existePersona.php';
     var response = await http.post(Uri.parse(url), body: {
       'Id_persona': idPersona,
@@ -112,13 +112,7 @@ class _RegistroUsuarioAsesorScreenState
 
     var data = json.decode(response.body);
     if (data == "Realizado") {
-      QuickAlert.show(
-        context: context,
-        type: QuickAlertType.error,
-        title: 'Usuario existente',
-        confirmBtnText: 'Hecho',
-        confirmBtnColor: AppTema.pizazz,
-      );
+      return false;
     } else {
       agregarAsesor();
       Correo.registroAsesor(
@@ -128,7 +122,9 @@ class _RegistroUsuarioAsesorScreenState
           cNombres.text.toUpperCase(),
           cApellido1.text.toUpperCase(),
           cApellido1.text.toUpperCase());
-      context.pop();
+      //context.pop();
+
+      return true;
     }
   }
 
@@ -164,12 +160,11 @@ class _RegistroUsuarioAsesorScreenState
   }
 
   final fechaSeleccionadaRUASProv = StateProvider<DateTime?>((ref) => null);
+  DateTime? fechaSeleccionada;
+  DateTime fecha = DateTime(0000, 00, 00);
 
   @override
   Widget build(BuildContext context) {
-    DateTime? fechaSeleccionada;
-    DateTime fecha = DateTime(0000, 00, 00);
-
     Future _mostrarDatePicker(context, ref) async {
       final seleccion = await showDatePicker(
         context: context,
@@ -755,8 +750,8 @@ class _RegistroUsuarioAsesorScreenState
                                   confirmBtnText: 'Hecho',
                                   confirmBtnColor: AppTema.pizazz,
                                   onConfirmBtnTap: () {
-                                    context
-                                        .pushReplacementNamed('genero_admin');
+                                    context.pushReplacementNamed(
+                                        'registro_usuario');
                                   });
                             } else {
                               QuickAlert.show(

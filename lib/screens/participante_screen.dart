@@ -101,8 +101,21 @@ class ParticipanteScreen extends ConsumerWidget {
                     } else if (snapshot.connectionState ==
                         ConnectionState.done) {
                       if (snapshot.hasError) {
-                        return Center(
-                            child: Text('Error: ${snapshot.error.toString()}'));
+                        print('Error: ${snapshot.error.toString()}');
+                        return const Column(
+                          children: [
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Text(
+                              'No se encontraron datos',
+                              style: TextStyle(
+                                  color: AppTema.bluegrey700,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20),
+                            ),
+                          ],
+                        );
                       } else {
                         return FutureBuilder(
                           future: getDatosEstudiante(folio[0]['Folio'], ref),

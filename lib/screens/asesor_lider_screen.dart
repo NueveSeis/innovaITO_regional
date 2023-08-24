@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:innova_ito/helpers/regexUtil.dart';
+import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
@@ -40,7 +41,7 @@ class AsesorLiderScreen extends ConsumerWidget {
   }
 
   List<ProyectoAsesorWf> asesoWF = [];
-  Future<bool> getAsesorWhere(String idfol) async {
+  Future<bool> getAsesorWhere(String? idfol) async {
     String url =
         'https://evarafael.com/Aplicacion/rest/get_proyectoAsesorWhere.php?Folio=$idfol';
 
@@ -82,6 +83,7 @@ class AsesorLiderScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final String? folioProv = ref.watch(folioProyectoUsuarioLogin);
     final listo = ref.watch(listoAsesor);
     return Scaffold(
         body: Fondo(
@@ -91,7 +93,7 @@ class AsesorLiderScreen extends ConsumerWidget {
                 padding:
                     const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                 child: FutureBuilder(
-                  future: getAsesorWhere('PRO2716'),
+                  future: getAsesorWhere(folioProv),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(

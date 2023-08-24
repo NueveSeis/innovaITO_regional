@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/widgets/widgets.dart';
@@ -70,7 +71,7 @@ class ModeloNegocioScreen extends ConsumerWidget {
 
   List<Proyecto> proyecto = [];
 
-  Future<void> getProyecto(String folio) async {
+  Future<void> getProyecto(String? folio) async {
     String url =
         'https://evarafael.com/Aplicacion/rest/get_proyectoWhere.php?Folio=$folio';
     try {
@@ -119,6 +120,7 @@ class ModeloNegocioScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final String? folioProv = ref.watch(folioProyectoUsuarioLogin);
     return Scaffold(
       body: Fondo(
           tituloPantalla: 'Modelo de negocio',
@@ -128,7 +130,7 @@ class ModeloNegocioScreen extends ConsumerWidget {
             child: Column(
               children: [
                 FutureBuilder(
-                  future: getProyecto('PRO2716'),
+                  future: getProyecto(folioProv),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(
@@ -140,64 +142,94 @@ class ModeloNegocioScreen extends ConsumerWidget {
                         return Center(
                             child: Text('Error: ${snapshot.error.toString()}'));
                       } else {
-                        if (proyecto.first.modeloNegocio == null) {
-                          return Column(
+                        if (proyecto.isEmpty) {
+                          return const Column(
                             children: [
-                              const SizedBox(height: 50),
-                              const Text(
-                                'Selecciona el modelo de negocio',
+                              SizedBox(
+                                height: 50,
+                              ),
+                              Text(
+                                'No se encontraron datos',
                                 style: TextStyle(
-                                    color: AppTema.balticSea,
+                                    color: AppTema.bluegrey700,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20),
                               ),
-                              const SizedBox(
-                                height: 15,
-                              ),
-                              const Text(
-                                'El archivo debe ser en formato pdf.',
-                                style: TextStyle(
-                                    color: AppTema.balticSea,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 15),
-                              ),
-                              const SizedBox(
-                                height: 50,
-                              ),
-                              ElevatedButton(
-                                onPressed: () async {
-                                  FilePickerResult? result =
-                                      await FilePicker.platform.pickFiles(
-                                    type: FileType.custom,
-                                    allowedExtensions: ['pdf'],
-                                  );
+                            ],
+                          );
+                        } else {
+                          if (proyecto.first.modeloNegocio == null) {
+                            return Column(
+                              children: [
+                                const SizedBox(height: 50),
+                                const Text(
+                                  'Selecciona el modelo de negocio',
+                                  style: TextStyle(
+                                      color: AppTema.balticSea,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                const Text(
+                                  'El archivo debe ser en formato pdf.',
+                                  style: TextStyle(
+                                      color: AppTema.balticSea,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 15),
+                                ),
+                                const SizedBox(
+                                  height: 50,
+                                ),
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    FilePickerResult? result =
+                                        await FilePicker.platform.pickFiles(
+                                      type: FileType.custom,
+                                      allowedExtensions: ['pdf'],
+                                    );
 
-                                  if (result != null) {
-                                    PlatformFile file = result.files.first;
-                                    File archivo = File(file.path.toString());
-                                    String nombre = file.name;
-                                    print(file.name);
-                                    print(file.bytes);
-                                    print(file.size);
-                                    print(file.extension);
-                                    print(file.path);
-                                    bool subido = await uploadPDF(
-                                        archivo, 'ModeloNegocio_$nombre');
-                                    if (subido) {
-                                      bool modificado = await modificarModelo(
-                                          'PRO2716', 'ModeloNegocio_$nombre');
-                                      if (modificado) {
-                                        QuickAlert.show(
-                                          context: context,
-                                          type: QuickAlertType.success,
-                                          title: 'Archivo subido correctamente',
-                                          confirmBtnText: 'Hecho',
-                                          confirmBtnColor: AppTema.pizazz,
-                                          onConfirmBtnTap: () {
-                                            context.pushReplacementNamed(
-                                                'modelo_negocio');
-                                          },
-                                        );
+                                    if (result != null) {
+                                      PlatformFile file = result.files.first;
+                                      File archivo = File(file.path.toString());
+                                      String nombre = file.name;
+                                      print(file.name);
+                                      print(file.bytes);
+                                      print(file.size);
+                                      print(file.extension);
+                                      print(file.path);
+                                      bool subido = await uploadPDF(
+                                          archivo, 'ModeloNegocio_$nombre');
+                                      if (subido) {
+                                        bool modificado = await modificarModelo(
+                                            'PRO2716', 'ModeloNegocio_$nombre');
+                                        if (modificado) {
+                                          QuickAlert.show(
+                                            context: context,
+                                            type: QuickAlertType.success,
+                                            title:
+                                                'Archivo subido correctamente',
+                                            confirmBtnText: 'Hecho',
+                                            confirmBtnColor: AppTema.pizazz,
+                                            onConfirmBtnTap: () {
+                                              context.pushReplacementNamed(
+                                                  'modelo_negocio');
+                                            },
+                                          );
+                                        } else {
+                                          QuickAlert.show(
+                                            context: context,
+                                            type: QuickAlertType.error,
+                                            title: 'Ocurrió un error',
+                                            confirmBtnText: 'Hecho',
+                                            confirmBtnColor: AppTema.pizazz,
+                                            onConfirmBtnTap: () {
+                                              context.pushReplacementNamed(
+                                                  'modelo_negocio');
+                                            },
+                                          );
+                                        }
                                       } else {
                                         QuickAlert.show(
                                           context: context,
@@ -212,122 +244,112 @@ class ModeloNegocioScreen extends ConsumerWidget {
                                         );
                                       }
                                     } else {
-                                      QuickAlert.show(
-                                        context: context,
-                                        type: QuickAlertType.error,
-                                        title: 'Ocurrió un error',
-                                        confirmBtnText: 'Hecho',
-                                        confirmBtnColor: AppTema.pizazz,
-                                        onConfirmBtnTap: () {
-                                          context.pushReplacementNamed(
-                                              'modelo_negocio');
-                                        },
-                                      );
+                                      // User canceled the picker
                                     }
-                                  } else {
-                                    // User canceled the picker
-                                  }
-                                },
-                                child: const Text("Seleccione el archivo"),
-                              )
-                            ],
-                          );
-                        } else {
-                          return Column(children: [
-                            const SizedBox(height: 50),
-                            const Text('Ya ha subido un archivo anteriormente.',
-                                style: TextStyle(
-                                    color: AppTema.bluegrey700,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18)),
-                            const SizedBox(
-                              height: 50,
-                            ),
-                            const Text('¿Que desea hacer con el archivo?',
-                                style: TextStyle(
-                                    color: AppTema.bluegrey700,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 15)),
-                            const SizedBox(
-                              height: 50,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                ElevatedButton(
-                                  child: const Center(
-                                      child: Column(
-                                    children: [
-                                      Icon(Icons.cloud_download_rounded),
-                                      Text(
-                                        'Descargar archivo',
-                                        style: TextStyle(
-                                            color: AppTema.grey100,
-                                            fontSize: 15),
-                                      ),
-                                    ],
-                                  )),
-                                  onPressed: () async {
-                                    final String rutaArc =
-                                        proyecto.first.modeloNegocio;
-                                    print(rutaArc);
-                                    String url =
-                                        'https://evarafael.com/Aplicacion/rest/archivos/modelo/$rutaArc';
-                                    print(url);
-                                    // Get the URL of the file to download.
-                                    String rut =
-                                        await downloadFile(url, rutaArc);
-                                    OpenFilex.open(rut);
                                   },
-                                ),
-                                ElevatedButton(
-                                  child: const Center(
-                                      child: Column(
-                                    children: [
-                                      Icon(Icons.delete_rounded),
-                                      Text(
-                                        'Eliminar archivo',
-                                        style: TextStyle(
-                                            color: AppTema.grey100,
-                                            fontSize: 15),
-                                      ),
-                                    ],
-                                  )),
-                                  onPressed: () async {
-                                    final bool eliminado =
-                                        await eliminarModelo('PRO2716');
+                                  child: const Text("Seleccione el archivo"),
+                                )
+                              ],
+                            );
+                          } else {
+                            return Column(children: [
+                              const SizedBox(height: 50),
+                              const Text(
+                                  'Ya ha subido un archivo anteriormente.',
+                                  style: TextStyle(
+                                      color: AppTema.bluegrey700,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18)),
+                              const SizedBox(
+                                height: 50,
+                              ),
+                              const Text('¿Que desea hacer con el archivo?',
+                                  style: TextStyle(
+                                      color: AppTema.bluegrey700,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 15)),
+                              const SizedBox(
+                                height: 50,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  ElevatedButton(
+                                    child: const Center(
+                                        child: Column(
+                                      children: [
+                                        Icon(Icons.cloud_download_rounded),
+                                        Text(
+                                          'Descargar archivo',
+                                          style: TextStyle(
+                                              color: AppTema.grey100,
+                                              fontSize: 15),
+                                        ),
+                                      ],
+                                    )),
+                                    onPressed: () async {
+                                      final String rutaArc =
+                                          proyecto.first.modeloNegocio;
+                                      print(rutaArc);
+                                      String url =
+                                          'https://evarafael.com/Aplicacion/rest/archivos/modelo/$rutaArc';
+                                      print(url);
+                                      // Get the URL of the file to download.
+                                      String rut =
+                                          await downloadFile(url, rutaArc);
+                                      OpenFilex.open(rut);
+                                    },
+                                  ),
+                                  ElevatedButton(
+                                    child: const Center(
+                                        child: Column(
+                                      children: [
+                                        Icon(Icons.delete_rounded),
+                                        Text(
+                                          'Eliminar archivo',
+                                          style: TextStyle(
+                                              color: AppTema.grey100,
+                                              fontSize: 15),
+                                        ),
+                                      ],
+                                    )),
+                                    onPressed: () async {
+                                      final bool eliminado =
+                                          await eliminarModelo('PRO2716');
 
-                                    if (eliminado) {
-                                      eliminarArchivo(
-                                          proyecto.first.modeloNegocio);
-                                      QuickAlert.show(
+                                      if (eliminado) {
+                                        eliminarArchivo(
+                                            proyecto.first.modeloNegocio);
+                                        QuickAlert.show(
+                                            context: context,
+                                            type: QuickAlertType.success,
+                                            title: 'Eliminado correctamente',
+                                            confirmBtnText: 'Hecho',
+                                            confirmBtnColor: AppTema.pizazz,
+                                            onConfirmBtnTap: () {
+                                              context.pushReplacementNamed(
+                                                  'modelo_negocio');
+                                            });
+                                      } else {
+                                        QuickAlert.show(
                                           context: context,
-                                          type: QuickAlertType.success,
-                                          title: 'Eliminado correctamente',
+                                          type: QuickAlertType.error,
+                                          title: 'Ocurrió un error',
                                           confirmBtnText: 'Hecho',
                                           confirmBtnColor: AppTema.pizazz,
                                           onConfirmBtnTap: () {
                                             context.pushReplacementNamed(
                                                 'modelo_negocio');
-                                          });
-                                    } else {
-                                      QuickAlert.show(
-                                        context: context,
-                                        type: QuickAlertType.error,
-                                        title: 'Ocurrió un error',
-                                        confirmBtnText: 'Hecho',
-                                        confirmBtnColor: AppTema.pizazz,
-                                        onConfirmBtnTap: () {
-                                          context.pushReplacementNamed(
-                                              'modelo_negocio');
-                                        },
-                                      );
-                                    }
-                                  },
-                                ),
-                              ],
-                            )
-                          ]);
+                                          },
+                                        );
+                                      }
+                                    },
+                                  ),
+                                ],
+                              )
+                            ]);
+                          }
                         }
                       }
                     } else {

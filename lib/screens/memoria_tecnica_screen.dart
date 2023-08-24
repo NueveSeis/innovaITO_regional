@@ -93,8 +93,23 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                   );
                 } else if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasError) {
-                    return Center(
-                        child: Text('Error: ${snapshot.error.toString()}'));
+                    // return Center(
+                    //     child: Text('Error: ${snapshot.error.toString()}'));
+                    print('Error: ${snapshot.error.toString()}');
+                    return const Column(
+                      children: [
+                        SizedBox(
+                          height: 50,
+                        ),
+                        Text(
+                          'Genere la ficha técnica',
+                          style: TextStyle(
+                              color: AppTema.bluegrey700,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20),
+                        ),
+                      ],
+                    );
                   } else {
                     return memoriaProyecto != null
                         ? const Column(

@@ -43,9 +43,9 @@ class _RegistroUsuarioLiderScreenState
         'Nombre_persona': nombre.text.toUpperCase(),
         'Apellido1': apellidoP.text.toUpperCase(),
         'Apellido2': apellidoM.text.toUpperCase(),
-        'Correo_electronico': correo.text.toUpperCase(),
+        'Correo_electronico': correo.text,
         'Id_usuario': id,
-        'Nombre_usuario': correo.text.toUpperCase(),
+        'Nombre_usuario': correo.text,
         'Contrasena': contrasenaHash,
         'Id_rol': 'ROL02',
         'Matricula': matricula.text.toUpperCase(),
@@ -81,7 +81,7 @@ class _RegistroUsuarioLiderScreenState
     }
   }
 
-  Future existente() async {
+  Future<bool> existente() async {
     String url = 'https://evarafael.com/Aplicacion/rest/existePersona.php';
     var response = await http.post(Uri.parse(url), body: {
       'Id_persona': id,
@@ -89,13 +89,7 @@ class _RegistroUsuarioLiderScreenState
 
     var data = json.decode(response.body);
     if (data == "Realizado") {
-      QuickAlert.show(
-        context: context,
-        type: QuickAlertType.error,
-        title: 'Usuario existente',
-        confirmBtnText: 'Hecho',
-        confirmBtnColor: AppTema.pizazz,
-      );
+      return false;
     } else {
       agregarPersona();
       Correo.registroLider(
@@ -105,7 +99,9 @@ class _RegistroUsuarioLiderScreenState
           nombre.text.toUpperCase(),
           apellidoP.text.toUpperCase(),
           apellidoM.text.toUpperCase());
-      context.pop();
+
+      //context.pop();
+      return true;
     }
   }
 
@@ -306,7 +302,7 @@ class _RegistroUsuarioLiderScreenState
                                       confirmBtnColor: AppTema.pizazz,
                                       onConfirmBtnTap: () {
                                         context.pushReplacementNamed(
-                                            'registro_usuario_lider');
+                                            'registro_usuario');
                                       },
                                     );
                                   } else {

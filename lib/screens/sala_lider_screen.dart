@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:innova_ito/providers/providers.dart';
 
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/models/models.dart';
@@ -13,7 +14,7 @@ class SalaLiderScreen extends ConsumerWidget {
 
   List<SalaLider> salas = [];
 
-  Future<void> getSala(String folioid) async {
+  Future<void> getSala(String? folioid) async {
     String url =
         'https://evarafael.com/Aplicacion/rest/get_salaLiderWhere.php?Folio=$folioid';
     try {
@@ -30,7 +31,7 @@ class SalaLiderScreen extends ConsumerWidget {
 
   List<StandLider> stands = [];
 
-  Future<void> getStand(String folioid) async {
+  Future<void> getStand(String? folioid) async {
     String url =
         'https://evarafael.com/Aplicacion/rest/get_standLiderWhere.php?Folio=$folioid';
     try {
@@ -47,6 +48,7 @@ class SalaLiderScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final String? folioProv = ref.watch(folioProyectoUsuarioLogin);
     return Scaffold(
       body: Fondo(
           tituloPantalla: 'Lugar de evaluación',
@@ -69,7 +71,7 @@ class SalaLiderScreen extends ConsumerWidget {
                   height: 10,
                 ),
                 FutureBuilder(
-                  future: getSala('F23080127375'),
+                  future: getSala(folioProv),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(
@@ -81,133 +83,156 @@ class SalaLiderScreen extends ConsumerWidget {
                         return Center(
                             child: Text('Error: ${snapshot.error.toString()}'));
                       } else {
-                        return ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: salas.length,
-                          itemBuilder: (context, index) {
-                            return Card(
-                              margin: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 10),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15)),
-                              elevation: 10,
-                              child: Container(
-                                padding: const EdgeInsets.only(
-                                  bottom: 10,
-                                  top: 10,
-                                  left: 20,
-                                  right: 20,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: AppTema.grey100,
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 5),
-                                            child: Container(
-                                              //isExpanded: true,
-                                              //width: double.infinity,
-                                              padding: const EdgeInsets.only(
-                                                  left: 10),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  const SizedBox(
-                                                    height: 10,
+                        return salas.isEmpty
+                            ? const Column(
+                                children: [
+                                  SizedBox(
+                                    height: 50,
+                                  ),
+                                  Text(
+                                    'Sala no asignada',
+                                    style: TextStyle(
+                                        color: AppTema.bluegrey700,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  ),
+                                ],
+                              )
+                            : ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: salas.length,
+                                itemBuilder: (context, index) {
+                                  return Card(
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 10),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    elevation: 10,
+                                    child: Container(
+                                      padding: const EdgeInsets.only(
+                                        bottom: 10,
+                                        top: 10,
+                                        left: 20,
+                                        right: 20,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: AppTema.grey100,
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Expanded(
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(horizontal: 5),
+                                                  child: Container(
+                                                    //isExpanded: true,
+                                                    //width: double.infinity,
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 10),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Text(
+                                                          'Nombre sala: ${salas[index].nombreSala}',
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Text(
+                                                          'Lugar: ${salas[index].lugar}',
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Text(
+                                                          'Fecha: ${salas[index].fecha.day}-${salas[index].fecha.month}-${salas[index].fecha.year}',
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Text(
+                                                          'Hora inicio: ${salas[index].horaInicio}',
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Text(
+                                                          'Hora fin: ${salas[index].horaFinal}',
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
-                                                  Text(
-                                                    'Nombre sala: ${salas[index].nombreSala}',
-                                                    style: const TextStyle(
-                                                        color:
-                                                            AppTema.bluegrey700,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontSize: 15),
-                                                    overflow:
-                                                        TextOverflow.visible,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Text(
-                                                    'Lugar: ${salas[index].lugar}',
-                                                    style: const TextStyle(
-                                                        color:
-                                                            AppTema.bluegrey700,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontSize: 15),
-                                                    overflow:
-                                                        TextOverflow.visible,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Text(
-                                                    'Fecha: ${salas[index].fecha.day}-${salas[index].fecha.month}-${salas[index].fecha.year}',
-                                                    style: const TextStyle(
-                                                        color:
-                                                            AppTema.bluegrey700,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontSize: 15),
-                                                    overflow:
-                                                        TextOverflow.visible,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Text(
-                                                    'Hora inicio: ${salas[index].horaInicio}',
-                                                    style: const TextStyle(
-                                                        color:
-                                                            AppTema.bluegrey700,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontSize: 15),
-                                                    overflow:
-                                                        TextOverflow.visible,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Text(
-                                                    'Hora fin: ${salas[index].horaFinal}',
-                                                    style: const TextStyle(
-                                                        color:
-                                                            AppTema.bluegrey700,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontSize: 15),
-                                                    overflow:
-                                                        TextOverflow.visible,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                ],
+                                                ),
                                               ),
-                                            ),
+                                            ],
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        );
+                                  );
+                                },
+                              );
                       }
                     } else {
                       return const Center(child: Text('¡Algo salió mal!'));
@@ -218,7 +243,7 @@ class SalaLiderScreen extends ConsumerWidget {
                   height: 50,
                 ),
                 const Text(
-                  'Datos de la stand',
+                  'Datos del stand',
                   style: TextStyle(
                       color: AppTema.balticSea,
                       fontWeight: FontWeight.bold,
@@ -228,7 +253,7 @@ class SalaLiderScreen extends ConsumerWidget {
                   height: 10,
                 ),
                 FutureBuilder(
-                  future: getStand('F23080127375'),
+                  future: getStand(folioProv),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(
@@ -240,116 +265,138 @@ class SalaLiderScreen extends ConsumerWidget {
                         return Center(
                             child: Text('Error: ${snapshot.error.toString()}'));
                       } else {
-                        return ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: stands.length,
-                          itemBuilder: (context, index) {
-                            return Card(
-                              margin: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 10),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15)),
-                              elevation: 10,
-                              child: Container(
-                                padding: const EdgeInsets.only(
-                                  bottom: 10,
-                                  top: 10,
-                                  left: 20,
-                                  right: 20,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: AppTema.grey100,
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 5),
-                                            child: Container(
-                                              //isExpanded: true,
-                                              //width: double.infinity,
-                                              padding: const EdgeInsets.only(
-                                                  left: 10),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'Lugar: ${stands[index].lugar}',
-                                                    style: const TextStyle(
-                                                        color:
-                                                            AppTema.bluegrey700,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontSize: 15),
-                                                    overflow:
-                                                        TextOverflow.visible,
+                        return stands.isEmpty
+                            ? const Column(
+                                children: [
+                                  SizedBox(
+                                    height: 50,
+                                  ),
+                                  Text(
+                                    'Stand no asignado',
+                                    style: TextStyle(
+                                        color: AppTema.bluegrey700,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  ),
+                                ],
+                              )
+                            : ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: stands.length,
+                                itemBuilder: (context, index) {
+                                  return Card(
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 10),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    elevation: 10,
+                                    child: Container(
+                                      padding: const EdgeInsets.only(
+                                        bottom: 10,
+                                        top: 10,
+                                        left: 20,
+                                        right: 20,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: AppTema.grey100,
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Expanded(
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(horizontal: 5),
+                                                  child: Container(
+                                                    //isExpanded: true,
+                                                    //width: double.infinity,
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 10),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          'Lugar: ${stands[index].lugar}',
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Text(
+                                                          'Fecha: ${stands[index].fecha.day}-${stands[index].fecha.month}-${stands[index].fecha.year}',
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Text(
+                                                          'Hora inicio: ${stands[index].horaInicio}',
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Text(
+                                                          'Hora fin: ${stands[index].horaFinal}',
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Text(
-                                                    'Fecha: ${stands[index].fecha.day}-${stands[index].fecha.month}-${stands[index].fecha.year}',
-                                                    style: const TextStyle(
-                                                        color:
-                                                            AppTema.bluegrey700,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontSize: 15),
-                                                    overflow:
-                                                        TextOverflow.visible,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Text(
-                                                    'Hora inicio: ${stands[index].horaInicio}',
-                                                    style: const TextStyle(
-                                                        color:
-                                                            AppTema.bluegrey700,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontSize: 15),
-                                                    overflow:
-                                                        TextOverflow.visible,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Text(
-                                                    'Hora fin: ${stands[index].horaFinal}',
-                                                    style: const TextStyle(
-                                                        color:
-                                                            AppTema.bluegrey700,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontSize: 15),
-                                                    overflow:
-                                                        TextOverflow.visible,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                ],
+                                                ),
                                               ),
-                                            ),
+                                            ],
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        );
+                                  );
+                                },
+                              );
                       }
                     } else {
                       return const Center(child: Text('¡Algo salió mal!'));
