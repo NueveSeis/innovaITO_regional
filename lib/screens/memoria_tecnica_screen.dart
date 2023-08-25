@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:innova_ito/providers/providers.dart';
 
 import 'package:quickalert/quickalert.dart';
@@ -35,28 +36,36 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
   TextEditingController cInterpretacionR = TextEditingController();
   TextEditingController cFuentesC = TextEditingController();
 
-  Future agregarMemoriaTecnica(String id) async {
+  Future<bool> agregarMemoriaTecnica(String id, String folioPro) async {
     var url = 'https://evarafael.com/Aplicacion/rest/agregarMemoriaTecnica.php';
-    await http.post(Uri.parse(url), body: {
-      'Id_memoriaTecnica': id,
-      'Descripcion_problematica': cProblematica.text,
-      'Estado_arte': cEstadoArte.text,
-      'Descripcion_innovacion': cInnovacion.text,
-      'Propuesta_valor': cPropuestaValor.text,
-      'Mercado_potencial': cMercadoP.text,
-      'Viabilidad_tecnica': cViabilidadT.text,
-      'Viabilidad_financiera': cViabilidadF.text,
-      'Estrategia_propiedadIntelectual': cPropiedadI.text,
-      'Interpretacion_resultados': cInterpretacionR.text,
-      'Fuentes_consultadas': cFuentesC.text,
-    });
-    QuickAlert.show(
-      context: context,
-      type: QuickAlertType.success,
-      title: 'Registrado correctamente',
-      confirmBtnText: 'Hecho',
-      confirmBtnColor: AppTema.pizazz,
-    );
+    try {
+      var response = await http.post(Uri.parse(url), body: {
+        'Id_memoriaTecnica': id,
+        'Descripcion_problematica': cProblematica.text,
+        'Estado_arte': cEstadoArte.text,
+        'Descripcion_innovacion': cInnovacion.text,
+        'Propuesta_valor': cPropuestaValor.text,
+        'Mercado_potencial': cMercadoP.text,
+        'Viabilidad_tecnica': cViabilidadT.text,
+        'Viabilidad_financiera': cViabilidadF.text,
+        'Estrategia_propiedadIntelectual': cPropiedadI.text,
+        'Interpretacion_resultados': cInterpretacionR.text,
+        'Fuentes_consultadas': cFuentesC.text,
+        'Folio': folioPro
+      });
+
+      if (response.statusCode == 200) {
+        // La solicitud se realizó correctamente
+        return true;
+      } else {
+        // La solicitud falló
+        return false;
+      }
+    } catch (e) {
+      // Manejar el error de manera adecuada, por ejemplo, mostrar un mensaje de error al usuario
+      print('Error en la solicitud HTTP: $e');
+      return false;
+    }
   }
 
   String? memoriaProyecto = null;
@@ -413,8 +422,8 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                                                 color: AppTema.grey100,
                                                 fontSize: 25),
                                           )),
-                                          onPressed: () {
-                                            setState(() {
+                                          onPressed: () async {
+                                            setState(() async {
                                               camposLlenos = _formKey
                                                   .currentState!
                                                   .validate();
@@ -422,8 +431,39 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                                                 String idm = const Uuid()
                                                     .v4()
                                                     .substring(0, 8);
-                                                agregarMemoriaTecnica(
-                                                    'MEM$idm');
+                                                bool agregado =
+                                                    await agregarMemoriaTecnica(
+                                                        'MEM$idm', folioPROV);
+
+                                                if (agregado) {
+                                                  QuickAlert.show(
+                                                    context: context,
+                                                    type:
+                                                        QuickAlertType.success,
+                                                    title:
+                                                        'Asignado correctamente',
+                                                    confirmBtnText: 'Hecho',
+                                                    confirmBtnColor:
+                                                        AppTema.pizazz,
+                                                    onConfirmBtnTap: () {
+                                                      context
+                                                          .pushReplacementNamed(
+                                                              'memoria_tecnica');
+                                                    },
+                                                  );
+                                                } else {
+                                                  QuickAlert.show(
+                                                    context: context,
+                                                    type: QuickAlertType.error,
+                                                    title: 'Ocurrió un error',
+                                                    confirmBtnText: 'Hecho',
+                                                    confirmBtnColor:
+                                                        AppTema.pizazz,
+                                                    onConfirmBtnTap: () {
+                                                      context.pop();
+                                                    },
+                                                  );
+                                                }
 
                                                 // print(contrasena);
                                               } else {

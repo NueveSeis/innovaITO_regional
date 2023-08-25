@@ -105,6 +105,7 @@ class ProyectoEvaluarSreen extends ConsumerWidget {
                                                 .pushNamed('EvaluarSalaScreen');
                                           },
                                     style: ElevatedButton.styleFrom(
+                                      //fixedSize: Size(double.infinity, 500),
                                       padding: EdgeInsets.zero,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(15),
@@ -114,6 +115,7 @@ class ProyectoEvaluarSreen extends ConsumerWidget {
                                           .grey100, // Color de fondo del botón
                                     ),
                                     child: Container(
+                                      width: double.infinity,
                                       padding: const EdgeInsets.only(
                                           bottom: 10,
                                           top: 10,
@@ -187,280 +189,226 @@ class ProyectoEvaluarSreen extends ConsumerWidget {
                                                               .visible,
                                                         ),
                                                         SizedBox(height: 10),
-                                                        Row(
-                                                          children: [
-                                                            const Text(
-                                                              'Nombre descriptivo: ',
-                                                              style: TextStyle(
-                                                                  color: AppTema
-                                                                      .bluegrey700,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize: 15),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .visible,
-                                                            ),
-                                                            Text(
-                                                              proyectos[index]
-                                                                  .nombreProyecto,
-                                                              style: const TextStyle(
-                                                                  color: AppTema
-                                                                      .bluegrey700,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
-                                                                  fontSize: 15),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .visible,
-                                                            ),
-                                                          ],
+                                                        const Text(
+                                                          'Nombre descriptivo: ',
+                                                          style: TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
+                                                        ),
+                                                        Text(
+                                                          proyectos[index]
+                                                              .nombreProyecto,
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
                                                         ),
                                                         const SizedBox(
                                                           height: 10,
                                                         ),
-                                                        Row(
-                                                          children: [
-                                                            const Text(
-                                                              'Nombre corto: ',
-                                                              style: TextStyle(
-                                                                  color: AppTema
-                                                                      .bluegrey700,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize: 15),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .visible,
-                                                            ),
-                                                            Text(
-                                                              proyectos[index]
-                                                                  .nombreCorto,
-                                                              style: const TextStyle(
-                                                                  color: AppTema
-                                                                      .bluegrey700,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
-                                                                  fontSize: 15),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .visible,
-                                                            ),
-                                                          ],
+                                                        const Text(
+                                                          'Nombre corto: ',
+                                                          style: TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
+                                                        ),
+                                                        Text(
+                                                          proyectos[index]
+                                                              .nombreCorto,
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
                                                         ),
                                                         const SizedBox(
                                                           height: 10,
                                                         ),
-                                                        Row(
-                                                          children: [
-                                                            const Text(
-                                                              'Area: ',
-                                                              style: TextStyle(
-                                                                  color: AppTema
-                                                                      .bluegrey700,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize: 15),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .visible,
-                                                            ),
-                                                            Text(
-                                                              proyectos[index]
-                                                                  .nombreArea,
-                                                              style: const TextStyle(
-                                                                  color: AppTema
-                                                                      .bluegrey700,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
-                                                                  fontSize: 15),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .visible,
-                                                            ),
-                                                          ],
+                                                        const Text(
+                                                          'Area: ',
+                                                          style: TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
+                                                        ),
+                                                        Text(
+                                                          proyectos[index]
+                                                              .nombreArea,
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
                                                         ),
                                                         const SizedBox(
                                                           height: 10,
                                                         ),
-                                                        Row(
-                                                          children: [
-                                                            const Text(
-                                                              'Categoria: ',
-                                                              style: TextStyle(
-                                                                  color: AppTema
-                                                                      .bluegrey700,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize: 15),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .visible,
-                                                            ),
-                                                            Text(
-                                                              proyectos[index]
-                                                                  .nombreCategoria,
-                                                              style: const TextStyle(
-                                                                  color: AppTema
-                                                                      .bluegrey700,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
-                                                                  fontSize: 15),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .visible,
-                                                            ),
-                                                          ],
+                                                        const Text(
+                                                          'Categoria: ',
+                                                          style: TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
+                                                        ),
+                                                        Text(
+                                                          proyectos[index]
+                                                              .nombreCategoria,
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
                                                         ),
                                                         const SizedBox(
                                                           height: 10,
                                                         ),
-                                                        Row(
-                                                          children: [
-                                                            const Text(
-                                                              'Sala: ',
-                                                              style: TextStyle(
-                                                                  color: AppTema
-                                                                      .bluegrey700,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize: 15),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .visible,
-                                                            ),
-                                                            Flexible(
-                                                              child: Text(
-                                                                proyectos[index]
-                                                                    .nombreSala,
-                                                                style: const TextStyle(
-                                                                    color: AppTema
-                                                                        .bluegrey700,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .normal,
-                                                                    fontSize:
-                                                                        15),
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .visible,
-                                                              ),
-                                                            ),
-                                                          ],
+                                                        const Text(
+                                                          'Sala: ',
+                                                          style: TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
+                                                        ),
+                                                        Text(
+                                                          proyectos[index]
+                                                              .nombreSala,
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
                                                         ),
                                                         const SizedBox(
                                                           height: 10,
                                                         ),
-                                                        Row(
-                                                          children: [
-                                                            const Text(
-                                                              'Lugar: ',
-                                                              style: TextStyle(
-                                                                  color: AppTema
-                                                                      .bluegrey700,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize: 15),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .visible,
-                                                            ),
-                                                            Flexible(
-                                                              child: Text(
-                                                                proyectos[index]
-                                                                    .lugarSala,
-                                                                style: const TextStyle(
-                                                                    color: AppTema
-                                                                        .bluegrey700,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .normal,
-                                                                    fontSize:
-                                                                        15),
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .visible,
-                                                              ),
-                                                            ),
-                                                          ],
+                                                        const Text(
+                                                          'Lugar: ',
+                                                          style: TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
+                                                        ),
+                                                        Text(
+                                                          proyectos[index]
+                                                              .lugarSala,
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
                                                         ),
                                                         const SizedBox(
                                                           height: 10,
                                                         ),
-                                                        Row(
-                                                          children: [
-                                                            const Text(
-                                                              'Hora inicio: ',
-                                                              style: TextStyle(
-                                                                  color: AppTema
-                                                                      .bluegrey700,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize: 15),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .visible,
-                                                            ),
-                                                            Text(
-                                                              proyectos[index]
-                                                                  .horaInicioSala,
-                                                              style: const TextStyle(
-                                                                  color: AppTema
-                                                                      .bluegrey700,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
-                                                                  fontSize: 15),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .visible,
-                                                            ),
-                                                          ],
+                                                        const Text(
+                                                          'Hora inicio: ',
+                                                          style: TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
+                                                        ),
+                                                        Text(
+                                                          proyectos[index]
+                                                              .horaInicioSala,
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
                                                         ),
                                                         const SizedBox(
                                                           height: 10,
                                                         ),
-                                                        Row(
-                                                          children: [
-                                                            const Text(
-                                                              'Hora fin: ',
-                                                              style: TextStyle(
-                                                                  color: AppTema
-                                                                      .bluegrey700,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize: 15),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .visible,
-                                                            ),
-                                                            Text(
-                                                              proyectos[index]
-                                                                  .horaFinalSala,
-                                                              style: const TextStyle(
-                                                                  color: AppTema
-                                                                      .bluegrey700,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
-                                                                  fontSize: 15),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .visible,
-                                                            ),
-                                                          ],
+                                                        const Text(
+                                                          'Hora fin: ',
+                                                          style: TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
+                                                        ),
+                                                        Text(
+                                                          proyectos[index]
+                                                              .horaFinalSala,
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
                                                         ),
                                                         const SizedBox(
                                                           height: 10,

@@ -139,28 +139,55 @@ class AsesorLiderScreen extends ConsumerWidget {
                                     },
                                   ),
                                   const SizedBox(height: 20),
-                                  ElevatedButton(
-                                      child: const Center(
-                                          //height: 50,
-                                          child: Text(
-                                        'Buscar asesor',
-                                        style: TextStyle(
-                                            color: AppTema.grey100,
-                                            fontSize: 25),
-                                      )),
-                                      onPressed: () async {
-                                        print(cRFCLider.text);
-                                        //verAsesor();
-                                        if (cRFCLider.text.isNotEmpty) {
-                                          ref
-                                              .read(listoAsesor.notifier)
-                                              .update((state) => true);
-                                        } else {
-                                          ref
-                                              .read(listoAsesor.notifier)
-                                              .update((state) => false);
-                                        }
-                                      }),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: ElevatedButton(
+                                          child: const Center(
+                                            child: Text(
+                                              'Borrar RFC',
+                                              style: TextStyle(
+                                                color: AppTema.grey100,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            //verAsesor();
+                                            cRFCLider.text = '';
+                                            ref
+                                                .read(listoAsesor.notifier)
+                                                .update((state) => false);
+                                          },
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Expanded(
+                                        child: ElevatedButton(
+                                          child: const Center(
+                                            child: Text(
+                                              'Buscar',
+                                              style: TextStyle(
+                                                color: AppTema.grey100,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            //verAsesor();
+                                            ref
+                                                .read(listoAsesor.notifier)
+                                                .update((state) =>
+                                                    cRFCLider.text.isNotEmpty);
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                   //verAsesor(),
 
                                   const SizedBox(height: 50),
@@ -177,7 +204,8 @@ class AsesorLiderScreen extends ConsumerWidget {
                                                   fontSize: 15),
                                             ),
                                             const SizedBox(height: 20),
-                                            verAsesor(cRFCLider.text),
+                                            verAsesor(cRFCLider.text,
+                                                folioProv.toString()),
                                           ],
                                         )
                                       : const Text(
@@ -215,7 +243,7 @@ class AsesorLiderScreen extends ConsumerWidget {
                 ))));
   }
 
-  FutureBuilder<bool> verAsesor(String rfc) {
+  FutureBuilder<bool> verAsesor(String rfc, String folioProyecto) {
     //cRFC.dispose();
     return FutureBuilder(
       future: getAsesor(rfc),
@@ -292,7 +320,7 @@ class AsesorLiderScreen extends ConsumerWidget {
                     ),
                     onPressed: () async {
                       bool asesorAgregado = await agregarAsesorLider(
-                          'PRO2716', asesores[index].idAsesor);
+                          folioProyecto, asesores[index].idAsesor);
 
                       if (asesorAgregado) {
                         QuickAlert.show(

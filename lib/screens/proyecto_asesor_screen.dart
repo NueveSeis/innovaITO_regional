@@ -64,28 +64,37 @@ class ProyectoAsesorScreen extends ConsumerWidget {
     }
   }
 
-  Future<bool> putProyectosCoord(
-      String idcoor, String fol, String fechaV, String obs, String est) async {
-    String url =
-        'https://evarafael.com/Aplicacion/rest/agregar_validacionProyectoC.php';
+  Future<bool> agregarValidacionCoordinador(String coor, String foliop) async {
+    var url =
+        'https://evarafael.com/Aplicacion/rest/agregar_validacionProyectoC.php'; // Reemplaza con la URL del archivo PHP en tu servidor
     try {
-      var response = await http.put(Uri.parse(url),
-          body: jsonEncode(<String, dynamic>{
-            'Id_coordinador': idcoor,
-            'Folio': fol,
-            'Fecha_validacion': fechaV,
-            'Observaciones': obs,
-            'Estado': est
-          }));
+      var response = await http.post(Uri.parse(url), body: {
+        'Id_coordinador': coor,
+        'Folio': foliop,
+      });
       if (response.statusCode == 200) {
+        print('Modificado en la db');
         return true;
       } else {
+        print('No modificado');
         return false;
-        print('La solicitud no fue exitosa: ${response.statusCode}');
       }
-    } catch (error) {
+    } catch (e) {
+      print('Error al realizar la solicitud HTTP: $e');
       return false;
-      print('Error al realizar la solicitud: $error');
+    }
+  }
+
+  Future<bool> eliminarValidacionC(String idcoor, String foliop) async {
+    var url =
+        'https://evarafael.com/Aplicacion/rest/delete_validacionProyectoC.php?Id_coordinador=$idcoor&Folio=$foliop'; // Reemplaza con la URL del archivo PHP en tu servidor
+    var response = await http.post(Uri.parse(url));
+    if (response.statusCode == 200) {
+      print('Modificado en la db');
+      return true;
+    } else {
+      print('No modificado');
+      return false;
     }
   }
 
@@ -335,6 +344,22 @@ class ProyectoAsesorScreen extends ConsumerWidget {
                                                         ? false
                                                         : true,
                                                 onChanged: (value) async {
+                                                  bool add = false;
+                                                  if (proyectos[index].estado ==
+                                                      '1') {
+                                                    add =
+                                                        await eliminarValidacionC(
+                                                            'COO01',
+                                                            proyectos[index]
+                                                                .folio);
+                                                  } else {
+                                                    add =
+                                                        await agregarValidacionCoordinador(
+                                                            'COO01',
+                                                            proyectos[index]
+                                                                .folio);
+                                                  }
+
                                                   bool actua =
                                                       await putProyectosAsesor(
                                                           proyectos[index]
@@ -343,7 +368,7 @@ class ProyectoAsesorScreen extends ConsumerWidget {
                                                           (value) ? '1' : '2');
                                                   print(proyectos[index].folio);
                                                   print(value);
-                                                  if (actua) {
+                                                  if (actua && add) {
                                                     QuickAlert.show(
                                                       context: context,
                                                       type: QuickAlertType
@@ -358,12 +383,6 @@ class ProyectoAsesorScreen extends ConsumerWidget {
                                                             'proyecto_asesor');
                                                       },
                                                     );
-                                                    putProyectosCoord(
-                                                        'COO01',
-                                                        proyectos[index].folio,
-                                                        '0000-00-00',
-                                                        '',
-                                                        '2');
                                                   } else {
                                                     QuickAlert.show(
                                                       context: context,

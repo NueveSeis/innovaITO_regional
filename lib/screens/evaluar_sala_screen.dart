@@ -276,19 +276,33 @@ class EvaluarSalaScreen extends ConsumerWidget {
                               _controllersListCriterios[index][1].text,
                               _controllersListCriterios[index][2].text);
                         }
-                        updateEvaluacionSala(
+                        bool upEvaSala = await updateEvaluacionSala(
                             datosProyectoPESSvar.first.folio, juradoID, '1');
-                        QuickAlert.show(
-                          context: context,
-                          type: QuickAlertType.success,
-                          title: 'Asignado correctamente',
-                          confirmBtnText: 'Hecho',
-                          confirmBtnColor: AppTema.pizazz,
-                          onConfirmBtnTap: () {
-                            context
-                                .pushReplacementNamed('proyectoEvaluarSreen');
-                          },
-                        );
+
+                        if (upEvaSala == true) {
+                          QuickAlert.show(
+                            context: context,
+                            type: QuickAlertType.success,
+                            title: 'Asignado correctamente',
+                            confirmBtnText: 'Hecho',
+                            confirmBtnColor: AppTema.pizazz,
+                            onConfirmBtnTap: () {
+                              context
+                                  .pushReplacementNamed('proyectoEvaluarSreen');
+                            },
+                          );
+                        } else {
+                          QuickAlert.show(
+                            context: context,
+                            type: QuickAlertType.error,
+                            title: 'Ocurrió un error',
+                            confirmBtnText: 'Hecho',
+                            confirmBtnColor: AppTema.pizazz,
+                            onConfirmBtnTap: () {
+                              context.pop();
+                            },
+                          );
+                        }
                       } else {
                         QuickAlert.show(
                           context: context,

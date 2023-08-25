@@ -59,11 +59,27 @@ class EvaluarStandScreen extends ConsumerWidget {
     }
   }
 
+  Future<bool> updateEvaluacionStand(
+      String foliop, String idjur, String eva) async {
+    var url =
+        'https://evarafael.com/Aplicacion/rest/update_evaluacionStand.php'; // Reemplaza con la URL del archivo PHP en tu servidor
+    var response = await http.post(Uri.parse(url),
+        body: {'Folio': foliop, 'Id_jurado': idjur, 'Estado_evaluacion': eva});
+    if (response.statusCode == 200) {
+      print('Modificado en la db');
+      return true;
+    } else {
+      print('No modificado');
+      return false;
+    }
+  }
+
   final List<List<TextEditingController>> _controllersListCriterios = [];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final datosProyectoPESSTvar = ref.watch(proyectoDatosPESST);
+    final String juradoID = ref.watch(juradoIDProvider);
     return Scaffold(
       body: Fondo(
           tituloPantalla: 'Evaluaciones Stand',
@@ -253,21 +269,36 @@ class EvaluarStandScreen extends ConsumerWidget {
                               _controllersListCriterios[index][0].text,
                               datosProyectoPESSTvar.first.folio,
                               rubrica[index].idCriterio,
-                              'JUR02',
+                              juradoID,
                               _controllersListCriterios[index][1].text,
                               _controllersListCriterios[index][2].text);
                         }
-                        QuickAlert.show(
-                          context: context,
-                          type: QuickAlertType.success,
-                          title: 'Asignado correctamente',
-                          confirmBtnText: 'Hecho',
-                          confirmBtnColor: AppTema.pizazz,
-                          onConfirmBtnTap: () {
-                            context.pushReplacementNamed(
-                                'ProyectoEvaluarStandSreen');
-                          },
-                        );
+                        bool upEvaSt = await updateEvaluacionStand(
+                            datosProyectoPESSTvar.first.folio, juradoID, '1');
+                        if (upEvaSt == true) {
+                          QuickAlert.show(
+                            context: context,
+                            type: QuickAlertType.success,
+                            title: 'Asignado correctamente',
+                            confirmBtnText: 'Hecho',
+                            confirmBtnColor: AppTema.pizazz,
+                            onConfirmBtnTap: () {
+                              context.pushReplacementNamed(
+                                  'ProyectoEvaluarStandSreen');
+                            },
+                          );
+                        } else {
+                          QuickAlert.show(
+                            context: context,
+                            type: QuickAlertType.error,
+                            title: 'Ocurrió un error',
+                            confirmBtnText: 'Hecho',
+                            confirmBtnColor: AppTema.pizazz,
+                            onConfirmBtnTap: () {
+                              context.pop();
+                            },
+                          );
+                        }
                       } else {
                         QuickAlert.show(
                           context: context,

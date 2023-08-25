@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:innova_ito/providers/providers.dart';
 
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/models/models.dart';
@@ -85,6 +86,7 @@ class RequerimientosLiderScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final folioPROV = ref.watch(folioProyectoUsuarioLogin);
     return Scaffold(
       body: Fondo(
           tituloPantalla: 'Requerimientos especiales',
@@ -103,7 +105,7 @@ class RequerimientosLiderScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 20),
                 FutureBuilder(
-                  future: misRequerimientos('PRO2716'),
+                  future: misRequerimientos(folioPROV),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(
@@ -232,7 +234,7 @@ class RequerimientosLiderScreen extends ConsumerWidget {
                                                             onTap: () async {
                                                               bool eliminado =
                                                                   await eliminarRequerimiento(
-                                                                      'PRO2716',
+                                                                      folioPROV,
                                                                       requerimientos[
                                                                               index]
                                                                           .idRequerimientoEspecial);
@@ -342,7 +344,7 @@ class RequerimientosLiderScreen extends ConsumerWidget {
                                 )),
                                 onPressed: () async {
                                   bool agregado = await agregarRequerimiento(
-                                      'PRO2716',
+                                      folioPROV,
                                       requerimientos[index]
                                           .idRequerimientoEspecial);
 

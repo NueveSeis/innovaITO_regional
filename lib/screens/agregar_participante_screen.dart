@@ -12,6 +12,7 @@ import 'package:innova_ito/widgets/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:quickalert/quickalert.dart';
+import 'package:uuid/uuid.dart';
 
 Future<List<Genero>> obtenerGenero() async {
   var url = 'https://evarafael.com/Aplicacion/rest/get_genero.php';
@@ -301,6 +302,7 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                           ),
                           const SizedBox(height: 20),
                           TextFormField(
+                            maxLength: 2,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             controller: cPromedio,
@@ -370,13 +372,14 @@ class AgregarParticipanteScreen extends ConsumerWidget {
 
                                   tipoGeneroAbreviado;
 
-                                  if (selectedTipoGenero == 'MASCULINO') {
+                                  if (selectedTipoGenero == 'HOMBRE') {
                                     tipoGeneroAbreviado = 'H';
-                                  } else if (selectedTipoGenero == 'FEMENINO') {
+                                  } else if (selectedTipoGenero == 'MUJER') {
                                     tipoGeneroAbreviado = 'M';
                                   } else {
                                     tipoGeneroAbreviado = 'Otro';
                                   }
+                                  // print(value)
                                   // print('idGenero seleccionado: $value');
                                   // print(
                                   //     'tipoGenero seleccionado: $selectedTipoGenero');
@@ -480,12 +483,18 @@ class AgregarParticipanteScreen extends ConsumerWidget {
 
                                 print(curpGenerada);
                                 print(fecha);
+                                String value1 =
+                                    value.toString().substring(0, 14);
+                                String value2 =
+                                    value.toString().substring(15, 16);
+                                String parte1g = curpGenerada.substring(0, 14);
+                                String parte2g = curpGenerada.substring(15, 16);
+                                print(curpGenerada.substring(0, 14));
 
                                 // Compara la CURP ingresada con la generada
                                 if (curpLength == 18) {
                                   //  print(o)
-                                  if (curpGenerada.substring(0, 16) ==
-                                      cCurp.text.substring(0, 16)) {
+                                  if (value1 == parte1g && value2 == parte2g) {
                                     return null;
                                   } else {
                                     return 'La CURP ingresada no coincide con la generada.';
@@ -518,27 +527,6 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                               return RegexUtil.ine.hasMatch(value ?? '')
                                   ? null
                                   : 'Credencial no valida.';
-                            },
-                          ),
-                          const SizedBox(height: 20),
-                          TextFormField(
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            controller: cCorreo,
-                            style: const TextStyle(
-                                color: AppTema.bluegrey700,
-                                fontWeight: FontWeight.bold),
-                            autocorrect: false,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration:
-                                InputDecorations.registroLiderDecoration(
-                              hintText: 'Ingrese correo electrónico',
-                              labelText: 'Correo electrónico',
-                            ),
-                            validator: (value) {
-                              return RegexUtil.correoEdu.hasMatch(value ?? '')
-                                  ? null
-                                  : 'Solo se acepta correo institucional.';
                             },
                           ),
                           const SizedBox(height: 20),
@@ -903,17 +891,19 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                                     color: AppTema.grey100, fontSize: 25),
                               )),
                               onPressed: () async {
-                                ref.read(camposLlenosProv.notifier).update(
-                                    (state) =>
-                                        _formKey.currentState!.validate());
-                                if (camposLlenos == true &&
+                                // ref.read(camposLlenosProv.notifier).update(
+                                //     (state) =>
+                                //         _formKey.currentState!.validate());
+                                bool camps = _formKey.currentState!.validate();
+                                if (camps == true &&
                                     fecha != DateTime(0000, 00, 00)) {
-                                  String idPersona = Generar.idPersona(
-                                      cNombre.text.toUpperCase(),
-                                      cApellidoP.text.toUpperCase(),
-                                      cApellidoM.text.toUpperCase(),
-                                      cCorreo.text.toUpperCase());
-                                  bool result = await existente(idPersona);
+                                  // String idPersona = Generar.idPersona(
+                                  //     cNombre.text.toUpperCase(),
+                                  //     cApellidoP.text.toUpperCase(),
+                                  //     cApellidoM.text.toUpperCase(),
+                                  //     cCorreo.text.toUpperCase());
+                                  String idp = Uuid().v4().substring(0, 8);
+                                  bool result = await existente(idp);
                                   //print('1');
                                   if (result) {
                                     QuickAlert.show(
@@ -925,12 +915,12 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                                     );
                                   } else {
                                     agregarParticipante(
-                                        idPersona,
+                                        idp,
                                         cNombre.text.toUpperCase(),
                                         cApellidoP.text.toUpperCase(),
                                         cApellidoM.text.toUpperCase(),
                                         cNumero.text,
-                                        cCorreo.text.toUpperCase(),
+                                        'NULL',
                                         cIne.text,
                                         cCurp.text.toUpperCase(),
                                         cMatricula.text.toUpperCase(),

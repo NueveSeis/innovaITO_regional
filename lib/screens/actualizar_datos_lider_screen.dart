@@ -92,36 +92,6 @@ class ActualizarDatosLiderScreen extends ConsumerWidget {
   DateTime? fechaSeleccionada;
   DateTime fecha = DateTime(0000, 00, 00);
 
-  Future _mostrarDatePicker(context, ref) async {
-    final seleccion = await showDatePicker(
-      context: context,
-      locale: const Locale("es", "ES"),
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1950),
-      lastDate: DateTime(2024),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: AppTema.pizazz,
-            ),
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                  primary: AppTema.pizazz // button text color
-                  ),
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
-
-    if (seleccion != null && seleccion != fechaSeleccionada) {
-      fechaSeleccionada = seleccion;
-      fecha = DateTime(seleccion.year, seleccion.month, seleccion.day);
-    }
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final matricula = ref.watch(matriculaProvider);
@@ -143,6 +113,36 @@ class ActualizarDatosLiderScreen extends ConsumerWidget {
     final camposLlenos = ref.watch(camposLlenosProv);
 
     //generosList = generos;
+
+    Future _mostrarDatePicker(context, ref) async {
+      final seleccion = await showDatePicker(
+        context: context,
+        locale: const Locale("es", "ES"),
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1950),
+        lastDate: DateTime(2024),
+        builder: (context, child) {
+          return Theme(
+            data: Theme.of(context).copyWith(
+              colorScheme: const ColorScheme.light(
+                primary: AppTema.pizazz,
+              ),
+              textButtonTheme: TextButtonThemeData(
+                style: TextButton.styleFrom(
+                    primary: AppTema.pizazz // button text color
+                    ),
+              ),
+            ),
+            child: child!,
+          );
+        },
+      );
+
+      if (seleccion != null && seleccion != fechaSeleccionada) {
+        fechaSeleccionada = seleccion;
+        fecha = DateTime(seleccion.year, seleccion.month, seleccion.day);
+      }
+    }
 
     return Scaffold(
         body: Fondo(
@@ -215,6 +215,7 @@ class ActualizarDatosLiderScreen extends ConsumerWidget {
                                             ),
                                             const SizedBox(height: 20),
                                             TextFormField(
+                                              maxLength: 18,
                                               autovalidateMode: AutovalidateMode
                                                   .onUserInteraction,
                                               controller: cCurp,
@@ -237,6 +238,7 @@ class ActualizarDatosLiderScreen extends ConsumerWidget {
                                             ),
                                             const SizedBox(height: 20),
                                             TextFormField(
+                                              maxLength: 13,
                                               autovalidateMode: AutovalidateMode
                                                   .onUserInteraction,
                                               controller: cIne,
@@ -261,6 +263,7 @@ class ActualizarDatosLiderScreen extends ConsumerWidget {
                                             ),
                                             const SizedBox(height: 20),
                                             TextFormField(
+                                              maxLength: 10,
                                               autovalidateMode: AutovalidateMode
                                                   .onUserInteraction,
                                               controller: cNumero,

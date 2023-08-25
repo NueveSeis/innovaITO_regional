@@ -163,7 +163,32 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
                                 idPersona = ref.watch(idUsuarioLogin);
                                 return const SizedBox();
                               }),
-                              const SizedBox(height: 20),
+                              const SizedBox(height: 40),
+
+                              TextFormField(
+                                controller: cNombreDescriptivo,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                maxLength: 100,
+                                maxLines: null,
+                                style: const TextStyle(
+                                    color: AppTema.bluegrey700,
+                                    fontWeight: FontWeight.bold),
+                                autocorrect: false,
+                                keyboardType: TextInputType.emailAddress,
+                                decoration:
+                                    InputDecorations.registroLiderDecoration(
+                                  hintText: 'Ingrese nombre descriptivo',
+                                  labelText: 'Nombre descriptivo',
+                                ),
+                                validator: (value) {
+                                  return (!RegexUtil.datos
+                                          .hasMatch(value ?? ''))
+                                      ? null
+                                      : 'No contiene ningun dato.';
+                                },
+                                //onChanged: (value) => accesoFormulario.correo = value,
+                              ),
                               const SizedBox(height: 20),
                               TextFormField(
                                 controller: cNombreComercial,
@@ -189,31 +214,8 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
                                 },
                                 //onChanged: (value) => accesoFormulario.correo = value,
                               ),
-                              const SizedBox(height: 20),
-                              TextFormField(
-                                controller: cNombreDescriptivo,
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                maxLength: 100,
-                                maxLines: null,
-                                style: const TextStyle(
-                                    color: AppTema.bluegrey700,
-                                    fontWeight: FontWeight.bold),
-                                autocorrect: false,
-                                keyboardType: TextInputType.emailAddress,
-                                decoration:
-                                    InputDecorations.registroLiderDecoration(
-                                  hintText: 'Ingrese nombre descriptivo',
-                                  labelText: 'Nombre descriptivo',
-                                ),
-                                validator: (value) {
-                                  return (!RegexUtil.datos
-                                          .hasMatch(value ?? ''))
-                                      ? null
-                                      : 'No contiene ningun dato.';
-                                },
-                                //onChanged: (value) => accesoFormulario.correo = value,
-                              ),
+                              // const SizedBox(height: 20),
+
                               FutureBuilder(
                                   future: obtenerCategorias(),
                                   builder: (BuildContext context,

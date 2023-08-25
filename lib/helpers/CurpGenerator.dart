@@ -125,9 +125,3 @@ class CurpGenerator {
     return curp;
   }
 }
-
-void main() {
-  String curp = CurpGenerator.generateCurp('Usiel Alberto', 'Torres', 'Sanchez',
-      DateTime(1999, 2, 13), 'Masculino', 'Oaxaca');
-  print(curp); // Debería imprimir: TOSU990213HOCRNS57
-}

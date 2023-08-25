@@ -349,11 +349,18 @@ class RegistroUsuarioJuradoScreen extends ConsumerWidget {
 
                                 print(curpGenerada);
                                 print(fecha);
+                                String value1 =
+                                    value.toString().substring(0, 14);
+                                String value2 =
+                                    value.toString().substring(15, 16);
+                                String parte1g = curpGenerada.substring(0, 14);
+                                String parte2g = curpGenerada.substring(15, 16);
+                                print(curpGenerada.substring(0, 14));
 
                                 // Compara la CURP ingresada con la generada
                                 if (curpLength == 18) {
-                                  if (curpGenerada.substring(0, 16) ==
-                                      cCurp.text.substring(0, 16)) {
+                                  //  print(o)
+                                  if (value1 == parte1g && value2 == parte2g) {
                                     return null;
                                   } else {
                                     return 'La CURP ingresada no coincide con la generada.';

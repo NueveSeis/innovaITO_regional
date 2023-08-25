@@ -18,7 +18,7 @@ class StandHs {
   String idStand;
   String lugar;
   String folio;
-  String calificacionGlobal;
+  dynamic calificacionGlobal;
   dynamic estadoAcreditacion;
   dynamic estadoAsistencia;
   dynamic oficioAsistencia;

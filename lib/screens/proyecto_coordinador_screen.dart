@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:innova_ito/helpers/helpers.dart';
 
 import 'package:innova_ito/models/models.dart';
+import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 
@@ -130,6 +131,8 @@ class ProyectoCoordinadorScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // final juradoID = ref.watch(juradoIDProvider);
+    // print(juradoID);
     return Scaffold(
       body: Fondo(
           tituloPantalla: 'Mis proyectos',
@@ -160,215 +163,253 @@ class ProyectoCoordinadorScreen extends ConsumerWidget {
                         return Center(
                             child: Text('Error: ${snapshot.error.toString()}'));
                       } else {
-                        return ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: proyectos.length,
-                          itemBuilder: (context, index) {
-                            return Card(
-                              margin: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 10),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25),
-                              ),
-                              elevation: 10,
-                              child: Stack(
+                        return proyectos.isEmpty
+                            ? const Column(
                                 children: [
-                                  Container(
-                                    width: 350,
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      color: AppTema.grey100,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                    child: Column(children: [
-                                      Container(
-                                        padding:
-                                            const EdgeInsets.only(left: 15),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            const SizedBox(
-                                              height: 25,
-                                            ),
-                                            Text(
-                                              proyectos[index].nombreProyecto,
-                                              style: const TextStyle(
-                                                  color: AppTema.bluegrey700,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20),
-                                            ),
-                                            const SizedBox(
-                                              height: 8,
-                                            ),
-                                            Text(
-                                              proyectos[index].nombreCorto,
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                  color: AppTema.bluegrey700,
-                                                  //fontWeight: FontWeight.bold,
-                                                  fontSize: 20),
-                                            ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
-                                            Text(
-                                              'Categoria: ${proyectos[index].nombreCategoria}',
-                                              textAlign: TextAlign.end,
-                                              style: const TextStyle(
-                                                  color: AppTema.bluegrey700,
-                                                  fontSize: 12),
-                                            ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
-                                            Text(
-                                              'Area: ${proyectos[index].nombreArea}',
-                                              textAlign: TextAlign.end,
-                                              style: const TextStyle(
-                                                  color: AppTema.bluegrey700,
-                                                  fontSize: 12),
-                                            ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
-                                            Text(
-                                              'Naturaleza Técnica: ${proyectos[index].tipo}',
-                                              style: const TextStyle(
-                                                  color: AppTema.bluegrey700,
-                                                  fontSize: 12),
-                                            ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
-                                            // Text(
-                                            //   'Observaciones Asesora: ${proyectos[index].observaciones}',
-                                            //   style: const TextStyle(
-                                            //       color: AppTema.bluegrey700,
-                                            //       fontSize: 12),
-                                            // ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Column(
-                                            children: [
-                                              IconButton(
-                                                  icon: const Icon(
-                                                      Icons
-                                                          .cloud_download_rounded,
-                                                      size: 25),
-                                                  onPressed: () async {
-                                                    String si = await pdf
-                                                        .registro('Hola');
-                                                    // String ruta =
-                                                    //     await createPDF(
-                                                    //         proyectos, index);
-                                                    OpenFilex.open(si);
-                                                  },
-                                                  color: AppTema.bluegrey700),
-                                              const Text(
-                                                'Descargar',
-                                                style: TextStyle(
-                                                  color: AppTema.bluegrey700,
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          Column(
-                                            children: [
-                                              Switch(
-                                                value:
-                                                    (proyectos[index].estado !=
-                                                            '1')
-                                                        ? false
-                                                        : true,
-                                                onChanged: (value) async {
-                                                  bool actua =
-                                                      await putProyectosCoordinador(
-                                                          proyectos[index]
-                                                              .folio,
-                                                          'Estado',
-                                                          (value) ? '1' : '2');
-                                                  if (actua) {
-                                                    QuickAlert.show(
-                                                      context: context,
-                                                      type: QuickAlertType
-                                                          .success,
-                                                      title:
-                                                          'Estado modificado',
-                                                      confirmBtnText: 'Hecho',
-                                                      confirmBtnColor:
-                                                          AppTema.pizazz,
-                                                      onConfirmBtnTap: () {
-                                                        context.pushReplacementNamed(
-                                                            'proyecto_coordinador');
-                                                      },
-                                                    );
-                                                  } else {
-                                                    QuickAlert.show(
-                                                      context: context,
-                                                      type:
-                                                          QuickAlertType.error,
-                                                      title: 'Ocurrió un error',
-                                                      confirmBtnText: 'Hecho',
-                                                      confirmBtnColor:
-                                                          AppTema.pizazz,
-                                                      onConfirmBtnTap: () {
-                                                        context.pushReplacementNamed(
-                                                            'proyecto_coordinador');
-                                                      },
-                                                    );
-                                                  }
-                                                },
-                                                activeColor: AppTema.pizazz,
-                                              ),
-                                              const Text(
-                                                'Aceptar',
-                                                style: TextStyle(
-                                                  color: AppTema.bluegrey700,
-                                                ),
-                                              )
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ]),
+                                  SizedBox(
+                                    height: 50,
                                   ),
-                                  Positioned(
-                                    top: 10,
-                                    right: 10,
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 5, horizontal: 10),
-                                      decoration: BoxDecoration(
-                                        color: (proyectos[index].estado != '1')
-                                            ? Colors.red
-                                            : Colors.green,
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      child: Text(
-                                        'Estado',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
+                                  Text(
+                                    'No hay proyectos aprobados por los asesores',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: AppTema.bluegrey700,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
                                   ),
                                 ],
-                              ),
-                            );
-                          },
-                        );
+                              )
+                            : ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: proyectos.length,
+                                itemBuilder: (context, index) {
+                                  return Card(
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 8, horizontal: 10),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
+                                    elevation: 10,
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                          width: 350,
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                            color: AppTema.grey100,
+                                            borderRadius:
+                                                BorderRadius.circular(25),
+                                          ),
+                                          child: Column(children: [
+                                            Container(
+                                              padding: const EdgeInsets.only(
+                                                  left: 15),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  const SizedBox(
+                                                    height: 25,
+                                                  ),
+                                                  Text(
+                                                    proyectos[index]
+                                                        .nombreProyecto,
+                                                    style: const TextStyle(
+                                                        color:
+                                                            AppTema.bluegrey700,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 20),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 8,
+                                                  ),
+                                                  Text(
+                                                    proyectos[index]
+                                                        .nombreCorto,
+                                                    textAlign: TextAlign.center,
+                                                    style: const TextStyle(
+                                                        color:
+                                                            AppTema.bluegrey700,
+                                                        //fontWeight: FontWeight.bold,
+                                                        fontSize: 20),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Text(
+                                                    'Categoria: ${proyectos[index].nombreCategoria}',
+                                                    textAlign: TextAlign.end,
+                                                    style: const TextStyle(
+                                                        color:
+                                                            AppTema.bluegrey700,
+                                                        fontSize: 12),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Text(
+                                                    'Area: ${proyectos[index].nombreArea}',
+                                                    textAlign: TextAlign.end,
+                                                    style: const TextStyle(
+                                                        color:
+                                                            AppTema.bluegrey700,
+                                                        fontSize: 12),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Text(
+                                                    'Naturaleza Técnica: ${proyectos[index].tipo}',
+                                                    style: const TextStyle(
+                                                        color:
+                                                            AppTema.bluegrey700,
+                                                        fontSize: 12),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  // Text(
+                                                  //   'Observaciones Asesora: ${proyectos[index].observaciones}',
+                                                  //   style: const TextStyle(
+                                                  //       color: AppTema.bluegrey700,
+                                                  //       fontSize: 12),
+                                                  // ),
+                                                  const SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(height: 10),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Column(
+                                                  children: [
+                                                    IconButton(
+                                                        icon: const Icon(
+                                                            Icons
+                                                                .cloud_download_rounded,
+                                                            size: 25),
+                                                        onPressed: () async {
+                                                          String si = await pdf
+                                                              .registro('Hola');
+                                                          // String ruta =
+                                                          //     await createPDF(
+                                                          //         proyectos, index);
+                                                          OpenFilex.open(si);
+                                                        },
+                                                        color: AppTema
+                                                            .bluegrey700),
+                                                    const Text(
+                                                      'Descargar',
+                                                      style: TextStyle(
+                                                        color:
+                                                            AppTema.bluegrey700,
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                                Column(
+                                                  children: [
+                                                    Switch(
+                                                      value: (proyectos[index]
+                                                                  .estado !=
+                                                              '1')
+                                                          ? false
+                                                          : true,
+                                                      onChanged: (value) async {
+                                                        bool actua =
+                                                            await putProyectosCoordinador(
+                                                                proyectos[index]
+                                                                    .folio,
+                                                                'Estado',
+                                                                (value)
+                                                                    ? '1'
+                                                                    : '2');
+                                                        if (actua) {
+                                                          QuickAlert.show(
+                                                            context: context,
+                                                            type: QuickAlertType
+                                                                .success,
+                                                            title:
+                                                                'Estado modificado',
+                                                            confirmBtnText:
+                                                                'Hecho',
+                                                            confirmBtnColor:
+                                                                AppTema.pizazz,
+                                                            onConfirmBtnTap:
+                                                                () {
+                                                              context.pushReplacementNamed(
+                                                                  'proyecto_coordinador');
+                                                            },
+                                                          );
+                                                        } else {
+                                                          QuickAlert.show(
+                                                            context: context,
+                                                            type: QuickAlertType
+                                                                .error,
+                                                            title:
+                                                                'Ocurrió un error',
+                                                            confirmBtnText:
+                                                                'Hecho',
+                                                            confirmBtnColor:
+                                                                AppTema.pizazz,
+                                                            onConfirmBtnTap:
+                                                                () {
+                                                              context.pushReplacementNamed(
+                                                                  'proyecto_coordinador');
+                                                            },
+                                                          );
+                                                        }
+                                                      },
+                                                      activeColor:
+                                                          AppTema.pizazz,
+                                                    ),
+                                                    const Text(
+                                                      'Aceptar',
+                                                      style: TextStyle(
+                                                        color:
+                                                            AppTema.bluegrey700,
+                                                      ),
+                                                    )
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ]),
+                                        ),
+                                        Positioned(
+                                          top: 10,
+                                          right: 10,
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5, horizontal: 10),
+                                            decoration: BoxDecoration(
+                                              color: (proyectos[index].estado !=
+                                                      '1')
+                                                  ? Colors.red
+                                                  : Colors.green,
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            ),
+                                            child: Text(
+                                              'Estado',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
                       }
                     } else {
                       return const Center(child: Text('¡Algo salió mal!'));

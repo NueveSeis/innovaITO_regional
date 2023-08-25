@@ -120,6 +120,7 @@ class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final juradoID = ref.watch(juradoIDProvider);
     final datosJuradoSLVar = ref.watch(juradoDatosSL);
     // final idAreaSL = ref.watch(idAreaSLProv);
     // final idCatSL = ref.watch(idCatSLProv);
@@ -165,376 +166,457 @@ class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
                                   child: Text(
                                       'Error: ${snapshot.error.toString()}'));
                             } else {
-                              return ListView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: proyectos.length,
-                                itemBuilder: (context, index) {
-                                  int valor = index + 1;
-                                  return Column(
-                                    children: [
-                                      Card(
-                                        elevation: 15.0,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
+                              return proyectos.isEmpty
+                                  ? const Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 50,
                                         ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(16.0),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.stretch,
-                                            children: [
-                                              Text(
-                                                proyectos[index].nombreCorto,
-                                                textAlign: TextAlign.center,
-                                                style: const TextStyle(
-                                                  color: AppTema.bluegrey700,
-                                                  fontSize: 18.0,
-                                                ),
+                                        Text(
+                                          'No hay proyectos del área de interés',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: AppTema.bluegrey700,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20),
+                                        ),
+                                      ],
+                                    )
+                                  : ListView.builder(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: proyectos.length,
+                                      itemBuilder: (context, index) {
+                                        int valor = index + 1;
+                                        return Column(
+                                          children: [
+                                            Card(
+                                              elevation: 15.0,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
                                               ),
-                                              const SizedBox(height: 10.0),
-                                              Text(
-                                                'Nombre descriptivo : ${proyectos[index].nombreProyecto}',
-                                                style: const TextStyle(
-                                                  color: AppTema.bluegrey700,
-                                                  fontSize: 15.0,
-                                                ),
-                                              ),
-                                              const SizedBox(height: 6),
-                                              Text(
-                                                'Area: ${proyectos[index].nombreArea}',
-                                                style: const TextStyle(
-                                                  color: AppTema.bluegrey700,
-                                                  fontSize: 15.0,
-                                                ),
-                                              ),
-                                              const SizedBox(height: 6),
-                                              Text(
-                                                'Categoria: ${proyectos[index].nombreCategoria}',
-                                                style: const TextStyle(
-                                                  color: AppTema.bluegrey700,
-                                                  fontSize: 15.0,
-                                                ),
-                                              ),
-                                              const SizedBox(height: 6),
-                                              Row(
-                                                children: [
-                                                  const Text(
-                                                    'Evaluadores en sala: ',
-                                                    style: TextStyle(
-                                                      color:
-                                                          AppTema.bluegrey700,
-                                                      fontSize: 15.0,
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                      color: (int.parse(proyectos[
-                                                                      index]
-                                                                  .cantidadSala) >=
-                                                              1)
-                                                          ? AppTema.greenS400
-                                                          : AppTema.redA400,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5),
-                                                    ),
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 5),
-                                                    child: Text(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(16.0),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .stretch,
+                                                  children: [
+                                                    Text(
                                                       proyectos[index]
-                                                          .cantidadSala
-                                                          .toString(),
+                                                          .nombreCorto,
+                                                      textAlign:
+                                                          TextAlign.center,
                                                       style: const TextStyle(
-                                                        color: Colors.white,
+                                                        color:
+                                                            AppTema.bluegrey700,
+                                                        fontSize: 18.0,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                        height: 10.0),
+                                                    Text(
+                                                      'Nombre descriptivo : ${proyectos[index].nombreProyecto}',
+                                                      style: const TextStyle(
+                                                        color:
+                                                            AppTema.bluegrey700,
                                                         fontSize: 15.0,
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(height: 6),
-                                              Row(
-                                                children: [
-                                                  const Text(
-                                                    'Evaluadores en stand: ',
-                                                    style: TextStyle(
-                                                      color:
-                                                          AppTema.bluegrey700,
-                                                      fontSize: 15.0,
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                      color: (int.parse(proyectos[
-                                                                      index]
-                                                                  .cantidadStand) >=
-                                                              1)
-                                                          ? AppTema.greenS400
-                                                          : AppTema.redA400,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5),
-                                                    ),
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 5),
-                                                    child: Text(
-                                                      proyectos[index]
-                                                          .cantidadStand
-                                                          .toString(),
+                                                    const SizedBox(height: 6),
+                                                    Text(
+                                                      'Area: ${proyectos[index].nombreArea}',
                                                       style: const TextStyle(
-                                                        color: Colors.white,
+                                                        color:
+                                                            AppTema.bluegrey700,
                                                         fontSize: 15.0,
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(height: 10),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: [
-                                                  ElevatedButton(
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      primary: AppTema.primario,
-                                                      onPrimary: Colors.white,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
+                                                    const SizedBox(height: 6),
+                                                    Text(
+                                                      'Categoria: ${proyectos[index].nombreCategoria}',
+                                                      style: const TextStyle(
+                                                        color:
+                                                            AppTema.bluegrey700,
+                                                        fontSize: 15.0,
                                                       ),
                                                     ),
-                                                    onPressed: () async {
-                                                      // Lógica para "Asignar a Stand"
-                                                      String idEvalua = Uuid()
-                                                          .v4()
-                                                          .substring(0, 8);
-
-                                                      print(idEvalua);
-                                                      print(proyectos[index]
-                                                          .folio);
-
-                                                      print(proyectos[index]
-                                                          .idStand);
-
-                                                      print(datosJuradoSLVar
-                                                          .first.idJurado);
-
-                                                      if (proyectos[index]
-                                                                  .idStand ==
-                                                              null ||
-                                                          proyectos[index]
-                                                                  .idStand ==
-                                                              "null") {
-                                                        QuickAlert.show(
-                                                          context: context,
-                                                          type: QuickAlertType
-                                                              .warning,
-                                                          title:
-                                                              'Este proyecto aun no tiene stand asignado',
-                                                          confirmBtnText:
-                                                              'Hecho',
-                                                          confirmBtnColor:
-                                                              AppTema.pizazz,
-                                                          onConfirmBtnTap: () {
-                                                            context.pop();
-                                                          },
-                                                        );
-                                                      } else {
-                                                        bool agregado =
-                                                            await agregarEvaluacionStand(
-                                                                idEvalua,
-                                                                proyectos[index]
-                                                                    .folio,
-                                                                proyectos[index]
-                                                                    .idStand,
-                                                                datosJuradoSLVar
-                                                                    .first
-                                                                    .idJurado);
-
-                                                        bool agrega =
-                                                            await agregarProyectoJurado(
-                                                                proyectos[index]
-                                                                    .folio,
-                                                                datosJuradoSLVar
-                                                                    .first
-                                                                    .idJurado);
-
-                                                        if (agregado &&
-                                                            agrega) {
-                                                          QuickAlert.show(
-                                                            context: context,
-                                                            type: QuickAlertType
-                                                                .success,
-                                                            title:
-                                                                'Asignado correctamente',
-                                                            confirmBtnText:
-                                                                'Hecho',
-                                                            confirmBtnColor:
-                                                                AppTema.pizazz,
-                                                            onConfirmBtnTap:
-                                                                () {
-                                                              context.pushReplacementNamed(
-                                                                  'AsignarProyectoJuradoScreen');
-                                                            },
-                                                          );
-                                                        } else {
-                                                          QuickAlert.show(
-                                                            context: context,
-                                                            type: QuickAlertType
-                                                                .error,
-                                                            title:
-                                                                'Ocurrió un error',
-                                                            confirmBtnText:
-                                                                'Hecho',
-                                                            confirmBtnColor:
-                                                                AppTema.pizazz,
-                                                            onConfirmBtnTap:
-                                                                () {
-                                                              context.pop();
-                                                            },
-                                                          );
-                                                        }
-                                                      }
-                                                    },
-                                                    child: const Text(
-                                                        'Asignar a Stand'),
-                                                  ),
-                                                  ElevatedButton(
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      primary: AppTema.primario,
-                                                      onPrimary: Colors.white,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                      ),
+                                                    const SizedBox(height: 6),
+                                                    Row(
+                                                      children: [
+                                                        const Text(
+                                                          'Evaluadores en sala: ',
+                                                          style: TextStyle(
+                                                            color: AppTema
+                                                                .bluegrey700,
+                                                            fontSize: 15.0,
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: (int.parse(proyectos[
+                                                                            index]
+                                                                        .cantidadSala) >=
+                                                                    1)
+                                                                ? AppTema
+                                                                    .greenS400
+                                                                : AppTema
+                                                                    .redA400,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5),
+                                                          ),
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      5),
+                                                          child: Text(
+                                                            proyectos[index]
+                                                                .cantidadSala
+                                                                .toString(),
+                                                            style:
+                                                                const TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 15.0,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                    onPressed: () async {
-                                                      // Lógica para "Asignar a Sala"
+                                                    const SizedBox(height: 6),
+                                                    Row(
+                                                      children: [
+                                                        const Text(
+                                                          'Evaluadores en stand: ',
+                                                          style: TextStyle(
+                                                            color: AppTema
+                                                                .bluegrey700,
+                                                            fontSize: 15.0,
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: (int.parse(proyectos[
+                                                                            index]
+                                                                        .cantidadStand) >=
+                                                                    1)
+                                                                ? AppTema
+                                                                    .greenS400
+                                                                : AppTema
+                                                                    .redA400,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5),
+                                                          ),
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      5),
+                                                          child: Text(
+                                                            proyectos[index]
+                                                                .cantidadStand
+                                                                .toString(),
+                                                            style:
+                                                                const TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 15.0,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(height: 10),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
+                                                      children: [
+                                                        ElevatedButton(
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            primary: AppTema
+                                                                .primario,
+                                                            onPrimary:
+                                                                Colors.white,
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                            ),
+                                                          ),
+                                                          onPressed: () async {
+                                                            // Lógica para "Asignar a Stand"
+                                                            String idEvalua =
+                                                                Uuid()
+                                                                    .v4()
+                                                                    .substring(
+                                                                        0, 8);
 
-                                                      String idEva =
-                                                          const Uuid()
-                                                              .v4()
-                                                              .substring(0, 8);
+                                                            print(idEvalua);
+                                                            print(
+                                                                proyectos[index]
+                                                                    .folio);
 
-                                                      print(idEva);
-                                                      print(proyectos[index]
-                                                          .folio);
+                                                            print(
+                                                                proyectos[index]
+                                                                    .idStand);
 
-                                                      print(proyectos[index]
-                                                          .idSala);
+                                                            print(
+                                                                datosJuradoSLVar
+                                                                    .first
+                                                                    .idJurado);
 
-                                                      print(datosJuradoSLVar
-                                                          .first.idJurado);
+                                                            if (proyectos[index]
+                                                                        .idStand ==
+                                                                    null ||
+                                                                proyectos[index]
+                                                                        .idStand ==
+                                                                    "null") {
+                                                              QuickAlert.show(
+                                                                context:
+                                                                    context,
+                                                                type:
+                                                                    QuickAlertType
+                                                                        .warning,
+                                                                title:
+                                                                    'Este proyecto aun no tiene stand asignado',
+                                                                confirmBtnText:
+                                                                    'Hecho',
+                                                                confirmBtnColor:
+                                                                    AppTema
+                                                                        .pizazz,
+                                                                onConfirmBtnTap:
+                                                                    () {
+                                                                  context.pop();
+                                                                },
+                                                              );
+                                                            } else {
+                                                              bool agregado = await agregarEvaluacionStand(
+                                                                  idEvalua,
+                                                                  proyectos[
+                                                                          index]
+                                                                      .folio,
+                                                                  proyectos[
+                                                                          index]
+                                                                      .idStand,
+                                                                  datosJuradoSLVar
+                                                                      .first
+                                                                      .idJurado);
 
-                                                      if (proyectos[index]
-                                                                  .idSala ==
-                                                              null ||
-                                                          proyectos[index]
-                                                                  .idSala ==
-                                                              "null") {
-                                                        // Si idSala es nulo, hacer algo diferente
-                                                        // Por ejemplo, mostrar un mensaje de "Sin sala asignada"
-                                                        QuickAlert.show(
-                                                          context: context,
-                                                          type: QuickAlertType
-                                                              .warning,
-                                                          title:
-                                                              'Este proyecto aun no tiene sala asignada',
-                                                          confirmBtnText:
-                                                              'Hecho',
-                                                          confirmBtnColor:
-                                                              AppTema.pizazz,
-                                                          onConfirmBtnTap: () {
-                                                            context.pop();
+                                                              bool agrega = await agregarProyectoJurado(
+                                                                  proyectos[
+                                                                          index]
+                                                                      .folio,
+                                                                  datosJuradoSLVar
+                                                                      .first
+                                                                      .idJurado);
+
+                                                              if (agregado &&
+                                                                  agrega) {
+                                                                QuickAlert.show(
+                                                                  context:
+                                                                      context,
+                                                                  type: QuickAlertType
+                                                                      .success,
+                                                                  title:
+                                                                      'Asignado correctamente',
+                                                                  confirmBtnText:
+                                                                      'Hecho',
+                                                                  confirmBtnColor:
+                                                                      AppTema
+                                                                          .pizazz,
+                                                                  onConfirmBtnTap:
+                                                                      () {
+                                                                    context.pushReplacementNamed(
+                                                                        'AsignarProyectoJuradoScreen');
+                                                                  },
+                                                                );
+                                                              } else {
+                                                                QuickAlert.show(
+                                                                  context:
+                                                                      context,
+                                                                  type:
+                                                                      QuickAlertType
+                                                                          .error,
+                                                                  title:
+                                                                      'Ocurrió un error',
+                                                                  confirmBtnText:
+                                                                      'Hecho',
+                                                                  confirmBtnColor:
+                                                                      AppTema
+                                                                          .pizazz,
+                                                                  onConfirmBtnTap:
+                                                                      () {
+                                                                    context
+                                                                        .pop();
+                                                                  },
+                                                                );
+                                                              }
+                                                            }
                                                           },
-                                                        );
-                                                      } else {
-                                                        // Si idSala tiene datos, hacer algo diferente
-                                                        // Por ejemplo, mostrar el ID de la sala
+                                                          child: const Text(
+                                                              'Asignar a Stand'),
+                                                        ),
+                                                        ElevatedButton(
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            primary: AppTema
+                                                                .primario,
+                                                            onPrimary:
+                                                                Colors.white,
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                            ),
+                                                          ),
+                                                          onPressed: () async {
+                                                            // Lógica para "Asignar a Sala"
 
-                                                        bool agregado =
-                                                            await agregarEvaluacionSala(
-                                                                idEva,
+                                                            String idEva =
+                                                                const Uuid()
+                                                                    .v4()
+                                                                    .substring(
+                                                                        0, 8);
+
+                                                            print(idEva);
+                                                            print(
                                                                 proyectos[index]
-                                                                    .folio,
+                                                                    .folio);
+
+                                                            print(
                                                                 proyectos[index]
-                                                                    .idSala,
+                                                                    .idSala);
+
+                                                            print(
                                                                 datosJuradoSLVar
                                                                     .first
                                                                     .idJurado);
 
-                                                        bool agrega =
-                                                            await agregarProyectoJurado(
+                                                            if (proyectos[index]
+                                                                        .idSala ==
+                                                                    null ||
                                                                 proyectos[index]
-                                                                    .folio,
-                                                                datosJuradoSLVar
-                                                                    .first
-                                                                    .idJurado);
+                                                                        .idSala ==
+                                                                    "null") {
+                                                              // Si idSala es nulo, hacer algo diferente
+                                                              // Por ejemplo, mostrar un mensaje de "Sin sala asignada"
+                                                              QuickAlert.show(
+                                                                context:
+                                                                    context,
+                                                                type:
+                                                                    QuickAlertType
+                                                                        .warning,
+                                                                title:
+                                                                    'Este proyecto aun no tiene sala asignada',
+                                                                confirmBtnText:
+                                                                    'Hecho',
+                                                                confirmBtnColor:
+                                                                    AppTema
+                                                                        .pizazz,
+                                                                onConfirmBtnTap:
+                                                                    () {
+                                                                  context.pop();
+                                                                },
+                                                              );
+                                                            } else {
+                                                              // Si idSala tiene datos, hacer algo diferente
+                                                              // Por ejemplo, mostrar el ID de la sala
 
-                                                        if (agregado &&
-                                                            agrega) {
-                                                          QuickAlert.show(
-                                                            context: context,
-                                                            type: QuickAlertType
-                                                                .success,
-                                                            title:
-                                                                'Asignado correctamente',
-                                                            confirmBtnText:
-                                                                'Hecho',
-                                                            confirmBtnColor:
-                                                                AppTema.pizazz,
-                                                            onConfirmBtnTap:
-                                                                () {
-                                                              context.pushReplacementNamed(
-                                                                  'AsignarProyectoJuradoScreen');
-                                                            },
-                                                          );
-                                                        } else {
-                                                          QuickAlert.show(
-                                                            context: context,
-                                                            type: QuickAlertType
-                                                                .error,
-                                                            title:
-                                                                'Ocurrió un error',
-                                                            confirmBtnText:
-                                                                'Hecho',
-                                                            confirmBtnColor:
-                                                                AppTema.pizazz,
-                                                            onConfirmBtnTap:
-                                                                () {
-                                                              context.pop();
-                                                            },
-                                                          );
-                                                        }
-                                                      }
-                                                    },
-                                                    child: const Text(
-                                                        'Asignar a Sala'),
-                                                  ),
-                                                ],
+                                                              bool agregado = await agregarEvaluacionSala(
+                                                                  idEva,
+                                                                  proyectos[
+                                                                          index]
+                                                                      .folio,
+                                                                  proyectos[
+                                                                          index]
+                                                                      .idSala,
+                                                                  datosJuradoSLVar
+                                                                      .first
+                                                                      .idJurado);
+
+                                                              bool agrega = await agregarProyectoJurado(
+                                                                  proyectos[
+                                                                          index]
+                                                                      .folio,
+                                                                  datosJuradoSLVar
+                                                                      .first
+                                                                      .idJurado);
+
+                                                              if (agregado &&
+                                                                  agrega) {
+                                                                QuickAlert.show(
+                                                                  context:
+                                                                      context,
+                                                                  type: QuickAlertType
+                                                                      .success,
+                                                                  title:
+                                                                      'Asignado correctamente',
+                                                                  confirmBtnText:
+                                                                      'Hecho',
+                                                                  confirmBtnColor:
+                                                                      AppTema
+                                                                          .pizazz,
+                                                                  onConfirmBtnTap:
+                                                                      () {
+                                                                    context.pushReplacementNamed(
+                                                                        'AsignarProyectoJuradoScreen');
+                                                                  },
+                                                                );
+                                                              } else {
+                                                                QuickAlert.show(
+                                                                  context:
+                                                                      context,
+                                                                  type:
+                                                                      QuickAlertType
+                                                                          .error,
+                                                                  title:
+                                                                      'Ocurrió un error',
+                                                                  confirmBtnText:
+                                                                      'Hecho',
+                                                                  confirmBtnColor:
+                                                                      AppTema
+                                                                          .pizazz,
+                                                                  onConfirmBtnTap:
+                                                                      () {
+                                                                    context
+                                                                        .pop();
+                                                                  },
+                                                                );
+                                                              }
+                                                            }
+                                                          },
+                                                          child: const Text(
+                                                              'Asignar a Sala'),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 30),
-                                    ],
-                                  );
-                                },
-                              );
+                                            ),
+                                            const SizedBox(height: 30),
+                                          ],
+                                        );
+                                      },
+                                    );
                             }
                           } else {
                             return const Center(

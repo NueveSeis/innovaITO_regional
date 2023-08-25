@@ -47,3 +47,4 @@ export 'package:innova_ito/models/evaluacionProJuradoStand.dart';
 export 'package:innova_ito/models/criterioRubrica.dart';
 export 'package:innova_ito/models/preferencias.dart';
 export 'package:innova_ito/models/datosUsuarioLogin.dart';
+export 'package:innova_ito/models/asignarCalificacionFinal.dart';

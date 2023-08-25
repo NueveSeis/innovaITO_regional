@@ -20,6 +20,7 @@ class CardPosiciones extends StatelessWidget {
   Widget build(BuildContext context) {
     double califica = double.parse(calificacion) / 10.0;
     double cal = double.parse(calificacion);
+
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -52,8 +53,6 @@ class CardPosiciones extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: Container(
-                      //isExpanded: true,
-                      //width: double.infinity,
                       padding: const EdgeInsets.only(right: 5),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,8 +88,26 @@ class CardPosiciones extends StatelessWidget {
                             value: califica,
                             backgroundColor: AppTema.indigo50,
                             valueColor: const AlwaysStoppedAnimation<Color>(
-                                AppTema.primario),
-                          )
+                              AppTema.primario,
+                            ),
+                          ),
+                          if (cal < 70.0)
+                            Transform.rotate(
+                              angle: -0.785398, // 45 degrees in radians
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 10),
+                                color: Colors.red,
+                                child: Text(
+                                  'No Acreditado',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                            ),
                         ],
                       ),
                     ),

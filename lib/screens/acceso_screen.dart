@@ -270,6 +270,7 @@ class _AccesoScreenState extends State<AccesoScreen> {
                                           ref
                                               .read(juradoIDProvider.notifier)
                                               .update((state) => juraId);
+                                          print(juraId);
                                           context.goNamed('inicioLider');
                                         }
 

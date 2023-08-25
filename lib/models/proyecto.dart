@@ -1,3 +1,8 @@
+// To parse this JSON data, do
+//
+//     final proyecto = proyectoFromJson(jsonString);
+
+import 'package:meta/meta.dart';
 import 'dart:convert';
 
 List<Proyecto> proyectoFromJson(String str) =>
@@ -8,7 +13,7 @@ String proyectoToJson(List<Proyecto> data) =>
 
 class Proyecto {
   String folio;
-  String calificacionGlobal;
+  dynamic calificacionGlobal;
   dynamic estadoAcreditacion;
   dynamic estadoAsistencia;
   dynamic oficioAsistencia;
@@ -16,7 +21,8 @@ class Proyecto {
   dynamic posicionActual;
   dynamic estadoEvaluacion;
   dynamic modeloNegocio;
-  String planNegocio;
+  dynamic planNegocio;
+  dynamic estadoAsignacion;
   dynamic idMemoriaTecnica;
   String idFichaTecnica;
 
@@ -31,6 +37,7 @@ class Proyecto {
     required this.estadoEvaluacion,
     required this.modeloNegocio,
     required this.planNegocio,
+    required this.estadoAsignacion,
     required this.idMemoriaTecnica,
     required this.idFichaTecnica,
   });
@@ -46,6 +53,7 @@ class Proyecto {
         estadoEvaluacion: json["Estado_evaluacion"],
         modeloNegocio: json["Modelo_negocio"],
         planNegocio: json["Plan_negocio"],
+        estadoAsignacion: json["Estado_asignacion"],
         idMemoriaTecnica: json["Id_memoriaTecnica"],
         idFichaTecnica: json["Id_fichaTecnica"],
       );
@@ -61,6 +69,7 @@ class Proyecto {
         "Estado_evaluacion": estadoEvaluacion,
         "Modelo_negocio": modeloNegocio,
         "Plan_negocio": planNegocio,
+        "Estado_asignacion": estadoAsignacion,
         "Id_memoriaTecnica": idMemoriaTecnica,
         "Id_fichaTecnica": idFichaTecnica,
       };

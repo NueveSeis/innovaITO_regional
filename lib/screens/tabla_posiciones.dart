@@ -60,6 +60,45 @@ class TablaPosicionesScreen extends StatelessWidget {
     print(tablero[0].nombreArea);
   }
 
+  List<AsignarCalificacionFinal> calificaciones = [];
+
+  Future<bool> obtenerCalificaciones() async {
+    var url =
+        'https://evarafael.com/Aplicacion/rest/get_ObtenerCalificacionFinal.php';
+
+    try {
+      var response = await http.get(Uri.parse(url));
+      calificaciones = asignarCalificacionFinalFromJson(response.body);
+      return true;
+    } catch (e) {
+      print('Error al obtener las calificaciones: $e');
+      return false;
+    }
+  }
+
+  Future<bool> asignarCalificacionProyecto(String folio, String califica,
+      String eAcreditacion, String eEvaluacion, String posicion) async {
+    String url = 'https://evarafael.com/Aplicacion/rest/update_proyecto.php';
+    try {
+      var response = await http.post(Uri.parse(url), body: {
+        'Folio': folio,
+        'Calificacion_global': califica,
+        'Estado_acreditacion': eAcreditacion,
+        'Estado_evaluacion': eEvaluacion,
+        'Posicion_actual': posicion
+      });
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        print('La solicitud no fue exitosa: ${response.statusCode}');
+        return false;
+      }
+    } catch (error) {
+      print('Error al realizar la solicitud: $error');
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -119,7 +158,30 @@ class TablaPosicionesScreen extends StatelessWidget {
                                   ),
                                 ],
                               )),
-                              onPressed: () {},
+                              onPressed: () async {
+                                bool obt = await obtenerCalificaciones();
+                                int pos = 0;
+                                if (obt) {
+                                  for (var calificacion in calificaciones) {
+                                    print(
+                                        'Calif: ${calificacion.puntajeTotal}');
+                                    print('Nombre: ${calificacion.folio}');
+                                    pos = pos + 1;
+                                    String estadoA = double.parse(
+                                                calificacion.puntajeTotal) >=
+                                            70.0
+                                        ? '1'
+                                        : '2';
+                                    await asignarCalificacionProyecto(
+                                        calificacion.folio,
+                                        calificacion.puntajeTotal,
+                                        estadoA,
+                                        '1',
+                                        pos.toString());
+                                    // Imprime los demás datos que necesites
+                                  }
+                                } else {}
+                              },
                             ),
                           ),
                         ],

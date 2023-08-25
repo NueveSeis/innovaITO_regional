@@ -10,9 +10,9 @@ import 'package:http/http.dart' as http;
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 
-class SalaScreen extends ConsumerWidget {
-  static const String name = 'sala';
-  SalaScreen({super.key});
+class GeneracionConstanciaScreen extends ConsumerWidget {
+  static const String name = 'GeneracionConstanciaScreen';
+  GeneracionConstanciaScreen({super.key});
 
   List<SalaHs> salas = [];
 

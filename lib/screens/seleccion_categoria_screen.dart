@@ -87,6 +87,7 @@ class SeleccionCategoriaScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final String juradoID = ref.watch(juradoIDProvider);
     final String areaProv = ref.watch(areaProvider);
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -96,7 +97,7 @@ class SeleccionCategoriaScreen extends ConsumerWidget {
           widget: Padding(
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
               child: FutureBuilder(
-                  future: obtenerPreferenciaWhere('JUR02'),
+                  future: obtenerPreferenciaWhere(juradoID),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(
@@ -334,7 +335,7 @@ class SeleccionCategoriaScreen extends ConsumerWidget {
 
                                               bool agregado =
                                                   await agregarPreferencia(
-                                                      'JUR02', idAreaSelec);
+                                                      juradoID, idAreaSelec);
                                               if (agregado) {
                                                 QuickAlert.show(
                                                   context: context,

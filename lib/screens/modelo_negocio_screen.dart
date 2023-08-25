@@ -203,7 +203,8 @@ class ModeloNegocioScreen extends ConsumerWidget {
                                           archivo, 'ModeloNegocio_$nombre');
                                       if (subido) {
                                         bool modificado = await modificarModelo(
-                                            'PRO2716', 'ModeloNegocio_$nombre');
+                                            folioProv.toString(),
+                                            'ModeloNegocio_$nombre');
                                         if (modificado) {
                                           QuickAlert.show(
                                             context: context,
@@ -316,7 +317,8 @@ class ModeloNegocioScreen extends ConsumerWidget {
                                     )),
                                     onPressed: () async {
                                       final bool eliminado =
-                                          await eliminarModelo('PRO2716');
+                                          await eliminarModelo(
+                                              folioProv.toString());
 
                                       if (eliminado) {
                                         eliminarArchivo(

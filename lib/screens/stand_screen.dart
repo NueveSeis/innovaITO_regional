@@ -16,12 +16,13 @@ class StandScreen extends ConsumerWidget {
 
   List<StandHs> stands = [];
 
-  Future<void> getSala() async {
+  Future<void> getStandS() async {
     String url = 'https://evarafael.com/Aplicacion/rest/get_asignarHStand.php';
     try {
       var response = await http.post(Uri.parse(url));
       if (response.statusCode == 200) {
         stands = standHsFromJson(response.body);
+        print(stands);
       } else {
         print('La solicitud no fue exitosa: ${response.statusCode}');
       }
@@ -78,7 +79,7 @@ class StandScreen extends ConsumerWidget {
                   ),
                 ),
                 FutureBuilder(
-                  future: getSala(),
+                  future: getStandS(),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(
@@ -90,244 +91,274 @@ class StandScreen extends ConsumerWidget {
                         return Center(
                             child: Text('Error: ${snapshot.error.toString()}'));
                       } else {
-                        return ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: stands.length,
-                          itemBuilder: (context, index) {
-                            return Card(
-                              margin: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 10),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15)),
-                              elevation: 10,
-                              child: Container(
-                                padding: const EdgeInsets.only(
-                                  bottom: 10,
-                                  top: 10,
-                                  left: 20,
-                                  right: 20,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: AppTema.grey100,
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 5),
-                                            child: Container(
-                                              //isExpanded: true,
-                                              //width: double.infinity,
-                                              padding: const EdgeInsets.only(
-                                                  left: 10),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  const Text(
-                                                    'Nombre del proyecto: ',
-                                                    style: TextStyle(
-                                                        color:
-                                                            AppTema.bluegrey700,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontSize: 15),
-                                                    overflow:
-                                                        TextOverflow.visible,
-                                                  ),
-                                                  Text(
-                                                    stands[index].nombreCorto,
-                                                    style: const TextStyle(
-                                                        color:
-                                                            AppTema.bluegrey700,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 15),
-                                                    overflow:
-                                                        TextOverflow.visible,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Text(
-                                                    'Fecha: ${stands[index].fecha}',
-                                                    style: const TextStyle(
-                                                        color:
-                                                            AppTema.bluegrey700,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontSize: 15),
-                                                    overflow:
-                                                        TextOverflow.visible,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Text(
-                                                    'Hora inicio: ${stands[index].horaInicio}',
-                                                    style: const TextStyle(
-                                                        color:
-                                                            AppTema.bluegrey700,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontSize: 15),
-                                                    overflow:
-                                                        TextOverflow.visible,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Text(
-                                                    'Hora fin: ${stands[index].horaFinal}',
-                                                    style: const TextStyle(
-                                                        color:
-                                                            AppTema.bluegrey700,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontSize: 15),
-                                                    overflow:
-                                                        TextOverflow.visible,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Text(
-                                                    'Lugar: ${stands[index].lugar}',
-                                                    style: const TextStyle(
-                                                        color:
-                                                            AppTema.bluegrey700,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontSize: 15),
-                                                    overflow:
-                                                        TextOverflow.visible,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        IconButton(
-                                            onPressed: () {
-                                              showModalBottomSheet(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return Container(
-                                                      //width: double.infinity,
-                                                      //color: AppTema.grey100,
-                                                      height: 200,
-
-                                                      child: Column(
-                                                        children: [
-                                                          const SizedBox(
-                                                            height: 15,
-                                                          ),
-                                                          const Text(
-                                                            'Administrar',
-                                                            style: TextStyle(
-                                                                color: AppTema
-                                                                    .bluegrey700,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontSize: 25),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 15,
-                                                          ),
-                                                          ListTile(
-                                                            splashColor: AppTema
-                                                                .primario,
-                                                            title: const Text(
-                                                              'Eliminar',
-                                                              style: TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize: 20),
-                                                            ),
-                                                            leading: const Icon(
-                                                              Icons.delete,
+                        return stands.isEmpty
+                            ? const Column(
+                                children: [
+                                  SizedBox(
+                                    height: 50,
+                                  ),
+                                  Text(
+                                    'No hay proyectos asignados',
+                                    style: TextStyle(
+                                        color: AppTema.bluegrey700,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  ),
+                                ],
+                              )
+                            : ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: stands.length,
+                                itemBuilder: (context, index) {
+                                  return Card(
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 10),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    elevation: 10,
+                                    child: Container(
+                                      padding: const EdgeInsets.only(
+                                        bottom: 10,
+                                        top: 10,
+                                        left: 20,
+                                        right: 20,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: AppTema.grey100,
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Expanded(
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(horizontal: 5),
+                                                  child: Container(
+                                                    //isExpanded: true,
+                                                    //width: double.infinity,
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 10),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        const Text(
+                                                          'Nombre del proyecto: ',
+                                                          style: TextStyle(
                                                               color: AppTema
-                                                                  .redA400,
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
+                                                        ),
+                                                        Text(
+                                                          stands[index]
+                                                              .nombreCorto,
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Text(
+                                                          'Fecha: ${stands[index].fecha}',
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Text(
+                                                          'Hora inicio: ${stands[index].horaInicio}',
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Text(
+                                                          'Hora fin: ${stands[index].horaFinal}',
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Text(
+                                                          'Lugar: ${stands[index].lugar}',
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 15),
+                                                          overflow: TextOverflow
+                                                              .visible,
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              IconButton(
+                                                  onPressed: () {
+                                                    showModalBottomSheet(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return Container(
+                                                            //width: double.infinity,
+                                                            //color: AppTema.grey100,
+                                                            height: 200,
+
+                                                            child: Column(
+                                                              children: [
+                                                                const SizedBox(
+                                                                  height: 15,
+                                                                ),
+                                                                const Text(
+                                                                  'Administrar',
+                                                                  style: TextStyle(
+                                                                      color: AppTema
+                                                                          .bluegrey700,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontSize:
+                                                                          25),
+                                                                ),
+                                                                const SizedBox(
+                                                                  height: 15,
+                                                                ),
+                                                                ListTile(
+                                                                  splashColor:
+                                                                      AppTema
+                                                                          .primario,
+                                                                  title:
+                                                                      const Text(
+                                                                    'Eliminar',
+                                                                    style: TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .bold,
+                                                                        fontSize:
+                                                                            20),
+                                                                  ),
+                                                                  leading:
+                                                                      const Icon(
+                                                                    Icons
+                                                                        .delete,
+                                                                    color: AppTema
+                                                                        .redA400,
+                                                                  ),
+                                                                  onTap:
+                                                                      () async {
+                                                                    bool eliminado = await eliminarAsignarHST(
+                                                                        stands[index]
+                                                                            .folio,
+                                                                        stands[index]
+                                                                            .idStand);
+                                                                    if (eliminado) {
+                                                                      QuickAlert
+                                                                          .show(
+                                                                        context:
+                                                                            context,
+                                                                        type: QuickAlertType
+                                                                            .success,
+                                                                        title:
+                                                                            'Registro eliminado',
+                                                                        confirmBtnText:
+                                                                            'Hecho',
+                                                                        confirmBtnColor:
+                                                                            AppTema.pizazz,
+                                                                        onConfirmBtnTap:
+                                                                            () {
+                                                                          context
+                                                                              .pushReplacementNamed('stand');
+                                                                        },
+                                                                      );
+                                                                    } else {
+                                                                      QuickAlert
+                                                                          .show(
+                                                                        context:
+                                                                            context,
+                                                                        type: QuickAlertType
+                                                                            .error,
+                                                                        title:
+                                                                            'Ocurrió un error',
+                                                                        confirmBtnText:
+                                                                            'Hecho',
+                                                                        confirmBtnColor:
+                                                                            AppTema.pizazz,
+                                                                        onConfirmBtnTap:
+                                                                            () {
+                                                                          context
+                                                                              .pop();
+                                                                        },
+                                                                      );
+                                                                    }
+                                                                  },
+                                                                )
+                                                              ],
                                                             ),
-                                                            onTap: () async {
-                                                              bool eliminado =
-                                                                  await eliminarAsignarHST(
-                                                                      stands[index]
-                                                                          .folio,
-                                                                      stands[index]
-                                                                          .idStand);
-                                                              if (eliminado) {
-                                                                QuickAlert.show(
-                                                                  context:
-                                                                      context,
-                                                                  type: QuickAlertType
-                                                                      .success,
-                                                                  title:
-                                                                      'Registro eliminado',
-                                                                  confirmBtnText:
-                                                                      'Hecho',
-                                                                  confirmBtnColor:
-                                                                      AppTema
-                                                                          .pizazz,
-                                                                  onConfirmBtnTap:
-                                                                      () {
-                                                                    context.pushReplacementNamed(
-                                                                        'stand');
-                                                                  },
-                                                                );
-                                                              } else {
-                                                                QuickAlert.show(
-                                                                  context:
-                                                                      context,
-                                                                  type:
-                                                                      QuickAlertType
-                                                                          .error,
-                                                                  title:
-                                                                      'Ocurrió un error',
-                                                                  confirmBtnText:
-                                                                      'Hecho',
-                                                                  confirmBtnColor:
-                                                                      AppTema
-                                                                          .pizazz,
-                                                                  onConfirmBtnTap:
-                                                                      () {
-                                                                    context
-                                                                        .pop();
-                                                                  },
-                                                                );
-                                                              }
-                                                            },
-                                                          )
-                                                        ],
-                                                      ),
-                                                    );
-                                                  });
-                                            },
-                                            icon: const Icon(
-                                              Icons.more_vert_outlined,
-                                              color: AppTema.bluegrey700,
-                                            )),
-                                      ],
+                                                          );
+                                                        });
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.more_vert_outlined,
+                                                    color: AppTema.bluegrey700,
+                                                  )),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        );
+                                  );
+                                },
+                              );
                       }
                     } else {
                       return const Center(child: Text('¡Algo salió mal!'));

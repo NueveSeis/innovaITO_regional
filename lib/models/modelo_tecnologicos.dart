@@ -481,7 +481,7 @@ Map<String, String> estadosAbreviaturas = {
 };
 
 List<Map<String, String>> generos = [
-  {'nombre': 'Masculino', 'abreviatura': 'H'},
-  {'nombre': 'Femenino', 'abreviatura': 'M'}
+  {'nombre': 'Hombre', 'abreviatura': 'H'},
+  {'nombre': 'Mujer', 'abreviatura': 'M'}
   // Agrega más géneros según sea necesario
 ];

@@ -264,6 +264,10 @@ List<ModeloMenu> itemsCoordinadorLocal = const [
       titulo: "Tablero de posiciones",
       icono: Icons.leaderboard_rounded,
       pantalla: 'tabla_posiciones'),
+  ModeloMenu(
+      titulo: "Generar constancia",
+      icono: Icons.picture_as_pdf_rounded,
+      pantalla: 'GeneracionConstanciaScreen'),
 ];
 
 List<ModeloMenu> itemsCoordinadorRegional = const [

@@ -19,7 +19,7 @@ class SalaHs {
   String nombreSala;
   String lugarSala;
   String folio;
-  String calificacionGlobal;
+  dynamic calificacionGlobal;
   dynamic estadoAcreditacion;
   dynamic estadoAsistencia;
   dynamic oficioAsistencia;
