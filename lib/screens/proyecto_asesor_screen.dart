@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:innova_ito/helpers/helpers.dart';
 
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/providers/providers.dart';
@@ -299,9 +300,45 @@ class ProyectoAsesorScreen extends ConsumerWidget {
                                                           .cloud_download_rounded,
                                                       size: 25),
                                                   onPressed: () async {
-                                                    String ruta =
-                                                        await createPDF(
-                                                            proyectos, index);
+                                                    // String ruta =
+                                                    //     await createPDF(
+                                                    //         proyectos, index);
+                                                    String ruta = await pdf.fichaTecnica(
+                                                        proyectos[index].folio,
+                                                        proyectos[index]
+                                                            .nombreCorto,
+                                                        proyectos[index]
+                                                            .objetivo,
+                                                        proyectos[index]
+                                                            .descripcionGeneral,
+                                                        proyectos[index]
+                                                            .prospectoResultados,
+                                                        proyectos[index]
+                                                            .nombreArea,
+                                                        proyectos[index]
+                                                            .nombreCategoria,
+                                                        proyectos[index]
+                                                            .idMemoriaTecnica,
+                                                        proyectos[index]
+                                                            .descripcionProblematica,
+                                                        proyectos[index]
+                                                            .estadoArte,
+                                                        proyectos[index]
+                                                            .descripcionInnovacion,
+                                                        proyectos[index]
+                                                            .propuestaValor,
+                                                        proyectos[index]
+                                                            .mercadoPotencial,
+                                                        proyectos[index]
+                                                            .viabilidadTecnica,
+                                                        proyectos[index]
+                                                            .viabilidadFinanciera,
+                                                        proyectos[index]
+                                                            .estrategiaPropiedadIntelectual,
+                                                        proyectos[index]
+                                                            .interpretacionResultados,
+                                                        proyectos[index]
+                                                            .fuentesConsultadas);
                                                     OpenFilex.open(ruta);
                                                   },
                                                   color: AppTema.bluegrey700),

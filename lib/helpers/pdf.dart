@@ -124,31 +124,31 @@ class pdf {
     <table class="table">
         <tr>
             <th>Folio del proyecto</th>
-            <td>{{$folio}}</td>
+            <td>$folio</td>
         </tr>
         <tr>
             <th>Nombre del proyecto</th>
-            <td>{{$nombre_corto}}</td>
+            <td>$nombre_corto</td>
         </tr>
         <tr>
             <th>Objetivo</th>
-            <td>{{$objetivo}}</td>
+            <td>$objetivo</td>
         </tr>
         <tr>
             <th>Descripción general</th>
-            <td>{{$descripcion_general}}</td>
+            <td>$descripcion_general</td>
         </tr>
         <tr>
             <th>Prospecto resultados</th>
-            <td>{{$prospecto_resultados}}</td>
+            <td>$prospecto_resultados</td>
         </tr>
         <tr>
             <th>Área</th>
-            <td>{{$nombre_area}}</td>
+            <td>$nombre_area</td>
         </tr>
         <tr>
             <th>Categoría</th>
-            <td>{{$nombre_categoria}}</td>
+            <td>$nombre_categoria</td>
         </tr>
         @if ($memoria!=null)
         <tr>
@@ -156,43 +156,43 @@ class pdf {
         </tr>
         <tr>
             <th>Descripción problemática</th>
-            <td>{{$descripcion_problematica}}</td>
+            <td>$descripcion_problematica</td>
         </tr>
         <tr>
             <th>Estado del arte</th>
-            <td>{{$estado_arte}}</td>
+            <td>$estado_arte</td>
         </tr>
         <tr>
             <th>Descripción de la innovación</th>
-            <td>{{$descripcion_innovacion}}</td>
+            <td>$descripcion_innovacion</td>
         </tr>
         <tr>
             <th>Propuesta de valor</th>
-            <td>{{$propuesta_valor}}</td>
+            <td>$propuesta_valor</td>
         </tr>
         <tr>
             <th>Mercado potencial</th>
-            <td>{{$mercado_potencial}}</td>
+            <td>$mercado_potencial</td>
         </tr>
         <tr>
             <th>Viabilidad técnica</th>
-            <td>{{$viabilidad_tecnica}}</td>
+            <td>$viabilidad_tecnica</td>
         </tr>
         <tr>
             <th>Viabilidad financiera</th>
-            <td>{{$viabilidad_financiera}}</td>
+            <td>$viabilidad_financiera</td>
         </tr>
         <tr>
             <th>Estrategia propiedad intelectual</th>
-            <td>{{$estrategia_propiedadIntelectual}}</td>
+            <td>$estrategia_propiedadIntelectual</td>
         </tr>
         <tr>
             <th>Interpretación de resultados</th>
-            <td>{{$interpretacion_resultados}}</td>
+            <td>$interpretacion_resultados</td>
         </tr>
         <tr>
             <th>Fuentes consultadas</th>
-            <td>{{$fuentes_consultadas}}</td>
+            <td>$fuentes_consultadas</td>
         </tr>
     @endif
 
