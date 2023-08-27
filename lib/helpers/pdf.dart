@@ -269,6 +269,77 @@ class pdf {
     return generatedPdfFilePath;
   }
 
+  static Future<String> constancia(
+      String tecnologico,
+      String nombreParticipante,
+      String rol,
+      String nombreProyecto,
+      String categoria,
+      String etapa,
+      String nombreDirector,
+      String dia,
+      String mes,
+      String ano,
+      String fechaIni,
+      String fechaFin,
+      String nombreCo,
+      String cargo) async {
+    var htmlContent = """
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Constancia</title>
+    <meta charset="UTF-8"> 
+</head>
+
+<body>
+    <img src="{{ public_path('img/sep.png') }}" alt="" style="position: absolute; left: 0; top: 10; height: 60px;">
+    <img src="{{ public_path('img/tecNM.png') }}" alt="Imagen 2"
+        style="position: absolute; right: 0; top: 10;  height: 60px;">
+    <br>
+    <br>
+
+    <div style="text-align: center; margin-top: 140px;">
+        <br>
+        <h3>EL TECNOLÓGICO NACIONAL DE MÉXICO A TRAVES DEL $tecnologico OTORGAN EL PRESENTE</h3>
+        <br>
+        <h2>RECONOCIMIENTO</h2>
+        <h2>A</h2>
+        <h2>$nombreParticipante</h2>
+        <br>
+        <h3>POR SU DESTACADA PARTICIPACIÓN EN EL PROYECTO $nombreProyecto, EN LA CATEGORÍA $categoria </h3>
+        <br>
+        
+        <h3>EN EL EVENTO INNOVATEC $ano</h3>
+        <h3>CELEBRADO $fechaIni AL $fechaFin DEL $mes DE $ano</h3>
+        
+    </div>
+    <div style="display: flex; justify-content: space-between; margin-top: 40px;">
+        <div style="text-align: center; position: absolute; left: 0; top: 600; width: 50%;">
+            <h3>$nombreCo</h3>
+            <h3>$cargo</h3>
+        </div>
+        <div style="text-align: center; position: absolute; right: 0; top: 600; width: 50%;">
+            <h3>$nombreDirector</h3>
+            <h3>DIRECTOR DEL $tecnologico</h3>
+        </div>
+    </div>
+</body>
+
+</html>
+""";
+
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    final targetPath = appDocDir.path;
+    final targetFileName = "Constancia-$nombreParticipante";
+
+    final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(
+        htmlContent, targetPath, targetFileName);
+    String generatedPdfFilePath = generatedPdfFile.path;
+    return generatedPdfFilePath;
+  }
+
 //   static Future<String> fichaTecnica(
 //       String folio,
 //       String nombre_corto,
@@ -426,7 +497,7 @@ class pdf {
 //     return generatedPdfFilePath;
 //   }
 
-  static Future<String> constancia(
+  static Future<String> constancias(
       String instituto,
       String nombre_participante,
       String rol_participante,
