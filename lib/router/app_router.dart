@@ -258,5 +258,10 @@ final appRouter = GoRouter(
       name: EvaluarStandScreen.name,
       builder: (context, state) => EvaluarStandScreen(),
     ),
+    GoRoute(
+      path: '/GeneracionConstanciaScreen',
+      name: GeneracionConstanciaScreen.name,
+      builder: (context, state) => GeneracionConstanciaScreen(),
+    ),
   ],
 );

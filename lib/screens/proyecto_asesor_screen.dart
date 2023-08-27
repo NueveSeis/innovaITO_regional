@@ -338,7 +338,10 @@ class ProyectoAsesorScreen extends ConsumerWidget {
                                                         proyectos[index]
                                                             .interpretacionResultados,
                                                         proyectos[index]
-                                                            .fuentesConsultadas);
+                                                            .fuentesConsultadas,
+                                                        proyectos[index]
+                                                            .nombreProyecto,
+                                                        proyectos[index].tipo);
                                                     OpenFilex.open(ruta);
                                                   },
                                                   color: AppTema.bluegrey700),

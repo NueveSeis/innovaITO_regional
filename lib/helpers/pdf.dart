@@ -72,132 +72,190 @@ class pdf {
       String viabilidad_financiera,
       String estrategia_propiedadIntelectual,
       String interpretacion_resultados,
-      String fuentes_consultadas) async {
+      String fuentes_consultadas,
+      String nombre_proyecto,
+      String tipo_naturaleza) async {
     var htmlContent = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        .header {
-            text-align: center; /* Cambio a "center" para centrar el texto */
-            margin-bottom: 20px;
-        }
-        .header img {
-            height: 60px;
-            margin: 0 auto; /* Centrar horizontalmente las imágenes */
-            display: block; /* Agregar esta línea para alinear correctamente las imágenes */
-        }
-        .content {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .table th, .table td {
-            border: 1px solid #000;
-            padding: 8px;
-            text-align: left;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Imágenes Alineadas</title>
+<style>
+  .image-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .image-container img {
+    max-height: 50px;
+  }
+</style>
 </head>
 <body>
-    <div class="header">
-    <img src="https://evarafael.com/Aplicacion/rest/logos/sep.png" alt="">
-        <img src="https://evarafael.com/Aplicacion/rest/logos/tecNM.png" alt="">
-        <img src="https://evarafael.com/Aplicacion/rest/logos/logo_innovaITO.png" alt="">
-        
-    </div>
+<div class="image-container">
+  
+  <img src="https://myfiles.space/user_files/172617_410aa649f7ffd136/172617_custom_files/img1693028316.png" alt="Imagen 2">
+  <img src="https://myfiles.space/user_files/172617_410aa649f7ffd136/172617_custom_files/img1693024292.png" alt="Imagen 1">
 
-    <div class="content">
-        <h2>Detalles del Proyecto</h2>
-    </div>
+  <img src="https://myfiles.space/user_files/172617_410aa649f7ffd136/172617_custom_files/img1693024324.png" alt="Imagen 3">
+</div>
+<p><br></p>
+<p><strong>Cumbre Nacional de Desarrollo Tecnológico, Investigación e Innovación, InnovaITO 2023</strong></p>
+<p><strong>Instituto Tecnológico de Oaxaca</strong></p>
+<p><strong>Etapa Local</strong></p>
+<p><br></p>
 
-    <table class="table">
+<p style="text-align: center;"><strong>MEMORIA DEL PROYECTO</strong></p>
+<table style="width: 100%; background-color: rgb(255, 255, 255); border-collapse: collapse; border: 1px solid rgb(0, 0, 0);">
+    <tbody>
         <tr>
-            <th>Folio del proyecto</th>
-            <td>$folio</td>
+            <td style="width: 31.0672%; border: 1px solid rgb(0, 0, 0);">Folio:</td>
+            <td style="width: 68.9328%; text-align: center; border: 1px solid rgb(0, 0, 0);">$folio</td>
         </tr>
         <tr>
-            <th>Nombre del proyecto</th>
-            <td>$nombre_corto</td>
+            <td style="width: 31.0672%; border: 1px solid rgb(0, 0, 0);">Nombre corto:</td>
+            <td style="width: 68.9328%; text-align: center; border: 1px solid rgb(0, 0, 0);">$nombre_corto</td>
         </tr>
         <tr>
-            <th>Objetivo</th>
-            <td>$objetivo</td>
+            <td style="width: 31.0672%; border: 1px solid rgb(0, 0, 0);">Nombre descriptivo:</td>
+            <td style="width: 68.9328%; text-align: center; border: 1px solid rgb(0, 0, 0);">$nombre_proyecto</td>
         </tr>
         <tr>
-            <th>Descripción general</th>
-            <td>$descripcion_general</td>
+            <td style="width: 31.0672%; border: 1px solid rgb(0, 0, 0);">Categoría:</td>
+            <td style="width: 68.9328%; text-align: center; border: 1px solid rgb(0, 0, 0);">$nombre_categoria</td>
         </tr>
         <tr>
-            <th>Prospecto resultados</th>
-            <td>$prospecto_resultados</td>
+            <td style="width: 31.0672%; border: 1px solid rgb(0, 0, 0);">Sector estratégico:</td>
+            <td style="width: 68.9328%; text-align: center; border: 1px solid rgb(0, 0, 0);">$nombre_area</td>
         </tr>
         <tr>
-            <th>Área</th>
-            <td>$nombre_area</td>
+            <td style="width: 31.0672%; border: 1px solid rgb(0, 0, 0);">Naturaleza técnica:</td>
+            <td style="width: 68.9328%; text-align: center; border: 1px solid rgb(0, 0, 0);">$tipo_naturaleza</td>
         </tr>
-        <tr>
-            <th>Categoría</th>
-            <td>$nombre_categoria</td>
-        </tr>
-        @if ($memoria!=null)
-        <tr>
-            <th colspan="2">Memoria técnica</th>
-        </tr>
-        <tr>
-            <th>Descripción problemática</th>
-            <td>$descripcion_problematica</td>
-        </tr>
-        <tr>
-            <th>Estado del arte</th>
-            <td>$estado_arte</td>
-        </tr>
-        <tr>
-            <th>Descripción de la innovación</th>
-            <td>$descripcion_innovacion</td>
-        </tr>
-        <tr>
-            <th>Propuesta de valor</th>
-            <td>$propuesta_valor</td>
-        </tr>
-        <tr>
-            <th>Mercado potencial</th>
-            <td>$mercado_potencial</td>
-        </tr>
-        <tr>
-            <th>Viabilidad técnica</th>
-            <td>$viabilidad_tecnica</td>
-        </tr>
-        <tr>
-            <th>Viabilidad financiera</th>
-            <td>$viabilidad_financiera</td>
-        </tr>
-        <tr>
-            <th>Estrategia propiedad intelectual</th>
-            <td>$estrategia_propiedadIntelectual</td>
-        </tr>
-        <tr>
-            <th>Interpretación de resultados</th>
-            <td>$interpretacion_resultados</td>
-        </tr>
-        <tr>
-            <th>Fuentes consultadas</th>
-            <td>$fuentes_consultadas</td>
-        </tr>
-    @endif
+    </tbody>
+</table>
+<p><br></p>
+<table style="width: 100%; background-color: rgb(255, 255, 255); border-collapse: collapse; border: 1px solid rgb(0, 0, 0);">
 
 </table>
-</body>
+<p><br></p>
+<table style="width: 100%;">
+    <tbody>
+        <tr>
+            <td style="width: 100%; background-color: rgb(204, 204, 204);">
+                <div style="text-align: center;"><strong>Descripción de la problemática y justificación;n</strong></div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p>$descripcion_problematica</p>
+
+<p><br></p>
+<table style="width: 100%;">
+    <tbody>
+        <tr>
+            <td style="width: 100%; background-color: rgb(204, 204, 204);">
+                <div style="text-align: center;"><strong>Estado de la técnica (estado del arte)</strong></div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p>$estado_arte</p>
+
+<p><br></p>
+<table style="width: 100%;">
+    <tbody>
+        <tr>
+            <td style="width: 100%; background-color: rgb(204, 204, 204);">
+                <div style="text-align: center;"><strong>Descripción de la innovación</strong></div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p>$descripcion_innovacion</p>
+
+<p><br></p>
+<table style="width: 100%;">
+    <tbody>
+        <tr>
+            <td style="width: 100%; background-color: rgb(204, 204, 204);">
+                <div style="text-align: center;"><strong>Propuesta de valor e impacto en el sector estratégico</strong></div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p>$propuesta_valor</p>
+<p><br></p>
+<table style="width: 100%;">
+    <tbody>
+        <tr>
+            <td style="width: 100%; background-color: rgb(204, 204, 204);">
+                <div style="text-align: center;"><strong>Mercado potencial objetivo</strong></div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p>$mercado_potencial</p>
+
+<p><br></p>
+<table style="width: 100%;">
+    <tbody>
+        <tr>
+            <td style="width: 100%; background-color: rgb(204, 204, 204);">
+                <div style="text-align: center;"><strong>Viabilidad técnica</strong></div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p>$viabilidad_tecnica</p>
+<p><br></p>
+<table style="width: 100%;">
+    <tbody>
+        <tr>
+            <td style="width: 100%; background-color: rgb(204, 204, 204);">
+                <div style="text-align: center;"><strong>Viabilidad financiera</strong></div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p>$viabilidad_financiera</p>
+<p><br></p>
+<table style="width: 100%;">
+    <tbody>
+        <tr>
+            <td style="width: 100%; background-color: rgb(204, 204, 204);">
+                <div style="text-align: center;"><strong>Estrategia de propiedad intelectual</strong></div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p>$estrategia_propiedadIntelectual</p>
+<p><br></p>
+<table style="width: 100%;">
+    <tbody>
+        <tr>
+            <td style="width: 100%; background-color: rgb(204, 204, 204);">
+                <div style="text-align: center;"><strong>Interpretación de resultados</strong></div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p>$interpretacion_resultados</p>
+<p><br></p>
+<table style="width: 100%;">
+    <tbody>
+        <tr>
+            <td style="width: 100%; background-color: rgb(204, 204, 204);">
+                <div style="text-align: center;"><strong>Fuentes consultadas</strong></div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p>$fuentes_consultadas</p>
 </html>
 """;
 
@@ -210,6 +268,163 @@ class pdf {
     String generatedPdfFilePath = generatedPdfFile.path;
     return generatedPdfFilePath;
   }
+
+//   static Future<String> fichaTecnica(
+//       String folio,
+//       String nombre_corto,
+//       String objetivo,
+//       String descripcion_general,
+//       String prospecto_resultados,
+//       String nombre_area,
+//       String nombre_categoria,
+//       String memoria,
+//       String descripcion_problematica,
+//       String estado_arte,
+//       String descripcion_innovacion,
+//       String propuesta_valor,
+//       String mercado_potencial,
+//       String viabilidad_tecnica,
+//       String viabilidad_financiera,
+//       String estrategia_propiedadIntelectual,
+//       String interpretacion_resultados,
+//       String fuentes_consultadas) async {
+//     var htmlContent = """
+// <!DOCTYPE html>
+// <html lang="en">
+// <head>
+//     <meta charset="UTF-8">
+//     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//     <title>Document</title>
+//     <style>
+//         body {
+//             font-family: Arial, sans-serif;
+//             padding: 20px;
+//         }
+//         .header {
+//             text-align: center; /* Cambio a "center" para centrar el texto */
+//             margin-bottom: 20px;
+//         }
+//         .header img {
+//             height: 60px;
+//             margin: 0 auto; /* Centrar horizontalmente las imágenes */
+//             display: block; /* Agregar esta línea para alinear correctamente las imágenes */
+//         }
+//         .content {
+//             text-align: center;
+//             margin-bottom: 20px;
+//         }
+//         .table {
+//             width: 100%;
+//             border-collapse: collapse;
+//         }
+//         .table th, .table td {
+//             border: 1px solid #000;
+//             padding: 8px;
+//             text-align: left;
+//         }
+//     </style>
+// </head>
+// <body>
+//     <div class="header">
+//     <img src="https://evarafael.com/Aplicacion/rest/logos/sep.png" alt="">
+//         <img src="https://evarafael.com/Aplicacion/rest/logos/tecNM.png" alt="">
+//         <img src="https://evarafael.com/Aplicacion/rest/logos/logo_innovaITO.png" alt="">
+
+//     </div>
+
+//     <div class="content">
+//         <h2>Detalles del Proyecto</h2>
+//     </div>
+
+//     <table class="table">
+//         <tr>
+//             <th>Folio del proyecto</th>
+//             <td>$folio</td>
+//         </tr>
+//         <tr>
+//             <th>Nombre del proyecto</th>
+//             <td>$nombre_corto</td>
+//         </tr>
+//         <tr>
+//             <th>Objetivo</th>
+//             <td>$objetivo</td>
+//         </tr>
+//         <tr>
+//             <th>Descripción general</th>
+//             <td>$descripcion_general</td>
+//         </tr>
+//         <tr>
+//             <th>Prospecto resultados</th>
+//             <td>$prospecto_resultados</td>
+//         </tr>
+//         <tr>
+//             <th>Área</th>
+//             <td>$nombre_area</td>
+//         </tr>
+//         <tr>
+//             <th>Categoría</th>
+//             <td>$nombre_categoria</td>
+//         </tr>
+//         @if ($memoria!=null)
+//         <tr>
+//             <th colspan="2">Memoria técnica</th>
+//         </tr>
+//         <tr>
+//             <th>Descripción problemática</th>
+//             <td>$descripcion_problematica</td>
+//         </tr>
+//         <tr>
+//             <th>Estado del arte</th>
+//             <td>$estado_arte</td>
+//         </tr>
+//         <tr>
+//             <th>Descripción de la innovación</th>
+//             <td>$descripcion_innovacion</td>
+//         </tr>
+//         <tr>
+//             <th>Propuesta de valor</th>
+//             <td>$propuesta_valor</td>
+//         </tr>
+//         <tr>
+//             <th>Mercado potencial</th>
+//             <td>$mercado_potencial</td>
+//         </tr>
+//         <tr>
+//             <th>Viabilidad técnica</th>
+//             <td>$viabilidad_tecnica</td>
+//         </tr>
+//         <tr>
+//             <th>Viabilidad financiera</th>
+//             <td>$viabilidad_financiera</td>
+//         </tr>
+//         <tr>
+//             <th>Estrategia propiedad intelectual</th>
+//             <td>$estrategia_propiedadIntelectual</td>
+//         </tr>
+//         <tr>
+//             <th>Interpretación de resultados</th>
+//             <td>$interpretacion_resultados</td>
+//         </tr>
+//         <tr>
+//             <th>Fuentes consultadas</th>
+//             <td>$fuentes_consultadas</td>
+//         </tr>
+//     @endif
+
+// </table>
+// </body>
+// </html>
+// """;
+
+//     Directory appDocDir = await getApplicationDocumentsDirectory();
+//     final targetPath = appDocDir.path;
+//     final targetFileName = "FichaTecnica-$nombre_corto";
+
+//     final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(
+//         htmlContent, targetPath, targetFileName);
+//     String generatedPdfFilePath = generatedPdfFile.path;
+//     return generatedPdfFilePath;
+//   }
 
   static Future<String> constancia(
       String instituto,
