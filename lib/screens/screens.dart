@@ -49,3 +49,4 @@ export 'package:innova_ito/screens/proyectos_evaluar_stand_screen.dart';
 export 'package:innova_ito/screens/evaluar_sala_screen.dart';
 export 'package:innova_ito/screens/evaluar_stand_screen.dart';
 export 'package:innova_ito/screens/generacion_constancia_screen.dart';
+export 'package:innova_ito/screens/genera_pdf_screen.dart';

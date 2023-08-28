@@ -32,4 +32,6 @@ class RegexUtil {
   static final RegExp promedio = RegExp(r'^\d+(\.\d{1,2})?$');
 
   static final RegExp criterios = RegExp(r'^(?:[1-9][0-9]?|100)$');
+
+  static final RegExp constancias = RegExp(r'^[a-zA-Z\s.]+$');
 }

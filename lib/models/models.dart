@@ -49,3 +49,4 @@ export 'package:innova_ito/models/preferencias.dart';
 export 'package:innova_ito/models/datosUsuarioLogin.dart';
 export 'package:innova_ito/models/asignarCalificacionFinal.dart';
 export 'package:innova_ito/models/proyectoGC.dart';
+export 'package:innova_ito/models/proyectoAsesorGC.dart';

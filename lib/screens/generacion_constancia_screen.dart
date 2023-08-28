@@ -26,42 +26,15 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
   TextEditingController cCoo = TextEditingController();
   TextEditingController cCargo = TextEditingController();
 
-  List<SalaHs> salas = [];
-
-  Future<void> getSala() async {
-    String url = 'https://evarafael.com/Aplicacion/rest/get_asignarHSala.php';
-    try {
-      var response = await http.post(Uri.parse(url));
-      if (response.statusCode == 200) {
-        salas = salaHsFromJson(response.body);
-      } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
-      }
-    } catch (error) {
-      print('Error al realizar la solicitud: $error');
-    }
-  }
-
-  Future<bool> eliminarAsignarHS(String foliop, String idSala) async {
-    var url =
-        'https://evarafael.com/Aplicacion/rest/delete_asignarHSala.php?Id_sala=$idSala&Folio=$foliop'; // Reemplaza con la URL del archivo PHP en tu servidor
-    var response = await http.post(Uri.parse(url));
-    if (response.statusCode == 200) {
-      print('Modificado en la db');
-      return true;
-    } else {
-      print('No modificado');
-      return false;
-    }
-  }
-
   String nombreTecnologicoConstancia = '';
   String nombreProyectoConstancia = '';
   String nombreParticipanteConst = '';
   String nombreCategoriaConstancia = '';
-  String id = '';
-  DateTime? fechaSeleccionada;
-  DateTime fecha = DateTime(0000, 00, 00);
+
+  final switchEstudianteProvider = StateProvider<bool>((ref) => true);
+  final switchAsesorProvider = StateProvider<bool>((ref) => false);
+
+  bool camposLlenos = false;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -69,7 +42,11 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
     final tecnologicos = ref.watch(futureTecnologicoProvGC);
     final proyectosGC = ref.watch(futureProyectosProvGC);
     final participantes = ref.watch(futureParticipantesProvGC);
+    final asesores = ref.watch(futureAsesoresProvGC);
     final nombreCoordinador = ref.watch(nombreUsuarioLogin);
+
+    final isActiveEstudiante = ref.watch(switchEstudianteProvider);
+    final isActiveAsesor = ref.watch(switchAsesorProvider);
 
     return Scaffold(
       body: Fondo(
@@ -144,49 +121,70 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
                             height: 20,
                           ),
                           TextFormField(
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             controller: cdirector,
                             style: const TextStyle(
                                 color: AppTema.bluegrey700,
                                 fontWeight: FontWeight.bold),
                             autocorrect: false,
-                            keyboardType: TextInputType.emailAddress,
+                            keyboardType: TextInputType.text,
                             decoration:
                                 InputDecorations.registroLiderDecoration(
                               hintText: 'Ingrese nombre completo del director',
                               labelText: 'Nombre completo del director',
                             ),
+                            validator: (value) {
+                              return (!RegexUtil.nombres.hasMatch(value ?? ''))
+                                  ? null
+                                  : 'Nombre no valido.';
+                            },
                           ),
                           const SizedBox(
                             height: 20,
                           ),
                           TextFormField(
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             controller: cCoo,
                             style: const TextStyle(
                                 color: AppTema.bluegrey700,
                                 fontWeight: FontWeight.bold),
                             autocorrect: false,
-                            keyboardType: TextInputType.emailAddress,
+                            keyboardType: TextInputType.text,
                             decoration:
                                 InputDecorations.registroLiderDecoration(
                               hintText: 'Ingrese nombre del encargado',
                               labelText: 'Nombre del encargado',
                             ),
+                            validator: (value) {
+                              return (!RegexUtil.nombres.hasMatch(value ?? ''))
+                                  ? null
+                                  : 'Nombre no valido.';
+                            },
                           ),
                           const SizedBox(
                             height: 20,
                           ),
                           TextFormField(
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             controller: cCargo,
                             style: const TextStyle(
                                 color: AppTema.bluegrey700,
                                 fontWeight: FontWeight.bold),
                             autocorrect: false,
-                            keyboardType: TextInputType.emailAddress,
+                            keyboardType: TextInputType.text,
                             decoration:
                                 InputDecorations.registroLiderDecoration(
                               hintText: 'Ingrese cargo del encargado',
                               labelText: 'Cargo del encargado',
                             ),
+                            validator: (value) {
+                              return (!RegexUtil.datos.hasMatch(value ?? ''))
+                                  ? null
+                                  : 'Cargo no valido.';
+                            },
                           ),
                           const SizedBox(
                             height: 20,
@@ -242,6 +240,7 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
                                       .read(proyectosProvGC.notifier)
                                       .update((state) => value.toString());
                                   ref.refresh(futureParticipantesProvGC);
+                                  ref.refresh(futureAsesoresProvGC);
                                 }),
                             loading: () => const CircularProgressIndicator(),
                             error: (error, stackTrace) =>
@@ -250,57 +249,147 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
                           const SizedBox(
                             height: 20,
                           ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: const Text(
-                              'Seleccione participante',
-                              style: TextStyle(
-                                  color: AppTema.bluegrey700,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
+                          SwitchListTile.adaptive(
+                              title: const Text('Estudiante'),
+                              activeColor: AppTema.pizazz,
+                              value: isActiveEstudiante,
+                              onChanged: (value) {
+                                ref
+                                    .read(switchEstudianteProvider.notifier)
+                                    .update((state) => value);
+                                ref
+                                    .read(switchAsesorProvider.notifier)
+                                    .update((state) => !value);
+                              }),
                           const SizedBox(height: 10),
-                          participantes.when(
-                            data: (data) => DropdownButtonFormField<String>(
-                                hint: const Text(
-                                  'Seleccione una opción',
-                                  overflow: TextOverflow.visible,
-                                  style: TextStyle(
-                                      color: AppTema.bluegrey700,
-                                      fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.start,
-                                ),
-                                isExpanded: true,
-                                value: null,
-                                style: const TextStyle(
-                                    color: AppTema.bluegrey700,
-                                    fontWeight: FontWeight.bold),
-                                items: data.map((itemone) {
-                                  return DropdownMenuItem<String>(
-                                    alignment: Alignment.centerLeft,
-                                    value:
-                                        '${itemone.nombrePersona} ${itemone.apellido1} ${itemone.apellido2}',
-                                    child: Text(
-                                      '${itemone.nombrePersona} ${itemone.apellido1} ${itemone.apellido2}',
-                                      overflow: TextOverflow.visible,
+                          SwitchListTile.adaptive(
+                              title: const Text('Asesor'),
+                              activeColor: AppTema.pizazz,
+                              value: isActiveAsesor,
+                              onChanged: (value) {
+                                ref
+                                    .read(switchEstudianteProvider.notifier)
+                                    .update((state) => !value);
+                                ref
+                                    .read(switchAsesorProvider.notifier)
+                                    .update((state) => value);
+                              }),
+                          isActiveEstudiante
+                              ? Column(
+                                  children: [
+                                    const SizedBox(height: 20),
+                                    Container(
+                                      alignment: Alignment.topLeft,
+                                      child: const Text(
+                                        'Seleccione participante',
+                                        style: TextStyle(
+                                            color: AppTema.bluegrey700,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
-                                  );
-                                }).toList(),
-                                onChanged: (value) {
-                                  nombreParticipanteConst = value.toString();
-                                  print(value);
-                                  ref
-                                      .read(participantesProvGC.notifier)
-                                      .update((state) => value.toString());
-                                  // ref.refresh(futureDepartamentoProv);
-                                }),
-                            loading: () => const CircularProgressIndicator(),
-                            error: (error, stackTrace) => const Text(
-                                'Error al cargar los participantes.'),
-                          ),
+                                    const SizedBox(height: 10),
+                                    participantes.when(
+                                      data: (data) => DropdownButtonFormField<
+                                              String>(
+                                          hint: const Text(
+                                            'Seleccione una opción',
+                                            overflow: TextOverflow.visible,
+                                            style: TextStyle(
+                                                color: AppTema.bluegrey700,
+                                                fontWeight: FontWeight.bold),
+                                            textAlign: TextAlign.start,
+                                          ),
+                                          isExpanded: true,
+                                          value: null,
+                                          style: const TextStyle(
+                                              color: AppTema.bluegrey700,
+                                              fontWeight: FontWeight.bold),
+                                          items: data.map((itemone) {
+                                            return DropdownMenuItem<String>(
+                                              alignment: Alignment.centerLeft,
+                                              value:
+                                                  '${itemone.nombrePersona} ${itemone.apellido1} ${itemone.apellido2}',
+                                              child: Text(
+                                                '${itemone.nombrePersona} ${itemone.apellido1} ${itemone.apellido2}',
+                                                overflow: TextOverflow.visible,
+                                              ),
+                                            );
+                                          }).toList(),
+                                          onChanged: (value) {
+                                            nombreParticipanteConst =
+                                                value.toString();
+                                            print(value);
+                                            ref
+                                                .read(participantesProvGC
+                                                    .notifier)
+                                                .update((state) =>
+                                                    value.toString());
+                                            // ref.refresh(futureDepartamentoProv);
+                                          }),
+                                      loading: () =>
+                                          const CircularProgressIndicator(),
+                                      error: (error, stackTrace) => const Text(
+                                          'Error al cargar los asesores.'),
+                                    )
+                                  ],
+                                )
+                              : Column(
+                                  children: [
+                                    const SizedBox(height: 20),
+                                    Container(
+                                      alignment: Alignment.topLeft,
+                                      child: const Text(
+                                        'Seleccione Asesor',
+                                        style: TextStyle(
+                                            color: AppTema.bluegrey700,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    asesores.when(
+                                      data: (data) => DropdownButtonFormField<
+                                              String>(
+                                          hint: const Text(
+                                            'Seleccione una opción',
+                                            overflow: TextOverflow.visible,
+                                            style: TextStyle(
+                                                color: AppTema.bluegrey700,
+                                                fontWeight: FontWeight.bold),
+                                            textAlign: TextAlign.start,
+                                          ),
+                                          isExpanded: true,
+                                          value: null,
+                                          style: const TextStyle(
+                                              color: AppTema.bluegrey700,
+                                              fontWeight: FontWeight.bold),
+                                          items: data.map((itemone) {
+                                            return DropdownMenuItem<String>(
+                                              alignment: Alignment.centerLeft,
+                                              value:
+                                                  '${itemone.nombrePersona} ${itemone.apellido1} ${itemone.apellido2}',
+                                              child: Text(
+                                                '${itemone.nombrePersona} ${itemone.apellido1} ${itemone.apellido2}',
+                                                overflow: TextOverflow.visible,
+                                              ),
+                                            );
+                                          }).toList(),
+                                          onChanged: (value) {
+                                            nombreParticipanteConst =
+                                                value.toString();
+                                            print(value);
+                                            ref
+                                                .read(asesoresProvGC.notifier)
+                                                .update((state) =>
+                                                    value.toString());
+                                            // ref.refresh(futureDepartamentoProv);
+                                          }),
+                                      loading: () =>
+                                          const CircularProgressIndicator(),
+                                      error: (error, stackTrace) => const Text(
+                                          'Error al cargar los participantes.'),
+                                    )
+                                  ],
+                                ),
                           const SizedBox(
                             height: 20,
                           ),
@@ -316,10 +405,29 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
                   },
                   child: const Text('Seleccionar rango del evento'),
                 ),
-                Text(
-                    'Fecha de inicio: ${selectedDateRange?.start != null ? DateFormat.yMd().format(selectedDateRange!.start) : "Ninguna"}'),
-                Text(
-                    'Fecha de fin: ${selectedDateRange?.end != null ? DateFormat.yMd().format(selectedDateRange!.end) : "Ninguna"}'),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      'Fecha inicio: ${selectedDateRange?.start != null ? DateFormat.yMd().format(selectedDateRange!.start) : "Ninguna"}',
+                      style: const TextStyle(
+                          color: AppTema.bluegrey700,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'Fecha fin: ${selectedDateRange?.end != null ? DateFormat.yMd().format(selectedDateRange!.end) : "Ninguna"}',
+                      style: const TextStyle(
+                          color: AppTema.bluegrey700,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
                 Container(
                   height: 50,
                   width: double.infinity,
@@ -337,35 +445,52 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
                       ],
                     ),
                     onPressed: () async {
-                      final now = DateTime.now();
+                      camposLlenos = _formKey.currentState!.validate();
 
-                      final dia = DateFormat.d().format(now); // Día del mes
-                      final mes =
-                          DateFormat.MMMM('es').format(now); // Mes en letras
-                      final ano = DateFormat.y().format(now); // Año
-                      final fIni = DateFormat.d()
-                          .format(selectedDateRange?.start ?? DateTime.now());
-                      final fFin = DateFormat.d()
-                          .format(selectedDateRange?.end ?? DateTime.now());
-                      print(
-                          'Día de inicio: ${DateFormat.d().format(selectedDateRange?.start ?? DateTime.now())}');
-                      String ruta = await pdf.constancia(
-                          nombreTecnologicoConstancia.toUpperCase(),
-                          nombreParticipanteConst.toUpperCase(),
-                          'PARTICIPANTE',
-                          nombreProyectoConstancia.toUpperCase(),
-                          nombreCategoriaConstancia.toUpperCase(),
-                          'LOCAL',
-                          cdirector.text.toUpperCase(),
-                          dia,
-                          mes.toUpperCase(),
-                          ano,
-                          fIni,
-                          fFin,
-                          cCoo.text.toUpperCase(),
-                          cCargo.text.toUpperCase());
-                      OpenFilex.open(ruta);
-                      //context.pushNamed('asignar_sala');
+                      if (camposLlenos == false ||
+                          selectedDateRange == null ||
+                          nombreTecnologicoConstancia.isEmpty ||
+                          nombreProyectoConstancia.isEmpty ||
+                          nombreParticipanteConst.isEmpty ||
+                          nombreCategoriaConstancia.isEmpty) {
+                        QuickAlert.show(
+                          context: context,
+                          type: QuickAlertType.warning,
+                          title: 'Cuidado',
+                          text: 'Rellena los campos faltantes',
+                          confirmBtnText: 'Hecho',
+                          confirmBtnColor: AppTema.pizazz,
+                        );
+                      } else {
+                        final now = DateTime.now();
+
+                        final dia = DateFormat.d().format(now); // Día del mes
+                        final mes =
+                            DateFormat.MMMM('es').format(now); // Mes en letras
+                        final ano = DateFormat.y().format(now); // Año
+                        final fIni = DateFormat.d()
+                            .format(selectedDateRange?.start ?? DateTime.now());
+                        final fFin = DateFormat.d()
+                            .format(selectedDateRange?.end ?? DateTime.now());
+                        print(
+                            'Día de inicio: ${DateFormat.d().format(selectedDateRange?.start ?? DateTime.now())}');
+                        String ruta = await pdf.constancia(
+                            nombreTecnologicoConstancia.toUpperCase(),
+                            nombreParticipanteConst.toUpperCase(),
+                            'PARTICIPANTE',
+                            nombreProyectoConstancia.toUpperCase(),
+                            nombreCategoriaConstancia.toUpperCase(),
+                            'LOCAL',
+                            cdirector.text.toUpperCase(),
+                            dia,
+                            mes.toUpperCase(),
+                            ano,
+                            fIni,
+                            fFin,
+                            cCoo.text.toUpperCase(),
+                            cCargo.text.toUpperCase());
+                        OpenFilex.open(ruta);
+                      }
                     },
                   ),
                 ),
@@ -383,12 +508,26 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
     final selectedDateRange = await showDateRangePicker(
       context: context,
       initialDateRange: DateTimeRange(
-        start: now,
-        end: now
-            .add(Duration(days: 7)), // Por ejemplo, un rango de 7 días inicial
+        start: now.subtract(const Duration(days: 5)),
+        end: now, // Por ejemplo, un rango de 7 días inicial
       ),
-      firstDate: DateTime(1950),
+      firstDate: DateTime(now.year),
       lastDate: lastAllowedDate,
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: AppTema.pizazz,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                  primary: AppTema.primario // button text color
+                  ),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
 
     if (selectedDateRange != null) {

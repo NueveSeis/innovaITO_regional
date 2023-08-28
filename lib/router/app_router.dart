@@ -263,5 +263,10 @@ final appRouter = GoRouter(
       name: GeneracionConstanciaScreen.name,
       builder: (context, state) => GeneracionConstanciaScreen(),
     ),
+    GoRoute(
+      path: '/GeneraPdfScreen',
+      name: GeneraPdfScreen.name,
+      builder: (context, state) => GeneraPdfScreen(),
+    ),
   ],
 );

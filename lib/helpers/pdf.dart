@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
+import 'package:innova_ito/models/models.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
@@ -294,8 +295,8 @@ class pdf {
 </head>
 
 <body>
-    <img src="{{ public_path('img/sep.png') }}" alt="" style="position: absolute; left: 0; top: 10; height: 60px;">
-    <img src="{{ public_path('img/tecNM.png') }}" alt="Imagen 2"
+    <img src="https://evarafael.com/Aplicacion/rest/logos/sep.png" alt="" style="position: absolute; left: 0; top: 10; height: 60px;">
+    <img src="https://evarafael.com/Aplicacion/rest/logos/tecnm.png" alt="Imagen 2"
         style="position: absolute; right: 0; top: 10;  height: 60px;">
     <br>
     <br>
@@ -314,6 +315,11 @@ class pdf {
         <h3>EN EL EVENTO INNOVATEC $ano</h3>
         <h3>CELEBRADO $fechaIni AL $fechaFin DEL $mes DE $ano</h3>
         
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
     </div>
     <div style="display: flex; justify-content: space-between; margin-top: 40px;">
         <div style="text-align: center; position: absolute; left: 0; top: 600; width: 50%;">
@@ -497,57 +503,246 @@ class pdf {
 //     return generatedPdfFilePath;
 //   }
 
-  static Future<String> constancias(
-      String instituto,
-      String nombre_participante,
-      String rol_participante,
-      String nombreProyecto,
-      String categoria,
-      String coordinador,
-      String director) async {
-    var htmlContent = """
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>Constancia</title>
-</head>
-
-<body>
-    <img src="https://evarafael.com/Aplicacion/rest/logos/sep.png" alt="" style="position: absolute; left: 0; top: 0; height: 60px;">
-    <img src="https://evarafael.com/Aplicacion/rest/logos/tecNM.png" alt="Imagen 2"
-        style="position: absolute; right: 0; top: 0;  height: 60px;">
-    <br>
-    <br>
-
-    <div style="text-align: center; margin-top: 140px;">
-        <h3>EL INSTITUTO TECNOLÓGICO NACIONAL DE MÉXICO </h3>
-        <h3>A TRAVES DEL {{ strtoupper($instituto) }}</h3>
-        <h3>OTORGAN EL PRESENTE</h3>
-        <BR>
-        <h2>RECONOCIMIENTO</h2>
-        <h2>A {{strtoupper($nombre_participante)}}</h2>
-        <h3>POR SU DESTACADA PARTICIPACIÓN COMO</h3>
-        <h3>{{strtoupper($rol_participante)}} DEL PROYECTO {{ strtoupper($nombreProyecto) }}, </h3>
-        <h3>EN LA CATEGORÍA {{strtoupper($categoria)}} </h3>
-        <h3>EN EL EVENTO INNOVATEC 2023</h3>
-        <h3>CELEBRADO DEL</h3> <h3>-AQUI VA LA FECHA-</h3>
-        <div style="display: flex;">
-            <div>
-                <h3 style="flex: 1; text-align: left;">Coordinador: {{ strtoupper($coordinador) }}</h3> <h3 style="flex: 1; text-align: right;">Director: {{ $director }}</h3>     
-        </div>
-    </div>
-</body>
-
-</html>
-""";
-
+  static Future<String> salas(List<SalaHs> sala) async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     final targetPath = appDocDir.path;
-    final targetFileName = "constancia";
+    final targetFileName = "Salas_Proyectos";
+
+    String combinedHtml = '''
+      <!DOCTYPE html>
+      <html lang="es">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Tablas de Salas</title>
+          <style>
+              body {
+                  font-family: Arial, sans-serif;
+              }
+              .header {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  padding: 0px;
+                  background-color: #ffffff;
+                  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+              }
+              .logo {
+                  max-height: 70px;
+              }
+              .table-container {
+                  margin: 0px;
+                  padding: 0; /* Ajuste el padding a 0 */
+                  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+              }
+              table {
+                  width: 100%;
+                  border-collapse: collapse;
+                  border: 1px solid #e0e0e0;
+              }
+              th, td {
+                  padding: 0px 10px;
+                  text-align: left;
+                  border-bottom: 1px solid #e0e0e0;
+              }
+              th {
+                  background-color: #f2f2f2;
+              }
+              td {
+                  font-size: 14px; 
+              }
+              h1 {
+                  font-size: 24px;
+                  color: #333333;
+                  text-align: center;
+                  margin-top: 30px;
+              }
+          </style>
+      </head>
+      <body>
+          <div class="header">
+              <img src="https://evarafael.com/Aplicacion/rest/logos/tecnm.png" alt="Logo 1" class="logo">
+              <img src="https://evarafael.com/Aplicacion/rest/logos/logo_innova.png" alt="Logo 2" class="logo">
+          </div>
+  ''';
+
+    Map<String, List<SalaHs>> categoriasSalas = {};
+
+    for (var dato in sala) {
+      if (!categoriasSalas.containsKey(dato.nombreCategoria)) {
+        categoriasSalas[dato.nombreCategoria] = [];
+      }
+      categoriasSalas[dato.nombreCategoria]?.add(dato);
+    }
+
+    for (var categoria in categoriasSalas.keys) {
+      combinedHtml += '''
+          <h1>$categoria</h1>
+          <div class="table-container">
+              <table>
+                  <thead>
+                      <tr>
+                          <th>Folio</th>
+                          <th>Proyecto</th>
+                          <th>Sala</th>
+                          <th>Sala lugar</th>
+                          <th>Hora inicio</th>
+                          <th>Hora fin</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+      ''';
+
+      for (var dato in categoriasSalas[categoria]!) {
+        combinedHtml += '''
+          <tr>
+            <td>${dato.folio}</td>
+            <td>${dato.nombreCorto}</td>
+            <td>${dato.nombreSala}</td>
+            <td>${dato.lugarSala}</td>
+            <td>${dato.horaInicio}</td>
+            <td>${dato.horaFinal}</td>
+          </tr>
+        ''';
+      }
+
+      combinedHtml += '''
+                  </tbody>
+              </table>
+          </div>
+      ''';
+    }
+
+    combinedHtml += '''
+      </body>
+      </html>
+  ''';
 
     final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(
-        htmlContent, targetPath, targetFileName);
+        combinedHtml, targetPath, targetFileName);
+
+    // Ruta del archivo PDF generado
+    String generatedPdfFilePath = generatedPdfFile.path;
+    return generatedPdfFilePath;
+  }
+
+  static Future<String> stands(List<StandHs> sala) async {
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    final targetPath = appDocDir.path;
+    final targetFileName = "Stands_Proyectos";
+
+    String combinedHtml = '''
+      <!DOCTYPE html>
+      <html lang="es">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Tablas de Salas</title>
+          <style>
+              body {
+                  font-family: Arial, sans-serif;
+              }
+              .header {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  padding: 0px;
+                  background-color: #ffffff;
+                  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+              }
+              .logo {
+                  max-height: 70px;
+              }
+              .table-container {
+                  margin: 0px;
+                  padding: 0; /* Ajuste el padding a 0 */
+                  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+              }
+              table {
+                  width: 100%;
+                  border-collapse: collapse;
+                  border: 1px solid #e0e0e0;
+              }
+              th, td {
+                  padding: 0px 10px;
+                  text-align: left;
+                  border-bottom: 1px solid #e0e0e0;
+              }
+              th {
+                  background-color: #f2f2f2;
+              }
+              td {
+                  font-size: 14px; 
+              }
+              h1 {
+                  font-size: 24px;
+                  color: #333333;
+                  text-align: center;
+                  margin-top: 30px;
+              }
+          </style>
+      </head>
+      <body>
+          <div class="header">
+              <img src="https://evarafael.com/Aplicacion/rest/logos/tecnm.png" alt="Logo 1" class="logo">
+              <img src="https://evarafael.com/Aplicacion/rest/logos/logo_innova.png" alt="Logo 2" class="logo">
+          </div>
+  ''';
+
+    Map<String, List<StandHs>> categoriasSalas = {};
+
+    for (var dato in sala) {
+      if (!categoriasSalas.containsKey(dato.nombreCategoria)) {
+        categoriasSalas[dato.nombreCategoria] = [];
+      }
+      categoriasSalas[dato.nombreCategoria]?.add(dato);
+    }
+
+    for (var categoria in categoriasSalas.keys) {
+      combinedHtml += '''
+          <h1>$categoria</h1>
+          <div class="table-container">
+              <table>
+                  <thead>
+                      <tr>
+                          <th>Folio</th>
+                          <th>Proyecto</th>
+                          <th>Stand</th>
+                          <th>Hora inicio</th>
+                          <th>Hora fin</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+      ''';
+
+      for (var dato in categoriasSalas[categoria]!) {
+        combinedHtml += '''
+          <tr>
+            <td>${dato.folio}</td>
+            <td>${dato.nombreCorto}</td>
+            <td>${dato.lugar}</td>
+            <td>${dato.horaInicio}</td>
+            <td>${dato.horaFinal}</td>
+          </tr>
+        ''';
+      }
+
+      combinedHtml += '''
+                  </tbody>
+              </table>
+          </div>
+      ''';
+    }
+
+    combinedHtml += '''
+      </body>
+      </html>
+  ''';
+
+    final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(
+        combinedHtml, targetPath, targetFileName);
+
+    // Ruta del archivo PDF generado
     String generatedPdfFilePath = generatedPdfFile.path;
     return generatedPdfFilePath;
   }
