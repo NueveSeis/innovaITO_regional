@@ -626,6 +626,110 @@ class pdf {
     return generatedPdfFilePath;
   }
 
+  static Future<String> posiciones(List<Tablero> tablero) async {
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    final targetPath = appDocDir.path;
+    final targetFileName = "posiciones";
+
+    String tablaHtml = '''
+      <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posiciones</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .logo {
+            max-height: 70px;
+        }
+        .table-container {
+            margin: 20px;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #cccccc;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #cccccc;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        h1 {
+            text-align: center;
+            font-size: 25px; /* Tamaño ajustado */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="https://evarafael.com/Aplicacion/rest/logos/tecnm.png" alt="Logo 1" class="logo">
+        <img src="https://evarafael.com/Aplicacion/rest/logos/logo_innova.png" alt="Logo 2" class="logo">
+    </div>
+    <h1 style="text-align: center;">Tabla de resultados finales</h1>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                <th>Posición</th>
+                <th>Folio</th>
+                    <th>Proyecto</th>
+                    <th>Categoría</th>
+                    <th>Calificación</th>
+                </tr>
+            </thead>
+            <tbody>
+
+    ''';
+
+    for (var dato in tablero) {
+      tablaHtml += '''
+        <tr>
+          <td>${dato.posicionActual}</td>
+          <td>${dato.folio}</td>
+          <td>${dato.nombreProyecto}</td>
+          <td>${dato.nombreCategoria}</td>
+          <td>${dato.calificacionGlobal}</td>
+        </tr>
+      ''';
+    }
+
+    tablaHtml += '''
+                  </tbody>
+              </table>
+          </div>
+      </body>
+      </html>
+    ''';
+
+    final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(
+        tablaHtml, targetPath, targetFileName);
+
+    // Ruta del archivo PDF generado
+    String generatedPdfFilePath = generatedPdfFile.path;
+    return generatedPdfFilePath;
+  }
+
   static Future<String> stands(List<StandHs> sala) async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     final targetPath = appDocDir.path;

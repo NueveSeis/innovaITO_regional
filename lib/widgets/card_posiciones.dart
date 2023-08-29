@@ -18,7 +18,7 @@ class CardPosiciones extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double califica = double.parse(calificacion) / 10.0;
+    double califica = double.parse(calificacion) / 100.0;
     double cal = double.parse(calificacion);
 
     return Card(

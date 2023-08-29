@@ -16,6 +16,8 @@ import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 final selectedDateRangeProvider = StateProvider<DateTimeRange?>((ref) => null);
+final valueAProvGC = StateProvider((ref) => null);
+final valueEProvGC = StateProvider<String>((ref) => '');
 
 class GeneracionConstanciaScreen extends ConsumerWidget {
   static const String name = 'GeneracionConstanciaScreen';
@@ -44,6 +46,8 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
     final participantes = ref.watch(futureParticipantesProvGC);
     final asesores = ref.watch(futureAsesoresProvGC);
     final nombreCoordinador = ref.watch(nombreUsuarioLogin);
+    final va = ref.watch(valueAProvGC);
+    final ve = ref.watch(valueEProvGC);
 
     final isActiveEstudiante = ref.watch(switchEstudianteProvider);
     final isActiveAsesor = ref.watch(switchAsesorProvider);
@@ -291,6 +295,7 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
                                     participantes.when(
                                       data: (data) => DropdownButtonFormField<
                                               String>(
+                                          key: const Key("dropdown_1"),
                                           hint: const Text(
                                             'Seleccione una opción',
                                             overflow: TextOverflow.visible,
@@ -300,7 +305,7 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
                                             textAlign: TextAlign.start,
                                           ),
                                           isExpanded: true,
-                                          value: null,
+                                          //value: va.value,
                                           style: const TextStyle(
                                               color: AppTema.bluegrey700,
                                               fontWeight: FontWeight.bold),
@@ -315,15 +320,13 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
                                               ),
                                             );
                                           }).toList(),
-                                          onChanged: (value) {
+                                          onChanged: (valueE) {
                                             nombreParticipanteConst =
-                                                value.toString();
-                                            print(value);
+                                                valueE.toString();
+                                            // print(valueE);
                                             ref
-                                                .read(participantesProvGC
-                                                    .notifier)
-                                                .update((state) =>
-                                                    value.toString());
+                                                .read(valueAProvGC.notifier)
+                                                .update((state) => null);
                                             // ref.refresh(futureDepartamentoProv);
                                           }),
                                       loading: () =>
@@ -349,6 +352,7 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
                                     asesores.when(
                                       data: (data) => DropdownButtonFormField<
                                               String>(
+                                          key: const Key("dropdown_2"),
                                           hint: const Text(
                                             'Seleccione una opción',
                                             overflow: TextOverflow.visible,
@@ -358,7 +362,7 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
                                             textAlign: TextAlign.start,
                                           ),
                                           isExpanded: true,
-                                          value: null,
+                                          // value: va.value,
                                           style: const TextStyle(
                                               color: AppTema.bluegrey700,
                                               fontWeight: FontWeight.bold),
@@ -373,14 +377,13 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
                                               ),
                                             );
                                           }).toList(),
-                                          onChanged: (value) {
+                                          onChanged: (valueA) {
                                             nombreParticipanteConst =
-                                                value.toString();
-                                            print(value);
+                                                valueA.toString();
+                                            // print(value);
                                             ref
-                                                .read(asesoresProvGC.notifier)
-                                                .update((state) =>
-                                                    value.toString());
+                                                .read(valueAProvGC.notifier)
+                                                .update((state) => null);
                                             // ref.refresh(futureDepartamentoProv);
                                           }),
                                       loading: () =>

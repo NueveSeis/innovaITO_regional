@@ -65,69 +65,69 @@ class ProyectoCoordinadorScreen extends ConsumerWidget {
     }
   }
 
-  Future<String> createPDF(List<ProyectoCoord> proyecto, int index) async {
-    final pdf = pw.Document();
-    final educacion = await networkImage(
-        'https://evarafael.com/Aplicacion/rest/logos/educacion.png');
-    final tecnm = await networkImage(
-        'https://evarafael.com/Aplicacion/rest/logos/tecnm.png');
-    pdf.addPage(
-      pw.Page(
-        build: (pw.Context context) {
-          return pw.Column(
-            children: [
-              pw.Row(
-                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                children: [
-                  pw.Image(tecnm, width: 100, height: 100),
-                  pw.Image(educacion, width: 100, height: 100)
-                ],
-              ),
-              pw.Center(
-                child: pw.Text('InnovaITO 2023',
-                    style: const pw.TextStyle(fontSize: 20)),
-              ),
-              pw.Center(
-                child: pw.Text('Ficha Técnica',
-                    style: const pw.TextStyle(fontSize: 18)),
-              ),
-              pw.Text('MEMORIA DEL PROYECTO',
-                  style: pw.TextStyle(
-                    fontSize: 18,
-                    fontWeight: pw.FontWeight.bold,
-                  )),
-              pw.SizedBox(height: 20),
-              pw.TableHelper.fromTextArray(
-                //context: pw.Context()..style = pw.TextStyle(fontSize: 12),
-                columnWidths: {
-                  0: const pw.FixedColumnWidth(
-                      150), // Ancho de la primera columna
-                  1: const pw.FixedColumnWidth(
-                      300), // Ancho de la segunda columna
-                },
-                data: <List<String>>[
-                  ['Folio:', proyectos[index].folio],
-                  ['Nombre corto:', proyectos[index].nombreCorto],
-                  ['Nombre descriptivo:', proyectos[index].nombreProyecto],
-                  ['Categoría:', proyectos[index].nombreCategoria],
-                  ['Sector estratégico:', proyectos[index].nombreArea],
-                  ['Naturaleza técnica:', proyectos[index].tipo],
-                ],
-              ),
-            ],
-          );
-        },
-      ),
-    );
+  // Future<String> createPDF(List<ProyectoCoord> proyecto, int index) async {
+  //   final pdf = pw.Document();
+  //   final educacion = await networkImage(
+  //       'https://evarafael.com/Aplicacion/rest/logos/educacion.png');
+  //   final tecnm = await networkImage(
+  //       'https://evarafael.com/Aplicacion/rest/logos/tecnm.png');
+  //   pdf.addPage(
+  //     pw.Page(
+  //       build: (pw.Context context) {
+  //         return pw.Column(
+  //           children: [
+  //             pw.Row(
+  //               mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+  //               children: [
+  //                 pw.Image(tecnm, width: 100, height: 100),
+  //                 pw.Image(educacion, width: 100, height: 100)
+  //               ],
+  //             ),
+  //             pw.Center(
+  //               child: pw.Text('InnovaITO 2023',
+  //                   style: const pw.TextStyle(fontSize: 20)),
+  //             ),
+  //             pw.Center(
+  //               child: pw.Text('Ficha Técnica',
+  //                   style: const pw.TextStyle(fontSize: 18)),
+  //             ),
+  //             pw.Text('MEMORIA DEL PROYECTO',
+  //                 style: pw.TextStyle(
+  //                   fontSize: 18,
+  //                   fontWeight: pw.FontWeight.bold,
+  //                 )),
+  //             pw.SizedBox(height: 20),
+  //             pw.TableHelper.fromTextArray(
+  //               //context: pw.Context()..style = pw.TextStyle(fontSize: 12),
+  //               columnWidths: {
+  //                 0: const pw.FixedColumnWidth(
+  //                     150), // Ancho de la primera columna
+  //                 1: const pw.FixedColumnWidth(
+  //                     300), // Ancho de la segunda columna
+  //               },
+  //               data: <List<String>>[
+  //                 ['Folio:', proyectos[index].folio],
+  //                 ['Nombre corto:', proyectos[index].nombreCorto],
+  //                 ['Nombre descriptivo:', proyectos[index].nombreProyecto],
+  //                 ['Categoría:', proyectos[index].nombreCategoria],
+  //                 ['Sector estratégico:', proyectos[index].nombreArea],
+  //                 ['Naturaleza técnica:', proyectos[index].tipo],
+  //               ],
+  //             ),
+  //           ],
+  //         );
+  //       },
+  //     ),
+  //   );
 
-    final output = await getTemporaryDirectory();
-    final file = File('${output.path}/example2.pdf');
+  //   final output = await getTemporaryDirectory();
+  //   final file = File('${output.path}/example2.pdf');
 
-    await file.writeAsBytes(await pdf.save());
+  //   await file.writeAsBytes(await pdf.save());
 
-    print('PDF creado en: ${file.path}');
-    return file.path;
-  }
+  //   print('PDF creado en: ${file.path}');
+  //   return file.path;
+  // }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -295,12 +295,48 @@ class ProyectoCoordinadorScreen extends ConsumerWidget {
                                                                 .cloud_download_rounded,
                                                             size: 25),
                                                         onPressed: () async {
-                                                          String si = await pdf
-                                                              .registro('Hola');
-                                                          // String ruta =
-                                                          //     await createPDF(
-                                                          //         proyectos, index);
-                                                          OpenFilex.open(si);
+                                                          String ruta = await pdf.fichaTecnica(
+                                                              proyectos[index]
+                                                                  .folio,
+                                                              proyectos[index]
+                                                                  .nombreCorto,
+                                                              proyectos[index]
+                                                                  .objetivo,
+                                                              proyectos[index]
+                                                                  .descripcionGeneral,
+                                                              proyectos[index]
+                                                                  .prospectoResultados,
+                                                              proyectos[index]
+                                                                  .nombreArea,
+                                                              proyectos[index]
+                                                                  .nombreCategoria,
+                                                              proyectos[index]
+                                                                  .idMemoriaTecnica,
+                                                              proyectos[index]
+                                                                  .descripcionProblematica,
+                                                              proyectos[index]
+                                                                  .estadoArte,
+                                                              proyectos[index]
+                                                                  .descripcionInnovacion,
+                                                              proyectos[index]
+                                                                  .propuestaValor,
+                                                              proyectos[index]
+                                                                  .mercadoPotencial,
+                                                              proyectos[index]
+                                                                  .viabilidadTecnica,
+                                                              proyectos[index]
+                                                                  .viabilidadFinanciera,
+                                                              proyectos[index]
+                                                                  .estrategiaPropiedadIntelectual,
+                                                              proyectos[index]
+                                                                  .interpretacionResultados,
+                                                              proyectos[index]
+                                                                  .fuentesConsultadas,
+                                                              proyectos[index]
+                                                                  .nombreProyecto,
+                                                              proyectos[index]
+                                                                  .tipo);
+                                                          OpenFilex.open(ruta);
                                                         },
                                                         color: AppTema
                                                             .bluegrey700),

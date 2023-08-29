@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/screens/screens.dart';
@@ -8,10 +9,14 @@ import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:open_filex/open_filex.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
 import 'package:printing/printing.dart';
+import 'package:quickalert/quickalert.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:innova_ito/helpers/helpers.dart';
 
 class TablaPosicionesScreen extends StatelessWidget {
   static const String name = 'tabla_posiciones';
@@ -180,7 +185,32 @@ class TablaPosicionesScreen extends StatelessWidget {
                                         pos.toString());
                                     // Imprime los demás datos que necesites
                                   }
-                                } else {}
+                                } else {
+                                  QuickAlert.show(
+                                    context: context,
+                                    type: QuickAlertType.error,
+                                    title: 'Error',
+                                    text:
+                                        'No se puedieron obtener las calificaciones.',
+                                    confirmBtnText: 'Hecho',
+                                    confirmBtnColor: AppTema.pizazz,
+                                    onConfirmBtnTap: () {
+                                      context.pushReplacementNamed(
+                                          'tabla_posiciones');
+                                    },
+                                  );
+                                }
+                                QuickAlert.show(
+                                  context: context,
+                                  type: QuickAlertType.success,
+                                  title: 'Calificaciones asignadas',
+                                  confirmBtnText: 'Hecho',
+                                  confirmBtnColor: AppTema.pizazz,
+                                  onConfirmBtnTap: () {
+                                    context.pushReplacementNamed(
+                                        'tabla_posiciones');
+                                  },
+                                );
                               },
                             ),
                           ),
@@ -206,7 +236,10 @@ class TablaPosicionesScreen extends StatelessWidget {
                                   ),
                                 ],
                               )),
-                              onPressed: () {},
+                              onPressed: () async {
+                                String ruta = await pdf.posiciones(tablero);
+                                OpenFilex.open(ruta);
+                              },
                             ),
                           ),
                           ListView.builder(
@@ -216,7 +249,7 @@ class TablaPosicionesScreen extends StatelessWidget {
                             itemBuilder: (context, index) {
                               return CardPosiciones(
                                 posicion: index + 1,
-                                nombreCategoria: tablero[index].nombreArea,
+                                nombreCategoria: tablero[index].nombreCategoria,
                                 nombreProyecto: tablero[index].nombreCorto,
                                 nombreTecnologico: tablero[index].nombreArea,
                                 calificacion: tablero[index].calificacionGlobal,

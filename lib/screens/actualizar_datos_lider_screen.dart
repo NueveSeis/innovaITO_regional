@@ -65,13 +65,15 @@ Future<String?> getEstudianteDatos(ref) async {
     var datos = jsonDecode(response.body);
     promedio = datos[0]['Promedio'];
     print('Promedio: $promedio');
-
-    return promedio;
+    ref.read(promedioAPProv.notifier).update((state) => promedio ?? 'SN');
+    return promedio ?? 'SN';
   } else {
     print('Error al obtener datos de la API');
     return 'SN';
   }
 }
+
+final promedioAPProv = StateProvider<String?>((ref) => null);
 
 final futureEstudianteDatosProv =
     FutureProvider<String?>((ref) => getEstudianteDatos(ref));
@@ -118,6 +120,7 @@ class ActualizarDatosLiderScreen extends ConsumerWidget {
     final departamentos = ref.watch(futureDepartamentoProvAP);
     final carreras = ref.watch(futureCarreraProvAP);
     final prom = ref.watch(futureEstudianteDatosProv);
+    final prome = ref.watch(promedioAPProv);
 
     final camposLlenos = ref.watch(camposLlenosProv);
 
@@ -155,6 +158,8 @@ class ActualizarDatosLiderScreen extends ConsumerWidget {
       }
     }
 
+    print('nomnbreeeeee: ${prom.toString()}');
+    print('promeeeeeee: ${prome.toString()}');
     //getEstudianteDatos(ref);
     return Scaffold(
         body: Fondo(
@@ -164,646 +169,768 @@ class ActualizarDatosLiderScreen extends ConsumerWidget {
               children: [
                 const SizedBox(height: 50),
                 SingleChildScrollView(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                  child: prom.when(
-                    data: (data) {
-                      // Mostrar los datos obtenidos del FutureProvider
-                      return (prom != 'SN' || prom != '')
-                          ? const Text(
-                              'Ya haz actualizado los datos',
-                              style: TextStyle(
-                                  color: AppTema.bluegrey700,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20),
-                            )
-                          : Column(
-                              children: [
-                                const Text(
-                                  'Ingrese datos del estudiante líder',
-                                  style: TextStyle(
-                                      color: AppTema.balticSea,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                ),
-                                Form(
-                                    //autovalidateMode: AutovalidateMode.onUserInteraction,
-                                    key: _formKey,
-                                    child: Column(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20, horizontal: 10),
+                    child: (prome.toString() == 'SN' || prome.toString() == '')
+                        ? prom.when(
+                            data: (data) {
+                              // Mostrar los datos obtenidos del FutureProvider
+                              return (prome.toString() == 'SN' ||
+                                      prome.toString() == '')
+                                  ? Column(
                                       children: [
-                                        const SizedBox(height: 40),
-                                        TextFormField(
-                                          autovalidateMode: AutovalidateMode
-                                              .onUserInteraction,
-                                          controller: cPromedio,
-                                          autocorrect: false,
-                                          keyboardType: TextInputType.number,
-                                          style: const TextStyle(
-                                              color: AppTema.bluegrey700,
-                                              fontWeight: FontWeight.bold),
-                                          decoration: InputDecorations
-                                              .registroLiderDecoration(
-                                            hintText: 'Ingrese promedio',
-                                            labelText: 'Promedio',
-                                          ),
-                                          validator: (value) {
-                                            return RegexUtil.promedio
-                                                    .hasMatch(value ?? '')
-                                                ? null
-                                                : 'Promedio no valido.';
-                                          },
+                                        const Text(
+                                          'Ingrese datos del estudiante líder',
+                                          style: TextStyle(
+                                              color: AppTema.balticSea,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20),
                                         ),
-                                        const SizedBox(height: 20),
-                                        TextFormField(
-                                          maxLength: 18,
-                                          autovalidateMode: AutovalidateMode
-                                              .onUserInteraction,
-                                          controller: cCurp,
-                                          autocorrect: false,
-                                          keyboardType: TextInputType.text,
-                                          style: const TextStyle(
-                                              color: AppTema.bluegrey700,
-                                              fontWeight: FontWeight.bold),
-                                          decoration: InputDecorations
-                                              .registroLiderDecoration(
-                                            hintText: 'Ingrese CURP',
-                                            labelText: 'CURP',
-                                          ),
-                                          validator: (value) {
-                                            return RegexUtil.curp
-                                                    .hasMatch(value ?? '')
-                                                ? null
-                                                : 'CURP no valida.';
-                                          },
-                                        ),
-                                        const SizedBox(height: 20),
-                                        TextFormField(
-                                          maxLength: 13,
-                                          autovalidateMode: AutovalidateMode
-                                              .onUserInteraction,
-                                          controller: cIne,
-                                          autocorrect: false,
-                                          keyboardType: TextInputType.number,
-                                          style: const TextStyle(
-                                              color: AppTema.bluegrey700,
-                                              fontWeight: FontWeight.bold),
-                                          decoration: InputDecorations
-                                              .registroLiderDecoration(
-                                            hintText:
-                                                'Ingrese No. de credencial INE',
-                                            labelText: 'No. Cred. INE',
-                                          ),
-                                          validator: (value) {
-                                            return RegexUtil.ine
-                                                    .hasMatch(value ?? '')
-                                                ? null
-                                                : 'Credencial no valida.';
-                                          },
-                                        ),
-                                        const SizedBox(height: 20),
-                                        TextFormField(
-                                          maxLength: 10,
-                                          autovalidateMode: AutovalidateMode
-                                              .onUserInteraction,
-                                          controller: cNumero,
-                                          style: const TextStyle(
-                                              color: AppTema.bluegrey700,
-                                              fontWeight: FontWeight.bold),
-                                          autocorrect: false,
-                                          keyboardType: TextInputType.number,
-                                          decoration: InputDecorations
-                                              .registroLiderDecoration(
-                                            hintText:
-                                                'Ingrese Numero telefónico',
-                                            labelText: 'Numero telefónico',
-                                          ),
-                                          validator: (value) {
-                                            return RegexUtil.telefono
-                                                    .hasMatch(value ?? '')
-                                                ? null
-                                                : 'Solo se aceptan números.';
-                                          },
-                                        ),
-                                        const SizedBox(height: 20),
-                                        Container(
-                                          alignment: Alignment.topLeft,
-                                          child: const Text(
-                                            'Genero',
-                                            style: TextStyle(
-                                                color: AppTema.bluegrey700,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        generos.when(
-                                          data: (data) =>
-                                              DropdownButtonFormField<String>(
-                                                  value: null,
+                                        Form(
+                                            //autovalidateMode: AutovalidateMode.onUserInteraction,
+                                            key: _formKey,
+                                            child: Column(
+                                              children: [
+                                                const SizedBox(height: 40),
+                                                TextFormField(
+                                                  autovalidateMode:
+                                                      AutovalidateMode
+                                                          .onUserInteraction,
+                                                  controller: cPromedio,
+                                                  autocorrect: false,
+                                                  keyboardType:
+                                                      TextInputType.number,
                                                   style: const TextStyle(
                                                       color:
                                                           AppTema.bluegrey700,
                                                       fontWeight:
                                                           FontWeight.bold),
-                                                  items: data.map((itemone) {
-                                                    return DropdownMenuItem<
-                                                        String>(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      value: itemone.idGenero,
-                                                      child: Text(
-                                                        itemone.tipoGenero,
-                                                        overflow: TextOverflow
-                                                            .visible,
-                                                      ),
-                                                    );
-                                                  }).toList(),
-                                                  onChanged: (value) {
-                                                    cGenero = value.toString();
+                                                  decoration: InputDecorations
+                                                      .registroLiderDecoration(
+                                                    hintText:
+                                                        'Ingrese promedio',
+                                                    labelText: 'Promedio',
+                                                  ),
+                                                  validator: (value) {
+                                                    return RegexUtil.promedio
+                                                            .hasMatch(
+                                                                value ?? '')
+                                                        ? null
+                                                        : 'Promedio no valido.';
+                                                  },
+                                                ),
+                                                const SizedBox(height: 20),
+                                                TextFormField(
+                                                  maxLength: 18,
+                                                  autovalidateMode:
+                                                      AutovalidateMode
+                                                          .onUserInteraction,
+                                                  controller: cCurp,
+                                                  autocorrect: false,
+                                                  keyboardType:
+                                                      TextInputType.text,
+                                                  style: const TextStyle(
+                                                      color:
+                                                          AppTema.bluegrey700,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                  decoration: InputDecorations
+                                                      .registroLiderDecoration(
+                                                    hintText: 'Ingrese CURP',
+                                                    labelText: 'CURP',
+                                                  ),
+                                                  validator: (value) {
+                                                    return RegexUtil.curp
+                                                            .hasMatch(
+                                                                value ?? '')
+                                                        ? null
+                                                        : 'CURP no valida.';
+                                                  },
+                                                ),
+                                                const SizedBox(height: 20),
+                                                TextFormField(
+                                                  maxLength: 13,
+                                                  autovalidateMode:
+                                                      AutovalidateMode
+                                                          .onUserInteraction,
+                                                  controller: cIne,
+                                                  autocorrect: false,
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  style: const TextStyle(
+                                                      color:
+                                                          AppTema.bluegrey700,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                  decoration: InputDecorations
+                                                      .registroLiderDecoration(
+                                                    hintText:
+                                                        'Ingrese No. de credencial INE',
+                                                    labelText: 'No. Cred. INE',
+                                                  ),
+                                                  validator: (value) {
+                                                    return RegexUtil.ine
+                                                            .hasMatch(
+                                                                value ?? '')
+                                                        ? null
+                                                        : 'Credencial no valida.';
+                                                  },
+                                                ),
+                                                const SizedBox(height: 20),
+                                                TextFormField(
+                                                  maxLength: 10,
+                                                  autovalidateMode:
+                                                      AutovalidateMode
+                                                          .onUserInteraction,
+                                                  controller: cNumero,
+                                                  style: const TextStyle(
+                                                      color:
+                                                          AppTema.bluegrey700,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                  autocorrect: false,
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  decoration: InputDecorations
+                                                      .registroLiderDecoration(
+                                                    hintText:
+                                                        'Ingrese Numero telefónico',
+                                                    labelText:
+                                                        'Numero telefónico',
+                                                  ),
+                                                  validator: (value) {
+                                                    return RegexUtil.telefono
+                                                            .hasMatch(
+                                                                value ?? '')
+                                                        ? null
+                                                        : 'Solo se aceptan números.';
+                                                  },
+                                                ),
+                                                const SizedBox(height: 20),
+                                                Container(
+                                                  alignment: Alignment.topLeft,
+                                                  child: const Text(
+                                                    'Genero',
+                                                    style: TextStyle(
+                                                        color:
+                                                            AppTema.bluegrey700,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 10),
+                                                generos.when(
+                                                  data: (data) =>
+                                                      DropdownButtonFormField<
+                                                              String>(
+                                                          value: null,
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                          items: data
+                                                              .map((itemone) {
+                                                            return DropdownMenuItem<
+                                                                String>(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              value: itemone
+                                                                  .idGenero,
+                                                              child: Text(
+                                                                itemone
+                                                                    .tipoGenero,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .visible,
+                                                              ),
+                                                            );
+                                                          }).toList(),
+                                                          onChanged: (value) {
+                                                            cGenero = value
+                                                                .toString();
 
-                                                    ref
-                                                        .read(
-                                                            generoProv.notifier)
-                                                        .update((state) =>
-                                                            value.toString());
-                                                  }),
-                                          loading: () =>
-                                              const CircularProgressIndicator(),
-                                          error: (error, stackTrace) =>
-                                              const Text(
-                                                  'Error al cargar los géneros'),
-                                        ),
-                                        const SizedBox(height: 20),
-                                        Container(
-                                          alignment: Alignment.topLeft,
-                                          child: const Text(
-                                            'Expectativa',
-                                            style: TextStyle(
-                                                color: AppTema.bluegrey700,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        expectativas.when(
-                                          data: (data) =>
-                                              DropdownButtonFormField<String>(
-                                                  value: null,
-                                                  style: const TextStyle(
-                                                      color:
-                                                          AppTema.bluegrey700,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                  items: data.map((itemone) {
-                                                    return DropdownMenuItem<
-                                                        String>(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      value:
-                                                          itemone.idExpectativa,
-                                                      child: Text(
-                                                        itemone.expectativa,
-                                                        overflow: TextOverflow
-                                                            .visible,
-                                                      ),
-                                                    );
-                                                  }).toList(),
-                                                  onChanged: (value) {
-                                                    cExpectativa =
-                                                        value.toString();
-
-                                                    ref
-                                                        .read(expectativaProv
-                                                            .notifier)
-                                                        .update((state) =>
-                                                            value.toString());
-                                                  }),
-                                          loading: () =>
-                                              const CircularProgressIndicator(),
-                                          error: (error, stackTrace) => const Text(
-                                              'Error al cargar las expectativas.'),
-                                        ),
-                                        const SizedBox(height: 20),
-                                        Container(
-                                          alignment: Alignment.topLeft,
-                                          child: const Text(
-                                            'Semestre',
-                                            style: TextStyle(
-                                                color: AppTema.bluegrey700,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        semestres.when(
-                                          data: (data) =>
-                                              DropdownButtonFormField<String>(
-                                                  value: null,
-                                                  style: const TextStyle(
-                                                      color:
-                                                          AppTema.bluegrey700,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                  items: data.map((itemone) {
-                                                    return DropdownMenuItem<
-                                                        String>(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      value: itemone.idSemestre,
-                                                      child: Text(
-                                                        itemone.numeroSemestre,
-                                                        overflow: TextOverflow
-                                                            .visible,
-                                                      ),
-                                                    );
-                                                  }).toList(),
-                                                  onChanged: (value) {
-                                                    cSemestre =
-                                                        value.toString();
-
-                                                    ref
-                                                        .read(semestreProv
-                                                            .notifier)
-                                                        .update((state) =>
-                                                            value.toString());
-                                                  }),
-                                          loading: () =>
-                                              const CircularProgressIndicator(),
-                                          error: (error, stackTrace) => const Text(
-                                              'Error al cargar los semestres.'),
-                                        ),
-                                        const SizedBox(height: 20),
-                                        Center(
-                                            child: ElevatedButton(
-                                          child: Text(
-                                            fechaSeleccionada != null
-                                                ? 'Fecha seleccionada: ${DateFormat('yyyy-MM-dd').format(fecha)}'
-                                                : 'Seleccione fecha de nacimiento',
-                                          ),
-                                          onPressed: () =>
-                                              _mostrarDatePicker(context, ref),
-                                        )),
-                                        const SizedBox(height: 20),
-                                        Container(
-                                          alignment: Alignment.topLeft,
-                                          child: const Text(
-                                            'Nivel académico',
-                                            style: TextStyle(
-                                                color: AppTema.bluegrey700,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        niveles.when(
-                                          data: (data) =>
-                                              DropdownButtonFormField<String>(
-                                                  value: null,
-                                                  style: const TextStyle(
-                                                      color:
-                                                          AppTema.bluegrey700,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                  items: data.map((itemone) {
-                                                    return DropdownMenuItem<
-                                                        String>(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      value: itemone.idNivel,
-                                                      child: Text(
-                                                        itemone.nombreNivel,
-                                                        overflow: TextOverflow
-                                                            .visible,
-                                                      ),
-                                                    );
-                                                  }).toList(),
-                                                  onChanged: (value) {
-                                                    cNivel = value.toString();
-                                                    ref
-                                                        .read(nivelAcademicoProv
-                                                            .notifier)
-                                                        .update((state) =>
-                                                            value.toString());
-                                                  }),
-                                          loading: () =>
-                                              const CircularProgressIndicator(),
-                                          error: (error, stackTrace) => const Text(
-                                              'Error al cargar los niveles académicos.'),
-                                        ),
-                                        const SizedBox(height: 20),
-                                        Container(
-                                          alignment: Alignment.topLeft,
-                                          child: const Text(
-                                            'Tipo de instituto o centro de investigación',
-                                            style: TextStyle(
-                                                color: AppTema.bluegrey700,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        tiposTec.when(
-                                          data: (data) =>
-                                              DropdownButtonFormField<String>(
-                                                  isExpanded: true,
-                                                  value: null,
-                                                  style: const TextStyle(
-                                                      color:
-                                                          AppTema.bluegrey700,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                  items: data.map((itemone) {
-                                                    return DropdownMenuItem<
-                                                        String>(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      value: itemone.idTipoTec,
-                                                      child: Text(
-                                                        itemone.tipoTec,
-                                                        overflow: TextOverflow
-                                                            .visible,
-                                                      ),
-                                                    );
-                                                  }).toList(),
-                                                  onChanged: (value) {
-                                                    print(value);
-                                                    ref
-                                                        .read(tipoTecProvAP
-                                                            .notifier)
-                                                        .update((state) =>
-                                                            value.toString());
-                                                    ref.refresh(
-                                                        futureTecnologicoProvAP);
-                                                  }),
-                                          loading: () =>
-                                              const CircularProgressIndicator(),
-                                          error: (error, stackTrace) => const Text(
-                                              'Error al cargar los tipos de institutos.'),
-                                        ),
-                                        const SizedBox(height: 20),
-                                        Container(
-                                          alignment: Alignment.topLeft,
-                                          child: const Text(
-                                            'Instituto de pertenencia',
-                                            style: TextStyle(
-                                                color: AppTema.bluegrey700,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        Consumer(
-                                          builder: (context, watch, _) {
-                                            return tecnologicos.when(
-                                              data: (data) =>
-                                                  DropdownButtonFormField<
-                                                          String>(
-                                                      value: null,
-                                                      isExpanded: true,
-                                                      style: const TextStyle(
-                                                          color: AppTema
-                                                              .bluegrey700,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                      items:
-                                                          data.map((itemone) {
-                                                        return DropdownMenuItem<
-                                                            String>(
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          value: itemone
-                                                              .claveTecnologico,
-                                                          child: Text(
-                                                            itemone
-                                                                .nombreTecnologico,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .visible,
-                                                          ),
-                                                        );
-                                                      }).toList(),
-                                                      onChanged: (value) {
-                                                        print(value);
-                                                        ref
-                                                            .read(
-                                                                tecnologicoProvAP
+                                                            ref
+                                                                .read(generoProv
                                                                     .notifier)
-                                                            .update((state) =>
-                                                                value
-                                                                    .toString());
-                                                        // ref.refresh(
-                                                        //     futureDepartamentoProvAP);
-                                                      }),
-                                              loading: () =>
-                                                  const CircularProgressIndicator(),
-                                              error: (error, stackTrace) =>
-                                                  const Text(
-                                                      'Error al cargar los tecnológicos.'),
-                                            );
-                                          },
-                                        ),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                        Container(
-                                          alignment: Alignment.topLeft,
-                                          child: const Text(
-                                            'Departamento perteneciente',
-                                            style: TextStyle(
-                                                color: AppTema.bluegrey700,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        departamentos.when(
-                                          data: (data) =>
-                                              DropdownButtonFormField<String>(
-                                                  value: null,
-                                                  isExpanded: true,
-                                                  style: const TextStyle(
-                                                      color:
-                                                          AppTema.bluegrey700,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                  items: data.map((itemone) {
-                                                    return DropdownMenuItem<
-                                                        String>(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      value: itemone
-                                                          .idDepartamento,
-                                                      child: Text(
-                                                        itemone
-                                                            .nombreDepartamento,
-                                                        overflow: TextOverflow
-                                                            .visible,
-                                                      ),
-                                                    );
-                                                  }).toList(),
-                                                  onChanged: (value) {
-                                                    ref
-                                                        .read(departamentoProvAP
-                                                            .notifier)
-                                                        .update((state) =>
-                                                            value.toString());
-                                                    // ref.refresh(
-                                                    //     futureCarreraProvAP);
-                                                  }),
-                                          loading: () =>
-                                              const CircularProgressIndicator(),
-                                          error: (error, stackTrace) => const Text(
-                                              'Error al cargar los departamentos.'),
-                                        ),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                        Container(
-                                          alignment: Alignment.topLeft,
-                                          child: const Text(
-                                            'Carrera',
-                                            style: TextStyle(
-                                                color: AppTema.bluegrey700,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        carreras.when(
-                                          data: (data) =>
-                                              DropdownButtonFormField<String>(
-                                                  value: null,
-                                                  isExpanded: true,
-                                                  style: const TextStyle(
-                                                      color:
-                                                          AppTema.bluegrey700,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                  items: data.map((itemone) {
-                                                    return DropdownMenuItem<
-                                                        String>(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      value: itemone.idCarrera,
-                                                      child: Text(
-                                                        itemone.nombreCarrera,
-                                                        overflow: TextOverflow
-                                                            .visible,
-                                                      ),
-                                                    );
-                                                  }).toList(),
-                                                  onChanged: (value) {
-                                                    cCarrera = value.toString();
-                                                    ref
-                                                        .read(carreraProvAP
-                                                            .notifier)
-                                                        .update((state) =>
-                                                            value.toString());
-                                                  }),
-                                          loading: () =>
-                                              const CircularProgressIndicator(),
-                                          error: (error, stackTrace) => const Text(
-                                              'Error al cargar las carreras.'),
-                                        ),
-                                        const SizedBox(height: 20),
-                                        Container(
-                                          height: 50,
-                                          width: double.infinity,
-                                          margin: const EdgeInsets.symmetric(
-                                              vertical: 20, horizontal: 10),
-                                          child: ElevatedButton(
-                                            child: const Center(
-                                                //height: 50,
-                                                child: Text(
-                                              'Registrar',
-                                              style: TextStyle(
-                                                  color: AppTema.grey100,
-                                                  fontSize: 25),
-                                            )),
-                                            onPressed: () async {
-                                              bool camposllenos = _formKey
-                                                  .currentState!
-                                                  .validate();
-                                              if (camposllenos == true &&
-                                                  fecha !=
-                                                      DateTime(0000, 00, 00)) {
-                                                //print('1');
-                                                bool si = await actualizarLider(
-                                                  id,
-                                                  cNumero.text,
-                                                  cIne.text,
-                                                  cCurp.text,
-                                                  DateFormat('yyyy-MM-dd')
-                                                      .format(fecha),
-                                                  cPromedio.text,
-                                                  cExpectativa,
-                                                  cCarrera,
-                                                  cGenero,
-                                                  cSemestre,
-                                                  cNivel,
-                                                );
+                                                                .update((state) =>
+                                                                    value
+                                                                        .toString());
+                                                          }),
+                                                  loading: () =>
+                                                      const CircularProgressIndicator(),
+                                                  error: (error, stackTrace) =>
+                                                      const Text(
+                                                          'Error al cargar los géneros'),
+                                                ),
+                                                const SizedBox(height: 20),
+                                                Container(
+                                                  alignment: Alignment.topLeft,
+                                                  child: const Text(
+                                                    'Expectativa',
+                                                    style: TextStyle(
+                                                        color:
+                                                            AppTema.bluegrey700,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 10),
+                                                expectativas.when(
+                                                  data: (data) =>
+                                                      DropdownButtonFormField<
+                                                              String>(
+                                                          value: null,
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                          items: data
+                                                              .map((itemone) {
+                                                            return DropdownMenuItem<
+                                                                String>(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              value: itemone
+                                                                  .idExpectativa,
+                                                              child: Text(
+                                                                itemone
+                                                                    .expectativa,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .visible,
+                                                              ),
+                                                            );
+                                                          }).toList(),
+                                                          onChanged: (value) {
+                                                            cExpectativa = value
+                                                                .toString();
 
-                                                print(id);
-                                                print(cNumero.text);
-                                                print(cIne.text);
-                                                print(cCurp.text);
-                                                print(DateFormat('yyyy-MM-dd')
-                                                    .format(fecha));
-                                                print(cPromedio.text);
-                                                print(cExpectativa);
-                                                print(cCarrera);
-                                                print(cGenero);
-                                                print(cSemestre);
-                                                print(cNivel);
-                                                if (si == true) {
-                                                  QuickAlert.show(
-                                                    context: context,
-                                                    type:
-                                                        QuickAlertType.success,
-                                                    title:
-                                                        'Agregado correctamente',
-                                                    confirmBtnText: 'Hecho',
-                                                    confirmBtnColor:
-                                                        AppTema.pizazz,
-                                                    onConfirmBtnTap: () {
-                                                      context
-                                                          .pushReplacementNamed(
-                                                              'participantes');
+                                                            ref
+                                                                .read(expectativaProv
+                                                                    .notifier)
+                                                                .update((state) =>
+                                                                    value
+                                                                        .toString());
+                                                          }),
+                                                  loading: () =>
+                                                      const CircularProgressIndicator(),
+                                                  error: (error, stackTrace) =>
+                                                      const Text(
+                                                          'Error al cargar las expectativas.'),
+                                                ),
+                                                const SizedBox(height: 20),
+                                                Container(
+                                                  alignment: Alignment.topLeft,
+                                                  child: const Text(
+                                                    'Semestre',
+                                                    style: TextStyle(
+                                                        color:
+                                                            AppTema.bluegrey700,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 10),
+                                                semestres.when(
+                                                  data: (data) =>
+                                                      DropdownButtonFormField<
+                                                              String>(
+                                                          value: null,
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                          items: data
+                                                              .map((itemone) {
+                                                            return DropdownMenuItem<
+                                                                String>(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              value: itemone
+                                                                  .idSemestre,
+                                                              child: Text(
+                                                                itemone
+                                                                    .numeroSemestre,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .visible,
+                                                              ),
+                                                            );
+                                                          }).toList(),
+                                                          onChanged: (value) {
+                                                            cSemestre = value
+                                                                .toString();
+
+                                                            ref
+                                                                .read(semestreProv
+                                                                    .notifier)
+                                                                .update((state) =>
+                                                                    value
+                                                                        .toString());
+                                                          }),
+                                                  loading: () =>
+                                                      const CircularProgressIndicator(),
+                                                  error: (error, stackTrace) =>
+                                                      const Text(
+                                                          'Error al cargar los semestres.'),
+                                                ),
+                                                const SizedBox(height: 20),
+                                                Center(
+                                                    child: ElevatedButton(
+                                                  child: Text(
+                                                    fechaSeleccionada != null
+                                                        ? 'Fecha seleccionada: ${DateFormat('yyyy-MM-dd').format(fecha)}'
+                                                        : 'Seleccione fecha de nacimiento',
+                                                  ),
+                                                  onPressed: () =>
+                                                      _mostrarDatePicker(
+                                                          context, ref),
+                                                )),
+                                                const SizedBox(height: 20),
+                                                Container(
+                                                  alignment: Alignment.topLeft,
+                                                  child: const Text(
+                                                    'Nivel académico',
+                                                    style: TextStyle(
+                                                        color:
+                                                            AppTema.bluegrey700,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 10),
+                                                niveles.when(
+                                                  data: (data) =>
+                                                      DropdownButtonFormField<
+                                                              String>(
+                                                          value: null,
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                          items: data
+                                                              .map((itemone) {
+                                                            return DropdownMenuItem<
+                                                                String>(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              value: itemone
+                                                                  .idNivel,
+                                                              child: Text(
+                                                                itemone
+                                                                    .nombreNivel,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .visible,
+                                                              ),
+                                                            );
+                                                          }).toList(),
+                                                          onChanged: (value) {
+                                                            cNivel = value
+                                                                .toString();
+                                                            ref
+                                                                .read(nivelAcademicoProv
+                                                                    .notifier)
+                                                                .update((state) =>
+                                                                    value
+                                                                        .toString());
+                                                          }),
+                                                  loading: () =>
+                                                      const CircularProgressIndicator(),
+                                                  error: (error, stackTrace) =>
+                                                      const Text(
+                                                          'Error al cargar los niveles académicos.'),
+                                                ),
+                                                const SizedBox(height: 20),
+                                                Container(
+                                                  alignment: Alignment.topLeft,
+                                                  child: const Text(
+                                                    'Tipo de instituto o centro de investigación',
+                                                    style: TextStyle(
+                                                        color:
+                                                            AppTema.bluegrey700,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 10),
+                                                tiposTec.when(
+                                                  data: (data) =>
+                                                      DropdownButtonFormField<
+                                                              String>(
+                                                          isExpanded: true,
+                                                          value: null,
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                          items: data
+                                                              .map((itemone) {
+                                                            return DropdownMenuItem<
+                                                                String>(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              value: itemone
+                                                                  .idTipoTec,
+                                                              child: Text(
+                                                                itemone.tipoTec,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .visible,
+                                                              ),
+                                                            );
+                                                          }).toList(),
+                                                          onChanged: (value) {
+                                                            print(value);
+                                                            ref
+                                                                .read(tipoTecProvAP
+                                                                    .notifier)
+                                                                .update((state) =>
+                                                                    value
+                                                                        .toString());
+                                                            ref.refresh(
+                                                                futureTecnologicoProvAP);
+                                                          }),
+                                                  loading: () =>
+                                                      const CircularProgressIndicator(),
+                                                  error: (error, stackTrace) =>
+                                                      const Text(
+                                                          'Error al cargar los tipos de institutos.'),
+                                                ),
+                                                const SizedBox(height: 20),
+                                                Container(
+                                                  alignment: Alignment.topLeft,
+                                                  child: const Text(
+                                                    'Instituto de pertenencia',
+                                                    style: TextStyle(
+                                                        color:
+                                                            AppTema.bluegrey700,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 10),
+                                                Consumer(
+                                                  builder: (context, watch, _) {
+                                                    return tecnologicos.when(
+                                                      data: (data) =>
+                                                          DropdownButtonFormField<
+                                                                  String>(
+                                                              value: null,
+                                                              isExpanded: true,
+                                                              style: const TextStyle(
+                                                                  color: AppTema
+                                                                      .bluegrey700,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                              items: data.map(
+                                                                  (itemone) {
+                                                                return DropdownMenuItem<
+                                                                    String>(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .centerLeft,
+                                                                  value: itemone
+                                                                      .claveTecnologico,
+                                                                  child: Text(
+                                                                    itemone
+                                                                        .nombreTecnologico,
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .visible,
+                                                                  ),
+                                                                );
+                                                              }).toList(),
+                                                              onChanged:
+                                                                  (value) {
+                                                                print(value);
+                                                                ref
+                                                                    .read(tecnologicoProvAP
+                                                                        .notifier)
+                                                                    .update((state) =>
+                                                                        value
+                                                                            .toString());
+                                                                // ref.refresh(
+                                                                //     futureDepartamentoProvAP);
+                                                              }),
+                                                      loading: () =>
+                                                          const CircularProgressIndicator(),
+                                                      error: (error,
+                                                              stackTrace) =>
+                                                          const Text(
+                                                              'Error al cargar los tecnológicos.'),
+                                                    );
+                                                  },
+                                                ),
+                                                const SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Container(
+                                                  alignment: Alignment.topLeft,
+                                                  child: const Text(
+                                                    'Departamento perteneciente',
+                                                    style: TextStyle(
+                                                        color:
+                                                            AppTema.bluegrey700,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 10),
+                                                departamentos.when(
+                                                  data: (data) =>
+                                                      DropdownButtonFormField<
+                                                              String>(
+                                                          value: null,
+                                                          isExpanded: true,
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                          items: data
+                                                              .map((itemone) {
+                                                            return DropdownMenuItem<
+                                                                String>(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              value: itemone
+                                                                  .idDepartamento,
+                                                              child: Text(
+                                                                itemone
+                                                                    .nombreDepartamento,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .visible,
+                                                              ),
+                                                            );
+                                                          }).toList(),
+                                                          onChanged: (value) {
+                                                            ref
+                                                                .read(departamentoProvAP
+                                                                    .notifier)
+                                                                .update((state) =>
+                                                                    value
+                                                                        .toString());
+                                                            // ref.refresh(
+                                                            //     futureCarreraProvAP);
+                                                          }),
+                                                  loading: () =>
+                                                      const CircularProgressIndicator(),
+                                                  error: (error, stackTrace) =>
+                                                      const Text(
+                                                          'Error al cargar los departamentos.'),
+                                                ),
+                                                const SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Container(
+                                                  alignment: Alignment.topLeft,
+                                                  child: const Text(
+                                                    'Carrera',
+                                                    style: TextStyle(
+                                                        color:
+                                                            AppTema.bluegrey700,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 10),
+                                                carreras.when(
+                                                  data: (data) =>
+                                                      DropdownButtonFormField<
+                                                              String>(
+                                                          value: null,
+                                                          isExpanded: true,
+                                                          style: const TextStyle(
+                                                              color: AppTema
+                                                                  .bluegrey700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                          items: data
+                                                              .map((itemone) {
+                                                            return DropdownMenuItem<
+                                                                String>(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              value: itemone
+                                                                  .idCarrera,
+                                                              child: Text(
+                                                                itemone
+                                                                    .nombreCarrera,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .visible,
+                                                              ),
+                                                            );
+                                                          }).toList(),
+                                                          onChanged: (value) {
+                                                            cCarrera = value
+                                                                .toString();
+                                                            ref
+                                                                .read(carreraProvAP
+                                                                    .notifier)
+                                                                .update((state) =>
+                                                                    value
+                                                                        .toString());
+                                                          }),
+                                                  loading: () =>
+                                                      const CircularProgressIndicator(),
+                                                  error: (error, stackTrace) =>
+                                                      const Text(
+                                                          'Error al cargar las carreras.'),
+                                                ),
+                                                const SizedBox(height: 20),
+                                                Container(
+                                                  height: 50,
+                                                  width: double.infinity,
+                                                  margin: const EdgeInsets
+                                                          .symmetric(
+                                                      vertical: 20,
+                                                      horizontal: 10),
+                                                  child: ElevatedButton(
+                                                    child: const Center(
+                                                        //height: 50,
+                                                        child: Text(
+                                                      'Registrar',
+                                                      style: TextStyle(
+                                                          color:
+                                                              AppTema.grey100,
+                                                          fontSize: 25),
+                                                    )),
+                                                    onPressed: () async {
+                                                      bool camposllenos =
+                                                          _formKey.currentState!
+                                                              .validate();
+
+                                                      if (camposllenos ==
+                                                              true &&
+                                                          fecha !=
+                                                              DateTime(0000, 00,
+                                                                  00)) {
+                                                        //print('1');
+                                                        bool si =
+                                                            await actualizarLider(
+                                                          id,
+                                                          cNumero.text,
+                                                          cIne.text,
+                                                          cCurp.text,
+                                                          DateFormat(
+                                                                  'yyyy-MM-dd')
+                                                              .format(fecha),
+                                                          cPromedio.text,
+                                                          cExpectativa,
+                                                          cCarrera,
+                                                          cGenero,
+                                                          cSemestre,
+                                                          cNivel,
+                                                        );
+                                                        ref
+                                                            .read(promedioAPProv
+                                                                .notifier)
+                                                            .update((state) =>
+                                                                cPromedio.text);
+                                                        print(id);
+                                                        print(cNumero.text);
+                                                        print(cIne.text);
+                                                        print(cCurp.text);
+                                                        print(DateFormat(
+                                                                'yyyy-MM-dd')
+                                                            .format(fecha));
+                                                        print(cPromedio.text);
+                                                        print(cExpectativa);
+                                                        print(cCarrera);
+                                                        print(cGenero);
+                                                        print(cSemestre);
+                                                        print(cNivel);
+                                                        if (si == true) {
+                                                          QuickAlert.show(
+                                                            context: context,
+                                                            type: QuickAlertType
+                                                                .success,
+                                                            title:
+                                                                'Agregado correctamente',
+                                                            confirmBtnText:
+                                                                'Hecho',
+                                                            confirmBtnColor:
+                                                                AppTema.pizazz,
+                                                            onConfirmBtnTap:
+                                                                () {
+                                                              context.pushReplacementNamed(
+                                                                  'actualizar_lider');
+                                                            },
+                                                          );
+                                                        } else {
+                                                          QuickAlert.show(
+                                                            context: context,
+                                                            type: QuickAlertType
+                                                                .error,
+                                                            title: 'Error',
+                                                            text:
+                                                                'Por favor intente mas tarde.',
+                                                            confirmBtnText:
+                                                                'Hecho',
+                                                            confirmBtnColor:
+                                                                AppTema.pizazz,
+                                                            onConfirmBtnTap:
+                                                                () {
+                                                              context.pushReplacementNamed(
+                                                                  'participantes');
+                                                            },
+                                                          );
+                                                        }
+                                                      } else {
+                                                        QuickAlert.show(
+                                                          context: context,
+                                                          type: QuickAlertType
+                                                              .warning,
+                                                          title:
+                                                              'Existen campos vacíos',
+                                                          confirmBtnText:
+                                                              'Hecho',
+                                                          confirmBtnColor:
+                                                              AppTema.pizazz,
+                                                        );
+                                                      }
                                                     },
-                                                  );
-                                                } else {
-                                                  QuickAlert.show(
-                                                    context: context,
-                                                    type: QuickAlertType.error,
-                                                    title: 'Error',
-                                                    text:
-                                                        'Por favor intente mas tarde.',
-                                                    confirmBtnText: 'Hecho',
-                                                    confirmBtnColor:
-                                                        AppTema.pizazz,
-                                                    onConfirmBtnTap: () {
-                                                      context
-                                                          .pushReplacementNamed(
-                                                              'participantes');
-                                                    },
-                                                  );
-                                                }
-                                              } else {
-                                                QuickAlert.show(
-                                                  context: context,
-                                                  type: QuickAlertType.warning,
-                                                  title:
-                                                      'Existen campos vacíos',
-                                                  confirmBtnText: 'Hecho',
-                                                  confirmBtnColor:
-                                                      AppTema.pizazz,
-                                                );
-                                              }
-                                            },
-                                          ),
-                                        ),
+                                                  ),
+                                                ),
+                                              ],
+                                            )),
                                       ],
-                                    )),
-                              ],
-                            );
-                    },
-                    loading: () => CircularProgressIndicator(),
-                    error: (error, stackTrace) =>
-                        Text('Error al cargar los datos $error'),
-                  ),
-                ),
+                                    )
+                                  : const Text(
+                                      'Ya haz actualizado los datos',
+                                      style: TextStyle(
+                                          color: AppTema.bluegrey700,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    );
+                            },
+                            loading: () => CircularProgressIndicator(),
+                            error: (error, stackTrace) =>
+                                Text('Error al cargar los datos $error'),
+                          )
+                        : const Text(
+                            'Ya haz actualizado los datos',
+                            style: TextStyle(
+                                color: AppTema.bluegrey700,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          )),
               ],
             )));
   }
