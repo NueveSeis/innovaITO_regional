@@ -149,7 +149,7 @@ class ModeloNegocioScreen extends ConsumerWidget {
                                 height: 50,
                               ),
                               Text(
-                                'No se encontraron datos',
+                                'Genere la ficha técnica',
                                 style: TextStyle(
                                     color: AppTema.bluegrey700,
                                     fontWeight: FontWeight.bold,

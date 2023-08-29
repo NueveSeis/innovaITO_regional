@@ -47,7 +47,6 @@ class _AccesoScreenState extends State<AccesoScreen> {
       return miString;
     } else {
       return '';
-      print('Error al obtener datos de la API');
     }
   }
 
@@ -63,7 +62,6 @@ class _AccesoScreenState extends State<AccesoScreen> {
       return matricula;
     } else {
       return '';
-      print('Error al obtener datos de la API');
     }
   }
 
@@ -79,7 +77,6 @@ class _AccesoScreenState extends State<AccesoScreen> {
       return matricula;
     } else {
       return '';
-      print('Error al obtener datos de la API');
     }
   }
 
@@ -96,7 +93,6 @@ class _AccesoScreenState extends State<AccesoScreen> {
       return juradoID;
     } else {
       return '';
-      print('Error al obtener datos de la API');
     }
   }
 
@@ -346,6 +342,12 @@ class _AccesoScreenState extends State<AccesoScreen> {
                         String barcodeScanRes =
                             await FlutterBarcodeScanner.scanBarcode(
                                 '#fa7a1e', 'Cancelar', false, ScanMode.QR);
+                        print(
+                            'codigoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo:$barcodeScanRes');
+                        if (barcodeScanRes == '202305313') {
+                          print(barcodeScanRes);
+                          context.pushReplacementNamed('registroUsuarioJurado');
+                        }
                         if (barcodeScanRes == '20230531') {
                           //print(barcodeScanRes);
                           context.pushNamed('registro_usuario_asesor');

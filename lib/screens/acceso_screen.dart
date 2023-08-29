@@ -50,7 +50,6 @@ class _AccesoScreenState extends State<AccesoScreen> {
       return matricula;
     } else {
       return 'SN';
-      print('Error al obtener datos de la API');
     }
   }
 
@@ -66,7 +65,6 @@ class _AccesoScreenState extends State<AccesoScreen> {
       return asesorID;
     } else {
       return 'SN';
-      print('Error al obtener datos de la API');
     }
   }
 
@@ -82,7 +80,6 @@ class _AccesoScreenState extends State<AccesoScreen> {
       return juradoID;
     } else {
       return 'SN';
-      print('Error al obtener datos de la API');
     }
   }
 
@@ -97,7 +94,6 @@ class _AccesoScreenState extends State<AccesoScreen> {
       return true;
     } else {
       return false;
-      print('Error al obtener datos de la API');
     }
   }
 
@@ -120,11 +116,11 @@ class _AccesoScreenState extends State<AccesoScreen> {
           return folio;
         }
       } else {
-        print('La respuesta está vacía.');
+        //print('La respuesta está vacía.');
         return 'SN';
       }
     } else {
-      print('Error en la solicitud HTTP: ${response.statusCode}');
+      //print('Error en la solicitud HTTP: ${response.statusCode}');
       return 'SN';
     }
   }
@@ -356,6 +352,10 @@ class _AccesoScreenState extends State<AccesoScreen> {
                         if (barcodeScanRes == '202305312') {
                           //print(barcodeScanRes);
                           context.pushNamed('registro_usuario_lider');
+                        }
+                        if (barcodeScanRes == '202305313') {
+                          print(barcodeScanRes);
+                          context.pushNamed('registroUsuarioJurado');
                         }
                       }),
                   TextButton(

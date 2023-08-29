@@ -57,6 +57,35 @@ class CardPosiciones extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          if (cal < 70.0)
+                            Center(
+                              child: Column(
+                                children: [
+                                  Transform.rotate(
+                                    angle: 0.0, // 45 degrees in radians
+                                    child: Container(
+                                      width: 150,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5, horizontal: 10),
+                                      color: Colors.red,
+                                      child: Center(
+                                        child: Text(
+                                          'No Acreditado',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  )
+                                ],
+                              ),
+                            ),
                           Text(
                             nombreProyecto,
                             style: const TextStyle(
@@ -91,23 +120,6 @@ class CardPosiciones extends StatelessWidget {
                               AppTema.primario,
                             ),
                           ),
-                          if (cal < 70.0)
-                            Transform.rotate(
-                              angle: -0.785398, // 45 degrees in radians
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 5, horizontal: 10),
-                                color: Colors.red,
-                                child: Text(
-                                  'No Acreditado',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ),
-                            ),
                         ],
                       ),
                     ),
