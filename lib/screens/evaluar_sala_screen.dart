@@ -30,10 +30,10 @@ class EvaluarSalaScreen extends ConsumerWidget {
       if (response.statusCode == 200) {
         rubrica = criterioRubricaFromJson(response.body);
       } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        //print('La solicitud no fue exitosa: ${response.statusCode}');
       }
     } catch (error) {
-      print('Error al realizar la solicitud: $error');
+      //print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -51,10 +51,10 @@ class EvaluarSalaScreen extends ConsumerWidget {
       'Recomendaciones': rec
     });
     if (response.statusCode == 200) {
-      print('Modificado en la db');
+      //print('Modificado en la db');
       return true;
     } else {
-      print('No modificado');
+      //print('No modificado');
       return false;
     }
   }
@@ -66,10 +66,10 @@ class EvaluarSalaScreen extends ConsumerWidget {
     var response = await http.post(Uri.parse(url),
         body: {'Folio': foliop, 'Id_jurado': idjur, 'Estado_evaluacion': eva});
     if (response.statusCode == 200) {
-      print('Modificado en la db');
+      //print('Modificado en la db');
       return true;
     } else {
-      print('No modificado');
+      //print('No modificado');
       return false;
     }
   }
@@ -92,7 +92,7 @@ class EvaluarSalaScreen extends ConsumerWidget {
                   height: 50,
                 ),
                 const Text(
-                  'Criterios de la rubrica',
+                  'Criterios de la rúbrica',
                   style: TextStyle(
                       color: AppTema.balticSea,
                       fontWeight: FontWeight.bold,
@@ -131,8 +131,8 @@ class EvaluarSalaScreen extends ConsumerWidget {
                             itemCount: rubrica.length,
                             itemBuilder: (context, index) {
                               return Container(
-                                padding: EdgeInsets.all(16),
-                                margin: EdgeInsets.symmetric(vertical: 8),
+                                padding: const EdgeInsets.all(16),
+                                margin: const EdgeInsets.symmetric(vertical: 8),
                                 decoration: BoxDecoration(
                                   border: Border.all(color: Colors.grey),
                                   borderRadius: BorderRadius.circular(8),
@@ -143,10 +143,10 @@ class EvaluarSalaScreen extends ConsumerWidget {
                                     // Text(rubrica[index].descripcion),
                                     Text(
                                         'Criterio: ${rubrica[index].nombreCriterio}'),
-                                    Text('Puntaje'),
+                                    const Text('Puntaje'),
                                     Text(
-                                        'minimo: ${rubrica[index].valorMin}     maximo: ${rubrica[index].valorMax}'),
-                                    SizedBox(height: 8),
+                                        'mínimo: ${rubrica[index].valorMin}     máximo: ${rubrica[index].valorMax}'),
+                                    const SizedBox(height: 8),
                                     TextFormField(
                                       autovalidateMode:
                                           AutovalidateMode.onUserInteraction,
@@ -180,9 +180,9 @@ class EvaluarSalaScreen extends ConsumerWidget {
 
                                         return null; // La validación pasó
                                       },
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                         labelText:
-                                            'Ingrese calificacion para el criterio',
+                                            'Ingrese calificación para el criterio',
                                         border: OutlineInputBorder(),
                                       ),
                                     ),
@@ -200,7 +200,7 @@ class EvaluarSalaScreen extends ConsumerWidget {
                                         // newValues[index] = ValorIngresado(int.parse(value));
                                         // ref.read(valoresIngresadosProvider).state = newValues;
                                       },
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                         labelText:
                                             'Ingrese observaciones si existe',
                                         border: OutlineInputBorder(),
@@ -221,7 +221,7 @@ class EvaluarSalaScreen extends ConsumerWidget {
                                         // newValues[index] = ValorIngresado(int.parse(value));
                                         // ref.read(valoresIngresadosProvider).state = newValues;
                                       },
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                         labelText:
                                             'Ingrese recomendaciones si existe',
                                         border: OutlineInputBorder(),
@@ -246,7 +246,7 @@ class EvaluarSalaScreen extends ConsumerWidget {
                     child: const Center(
                         //height: 50,
                         child: Text(
-                      'Registrar rubrica',
+                      'Registrar rúbrica',
                       style: TextStyle(color: AppTema.grey100, fontSize: 25),
                     )),
                     onPressed: () async {
@@ -255,18 +255,18 @@ class EvaluarSalaScreen extends ConsumerWidget {
                             index < _controllersListCriterios.length;
                             index++) {
                           // print('Valores para el índice $index:');
-                          print(
-                              'Primer TextEditingController: ${_controllersListCriterios[index][0].text}');
-                          print(
-                              'Segundo TextEditingController: ${_controllersListCriterios[index][1].text}');
-                          print(
-                              'Tercer TextEditingController: ${_controllersListCriterios[index][2].text}');
-                          print(datosProyectoPESSvar.first.folio);
-                          print(rubrica[index].idCriterio);
-                          print(juradoID);
+                          // print(
+                          //     'Primer TextEditingController: ${_controllersListCriterios[index][0].text}');
+                          // print(
+                          //     'Segundo TextEditingController: ${_controllersListCriterios[index][1].text}');
+                          // print(
+                          //     'Tercer TextEditingController: ${_controllersListCriterios[index][2].text}');
+                          // print(datosProyectoPESSvar.first.folio);
+                          // print(rubrica[index].idCriterio);
+                          // print(juradoID);
                           // print('---');
                           // // Separador entre conjuntos de TextEditingController
-                          String id = Uuid().v4().substring(0, 8);
+                          String id = const Uuid().v4().substring(0, 8);
                           agregarCalificacion(
                               id,
                               _controllersListCriterios[index][0].text,
@@ -283,7 +283,7 @@ class EvaluarSalaScreen extends ConsumerWidget {
                           QuickAlert.show(
                             context: context,
                             type: QuickAlertType.success,
-                            title: 'Asignado correctamente',
+                            title: 'Calificado correctamente',
                             confirmBtnText: 'Hecho',
                             confirmBtnColor: AppTema.pizazz,
                             onConfirmBtnTap: () {

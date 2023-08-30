@@ -216,7 +216,7 @@ class ActualizarDatosLiderScreen extends ConsumerWidget {
                                                             .hasMatch(
                                                                 value ?? '')
                                                         ? null
-                                                        : 'Promedio no valido.';
+                                                        : 'Promedio no válido.';
                                                   },
                                                 ),
                                                 const SizedBox(height: 20),

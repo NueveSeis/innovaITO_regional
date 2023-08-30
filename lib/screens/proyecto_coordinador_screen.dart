@@ -1,23 +1,20 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:innova_ito/helpers/helpers.dart';
 
 import 'package:innova_ito/models/models.dart';
-import 'package:innova_ito/providers/providers.dart';
+
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:open_filex/open_filex.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:printing/printing.dart';
+
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
-import 'package:pdf/widgets.dart' as pw;
 
 class ProyectoCoordinadorScreen extends ConsumerWidget {
   static const String name = 'proyecto_coordinador';
@@ -35,11 +32,11 @@ class ProyectoCoordinadorScreen extends ConsumerWidget {
         return true;
       } else {
         return false;
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        // print('La solicitud no fue exitosa: ${response.statusCode}');
       }
     } catch (error) {
       return false;
-      print('Error al realizar la solicitud: $error');
+      //print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -57,11 +54,11 @@ class ProyectoCoordinadorScreen extends ConsumerWidget {
         return true;
       } else {
         return false;
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        //print('La solicitud no fue exitosa: ${response.statusCode}');
       }
     } catch (error) {
       return false;
-      print('Error al realizar la solicitud: $error');
+      //print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -239,7 +236,7 @@ class ProyectoCoordinadorScreen extends ConsumerWidget {
                                                     height: 5,
                                                   ),
                                                   Text(
-                                                    'Categoria: ${proyectos[index].nombreCategoria}',
+                                                    'Categoría: ${proyectos[index].nombreCategoria}',
                                                     textAlign: TextAlign.end,
                                                     style: const TextStyle(
                                                         color:
@@ -250,7 +247,7 @@ class ProyectoCoordinadorScreen extends ConsumerWidget {
                                                     height: 5,
                                                   ),
                                                   Text(
-                                                    'Area: ${proyectos[index].nombreArea}',
+                                                    'Área: ${proyectos[index].nombreArea}',
                                                     textAlign: TextAlign.end,
                                                     style: const TextStyle(
                                                         color:
@@ -432,7 +429,7 @@ class ProyectoCoordinadorScreen extends ConsumerWidget {
                                               borderRadius:
                                                   BorderRadius.circular(5),
                                             ),
-                                            child: Text(
+                                            child: const Text(
                                               'Estado',
                                               style: TextStyle(
                                                 color: Colors.white,

@@ -63,7 +63,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
       }
     } catch (e) {
       // Manejar el error de manera adecuada, por ejemplo, mostrar un mensaje de error al usuario
-      print('Error en la solicitud HTTP: $e');
+      //print('Error en la solicitud HTTP: $e');
       return false;
     }
   }
@@ -76,12 +76,12 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
     if (response.statusCode == 200) {
       var datos = jsonDecode(response.body);
       memoriaProyecto = datos[0]['Id_memoriaTecnica'] as String?;
-      print(memoriaProyecto);
+      //print(memoriaProyecto);
       //await Future.delayed(Duration(seconds: 2));
       return memoriaProyecto;
     } else {
       return 'SN';
-      print('Error al obtener datos de la API');
+      //print('Error al obtener datos de la API');
     }
   }
 
@@ -104,7 +104,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                   if (snapshot.hasError) {
                     // return Center(
                     //     child: Text('Error: ${snapshot.error.toString()}'));
-                    print('Error: ${snapshot.error.toString()}');
+                    //print('Error: ${snapshot.error.toString()}');
                     return const Column(
                       children: [
                         SizedBox(
@@ -127,7 +127,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                                 height: 50,
                               ),
                               Text(
-                                'Ya haz subido la memoria técnica',
+                                'Ya has subido la memoria técnica',
                                 style: TextStyle(
                                     color: AppTema.bluegrey700,
                                     fontWeight: FontWeight.bold,
@@ -226,7 +226,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                                           return (!RegexUtil.datos
                                                   .hasMatch(value ?? ''))
                                               ? null
-                                              : 'No contiene ningun dato.';
+                                              : 'No contiene ningún dato.';
                                         },
                                       ),
                                       const SizedBox(height: 20),
@@ -441,7 +441,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
                                                     type:
                                                         QuickAlertType.success,
                                                     title:
-                                                        'Asignado correctamente',
+                                                        'Memoria técnica agregada',
                                                     confirmBtnText: 'Hecho',
                                                     confirmBtnColor:
                                                         AppTema.pizazz,

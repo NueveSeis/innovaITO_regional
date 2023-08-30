@@ -36,7 +36,7 @@ class _RecuperarContrasenaScreenState extends State<RecuperarContrasenaScreen> {
 
     var data = json.decode(response.body);
     if (data == "Realizado") {
-      print('buscando usuario...');
+      //print('buscando usuario...');
       getUser(correo.text);
       enviar();
 
@@ -73,7 +73,7 @@ class _RecuperarContrasenaScreenState extends State<RecuperarContrasenaScreen> {
       QuickAlert.show(
         context: context,
         type: QuickAlertType.error,
-        title: 'Intente mas tarde',
+        title: 'Intente más tarde',
         text: 'Problemas al enviar el correo electrónico.',
         confirmBtnText: 'Hecho',
         confirmBtnColor: AppTema.pizazz,
@@ -89,7 +89,7 @@ class _RecuperarContrasenaScreenState extends State<RecuperarContrasenaScreen> {
     if (response.statusCode == 200) {
       dataUser = usuarioDataFromJson(response.body);
     } else {
-      print('nisiquiera carga');
+      // print('nisiquiera carga');
     }
   }
 

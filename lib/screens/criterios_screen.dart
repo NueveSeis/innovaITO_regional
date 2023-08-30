@@ -10,7 +10,7 @@ class CriteriosScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final size = MediaQuery.of(context).size;
+    //final size = MediaQuery.of(context).size;
     final criterios = ref.watch(criteriosProvider);
 
     return Scaffold(
@@ -53,7 +53,7 @@ class CriteriosScreen extends ConsumerWidget {
                   // Show a dialog to create a new rubric
                   _showCreateRubricDialog(ref, context);
                 },
-                child: const Text('Agregar Rubrica'),
+                child: const Text('Agregar Rúbrica'),
               ),
             ],
           ),
@@ -86,14 +86,14 @@ class CriteriosScreen extends ConsumerWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Crear Rubrica'),
+          title: const Text('Crear Rúbrica'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
                 decoration:
-                    const InputDecoration(labelText: 'Nombre de la Rubrica'),
+                    const InputDecoration(labelText: 'Nombre de la Rúbrica'),
                 onChanged: (value) => rubricName = value,
               ),
               const SizedBox(height: 10),
@@ -111,7 +111,7 @@ class CriteriosScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                'Suma de Valores Máximos: ${_calculateTotalMax(ref, maxValue)}%',
+                'Suma de valores máximos: ${_calculateTotalMax(ref, maxValue)}%',
               ),
             ],
           ),

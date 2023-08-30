@@ -9,7 +9,7 @@ class AsignacionFechasScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List _dates;
+    //List _dates;
     return Scaffold(
       body: Fondo(
           tituloPantalla: 'Asignación de fechas',

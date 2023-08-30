@@ -68,7 +68,7 @@ class CardPosiciones extends StatelessWidget {
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 5, horizontal: 10),
                                       color: Colors.red,
-                                      child: Center(
+                                      child: const Center(
                                         child: Text(
                                           'No Acreditado',
                                           style: TextStyle(
@@ -80,7 +80,7 @@ class CardPosiciones extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   )
                                 ],

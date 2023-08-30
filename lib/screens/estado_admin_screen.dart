@@ -22,10 +22,10 @@ class EstadoAdminScreen extends ConsumerWidget {
       if (response.statusCode == 200) {
         estado = estadoFromJson(response.body);
       } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        //print('La solicitud no fue exitosa: ${response.statusCode}');
       }
     } catch (error) {
-      print('Error al realizar la solicitud: $error');
+      //print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -37,17 +37,17 @@ class EstadoAdminScreen extends ConsumerWidget {
     try {
       var response = await http.post(Uri.parse(url),
           body: {'Id_estado': 'EST$idEst', 'Nombre_estado': nombre});
-      print('Código de estado de la respuesta: ${response.statusCode}');
-      print('Cuerpo de la respuesta: ${response.body}');
+      //print('Código de estado de la respuesta: ${response.statusCode}');
+      //print('Cuerpo de la respuesta: ${response.body}');
       if (response.statusCode == 200) {
-        print('Modificado en la db');
+        //print('Modificado en la db');
         return true;
       } else {
-        print('No modificado');
+        //print('No modificado');
         return false;
       }
     } catch (error) {
-      print('Error durante la solicitud HTTP: $error');
+      //print('Error durante la solicitud HTTP: $error');
       return false;
     }
   }
@@ -57,10 +57,10 @@ class EstadoAdminScreen extends ConsumerWidget {
         'https://evarafael.com/Aplicacion/rest/delete_estado.php?Id_estado=$idEst'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
-      print('Modificado en la db');
+      //print('Modificado en la db');
       return true;
     } else {
-      print('No modificado');
+      //print('No modificado');
       return false;
     }
   }
@@ -237,7 +237,7 @@ class EstadoAdminScreen extends ConsumerWidget {
                                                                   type: QuickAlertType
                                                                       .success,
                                                                   title:
-                                                                      'Eliminado correctamente',
+                                                                      'Estado eliminado',
                                                                   confirmBtnText:
                                                                       'Hecho',
                                                                   confirmBtnColor:
@@ -331,7 +331,7 @@ class EstadoAdminScreen extends ConsumerWidget {
                   QuickAlert.show(
                     context: context,
                     type: QuickAlertType.success,
-                    title: 'Agregado correctamente',
+                    title: 'Estado agregado',
                     confirmBtnText: 'Hecho',
                     confirmBtnColor: AppTema.pizazz,
                     onConfirmBtnTap: () {

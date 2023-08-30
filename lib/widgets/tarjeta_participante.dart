@@ -48,7 +48,7 @@ class TarjetaParticipante extends ConsumerWidget {
         },
       );
     } else {
-      print('nisiquiera carga');
+      //print('nisiquiera carga');
     }
   }
 

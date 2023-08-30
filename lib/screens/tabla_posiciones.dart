@@ -114,7 +114,7 @@ class TablaPosicionesScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               FutureBuilder(
@@ -141,7 +141,7 @@ class TablaPosicionesScreen extends StatelessWidget {
                                 fontSize: 20),
                           ),
                           Container(
-                            height: 60,
+                            height: 90,
                             width: size.width / 2,
                             margin: const EdgeInsets.symmetric(
                                 vertical: 20, horizontal: 10),
@@ -154,10 +154,11 @@ class TablaPosicionesScreen extends StatelessWidget {
                                   ),
                                   Icon(Icons.gavel_rounded),
                                   SizedBox(
-                                    height: 5,
+                                    height: 10,
                                   ),
                                   Text(
-                                    'Finalizar Evento',
+                                    'Asignar calificaciones finales',
+                                    textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: AppTema.grey100, fontSize: 15),
                                   ),

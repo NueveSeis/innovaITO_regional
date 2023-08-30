@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:innova_ito/helpers/helpers.dart';
 import 'package:innova_ito/theme/app_tema.dart';
-import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:http/http.dart' as http;
@@ -57,17 +56,17 @@ class AgregarRubricaScreen extends ConsumerWidget {
         'Porcentaje_criterio': porcentajeCri,
         'Id_rubrica': 'RUB$idRub'
       });
-      print('Código de estado de la respuesta: ${response.statusCode}');
-      print('Cuerpo de la respuesta: ${response.body}');
+      //print('Código de estado de la respuesta: ${response.statusCode}');
+      //print('Cuerpo de la respuesta: ${response.body}');
       if (response.statusCode == 200) {
-        print('Modificado en la db');
+        //print('Modificado en la db');
         return true;
       } else {
-        print('No modificado');
+        //print('No modificado');
         return false;
       }
     } catch (error) {
-      print('Error durante la solicitud HTTP: $error');
+      //print('Error durante la solicitud HTTP: $error');
       return false;
     }
   }
@@ -102,7 +101,7 @@ class AgregarRubricaScreen extends ConsumerWidget {
               children: [
                 const SizedBox(height: 50),
                 const Text(
-                  'Ingrese datos de la rubrica',
+                  'Ingrese datos de la rúbrica',
                   style: TextStyle(
                       color: AppTema.balticSea,
                       fontWeight: FontWeight.bold,
@@ -129,25 +128,25 @@ class AgregarRubricaScreen extends ConsumerWidget {
                             keyboardType: TextInputType.text,
                             decoration:
                                 InputDecorations.registroLiderDecoration(
-                              hintText: 'Ingrese nombre de la rubrica',
-                              labelText: 'Nombre de la rubrica',
+                              hintText: 'Ingrese nombre de la rúbrica',
+                              labelText: 'Nombre de la rúbrica',
                             ),
                             validator: (value) {
                               return RegexUtil.nombres.hasMatch(value ?? '')
                                   ? null
-                                  : 'Nombre no valido.';
+                                  : 'Nombre no válido.';
                             },
                           ),
                           const SizedBox(height: 30),
                           const Text(
-                            'Seleccione el tipo de rubrica:',
+                            'Seleccione el tipo de rúbrica:',
                             style: TextStyle(
                                 color: AppTema.balticSea,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15),
                           ),
                           SwitchListTile.adaptive(
-                              title: const Text('Rubrica Stand  (Valor: 60%)'),
+                              title: const Text('Rúbrica Stand  (Valor: 60%)'),
                               activeColor: AppTema.pizazz,
                               value: isActiveStand,
                               onChanged: (value) {
@@ -160,7 +159,7 @@ class AgregarRubricaScreen extends ConsumerWidget {
                               }),
                           const SizedBox(height: 10),
                           SwitchListTile.adaptive(
-                              title: const Text('Rubrica Sala  (Valor: 40%)'),
+                              title: const Text('Rúbrica Sala  (Valor: 40%)'),
                               activeColor: AppTema.pizazz,
                               value: isActiveSala,
                               onChanged: (value) {
@@ -181,8 +180,8 @@ class AgregarRubricaScreen extends ConsumerWidget {
                             keyboardType: TextInputType.number,
                             decoration:
                                 InputDecorations.registroLiderDecoration(
-                              hintText: 'Numero de criterios',
-                              labelText: 'Numero de criterios',
+                              hintText: 'Número de criterios',
+                              labelText: 'Número de criterios',
                             ),
                             onChanged: (value) {
                               ref
@@ -192,7 +191,7 @@ class AgregarRubricaScreen extends ConsumerWidget {
                             validator: (value) {
                               return RegexUtil.criterios.hasMatch(value ?? '')
                                   ? null
-                                  : 'Numero no valido, puede crear hasta 100 criterios.';
+                                  : 'Número no válido, puede crear hasta 100 criterios.';
                             },
                           ),
                           const SizedBox(height: 20),
@@ -236,7 +235,7 @@ class AgregarRubricaScreen extends ConsumerWidget {
                                       return RegexUtil.nombres
                                               .hasMatch(value ?? '')
                                           ? null
-                                          : 'Descripción no valida.';
+                                          : 'Descripción no válida.';
                                     },
                                   ),
                                   const SizedBox(height: 10),
@@ -257,7 +256,7 @@ class AgregarRubricaScreen extends ConsumerWidget {
                                       return RegexUtil.criterios
                                               .hasMatch(value ?? '')
                                           ? null
-                                          : 'Numero no valido.';
+                                          : 'Número no válido.';
                                     },
                                   ),
                                   const SizedBox(height: 10),
@@ -275,7 +274,7 @@ class AgregarRubricaScreen extends ConsumerWidget {
                                 child: const Center(
                                     //height: 50,
                                     child: Text(
-                                  'Registrar rubrica',
+                                  'Registrar rúbrica',
                                   style: TextStyle(
                                       color: AppTema.grey100, fontSize: 25),
                                 )),
@@ -337,7 +336,7 @@ class AgregarRubricaScreen extends ConsumerWidget {
                                             QuickAlert.show(
                                               context: context,
                                               type: QuickAlertType.success,
-                                              title: 'Agregado correctamente',
+                                              title: 'Rúbrica agregada',
                                               confirmBtnText: 'Hecho',
                                               confirmBtnColor: AppTema.pizazz,
                                               onConfirmBtnTap: () {
@@ -388,7 +387,7 @@ class AgregarRubricaScreen extends ConsumerWidget {
                                         context: context,
                                         type: QuickAlertType.warning,
                                         title:
-                                            'No ha seleccionado tipo de rubrica',
+                                            'No ha seleccionado tipo de rúbrica',
                                         confirmBtnText: 'Hecho',
                                         confirmBtnColor: AppTema.pizazz,
                                         onConfirmBtnTap: () {

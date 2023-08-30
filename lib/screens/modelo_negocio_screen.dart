@@ -30,10 +30,10 @@ class ModeloNegocioScreen extends ConsumerWidget {
     var response = await request.send();
 
     if (response.statusCode == 200) {
-      print('PDF subido exitosamente');
+      //print('PDF subido exitosamente');
       return true;
     } else {
-      print('Error al subir el PDF');
+      //print('Error al subir el PDF');
       return false;
     }
   }
@@ -46,10 +46,10 @@ class ModeloNegocioScreen extends ConsumerWidget {
       'Modelo': nombre,
     });
     if (response.statusCode == 200) {
-      print('Modificado en la db');
+      //print('Modificado en la db');
       return true;
     } else {
-      print('No modificado');
+      //print('No modificado');
       return false;
     }
   }
@@ -61,10 +61,10 @@ class ModeloNegocioScreen extends ConsumerWidget {
       'Folio': foliop,
     });
     if (response.statusCode == 200) {
-      print('Modificado en la db');
+      //print('Modificado en la db');
       return true;
     } else {
-      print('No modificado');
+      //print('No modificado');
       return false;
     }
   }
@@ -79,10 +79,10 @@ class ModeloNegocioScreen extends ConsumerWidget {
       if (response.statusCode == 200) {
         proyecto = proyectoFromJson(response.body);
       } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        //print('La solicitud no fue exitosa: ${response.statusCode}');
       }
     } catch (error) {
-      print('Error al realizar la solicitud: $error');
+      //print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -97,7 +97,7 @@ class ModeloNegocioScreen extends ConsumerWidget {
       final file = File(filePath);
       await file.writeAsBytes(response.bodyBytes);
 
-      print('Archivo descargado en: $filePath');
+      //print('Archivo descargado en: $filePath');
       return filePath;
     } else {
       throw Exception('Error al descargar el archivo');
@@ -112,9 +112,9 @@ class ModeloNegocioScreen extends ConsumerWidget {
     );
 
     if (response.statusCode == 200) {
-      print('Archivo eliminado correctamente.');
+      //print('Archivo eliminado correctamente.');
     } else {
-      print('Error al eliminar el archivo: ${response.body}');
+      //print('Error al eliminar el archivo: ${response.body}');
     }
   }
 
@@ -173,7 +173,7 @@ class ModeloNegocioScreen extends ConsumerWidget {
                                   height: 15,
                                 ),
                                 const Text(
-                                  'El archivo debe ser en formato pdf.',
+                                  'El archivo debe ser en formato PDF.',
                                   style: TextStyle(
                                       color: AppTema.balticSea,
                                       fontWeight: FontWeight.normal,
@@ -209,8 +209,7 @@ class ModeloNegocioScreen extends ConsumerWidget {
                                           QuickAlert.show(
                                             context: context,
                                             type: QuickAlertType.success,
-                                            title:
-                                                'Archivo subido correctamente',
+                                            title: 'Archivo subido',
                                             confirmBtnText: 'Hecho',
                                             confirmBtnColor: AppTema.pizazz,
                                             onConfirmBtnTap: () {
@@ -264,7 +263,7 @@ class ModeloNegocioScreen extends ConsumerWidget {
                               const SizedBox(
                                 height: 50,
                               ),
-                              const Text('¿Que desea hacer con el archivo?',
+                              const Text('¿Qué desea hacer con el archivo?',
                                   style: TextStyle(
                                       color: AppTema.bluegrey700,
                                       fontWeight: FontWeight.normal,
@@ -292,10 +291,10 @@ class ModeloNegocioScreen extends ConsumerWidget {
                                     onPressed: () async {
                                       final String rutaArc =
                                           proyecto.first.modeloNegocio;
-                                      print(rutaArc);
+                                      //print(rutaArc);
                                       String url =
                                           'https://evarafael.com/Aplicacion/rest/archivos/modelo/$rutaArc';
-                                      print(url);
+                                      //print(url);
                                       // Get the URL of the file to download.
                                       String rut =
                                           await downloadFile(url, rutaArc);
@@ -326,7 +325,7 @@ class ModeloNegocioScreen extends ConsumerWidget {
                                         QuickAlert.show(
                                             context: context,
                                             type: QuickAlertType.success,
-                                            title: 'Eliminado correctamente',
+                                            title: 'Archivo eliminado',
                                             confirmBtnText: 'Hecho',
                                             confirmBtnColor: AppTema.pizazz,
                                             onConfirmBtnTap: () {

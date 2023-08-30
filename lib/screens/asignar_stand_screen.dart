@@ -53,17 +53,17 @@ Future<bool> agregarHStand(
       'Hora_inicio': hIncio,
       'Hora_final': hFin
     });
-    print('Código de estado de la respuesta: ${response.statusCode}');
-    print('Cuerpo de la respuesta: ${response.body}');
+    // print('Código de estado de la respuesta: ${response.statusCode}');
+    //print('Cuerpo de la respuesta: ${response.body}');
     if (response.statusCode == 200) {
-      print('Modificado en la db');
+      //print('Modificado en la db');
       return true;
     } else {
-      print('No modificado');
+      //print('No modificado');
       return false;
     }
   } catch (error) {
-    print('Error durante la solicitud HTTP: $error');
+    //print('Error durante la solicitud HTTP: $error');
     return false;
   }
 }
@@ -231,7 +231,7 @@ class AsignarStandScreen extends ConsumerWidget {
                       Container(
                         alignment: Alignment.topLeft,
                         child: const Text(
-                          'Recuerde que las horas asignadas deberán cumplir con el horario laboral de 8:00 hrs a 18:00 hrs.',
+                          'Recuerde que las horas asignadas deberán cumplir con el horario laboral de 8:00 h a 18:00 h.',
                           textAlign: TextAlign.justify,
                           style: TextStyle(
                               color: AppTema.bluegrey700,
@@ -389,7 +389,7 @@ class AsignarStandScreen extends ConsumerWidget {
                                       QuickAlert.show(
                                         context: context,
                                         type: QuickAlertType.success,
-                                        title: 'Agregado correctamente',
+                                        title: 'Stand asignado',
                                         confirmBtnText: 'Hecho',
                                         confirmBtnColor: AppTema.pizazz,
                                         onConfirmBtnTap: () {

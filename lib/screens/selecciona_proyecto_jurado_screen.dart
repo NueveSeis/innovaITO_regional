@@ -1,14 +1,11 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:innova_ito/helpers/regexUtil.dart';
-import 'package:innova_ito/models/proyectosJuradoASJS.dart';
+
 import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/models/models.dart';
-import 'package:innova_ito/ui/input_decorations.dart';
-import 'package:innova_ito/widgets/tarjeta_requerimientos.dart';
+
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:http/http.dart' as http;
 
@@ -32,12 +29,12 @@ class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
         proyectos = proyectosSelecJuradoPsjFromJson(response.body);
         return true;
       } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        //print('La solicitud no fue exitosa: ${response.statusCode}');
         return false;
       }
     } catch (error) {
       return false;
-      print('Error al realizar la solicitud: $error');
+      //print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -52,12 +49,12 @@ class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
         asesoWF = proyectoAsesorWfFromJson(response.body);
         return true;
       } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        //print('La solicitud no fue exitosa: ${response.statusCode}');
         return false;
       }
     } catch (error) {
       return false;
-      print('Error al realizar la solicitud: $error');
+      //print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -72,10 +69,10 @@ class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
       'Id_jurado': idJur
     });
     if (response.statusCode == 200) {
-      print('Modificado en la db');
+      //print('Modificado en la db');
       return true;
     } else {
-      print('No modificado');
+      //print('No modificado');
       return false;
     }
   }
@@ -91,10 +88,10 @@ class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
       'Id_jurado': idJur
     });
     if (response.statusCode == 200) {
-      print('Modificado en la db');
+      //print('Modificado en la db');
       return true;
     } else {
-      print('No modificado');
+      //print('No modificado');
       return false;
     }
   }
@@ -105,10 +102,10 @@ class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
     var response = await http
         .post(Uri.parse(url), body: {'Folio': foliop, 'Id_jurado': idJur});
     if (response.statusCode == 200) {
-      print('Modificado en la db');
+      //print('Modificado en la db');
       return true;
     } else {
-      print('No modificado');
+      //print('No modificado');
       return false;
     }
   }
@@ -230,7 +227,7 @@ class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
                                                     ),
                                                     const SizedBox(height: 6),
                                                     Text(
-                                                      'Area: ${proyectos[index].nombreArea}',
+                                                      'Área: ${proyectos[index].nombreArea}',
                                                       style: const TextStyle(
                                                         color:
                                                             AppTema.bluegrey700,
@@ -239,7 +236,7 @@ class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
                                                     ),
                                                     const SizedBox(height: 6),
                                                     Text(
-                                                      'Categoria: ${proyectos[index].nombreCategoria}',
+                                                      'Categoría: ${proyectos[index].nombreCategoria}',
                                                       style: const TextStyle(
                                                         color:
                                                             AppTema.bluegrey700,
@@ -362,7 +359,7 @@ class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
                                                           onPressed: () async {
                                                             // Lógica para "Asignar a Stand"
                                                             String idEvalua =
-                                                                Uuid()
+                                                                const Uuid()
                                                                     .v4()
                                                                     .substring(
                                                                         0, 8);
@@ -394,7 +391,7 @@ class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
                                                                     QuickAlertType
                                                                         .warning,
                                                                 title:
-                                                                    'Este proyecto aun no tiene stand asignado',
+                                                                    'Este proyecto aún no tiene stand asignado',
                                                                 confirmBtnText:
                                                                     'Hecho',
                                                                 confirmBtnColor:
@@ -434,7 +431,7 @@ class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
                                                                   type: QuickAlertType
                                                                       .success,
                                                                   title:
-                                                                      'Asignado correctamente',
+                                                                      'Proyecto asignado',
                                                                   confirmBtnText:
                                                                       'Hecho',
                                                                   confirmBtnColor:
@@ -525,7 +522,7 @@ class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
                                                                     QuickAlertType
                                                                         .warning,
                                                                 title:
-                                                                    'Este proyecto aun no tiene sala asignada',
+                                                                    'Este proyecto aún no tiene sala asignada',
                                                                 confirmBtnText:
                                                                     'Hecho',
                                                                 confirmBtnColor:
@@ -568,7 +565,7 @@ class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
                                                                   type: QuickAlertType
                                                                       .success,
                                                                   title:
-                                                                      'Asignado correctamente',
+                                                                      'Proyecto asignado',
                                                                   confirmBtnText:
                                                                       'Hecho',
                                                                   confirmBtnColor:

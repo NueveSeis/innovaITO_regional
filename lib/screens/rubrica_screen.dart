@@ -23,7 +23,7 @@ class RubricaScreen extends ConsumerWidget {
       if (response.statusCode == 200) {
         rubrica = criterioRubricaFromJson(response.body);
       } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        //print('La solicitud no fue exitosa: ${response.statusCode}');
       }
     } catch (error) {
       print('Error al realizar la solicitud: $error');
@@ -40,10 +40,10 @@ class RubricaScreen extends ConsumerWidget {
       if (response.statusCode == 200) {
         rubricaSala = criterioRubricaFromJson(response.body);
       } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        //print('La solicitud no fue exitosa: ${response.statusCode}');
       }
     } catch (error) {
-      print('Error al realizar la solicitud: $error');
+      //print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -52,10 +52,10 @@ class RubricaScreen extends ConsumerWidget {
         'https://evarafael.com/Aplicacion/rest/delete_rubrica.php?Id_rubrica=$idrub'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
-      print('Modificado en la db');
+      // print('Modificado en la db');
       return true;
     } else {
-      print('No modificado');
+      // print('No modificado');
       return false;
     }
   }
@@ -64,7 +64,7 @@ class RubricaScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: Fondo(
-          tituloPantalla: 'Rubricas',
+          tituloPantalla: 'Rúbricas',
           fontSize: 20,
           widget: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
@@ -83,7 +83,7 @@ class RubricaScreen extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Crear rubrica',
+                          'Crear rúbrica',
                           style:
                               TextStyle(color: AppTema.grey100, fontSize: 20),
                         ),
@@ -94,7 +94,7 @@ class RubricaScreen extends ConsumerWidget {
                     },
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
                 FutureBuilder(
@@ -107,7 +107,7 @@ class RubricaScreen extends ConsumerWidget {
                     } else if (snapshot.connectionState ==
                         ConnectionState.done) {
                       if (snapshot.hasError) {
-                        return Center(child: Text('nohat'));
+                        return const Center(child: Text('no'));
                       } else {
                         return rubrica.isEmpty
                             ? Text(
@@ -208,7 +208,7 @@ class RubricaScreen extends ConsumerWidget {
                                                               height: 5,
                                                             ),
                                                             Text(
-                                                              'Porcentaje maximo: ${rubrica[index].valorMax}',
+                                                              'Porcentaje máximo: ${rubrica[index].valorMax}',
                                                               style: const TextStyle(
                                                                   color: AppTema
                                                                       .bluegrey700,
@@ -266,7 +266,7 @@ class RubricaScreen extends ConsumerWidget {
                                                                               .primario,
                                                                       title:
                                                                           const Text(
-                                                                        'Eliminar rubrica',
+                                                                        'Eliminar rúbrica',
                                                                         style: TextStyle(
                                                                             fontWeight:
                                                                                 FontWeight.bold,
@@ -292,7 +292,7 @@ class RubricaScreen extends ConsumerWidget {
                                                                             type:
                                                                                 QuickAlertType.success,
                                                                             title:
-                                                                                'Rubrica eliminada',
+                                                                                'Rúbrica eliminada',
                                                                             confirmBtnText:
                                                                                 'Hecho',
                                                                             confirmBtnColor:
@@ -368,7 +368,7 @@ class RubricaScreen extends ConsumerWidget {
                       } else {
                         return rubricaSala.isEmpty
                             ? const Text(
-                                'No existe rubrica de sala',
+                                'No existe rúbrica de sala',
                                 style: TextStyle(
                                     color: AppTema.bluegrey700,
                                     fontWeight: FontWeight.bold,
@@ -378,7 +378,7 @@ class RubricaScreen extends ConsumerWidget {
                             : Column(
                                 children: [
                                   Text(
-                                    'CRITERIOS DE RUBRICA ${rubricaSala.first.medioEvaluacion}',
+                                    'CRITERIOS DE RÚBRICA ${rubricaSala.first.medioEvaluacion}',
                                     style: const TextStyle(
                                         color: AppTema.bluegrey700,
                                         fontWeight: FontWeight.bold,
@@ -465,7 +465,7 @@ class RubricaScreen extends ConsumerWidget {
                                                               height: 5,
                                                             ),
                                                             Text(
-                                                              'Porcentaje maximo: ${rubricaSala[index].valorMax}',
+                                                              'Porcentaje máximo: ${rubricaSala[index].valorMax}',
                                                               style: const TextStyle(
                                                                   color: AppTema
                                                                       .bluegrey700,
@@ -523,7 +523,7 @@ class RubricaScreen extends ConsumerWidget {
                                                                               .primario,
                                                                       title:
                                                                           const Text(
-                                                                        'Eliminar rubrica',
+                                                                        'Eliminar rúbrica',
                                                                         style: TextStyle(
                                                                             fontWeight:
                                                                                 FontWeight.bold,
@@ -549,7 +549,7 @@ class RubricaScreen extends ConsumerWidget {
                                                                             type:
                                                                                 QuickAlertType.success,
                                                                             title:
-                                                                                'Rubrica eliminada',
+                                                                                'Rúbrica eliminada',
                                                                             confirmBtnText:
                                                                                 'Hecho',
                                                                             confirmBtnColor:

@@ -35,11 +35,11 @@ class ProyectoAsesorScreen extends ConsumerWidget {
         return true;
       } else {
         return false;
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        //print('La solicitud no fue exitosa: ${response.statusCode}');
       }
     } catch (error) {
       return false;
-      print('Error al realizar la solicitud: $error');
+      //print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -57,11 +57,11 @@ class ProyectoAsesorScreen extends ConsumerWidget {
         return true;
       } else {
         return false;
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        //print('La solicitud no fue exitosa: ${response.statusCode}');
       }
     } catch (error) {
       return false;
-      print('Error al realizar la solicitud: $error');
+      //print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -74,14 +74,14 @@ class ProyectoAsesorScreen extends ConsumerWidget {
         'Folio': foliop,
       });
       if (response.statusCode == 200) {
-        print('Modificado en la db');
+        // print('Modificado en la db');
         return true;
       } else {
-        print('No modificado');
+        //print('No modificado');
         return false;
       }
     } catch (e) {
-      print('Error al realizar la solicitud HTTP: $e');
+      //print('Error al realizar la solicitud HTTP: $e');
       return false;
     }
   }
@@ -91,77 +91,77 @@ class ProyectoAsesorScreen extends ConsumerWidget {
         'https://evarafael.com/Aplicacion/rest/delete_validacionProyectoC.php?Id_coordinador=$idcoor&Folio=$foliop'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
-      print('Modificado en la db');
+      //print('Modificado en la db');
       return true;
     } else {
-      print('No modificado');
+      //print('No modificado');
       return false;
     }
   }
 
-  Future<String> createPDF(List<ProyectoAsesor> proyecto, int index) async {
-    final pdf = pw.Document();
-    final educacion = await networkImage(
-        'https://evarafael.com/Aplicacion/rest/logos/educacion.png');
-    final tecnm = await networkImage(
-        'https://evarafael.com/Aplicacion/rest/logos/tecnm.png');
-    pdf.addPage(
-      pw.Page(
-        build: (pw.Context context) {
-          return pw.Column(
-            children: [
-              pw.Row(
-                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                children: [
-                  pw.Image(tecnm, width: 100, height: 100),
-                  pw.Image(educacion, width: 100, height: 100)
-                ],
-              ),
-              pw.Center(
-                child: pw.Text('InnovaITO 2023',
-                    style: const pw.TextStyle(fontSize: 20)),
-              ),
-              pw.Center(
-                child: pw.Text('Ficha Técnica',
-                    style: const pw.TextStyle(fontSize: 18)),
-              ),
-              pw.Text('MEMORIA DEL PROYECTO',
-                  style: pw.TextStyle(
-                    fontSize: 18,
-                    fontWeight: pw.FontWeight.bold,
-                  )),
-              pw.SizedBox(height: 20),
-              pw.TableHelper.fromTextArray(
-                //context: pw.Context()..style = pw.TextStyle(fontSize: 12),
-                columnWidths: {
-                  0: const pw.FixedColumnWidth(
-                      150), // Ancho de la primera columna
-                  1: const pw.FixedColumnWidth(
-                      300), // Ancho de la segunda columna
-                },
-                data: <List<String>>[
-                  ['Folio:', proyectos[index].folio],
-                  ['Nombre corto:', proyectos[index].nombreCorto],
-                  ['Nombre descriptivo:', proyectos[index].nombreProyecto],
-                  ['Categoría:', proyectos[index].nombreCategoria],
-                  ['Sector estratégico:', proyectos[index].nombreArea],
-                  ['Naturaleza técnica:', proyectos[index].tipo],
-                ],
-              ),
-            ],
-          );
-        },
-      ),
-    );
+  // Future<String> createPDF(List<ProyectoAsesor> proyecto, int index) async {
+  //   final pdf = pw.Document();
+  //   final educacion = await networkImage(
+  //       'https://evarafael.com/Aplicacion/rest/logos/educacion.png');
+  //   final tecnm = await networkImage(
+  //       'https://evarafael.com/Aplicacion/rest/logos/tecnm.png');
+  //   pdf.addPage(
+  //     pw.Page(
+  //       build: (pw.Context context) {
+  //         return pw.Column(
+  //           children: [
+  //             pw.Row(
+  //               mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+  //               children: [
+  //                 pw.Image(tecnm, width: 100, height: 100),
+  //                 pw.Image(educacion, width: 100, height: 100)
+  //               ],
+  //             ),
+  //             pw.Center(
+  //               child: pw.Text('InnovaITO 2023',
+  //                   style: const pw.TextStyle(fontSize: 20)),
+  //             ),
+  //             pw.Center(
+  //               child: pw.Text('Ficha Técnica',
+  //                   style: const pw.TextStyle(fontSize: 18)),
+  //             ),
+  //             pw.Text('MEMORIA DEL PROYECTO',
+  //                 style: pw.TextStyle(
+  //                   fontSize: 18,
+  //                   fontWeight: pw.FontWeight.bold,
+  //                 )),
+  //             pw.SizedBox(height: 20),
+  //             pw.TableHelper.fromTextArray(
+  //               //context: pw.Context()..style = pw.TextStyle(fontSize: 12),
+  //               columnWidths: {
+  //                 0: const pw.FixedColumnWidth(
+  //                     150), // Ancho de la primera columna
+  //                 1: const pw.FixedColumnWidth(
+  //                     300), // Ancho de la segunda columna
+  //               },
+  //               data: <List<String>>[
+  //                 ['Folio:', proyectos[index].folio],
+  //                 ['Nombre corto:', proyectos[index].nombreCorto],
+  //                 ['Nombre descriptivo:', proyectos[index].nombreProyecto],
+  //                 ['Categoría:', proyectos[index].nombreCategoria],
+  //                 ['Sector estratégico:', proyectos[index].nombreArea],
+  //                 ['Naturaleza técnica:', proyectos[index].tipo],
+  //               ],
+  //             ),
+  //           ],
+  //         );
+  //       },
+  //     ),
+  //   );
 
-    final output = await getTemporaryDirectory();
-    final file = File('${output.path}/example2.pdf');
+  //   final output = await getTemporaryDirectory();
+  //   final file = File('${output.path}/example2.pdf');
 
-    await file.writeAsBytes(await pdf.save());
+  //   await file.writeAsBytes(await pdf.save());
 
-    print('PDF creado en: ${file.path}');
-    return file.path;
-  }
+  //   print('PDF creado en: ${file.path}');
+  //   return file.path;
+  // }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -250,7 +250,7 @@ class ProyectoAsesorScreen extends ConsumerWidget {
                                               height: 5,
                                             ),
                                             Text(
-                                              'Categoria: ${proyectos[index].nombreCategoria}',
+                                              'Categoría: ${proyectos[index].nombreCategoria}',
                                               textAlign: TextAlign.end,
                                               style: const TextStyle(
                                                   color: AppTema.bluegrey700,
@@ -260,7 +260,7 @@ class ProyectoAsesorScreen extends ConsumerWidget {
                                               height: 5,
                                             ),
                                             Text(
-                                              'Area: ${proyectos[index].nombreArea}',
+                                              'Área: ${proyectos[index].nombreArea}',
                                               textAlign: TextAlign.end,
                                               style: const TextStyle(
                                                   color: AppTema.bluegrey700,
@@ -270,7 +270,7 @@ class ProyectoAsesorScreen extends ConsumerWidget {
                                               height: 5,
                                             ),
                                             Text(
-                                              'Naturaleza Tecnica: ${proyectos[index].tipo}',
+                                              'Naturaleza Técnica: ${proyectos[index].tipo}',
                                               style: const TextStyle(
                                                   color: AppTema.bluegrey700,
                                                   fontSize: 12),
@@ -406,8 +406,8 @@ class ProyectoAsesorScreen extends ConsumerWidget {
                                                               .folio,
                                                           'Estado',
                                                           (value) ? '1' : '2');
-                                                  print(proyectos[index].folio);
-                                                  print(value);
+                                                  // print(proyectos[index].folio);
+                                                  // print(value);
                                                   if (actua && add) {
                                                     QuickAlert.show(
                                                       context: context,
@@ -465,7 +465,7 @@ class ProyectoAsesorScreen extends ConsumerWidget {
                                             : Colors.green,
                                         borderRadius: BorderRadius.circular(5),
                                       ),
-                                      child: Text(
+                                      child: const Text(
                                         'Estado',
                                         style: TextStyle(
                                           color: Colors.white,

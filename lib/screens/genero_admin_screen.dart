@@ -22,10 +22,10 @@ class GeneroAdminScreen extends ConsumerWidget {
       if (response.statusCode == 200) {
         genero = generoFromJson(response.body);
       } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        // print('La solicitud no fue exitosa: ${response.statusCode}');
       }
     } catch (error) {
-      print('Error al realizar la solicitud: $error');
+      //print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -37,17 +37,17 @@ class GeneroAdminScreen extends ConsumerWidget {
     try {
       var response = await http.post(Uri.parse(url),
           body: {'Id_genero': 'GEN$idGen', 'Tipo_genero': tipoGen});
-      print('Código de estado de la respuesta: ${response.statusCode}');
-      print('Cuerpo de la respuesta: ${response.body}');
+      // print('Código de estado de la respuesta: ${response.statusCode}');
+      // print('Cuerpo de la respuesta: ${response.body}');
       if (response.statusCode == 200) {
-        print('Modificado en la db');
+        //  print('Modificado en la db');
         return true;
       } else {
-        print('No modificado');
+        //print('No modificado');
         return false;
       }
     } catch (error) {
-      print('Error durante la solicitud HTTP: $error');
+      //print('Error durante la solicitud HTTP: $error');
       return false;
     }
   }
@@ -57,10 +57,10 @@ class GeneroAdminScreen extends ConsumerWidget {
         'https://evarafael.com/Aplicacion/rest/delete_genero.php?Id_genero=$idGen'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
-      print('Modificado en la db');
+      //print('Modificado en la db');
       return true;
     } else {
-      print('No modificado');
+      //print('No modificado');
       return false;
     }
   }
@@ -69,7 +69,7 @@ class GeneroAdminScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: Fondo(
-          tituloPantalla: 'Genero',
+          tituloPantalla: 'Género',
           fontSize: 20,
           widget: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
@@ -88,7 +88,7 @@ class GeneroAdminScreen extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Agregar Genero',
+                          'Agregar Género',
                           style:
                               TextStyle(color: AppTema.grey100, fontSize: 20),
                         ),
@@ -237,7 +237,7 @@ class GeneroAdminScreen extends ConsumerWidget {
                                                                   type: QuickAlertType
                                                                       .success,
                                                                   title:
-                                                                      'Eliminado correctamente',
+                                                                      'Género eliminado',
                                                                   confirmBtnText:
                                                                       'Hecho',
                                                                   confirmBtnColor:
@@ -306,7 +306,7 @@ class GeneroAdminScreen extends ConsumerWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Crear Genero'),
+          title: const Text('Crear Género'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -314,7 +314,7 @@ class GeneroAdminScreen extends ConsumerWidget {
               TextFormField(
                 maxLines: null,
                 decoration:
-                    const InputDecoration(labelText: 'Nombre del genero'),
+                    const InputDecoration(labelText: 'Nombre del género'),
                 onChanged: (value) => nombreGenero = value,
               ),
               const SizedBox(height: 10),
@@ -329,7 +329,7 @@ class GeneroAdminScreen extends ConsumerWidget {
                   QuickAlert.show(
                     context: context,
                     type: QuickAlertType.success,
-                    title: 'Agregado correctamente',
+                    title: 'Género agregado',
                     confirmBtnText: 'Hecho',
                     confirmBtnColor: AppTema.pizazz,
                     onConfirmBtnTap: () {

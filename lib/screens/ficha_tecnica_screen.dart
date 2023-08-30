@@ -75,13 +75,13 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
     if (response.statusCode == 200) {
       var datos = jsonDecode(response.body);
       matricula = datos[0]['Matricula'].toString();
-      print(matricula);
+      //print(matricula);
       await Future.delayed(Duration(seconds: 2));
       agregarFichaTecnica(idFichaUnica, matricula.toString());
       return matricula;
     } else {
       return '';
-      print('Error al obtener datos de la API');
+      //  print('Error al obtener datos de la API');
     }
   }
 
@@ -102,7 +102,7 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
     QuickAlert.show(
       context: context,
       type: QuickAlertType.success,
-      title: 'Registrado correctamente',
+      title: 'Ficha técnica registrada',
       confirmBtnText: 'Hecho',
       confirmBtnColor: AppTema.pizazz,
     );
@@ -125,10 +125,10 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
 
     if (response.statusCode == 200) {
       // La solicitud se completó exitosamente
-      print('Solicitud completada: ${response.body}');
+      //print('Solicitud completada: ${response.body}');
     } else {
       // Manejo de errores
-      print('Error en la solicitud: ${response.statusCode}');
+      //print('Error en la solicitud: ${response.statusCode}');
     }
   }
 
@@ -138,7 +138,7 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
 
     return Scaffold(
       body: Fondo(
-          tituloPantalla: 'Ficha tecnica',
+          tituloPantalla: 'Ficha técnica',
           fontSize: 25,
           widget: Consumer(builder: (context, ref, child) {
             final String? folioProyecto = ref.watch(folioProyectoUsuarioLogin);
@@ -185,7 +185,7 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
                                   return (!RegexUtil.datos
                                           .hasMatch(value ?? ''))
                                       ? null
-                                      : 'No contiene ningun dato.';
+                                      : 'No contiene ningún dato.';
                                 },
                                 //onChanged: (value) => accesoFormulario.correo = value,
                               ),
@@ -376,7 +376,7 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
                                         QuickAlert.show(
                                           context: context,
                                           type: QuickAlertType.success,
-                                          title: 'Agregado correctamente',
+                                          title: 'Ficha técnica agregada',
                                           confirmBtnText: 'Hecho',
                                           confirmBtnColor: AppTema.pizazz,
                                           onConfirmBtnTap: () {
@@ -411,7 +411,7 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
                           height: 50,
                         ),
                         Text(
-                          'Ya haz subido la ficha técnica',
+                          'Ya has subido la ficha técnica',
                           style: TextStyle(
                               color: AppTema.bluegrey700,
                               fontWeight: FontWeight.bold,

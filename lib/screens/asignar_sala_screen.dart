@@ -52,17 +52,17 @@ Future<bool> agregarHSala(
       'Hora_inicio': hIncio,
       'Hora_final': hFin
     });
-    print('Código de estado de la respuesta: ${response.statusCode}');
-    print('Cuerpo de la respuesta: ${response.body}');
+    // print('Código de estado de la respuesta: ${response.statusCode}');
+    // print('Cuerpo de la respuesta: ${response.body}');
     if (response.statusCode == 200) {
-      print('Modificado en la db');
+      //print('Modificado en la db');
       return true;
     } else {
-      print('No modificado');
+      //print('No modificado');
       return false;
     }
   } catch (error) {
-    print('Error durante la solicitud HTTP: $error');
+    //print('Error durante la solicitud HTTP: $error');
     return false;
   }
 }
@@ -132,7 +132,7 @@ class AsignarSalaScreen extends ConsumerWidget {
               children: [
                 const SizedBox(height: 50),
                 const Text(
-                  'Ingrese datos de la rubrica',
+                  'Ingrese datos de la rúbrica',
                   style: TextStyle(
                       color: AppTema.balticSea,
                       fontWeight: FontWeight.bold,
@@ -176,8 +176,8 @@ class AsignarSalaScreen extends ConsumerWidget {
                                   .update((state) => value.toString());
                             }),
                         loading: () => const CircularProgressIndicator(),
-                        error: (error, stackTrace) => const Text(
-                            'Error al cargar los niveles académicos.'),
+                        error: (error, stackTrace) =>
+                            const Text('Error al cargar los proyectos.'),
                       ),
                       const SizedBox(height: 20),
                       Container(
@@ -212,8 +212,8 @@ class AsignarSalaScreen extends ConsumerWidget {
                                   .update((state) => value.toString());
                             }),
                         loading: () => const CircularProgressIndicator(),
-                        error: (error, stackTrace) => const Text(
-                            'Error al cargar los niveles académicos.'),
+                        error: (error, stackTrace) =>
+                            const Text('Error al cargar las salas.'),
                       ),
                       const SizedBox(height: 20),
                       ElevatedButton(
@@ -230,7 +230,7 @@ class AsignarSalaScreen extends ConsumerWidget {
                       Container(
                         alignment: Alignment.topLeft,
                         child: const Text(
-                          'Recuerde que las horas asignadas deberán cumplir con el horario laboral de 8:00 hrs a 18:00 hrs.',
+                          'Recuerde que las horas asignadas deberán cumplir con el horario laboral de 8:00 h a 18:00 h.',
                           textAlign: TextAlign.justify,
                           style: TextStyle(
                               color: AppTema.bluegrey700,
@@ -241,7 +241,7 @@ class AsignarSalaScreen extends ConsumerWidget {
                       Container(
                         alignment: Alignment.topLeft,
                         child: const Text(
-                          'Seleccione hora de incio:',
+                          'Seleccione hora de inicio:',
                           style: TextStyle(
                               color: AppTema.bluegrey700,
                               fontWeight: FontWeight.bold),
@@ -386,7 +386,7 @@ class AsignarSalaScreen extends ConsumerWidget {
                                       QuickAlert.show(
                                         context: context,
                                         type: QuickAlertType.success,
-                                        title: 'Agregado correctamente',
+                                        title: 'Sala asignada',
                                         confirmBtnText: 'Hecho',
                                         confirmBtnColor: AppTema.pizazz,
                                         onConfirmBtnTap: () {

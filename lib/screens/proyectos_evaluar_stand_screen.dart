@@ -23,10 +23,10 @@ class ProyectoEvaluarStandSreen extends ConsumerWidget {
       if (response.statusCode == 200) {
         proyectos = evaluacionProJuradoStandFromJson(response.body);
       } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        //print('La solicitud no fue exitosa: ${response.statusCode}');
       }
     } catch (error) {
-      print('Error al realizar la solicitud: $error');
+      //print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -132,8 +132,9 @@ class ProyectoEvaluarStandSreen extends ConsumerWidget {
                                                       '1'
                                                   ? Colors.green
                                                   : Colors.red,
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(15)),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(15)),
                                             ),
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 5),
@@ -144,14 +145,14 @@ class ProyectoEvaluarStandSreen extends ConsumerWidget {
                                                         '1'
                                                     ? 'Evaluado'
                                                     : 'No evaluado',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
                                             ),
                                           ),
-                                          SizedBox(height: 10),
+                                          const SizedBox(height: 10),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
@@ -246,7 +247,7 @@ class ProyectoEvaluarStandSreen extends ConsumerWidget {
                                                           height: 10,
                                                         ),
                                                         const Text(
-                                                          'Area: ',
+                                                          'Área: ',
                                                           style: TextStyle(
                                                               color: AppTema
                                                                   .bluegrey700,
@@ -274,7 +275,7 @@ class ProyectoEvaluarStandSreen extends ConsumerWidget {
                                                           height: 10,
                                                         ),
                                                         const Text(
-                                                          'Categoria: ',
+                                                          'Categoría: ',
                                                           style: TextStyle(
                                                               color: AppTema
                                                                   .bluegrey700,

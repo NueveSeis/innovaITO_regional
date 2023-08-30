@@ -42,7 +42,7 @@ class Fondo extends StatelessWidget {
               ),
               IconButton(
                   iconSize: 40,
-                  color: Colors.white,
+                  color: AppTema.primario,
                   onPressed: () {},
                   icon: const Icon(Icons.search)),
             ],

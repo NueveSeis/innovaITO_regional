@@ -22,12 +22,12 @@ class StandScreen extends ConsumerWidget {
       var response = await http.post(Uri.parse(url));
       if (response.statusCode == 200) {
         stands = standHsFromJson(response.body);
-        print(stands);
+        // print(stands);
       } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        //print('La solicitud no fue exitosa: ${response.statusCode}');
       }
     } catch (error) {
-      print('Error al realizar la solicitud: $error');
+      //print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -36,10 +36,10 @@ class StandScreen extends ConsumerWidget {
         'https://evarafael.com/Aplicacion/rest/delete_asignarHStand.php?Id_stand=$idStand&Folio=$foliop'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
-      print('Modificado en la db');
+      //print('Modificado en la db');
       return true;
     } else {
-      print('No modificado');
+      //print('No modificado');
       return false;
     }
   }
@@ -309,7 +309,7 @@ class StandScreen extends ConsumerWidget {
                                                                         type: QuickAlertType
                                                                             .success,
                                                                         title:
-                                                                            'Registro eliminado',
+                                                                            'Stand eliminado',
                                                                         confirmBtnText:
                                                                             'Hecho',
                                                                         confirmBtnColor:

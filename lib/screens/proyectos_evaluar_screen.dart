@@ -172,13 +172,15 @@ class ProyectoEvaluarSreen extends ConsumerWidget {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        SizedBox(height: 10),
+                                                        const SizedBox(
+                                                            height: 10),
                                                         Text(
                                                           proyectos[index]
                                                               .folio,
                                                           textAlign:
                                                               TextAlign.center,
-                                                          style: TextStyle(
+                                                          style:
+                                                              const TextStyle(
                                                             color: AppTema
                                                                 .bluegrey700,
                                                             fontWeight:
@@ -188,7 +190,8 @@ class ProyectoEvaluarSreen extends ConsumerWidget {
                                                           overflow: TextOverflow
                                                               .visible,
                                                         ),
-                                                        SizedBox(height: 10),
+                                                        const SizedBox(
+                                                            height: 10),
                                                         const Text(
                                                           'Nombre descriptivo: ',
                                                           style: TextStyle(
@@ -246,7 +249,7 @@ class ProyectoEvaluarSreen extends ConsumerWidget {
                                                           height: 10,
                                                         ),
                                                         const Text(
-                                                          'Area: ',
+                                                          'Área: ',
                                                           style: TextStyle(
                                                               color: AppTema
                                                                   .bluegrey700,
@@ -274,7 +277,7 @@ class ProyectoEvaluarSreen extends ConsumerWidget {
                                                           height: 10,
                                                         ),
                                                         const Text(
-                                                          'Categoria: ',
+                                                          'Categoría: ',
                                                           style: TextStyle(
                                                               color: AppTema
                                                                   .bluegrey700,

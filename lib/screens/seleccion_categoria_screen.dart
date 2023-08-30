@@ -48,10 +48,10 @@ class SeleccionCategoriaScreen extends ConsumerWidget {
     var response = await http
         .post(Uri.parse(url), body: {'Id_jurado': idjurado, 'Id_area': idarea});
     if (response.statusCode == 200) {
-      print('Modificado en la db');
+      //print('Modificado en la db');
       return true;
     } else {
-      print('No modificado');
+      //print('No modificado');
       return false;
     }
   }
@@ -340,8 +340,7 @@ class SeleccionCategoriaScreen extends ConsumerWidget {
                                                 QuickAlert.show(
                                                   context: context,
                                                   type: QuickAlertType.success,
-                                                  title:
-                                                      'Asignado correctamente',
+                                                  title: 'Preferencia asignada',
                                                   confirmBtnText: 'Hecho',
                                                   confirmBtnColor:
                                                       AppTema.pizazz,

@@ -3,13 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:innova_ito/providers/providers.dart';
 
 import 'package:innova_ito/theme/app_tema.dart';
-import 'package:innova_ito/models/models.dart';
+
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:innova_ito/helpers/helpers.dart';
 
-import 'package:go_router/go_router.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:quickalert/quickalert.dart';
@@ -141,7 +139,7 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
                             validator: (value) {
                               return (!RegexUtil.nombres.hasMatch(value ?? ''))
                                   ? null
-                                  : 'Nombre no valido.';
+                                  : 'Nombre no válido.';
                             },
                           ),
                           const SizedBox(
@@ -164,7 +162,7 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
                             validator: (value) {
                               return (!RegexUtil.nombres.hasMatch(value ?? ''))
                                   ? null
-                                  : 'Nombre no valido.';
+                                  : 'Nombre no válido.';
                             },
                           ),
                           const SizedBox(
@@ -187,7 +185,7 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
                             validator: (value) {
                               return (!RegexUtil.datos.hasMatch(value ?? ''))
                                   ? null
-                                  : 'Cargo no valido.';
+                                  : 'Cargo no válido.';
                             },
                           ),
                           const SizedBox(
@@ -475,8 +473,8 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
                             .format(selectedDateRange?.start ?? DateTime.now());
                         final fFin = DateFormat.d()
                             .format(selectedDateRange?.end ?? DateTime.now());
-                        print(
-                            'Día de inicio: ${DateFormat.d().format(selectedDateRange?.start ?? DateTime.now())}');
+                        // print(
+                        //     'Día de inicio: ${DateFormat.d().format(selectedDateRange?.start ?? DateTime.now())}');
                         String ruta = await pdf.constancia(
                             nombreTecnologicoConstancia.toUpperCase(),
                             nombreParticipanteConst.toUpperCase(),
@@ -505,8 +503,8 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
 
   Future<void> _mostrarDateRangePickerRUJ(context, ref) async {
     final DateTime now = DateTime.now();
-    final DateTime lastAllowedDate = DateTime.now()
-        .add(Duration(days: 365)); // Por ejemplo, un año a partir de ahora
+    final DateTime lastAllowedDate = DateTime.now().add(
+        const Duration(days: 365)); // Por ejemplo, un año a partir de ahora
 
     final selectedDateRange = await showDateRangePicker(
       context: context,

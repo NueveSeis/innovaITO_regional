@@ -277,7 +277,7 @@ class AgregarCarreraScreen extends ConsumerWidget {
                                 QuickAlert.show(
                                   context: context,
                                   type: QuickAlertType.success,
-                                  title: 'Agregado correctamente',
+                                  title: 'Carrera agregada',
                                   confirmBtnText: 'Hecho',
                                   confirmBtnColor: AppTema.pizazz,
                                   onConfirmBtnTap: () {

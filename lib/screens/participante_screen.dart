@@ -32,10 +32,10 @@ class ParticipanteScreen extends ConsumerWidget {
             .read(numParticipantes.notifier)
             .update((state) => datosEstudiantes.length);
       } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        // print('La solicitud no fue exitosa: ${response.statusCode}');
       }
     } catch (error) {
-      print('Error al realizar la solicitud: $error');
+      //print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -47,7 +47,7 @@ class ParticipanteScreen extends ConsumerWidget {
     if (response.statusCode == 200) {
       folio = jsonDecode(response.body);
     } else {
-      print('nisiquiera carga');
+      //print('nisiquiera carga');
     }
   }
 

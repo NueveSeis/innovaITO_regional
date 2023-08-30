@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -92,14 +91,14 @@ class _RegistroUsuarioAsesorScreenState
         'Id_cargoAsesor': tipoAsesor,
       });
       if (response.statusCode == 200) {
-        print('Modificado en la db');
+        //print('Modificado en la db');
         return true;
       } else {
-        print('No modificado');
+        //print('No modificado');
         return false;
       }
     } catch (error) {
-      print('Error durante la solicitud HTTP: $error');
+      // print('Error durante la solicitud HTTP: $error');
       return false;
     }
   }
@@ -212,7 +211,7 @@ class _RegistroUsuarioAsesorScreenState
         validator: (value) {
           return RegexUtil.carrera.hasMatch(value ?? '')
               ? null
-              : 'Los datos ingresados no son validos.';
+              : 'Los datos ingresados no son válidos.';
         },
       );
     }
@@ -226,8 +225,8 @@ class _RegistroUsuarioAsesorScreenState
         style: const TextStyle(
             color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
         decoration: InputDecorations.registroLiderDecoration(
-          hintText: 'Ingrese Maestria',
-          labelText: 'Maestria',
+          hintText: 'Ingrese Maestría',
+          labelText: 'Maestría',
         ),
         validator: (value) {
           return RegexUtil.carrera.hasMatch(value ?? '')
@@ -253,7 +252,7 @@ class _RegistroUsuarioAsesorScreenState
         validator: (value) {
           return RegexUtil.carrera.hasMatch(value ?? '')
               ? null
-              : 'Los datos ingresados no son validos.';
+              : 'Los datos ingresados no son válidos.';
         },
       );
     }
@@ -300,13 +299,13 @@ class _RegistroUsuarioAsesorScreenState
                       autocorrect: false,
                       keyboardType: TextInputType.text,
                       decoration: InputDecorations.registroLiderDecoration(
-                        hintText: 'Ingrese su titulo',
-                        labelText: 'Titulo (Lic., M.C., Dr.)',
+                        hintText: 'Ingrese su título',
+                        labelText: 'Título (Lic., M.C., Dr.)',
                       ),
                       validator: (value) {
                         return RegexUtil.titulo.hasMatch(value ?? '')
                             ? null
-                            : 'La abreviatura no es valida.';
+                            : 'La abreviatura no es válida.';
                       },
                       //onChanged: (value) => accesoFormulario.correo = value,
                     ),
@@ -326,7 +325,7 @@ class _RegistroUsuarioAsesorScreenState
                       validator: (value) {
                         return RegexUtil.nombres.hasMatch(value ?? '')
                             ? null
-                            : 'Los datos ingresados no son validos.';
+                            : 'Los datos ingresados no son válidos.';
                       },
                       //onChanged: (value) => accesoFormulario.correo = value,
                     ),
@@ -372,7 +371,7 @@ class _RegistroUsuarioAsesorScreenState
                       validator: (value) {
                         return RegexUtil.correoEdu.hasMatch(value ?? '')
                             ? null
-                            : 'Correo electrónico invalido.';
+                            : 'Correo electrónico inválido.';
                       },
                     ),
                     const SizedBox(height: 20),
@@ -587,13 +586,13 @@ class _RegistroUsuarioAsesorScreenState
                           color: AppTema.bluegrey700,
                           fontWeight: FontWeight.bold),
                       decoration: InputDecorations.registroLiderDecoration(
-                        hintText: 'Ingrese No. Credencial INE',
-                        labelText: 'No. Credencial INE ',
+                        hintText: 'Ingrese No. De credencial INE',
+                        labelText: 'No. De credencial INE ',
                       ),
                       validator: (value) {
                         return RegexUtil.ine.hasMatch(value ?? '')
                             ? null
-                            : 'El numero de INE no es valido.';
+                            : 'El número de INE no es válido.';
                       },
                       //onChanged: (value) => accesoFormulario.correo = value,
                     ),
@@ -609,13 +608,13 @@ class _RegistroUsuarioAsesorScreenState
                           color: AppTema.bluegrey700,
                           fontWeight: FontWeight.bold),
                       decoration: InputDecorations.registroLiderDecoration(
-                        hintText: 'Ingrese numero telefónico',
-                        labelText: 'Numero telefónico',
+                        hintText: 'Ingrese número telefónico',
+                        labelText: 'Número telefónico',
                       ),
                       validator: (value) {
                         return RegexUtil.telefono.hasMatch(value ?? '')
                             ? null
-                            : 'El numero telefónico no es valido.';
+                            : 'El número telefónico no es válido.';
                       },
                     ),
                     const SizedBox(height: 20),
@@ -690,8 +689,8 @@ class _RegistroUsuarioAsesorScreenState
                             child: Text('Licenciatura'),
                           ),
                           DropdownMenuItem(
-                            value: 'Maestria',
-                            child: Text('Maestria'),
+                            value: 'Maestría',
+                            child: Text('Maestría'),
                           ),
                           DropdownMenuItem(
                             value: 'Doctorado',
@@ -705,7 +704,7 @@ class _RegistroUsuarioAsesorScreenState
                               maes = false;
                               doc = false;
                             }
-                            if (value == "Maestria") {
+                            if (value == "Maestría") {
                               licen = true;
                               maes = true;
                               doc = false;
@@ -753,7 +752,7 @@ class _RegistroUsuarioAsesorScreenState
                               QuickAlert.show(
                                   context: context,
                                   type: QuickAlertType.success,
-                                  title: 'Agregado correctamente',
+                                  title: 'Asesor agregado',
                                   confirmBtnText: 'Hecho',
                                   confirmBtnColor: AppTema.pizazz,
                                   onConfirmBtnTap: () {
@@ -782,20 +781,6 @@ class _RegistroUsuarioAsesorScreenState
                               confirmBtnColor: AppTema.pizazz,
                             );
                           }
-
-                          // print(genero);
-                          // print(eNacimiento);
-                          // //CurpGenerator.generateCurp(cNombres.text,cApellido1.text,cApellido2.text,fecha,);
-                          // print(
-                          //   DateFormat('yyyy-MM-dd').format(fecha),
-                          // );
-                          // print(CurpGenerator.generateCurp(
-                          //     'Juliana Margarita',
-                          //     'Lopez',
-                          //     'Gines',
-                          //     DateTime(1997, 05, 16),
-                          //     'M',
-                          //     'Oaxaca'));
                         },
                       ),
                     ),

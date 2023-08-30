@@ -22,10 +22,10 @@ class NivelAdminScreen extends ConsumerWidget {
       if (response.statusCode == 200) {
         nivelesAcademicos = nivelAcademicoFromJson(response.body);
       } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        //print('La solicitud no fue exitosa: ${response.statusCode}');
       }
     } catch (error) {
-      print('Error al realizar la solicitud: $error');
+      //print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -41,17 +41,17 @@ class NivelAdminScreen extends ConsumerWidget {
         'Nombre_nivel': nombreNivel,
         'Descripcion_nivel': descripcionNivel
       });
-      print('Código de estado de la respuesta: ${response.statusCode}');
-      print('Cuerpo de la respuesta: ${response.body}');
+      //print('Código de estado de la respuesta: ${response.statusCode}');
+      // print('Cuerpo de la respuesta: ${response.body}');
       if (response.statusCode == 200) {
-        print('Modificado en la db');
+        // print('Modificado en la db');
         return true;
       } else {
-        print('No modificado');
+        //print('No modificado');
         return false;
       }
     } catch (error) {
-      print('Error durante la solicitud HTTP: $error');
+      //print('Error durante la solicitud HTTP: $error');
       return false;
     }
   }
@@ -61,10 +61,10 @@ class NivelAdminScreen extends ConsumerWidget {
         'https://evarafael.com/Aplicacion/rest/delete_nivel.php?Id_nivel=$idNiv'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
-      print('Modificado en la db');
+      //print('Modificado en la db');
       return true;
     } else {
-      print('No modificado');
+      //print('No modificado');
       return false;
     }
   }
@@ -92,7 +92,7 @@ class NivelAdminScreen extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Agregar nivel academico',
+                          'Agregar Nivel Académico',
                           style:
                               TextStyle(color: AppTema.grey100, fontSize: 17),
                         ),
@@ -260,7 +260,7 @@ class NivelAdminScreen extends ConsumerWidget {
                                                                   type: QuickAlertType
                                                                       .success,
                                                                   title:
-                                                                      'Eliminado correctamente',
+                                                                      'Nivel académico eliminado',
                                                                   confirmBtnText:
                                                                       'Hecho',
                                                                   confirmBtnColor:
@@ -344,7 +344,7 @@ class NivelAdminScreen extends ConsumerWidget {
               const SizedBox(height: 10),
               TextFormField(
                 decoration: const InputDecoration(
-                    labelText: 'Descripcion del nivel académico'),
+                    labelText: 'Descripción del nivel académico'),
                 keyboardType: TextInputType.text,
                 maxLines: null,
                 onChanged: (value) => descripcionNivel = value,
@@ -362,7 +362,7 @@ class NivelAdminScreen extends ConsumerWidget {
                   QuickAlert.show(
                     context: context,
                     type: QuickAlertType.success,
-                    title: 'Agregado correctamente',
+                    title: 'Nivel académico agregado',
                     confirmBtnText: 'Hecho',
                     confirmBtnColor: AppTema.pizazz,
                     onConfirmBtnTap: () {

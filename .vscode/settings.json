@@ -1,5 +1,32 @@
 {
     "oneDarkPro.bold": true,
     "editor.fontWeight": "bold",
-    "oneDarkPro.italic": true
+    "oneDarkPro.italic": true,
+    "cSpell.words": [
+        "Academico",
+        "autocorrect",
+        "autovalidate",
+        "Autovalidate",
+        "baltic",
+        "bluegrey",
+        "camposllenos",
+        "curp",
+        "Curp",
+        "CURP",
+        "generos",
+        "itemone",
+        "lider",
+        "Lider",
+        "nomnbreeeeee",
+        "prome",
+        "promeeeeeee",
+        "quickalert",
+        "riverpod",
+        "seleccion",
+        "tecnologico",
+        "Tecnologico",
+        "tecnologicos",
+        "telefono",
+        "Telefono"
+    ]
 }

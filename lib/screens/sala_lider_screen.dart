@@ -22,10 +22,10 @@ class SalaLiderScreen extends ConsumerWidget {
       if (response.statusCode == 200) {
         salas = salaLiderFromJson(response.body);
       } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        //print('La solicitud no fue exitosa: ${response.statusCode}');
       }
     } catch (error) {
-      print('Error al realizar la solicitud: $error');
+      //print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -39,10 +39,10 @@ class SalaLiderScreen extends ConsumerWidget {
       if (response.statusCode == 200) {
         stands = standLiderFromJson(response.body);
       } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        //print('La solicitud no fue exitosa: ${response.statusCode}');
       }
     } catch (error) {
-      print('Error al realizar la solicitud: $error');
+      //print('Error al realizar la solicitud: $error');
     }
   }
 

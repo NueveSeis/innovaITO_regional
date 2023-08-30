@@ -51,17 +51,17 @@ class _RegistroUsuarioLiderScreenState
         'Matricula': matricula.text.toUpperCase(),
         'Id_nivel': idNivel
       });
-      print('Código de estado de la respuesta: ${response.statusCode}');
-      print('Cuerpo de la respuesta: ${response.body}');
+      // print('Código de estado de la respuesta: ${response.statusCode}');
+      // print('Cuerpo de la respuesta: ${response.body}');
       if (response.statusCode == 200) {
-        print('Modificado en la db');
+        //print('Modificado en la db');
         return true;
       } else {
-        print('No modificado');
+        //print('No modificado');
         return false;
       }
     } catch (error) {
-      print('Error durante la solicitud HTTP: $error');
+      //print('Error durante la solicitud HTTP: $error');
       return false;
     }
   }
@@ -77,7 +77,7 @@ class _RegistroUsuarioLiderScreenState
       return miString;
     } else {
       return '';
-      print('Error al obtener datos de la API');
+      //print('Error al obtener datos de la API');
     }
   }
 
@@ -175,13 +175,13 @@ class _RegistroUsuarioLiderScreenState
                                 fontWeight: FontWeight.bold),
                             decoration:
                                 InputDecorations.registroLiderDecoration(
-                              hintText: 'Ingrese matricula',
-                              labelText: 'Matricula',
+                              hintText: 'Ingrese matrícula',
+                              labelText: 'Matrícula',
                             ),
                             validator: (value) {
                               return RegexUtil.matricula.hasMatch(value ?? '')
                                   ? null
-                                  : 'Matricula no valida.';
+                                  : 'Matrícula no válida.';
                             },
                           ),
                           const SizedBox(height: 20),
@@ -203,7 +203,7 @@ class _RegistroUsuarioLiderScreenState
                             validator: (value) {
                               return RegexUtil.nombres.hasMatch(value ?? '')
                                   ? null
-                                  : 'Nombre no valido.';
+                                  : 'Nombre no válido.';
                             },
                           ),
                           const SizedBox(height: 20),
@@ -222,7 +222,7 @@ class _RegistroUsuarioLiderScreenState
                             validator: (value) {
                               return RegexUtil.nombres.hasMatch(value ?? '')
                                   ? null
-                                  : 'Nombre no valido.';
+                                  : 'Nombre no válido.';
                             },
                           ),
                           const SizedBox(height: 20),
@@ -297,7 +297,7 @@ class _RegistroUsuarioLiderScreenState
                                     QuickAlert.show(
                                       context: context,
                                       type: QuickAlertType.success,
-                                      title: 'Agregado correctamente',
+                                      title: 'Líder de proyecto agregado',
                                       confirmBtnText: 'Hecho',
                                       confirmBtnColor: AppTema.pizazz,
                                       onConfirmBtnTap: () {

@@ -23,10 +23,10 @@ class CategoriaAdminScreen extends ConsumerWidget {
       if (response.statusCode == 200) {
         categorias = categoriaFromJson(response.body);
       } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        //print('La solicitud no fue exitosa: ${response.statusCode}');
       }
     } catch (error) {
-      print('Error al realizar la solicitud: $error');
+      //print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -38,17 +38,17 @@ class CategoriaAdminScreen extends ConsumerWidget {
     try {
       var response = await http.post(Uri.parse(url),
           body: {'Id_categoria': 'CAT$idCat', 'Nombre_categoria': nombre});
-      print('Código de estado de la respuesta: ${response.statusCode}');
-      print('Cuerpo de la respuesta: ${response.body}');
+      // print('Código de estado de la respuesta: ${response.statusCode}');
+      // print('Cuerpo de la respuesta: ${response.body}');
       if (response.statusCode == 200) {
-        print('Modificado en la db');
+        //print('Modificado en la db');
         return true;
       } else {
-        print('No modificado');
+        //print('No modificado');
         return false;
       }
     } catch (error) {
-      print('Error durante la solicitud HTTP: $error');
+      //print('Error durante la solicitud HTTP: $error');
       return false;
     }
   }
@@ -58,10 +58,10 @@ class CategoriaAdminScreen extends ConsumerWidget {
         'https://evarafael.com/Aplicacion/rest/delete_categoria.php?Id_categoria=$idCat'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
-      print('Modificado en la db');
+      //print('Modificado en la db');
       return true;
     } else {
-      print('No modificado');
+      //print('No modificado');
       return false;
     }
   }
@@ -89,7 +89,7 @@ class CategoriaAdminScreen extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Agregar Categoria',
+                          'Agregar Categoría',
                           style:
                               TextStyle(color: AppTema.grey100, fontSize: 20),
                         ),
@@ -240,7 +240,7 @@ class CategoriaAdminScreen extends ConsumerWidget {
                                                                   type: QuickAlertType
                                                                       .success,
                                                                   title:
-                                                                      'Eliminado correctamente',
+                                                                      'Categoría eliminada',
                                                                   confirmBtnText:
                                                                       'Hecho',
                                                                   confirmBtnColor:
@@ -334,7 +334,7 @@ class CategoriaAdminScreen extends ConsumerWidget {
                   QuickAlert.show(
                     context: context,
                     type: QuickAlertType.success,
-                    title: 'Agregado correctamente',
+                    title: 'Categoría agregado',
                     confirmBtnText: 'Hecho',
                     confirmBtnColor: AppTema.pizazz,
                     onConfirmBtnTap: () {

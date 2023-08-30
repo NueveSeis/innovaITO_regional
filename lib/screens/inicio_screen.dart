@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:innova_ito/widgets/widgets.dart';
-import 'package:html_editor_enhanced/html_editor.dart';
+
 import 'package:flutter_summernote/flutter_summernote.dart';
 
 //import 'package:html_editor/html_editor.dart';

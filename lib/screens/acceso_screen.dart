@@ -45,8 +45,6 @@ class _AccesoScreenState extends State<AccesoScreen> {
     if (response.statusCode == 200) {
       var datos = jsonDecode(response.body);
       matricula = datos[0]['Matricula'].toString();
-      print(matricula);
-      //await Future.delayed(Duration(seconds: 2));
       return matricula;
     } else {
       return 'SN';
@@ -60,8 +58,6 @@ class _AccesoScreenState extends State<AccesoScreen> {
     if (response.statusCode == 200) {
       var datos = jsonDecode(response.body);
       asesorID = datos[0]['Id_asesor'].toString();
-      print(asesorID);
-      //await Future.delayed(Duration(seconds: 2));
       return asesorID;
     } else {
       return 'SN';
@@ -75,8 +71,6 @@ class _AccesoScreenState extends State<AccesoScreen> {
     if (response.statusCode == 200) {
       var datos = jsonDecode(response.body);
       juradoID = datos[0]['Id_jurado'].toString();
-      print(juradoID);
-      //await Future.delayed(Duration(seconds: 2));
       return juradoID;
     } else {
       return 'SN';
@@ -188,7 +182,7 @@ class _AccesoScreenState extends State<AccesoScreen> {
                             validator: (value) {
                               return RegexUtil.contrasena.hasMatch(value ?? '')
                                   ? null
-                                  : 'No es una contraseña valida ortográfico.';
+                                  : 'No es una contraseña válida ortográfico.';
                             },
                           ),
                           const SizedBox(
@@ -218,19 +212,19 @@ class _AccesoScreenState extends State<AccesoScreen> {
                                   setState(() {
                                     camposLlenos =
                                         _formKey.currentState!.validate();
-                                    print(camposLlenos);
+                                    //print(camposLlenos);
                                   });
                                   if (camposLlenos) {
                                     bool buscar =
                                         await getUsuarioLogin(correo.text);
 
-                                    print('buscar: $buscar');
+                                    // print('buscar: $buscar');
                                     if (buscar) {
-                                      print('si fue buscado');
+                                      //  print('si fue buscado');
                                       if (datosU.isEmpty) {
-                                        print('no existe');
+                                        //  print('no existe');
                                       } else {
-                                        print('si existe');
+                                        //print('si existe');
 
                                         String ini = Apoyo.obtenerIniciales(
                                             datosU.first.nombrePersona);
@@ -354,7 +348,7 @@ class _AccesoScreenState extends State<AccesoScreen> {
                           context.pushNamed('registro_usuario_lider');
                         }
                         if (barcodeScanRes == '202305313') {
-                          print(barcodeScanRes);
+                          //print(barcodeScanRes);
                           context.pushNamed('registroUsuarioJurado');
                         }
                       }),

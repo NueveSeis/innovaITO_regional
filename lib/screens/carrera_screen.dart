@@ -23,10 +23,10 @@ class CarreraScreen extends ConsumerWidget {
       if (response.statusCode == 200) {
         carreras = carreraCoorFromJson(response.body);
       } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        //print('La solicitud no fue exitosa: ${response.statusCode}');
       }
     } catch (error) {
-      print('Error al realizar la solicitud: $error');
+      //print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -43,17 +43,17 @@ class CarreraScreen extends ConsumerWidget {
         'Nombre_departamento': nombreDep,
         'Clave_tecnologico': tec
       });
-      print('Código de estado de la respuesta: ${response.statusCode}');
-      print('Cuerpo de la respuesta: ${response.body}');
+      // print('Código de estado de la respuesta: ${response.statusCode}');
+      // print('Cuerpo de la respuesta: ${response.body}');
       if (response.statusCode == 200) {
-        print('Modificado en la db');
+        //print('Modificado en la db');
         return true;
       } else {
-        print('No modificado');
+        //print('No modificado');
         return false;
       }
     } catch (error) {
-      print('Error durante la solicitud HTTP: $error');
+      //print('Error durante la solicitud HTTP: $error');
       return false;
     }
   }
@@ -63,10 +63,10 @@ class CarreraScreen extends ConsumerWidget {
         'https://evarafael.com/Aplicacion/rest/delete_carreraWhereDep.php?Id_carrera=$idCar'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
-      print('Modificado en la db');
+      //print('Modificado en la db');
       return true;
     } else {
-      print('No modificado');
+      //print('No modificado');
       return false;
     }
   }
@@ -95,7 +95,7 @@ class CarreraScreen extends ConsumerWidget {
                       children: [
                         Icon(Icons.add_circle_outline_rounded),
                         Text(
-                          '  Añadir carrera',
+                          'Añadir carrera',
                           style:
                               TextStyle(color: AppTema.grey100, fontSize: 25),
                         ),
@@ -255,7 +255,7 @@ class CarreraScreen extends ConsumerWidget {
                                                                       type: QuickAlertType
                                                                           .success,
                                                                       title:
-                                                                          'Eliminado correctamente',
+                                                                          'Carrera eliminada',
                                                                       confirmBtnText:
                                                                           'Hecho',
                                                                       confirmBtnColor:

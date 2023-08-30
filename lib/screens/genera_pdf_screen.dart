@@ -4,16 +4,13 @@ import 'package:innova_ito/providers/providers.dart';
 
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/models/models.dart';
-import 'package:innova_ito/ui/input_decorations.dart';
+
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:innova_ito/helpers/helpers.dart';
 
 import 'package:go_router/go_router.dart';
-import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
+
 import 'package:open_filex/open_filex.dart';
-import 'package:quickalert/quickalert.dart';
-import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class GeneraPdfScreen extends ConsumerWidget {
   static const String name = 'GeneraPdfScreen';

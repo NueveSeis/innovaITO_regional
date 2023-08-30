@@ -26,12 +26,12 @@ class RequerimientosLiderScreen extends ConsumerWidget {
         requerimientos = requerimientosFromJson(response.body);
         return true;
       } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        // print('La solicitud no fue exitosa: ${response.statusCode}');
         return false;
       }
     } catch (error) {
       return false;
-      print('Error al realizar la solicitud: $error');
+      // print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -46,12 +46,12 @@ class RequerimientosLiderScreen extends ConsumerWidget {
         misReq = requerimientosFromJson(response.body);
         return true;
       } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        // print('La solicitud no fue exitosa: ${response.statusCode}');
         return false;
       }
     } catch (error) {
       return false;
-      print('Error al realizar la solicitud: $error');
+      //print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -63,10 +63,10 @@ class RequerimientosLiderScreen extends ConsumerWidget {
       'Id_requerimientoEspecial': idReq,
     });
     if (response.statusCode == 200) {
-      print('Modificado en la db');
+      // print('Modificado en la db');
       return true;
     } else {
-      print('No modificado');
+      //print('No modificado');
       return false;
     }
   }
@@ -76,10 +76,10 @@ class RequerimientosLiderScreen extends ConsumerWidget {
         'https://evarafael.com/Aplicacion/rest/delete_requerimientoProyecto.php?Id_requerimientoEspecial=$idReq&folio=$foliop'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
-      print('Modificado en la db');
+      // print('Modificado en la db');
       return true;
     } else {
-      print('No modificado');
+      //print('No modificado');
       return false;
     }
   }
@@ -305,7 +305,7 @@ class RequerimientosLiderScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 50),
                 const Text(
-                  'Los únicos requerimientos especiales que podrán proporcionar la sede, cuando algún proyecto lo requiera son los siguientes:',
+                  'Los únicos requerimientos especiales que podrán proporcionar la sede, cuando algún proyecto lo requiera, son los siguientes:',
                   textAlign: TextAlign.justify,
                   style: TextStyle(
                       color: AppTema.balticSea,
@@ -382,7 +382,7 @@ class RequerimientosLiderScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 30),
                 const Text(
-                  'Nota: Esto aplica para proyectos cuyo prototipo presenten exceso de dimensiones como maquinarias o vehículos, o para proyectos que utilicen algún tipo de material peligroso o inflamable (gas,combustible).',
+                  'Nota: Esto aplica para proyectos cuyo prototipo presenten exceso de dimensiones, como maquinarias o vehículos, o para proyectos que utilicen algún tipo de material peligroso o inflamable (gas, combustible).',
                   textAlign: TextAlign.justify,
                   style: TextStyle(
                       color: AppTema.balticSea,

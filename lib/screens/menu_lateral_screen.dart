@@ -9,7 +9,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 //import 'package:provider/provider.dart';
 
 import 'package:innova_ito/widgets/widgets.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MenuLateral extends StatefulWidget {
   static const String name = 'menu_lateral';
@@ -52,7 +51,7 @@ class _MenuLateralState extends State<MenuLateral> {
                       bottom: 16,
                     ),
                     child: Text(
-                      'Menu'.toUpperCase(),
+                      'Menú'.toUpperCase(),
                       style: const TextStyle(color: AppTema.bluegrey700),
                     ),
                   ),

@@ -248,7 +248,7 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                             validator: (value) {
                               return RegexUtil.nombres.hasMatch(value ?? '')
                                   ? null
-                                  : 'Nombre no valido.';
+                                  : 'Nombre no válido.';
                             },
                           ),
                           const SizedBox(height: 20),
@@ -291,13 +291,13 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                                 fontWeight: FontWeight.bold),
                             decoration:
                                 InputDecorations.registroLiderDecoration(
-                              hintText: 'Ingrese matricula',
-                              labelText: 'Matricula',
+                              hintText: 'Ingrese matrícula',
+                              labelText: 'Matrícula',
                             ),
                             validator: (value) {
                               return RegexUtil.matricula.hasMatch(value ?? '')
                                   ? null
-                                  : 'Matricula no valida.';
+                                  : 'Matrícula no válida.';
                             },
                           ),
                           const SizedBox(height: 20),
@@ -319,7 +319,7 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                             validator: (value) {
                               return RegexUtil.promedio.hasMatch(value ?? '')
                                   ? null
-                                  : 'Promedio no valido.';
+                                  : 'Promedio no válido.';
                             },
                           ),
                           const SizedBox(
@@ -520,13 +520,13 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                                 fontWeight: FontWeight.bold),
                             decoration:
                                 InputDecorations.registroLiderDecoration(
-                              hintText: 'Ingrese No. de credencial INE',
+                              hintText: 'Ingrese No. De credencial INE',
                               labelText: 'No. Cred. INE',
                             ),
                             validator: (value) {
                               return RegexUtil.ine.hasMatch(value ?? '')
                                   ? null
-                                  : 'Credencial no valida.';
+                                  : 'Credencial no válida.';
                             },
                           ),
                           const SizedBox(height: 20),
@@ -542,8 +542,8 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                             keyboardType: TextInputType.number,
                             decoration:
                                 InputDecorations.registroLiderDecoration(
-                              hintText: 'Ingrese Numero telefónico',
-                              labelText: 'Numero telefónico',
+                              hintText: 'Ingrese número telefónico',
+                              labelText: 'Número telefónico',
                             ),
                             validator: (value) {
                               return RegexUtil.telefono.hasMatch(value ?? '')
@@ -935,7 +935,7 @@ class AgregarParticipanteScreen extends ConsumerWidget {
                                     QuickAlert.show(
                                       context: context,
                                       type: QuickAlertType.success,
-                                      title: 'Agregado correctamente',
+                                      title: 'Participante agregado',
                                       confirmBtnText: 'Hecho',
                                       confirmBtnColor: AppTema.pizazz,
                                       onConfirmBtnTap: () {

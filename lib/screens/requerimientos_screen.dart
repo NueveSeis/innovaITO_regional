@@ -24,10 +24,10 @@ class RequerimientosScreen extends ConsumerWidget {
       if (response.statusCode == 200) {
         requerimientos = requerimientosFromJson(response.body);
       } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        //print('La solicitud no fue exitosa: ${response.statusCode}');
       }
     } catch (error) {
-      print('Error al realizar la solicitud: $error');
+      //print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -43,17 +43,17 @@ class RequerimientosScreen extends ConsumerWidget {
         'Tipo': tipo,
         'Descripcion': descripcion
       });
-      print('Código de estado de la respuesta: ${response.statusCode}');
-      print('Cuerpo de la respuesta: ${response.body}');
+      //print('Código de estado de la respuesta: ${response.statusCode}');
+      //print('Cuerpo de la respuesta: ${response.body}');
       if (response.statusCode == 200) {
-        print('Modificado en la db');
+        //print('Modificado en la db');
         return true;
       } else {
-        print('No modificado');
+        //print('No modificado');
         return false;
       }
     } catch (error) {
-      print('Error durante la solicitud HTTP: $error');
+      //print('Error durante la solicitud HTTP: $error');
       return false;
     }
   }
@@ -63,10 +63,10 @@ class RequerimientosScreen extends ConsumerWidget {
         'https://evarafael.com/Aplicacion/rest/delete_requerimientoEspecial.php?Id_requerimientoEspecial=$idReq'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
-      print('Modificado en la db');
+      //print('Modificado en la db');
       return true;
     } else {
-      print('No modificado');
+      //print('No modificado');
       return false;
     }
   }
@@ -262,7 +262,7 @@ class RequerimientosScreen extends ConsumerWidget {
                                                                   type: QuickAlertType
                                                                       .success,
                                                                   title:
-                                                                      'Eliminado correctamente',
+                                                                      'Requerimiento eliminado',
                                                                   confirmBtnText:
                                                                       'Hecho',
                                                                   confirmBtnColor:
@@ -366,7 +366,7 @@ class RequerimientosScreen extends ConsumerWidget {
                   QuickAlert.show(
                     context: context,
                     type: QuickAlertType.success,
-                    title: 'Agregado correctamente',
+                    title: 'Requerimiento agregado',
                     confirmBtnText: 'Hecho',
                     confirmBtnColor: AppTema.pizazz,
                     onConfirmBtnTap: () {

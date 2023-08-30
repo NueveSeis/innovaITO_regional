@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -7,7 +6,6 @@ import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
-import 'package:innova_ito/widgets/tarjeta_requerimientos.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:http/http.dart' as http;
 
@@ -31,12 +29,12 @@ class AsesorLiderScreen extends ConsumerWidget {
         asesores = datosAsesorFromJson(response.body);
         return true;
       } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        // print('La solicitud no fue exitosa: ${response.statusCode}');
         return false;
       }
     } catch (error) {
       return false;
-      print('Error al realizar la solicitud: $error');
+      //print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -51,12 +49,12 @@ class AsesorLiderScreen extends ConsumerWidget {
         asesoWF = proyectoAsesorWfFromJson(response.body);
         return true;
       } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        //print('La solicitud no fue exitosa: ${response.statusCode}');
         return false;
       }
     } catch (error) {
       return false;
-      print('Error al realizar la solicitud: $error');
+      //print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -68,10 +66,10 @@ class AsesorLiderScreen extends ConsumerWidget {
       'Id_asesor': asesor,
     });
     if (response.statusCode == 200) {
-      print('Modificado en la db');
+      //print('Modificado en la db');
       return true;
     } else {
-      print('No modificado');
+      //print('No modificado');
       return false;
     }
   }
@@ -135,7 +133,7 @@ class AsesorLiderScreen extends ConsumerWidget {
                                     validator: (value) {
                                       return RegexUtil.rfc.hasMatch(value ?? '')
                                           ? null
-                                          : 'RFC no valido.';
+                                          : 'RFC no válido.';
                                     },
                                   ),
                                   const SizedBox(height: 20),
@@ -196,7 +194,7 @@ class AsesorLiderScreen extends ConsumerWidget {
                                       ? Column(
                                           children: [
                                             const Text(
-                                              'Para agregar al asesor solo da clic sobre el',
+                                              'Para agregar al asesor solo da clic sobre él',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   color: AppTema.balticSea,
@@ -261,7 +259,7 @@ class AsesorLiderScreen extends ConsumerWidget {
               shrinkWrap: true,
               itemCount: asesores.length,
               itemBuilder: (context, index) {
-                int valor = index + 1;
+                //int valor = index + 1;
                 return MaterialButton(
                     splashColor: AppTema.pizazz,
                     shape: RoundedRectangleBorder(
@@ -289,7 +287,7 @@ class AsesorLiderScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: 10.0),
                         Text(
-                          'Tecnologico: ${asesores[index].nombreTecnologico}',
+                          'Tecnológico: ${asesores[index].nombreTecnologico}',
                           style: const TextStyle(
                               color: AppTema.bluegrey700, fontSize: 15.0),
                         ),
@@ -307,7 +305,7 @@ class AsesorLiderScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: 4.0),
                         Text(
-                          'Telefono: ${asesores[index].telefono}',
+                          'Teléfono: ${asesores[index].telefono}',
                           style: const TextStyle(
                               color: AppTema.bluegrey700, fontSize: 15.0),
                         ),

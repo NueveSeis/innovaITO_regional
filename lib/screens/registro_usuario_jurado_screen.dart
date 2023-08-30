@@ -70,11 +70,11 @@ Future<bool> agregarJurado(
       return true;
     } else {
       return false;
-      print('La solicitud no fue exitosa: ${response.statusCode}');
+      //print('La solicitud no fue exitosa: ${response.statusCode}');
     }
   } catch (error) {
     return false;
-    print('Error al realizar la solicitud: $error');
+    //print('Error al realizar la solicitud: $error');
   }
 }
 
@@ -137,7 +137,7 @@ class RegistroUsuarioJuradoScreen extends ConsumerWidget {
       if (seleccion != null && seleccion != fechaSeleccionada) {
         fechaSeleccionada = seleccion;
         fecha = DateTime(seleccion.year, seleccion.month, seleccion.day);
-        print(fecha);
+        //print(fecha);
         ref.read(fechaSeleccionadaRUJProv.notifier).update((state) => fecha);
       }
     }
@@ -184,7 +184,7 @@ class RegistroUsuarioJuradoScreen extends ConsumerWidget {
                             validator: (value) {
                               return RegexUtil.nombres.hasMatch(value ?? '')
                                   ? null
-                                  : 'Nombre no valido.';
+                                  : 'Nombre no válido.';
                             },
                           ),
                           const SizedBox(height: 20),
@@ -347,15 +347,15 @@ class RegistroUsuarioJuradoScreen extends ConsumerWidget {
                                         genero,
                                         eNacimiento);
 
-                                print(curpGenerada);
-                                print(fecha);
+                                //print(curpGenerada);
+                                //print(fecha);
                                 String value1 =
                                     value.toString().substring(0, 14);
                                 String value2 =
                                     value.toString().substring(15, 16);
                                 String parte1g = curpGenerada.substring(0, 14);
                                 String parte2g = curpGenerada.substring(15, 16);
-                                print(curpGenerada.substring(0, 14));
+                                //print(curpGenerada.substring(0, 14));
 
                                 // Compara la CURP ingresada con la generada
                                 if (curpLength == 18) {
@@ -432,13 +432,13 @@ class RegistroUsuarioJuradoScreen extends ConsumerWidget {
                                 fontWeight: FontWeight.bold),
                             decoration:
                                 InputDecorations.registroLiderDecoration(
-                              hintText: 'Ingrese No. de credencial INE',
+                              hintText: 'Ingrese No. De credencial INE',
                               labelText: 'No. Cred. INE',
                             ),
                             validator: (value) {
                               return RegexUtil.ine.hasMatch(value ?? '')
                                   ? null
-                                  : 'Credencial no valida.';
+                                  : 'Credencial no válida.';
                             },
                           ),
                           const SizedBox(height: 20),
@@ -459,7 +459,7 @@ class RegistroUsuarioJuradoScreen extends ConsumerWidget {
                             validator: (value) {
                               return RegexUtil.correo.hasMatch(value ?? '')
                                   ? null
-                                  : 'Correo no valido.';
+                                  : 'Correo no válido.';
                             },
                           ),
                           const SizedBox(height: 20),
@@ -475,8 +475,8 @@ class RegistroUsuarioJuradoScreen extends ConsumerWidget {
                             keyboardType: TextInputType.number,
                             decoration:
                                 InputDecorations.registroLiderDecoration(
-                              hintText: 'Ingrese Numero telefónico',
-                              labelText: 'Numero telefónico',
+                              hintText: 'Ingrese número telefónico',
+                              labelText: 'Número telefónico',
                             ),
                             validator: (value) {
                               return RegexUtil.telefono.hasMatch(value ?? '')
@@ -546,7 +546,7 @@ class RegistroUsuarioJuradoScreen extends ConsumerWidget {
                                       QuickAlert.show(
                                         context: context,
                                         type: QuickAlertType.success,
-                                        title: 'Agregado correctamente',
+                                        title: 'Jurado agregado',
                                         confirmBtnText: 'Hecho',
                                         confirmBtnColor: AppTema.pizazz,
                                         onConfirmBtnTap: () {

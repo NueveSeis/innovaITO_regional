@@ -1,19 +1,14 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:innova_ito/helpers/regexUtil.dart';
+
 import 'package:innova_ito/models/proyectosJuradoASJS.dart';
 import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/models/models.dart';
-import 'package:innova_ito/ui/input_decorations.dart';
-import 'package:innova_ito/widgets/tarjeta_requerimientos.dart';
 import 'package:innova_ito/widgets/widgets.dart';
-import 'package:http/http.dart' as http;
 
-import 'package:quickalert/quickalert.dart';
-import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:http/http.dart' as http;
 
 class AsignarProyectoJuradoScreen extends ConsumerWidget {
   static const String name = 'AsignarProyectoJuradoScreen';
@@ -29,12 +24,12 @@ class AsignarProyectoJuradoScreen extends ConsumerWidget {
         jurados = proyectosJuradoAsjsFromJson(response.body);
         return true;
       } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        //print('La solicitud no fue exitosa: ${response.statusCode}');
         return false;
       }
     } catch (error) {
       return false;
-      print('Error al realizar la solicitud: $error');
+      //print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -49,12 +44,12 @@ class AsignarProyectoJuradoScreen extends ConsumerWidget {
         asesoWF = proyectoAsesorWfFromJson(response.body);
         return true;
       } else {
-        print('La solicitud no fue exitosa: ${response.statusCode}');
+        //print('La solicitud no fue exitosa: ${response.statusCode}');
         return false;
       }
     } catch (error) {
       return false;
-      print('Error al realizar la solicitud: $error');
+      //print('Error al realizar la solicitud: $error');
     }
   }
 
@@ -66,10 +61,10 @@ class AsignarProyectoJuradoScreen extends ConsumerWidget {
       'Id_asesor': asesor,
     });
     if (response.statusCode == 200) {
-      print('Modificado en la db');
+      //print('Modificado en la db');
       return true;
     } else {
-      print('No modificado');
+      //print('No modificado');
       return false;
     }
   }
@@ -121,7 +116,7 @@ class AsignarProyectoJuradoScreen extends ConsumerWidget {
                                 shrinkWrap: true,
                                 itemCount: jurados.length,
                                 itemBuilder: (context, index) {
-                                  int valor = index + 1;
+                                  //int valor = index + 1;
                                   return Column(
                                     children: [
                                       MaterialButton(
@@ -170,7 +165,7 @@ class AsignarProyectoJuradoScreen extends ConsumerWidget {
                                             ),
                                             const SizedBox(height: 4.0),
                                             Text(
-                                              'Telefono: ${jurados[index].telefono}',
+                                              'Teléfono: ${jurados[index].telefono}',
                                               style: const TextStyle(
                                                 color: AppTema.bluegrey700,
                                                 fontSize: 15.0,
@@ -178,7 +173,7 @@ class AsignarProyectoJuradoScreen extends ConsumerWidget {
                                             ),
                                             const SizedBox(height: 4.0),
                                             Text(
-                                              'Categoria:  ${jurados[index].nombreCategoria ?? 'No seleccionado por el juez'}',
+                                              'Categoría:  ${jurados[index].nombreCategoria ?? 'No seleccionado por el juez'}',
                                               style: const TextStyle(
                                                 color: AppTema.bluegrey700,
                                                 fontSize: 15.0,
@@ -186,7 +181,7 @@ class AsignarProyectoJuradoScreen extends ConsumerWidget {
                                             ),
                                             const SizedBox(height: 4.0),
                                             Text(
-                                              'Area: ${jurados[index].nombreArea ?? 'No seleccionado por el juez'}',
+                                              'Área: ${jurados[index].nombreArea ?? 'No seleccionado por el juez'}',
                                               style: const TextStyle(
                                                 color: AppTema.bluegrey700,
                                                 fontSize: 15.0,
@@ -197,7 +192,7 @@ class AsignarProyectoJuradoScreen extends ConsumerWidget {
                                               children: [
                                                 const Text(
                                                   'Proyectos asignados: ',
-                                                  style: const TextStyle(
+                                                  style: TextStyle(
                                                     color: AppTema.bluegrey700,
                                                     fontSize: 15.0,
                                                   ),
@@ -214,8 +209,8 @@ class AsignarProyectoJuradoScreen extends ConsumerWidget {
                                                         BorderRadius.circular(
                                                             5),
                                                   ),
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 5),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(horizontal: 5),
                                                   child: Text(
                                                     jurados[index]
                                                         .cantidadProyectos
