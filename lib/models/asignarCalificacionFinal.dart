@@ -14,29 +14,29 @@ String asignarCalificacionFinalToJson(List<AsignarCalificacionFinal> data) =>
 
 class AsignarCalificacionFinal {
   String folio;
-  String sala;
-  String stand;
-  String puntajeTotal;
+  String calificacionSala;
+  String calificacionStand;
+  String calificacionGlobal;
 
   AsignarCalificacionFinal({
     required this.folio,
-    required this.sala,
-    required this.stand,
-    required this.puntajeTotal,
+    required this.calificacionSala,
+    required this.calificacionStand,
+    required this.calificacionGlobal,
   });
 
   factory AsignarCalificacionFinal.fromJson(Map<String, dynamic> json) =>
       AsignarCalificacionFinal(
         folio: json["Folio"],
-        sala: json["SALA"],
-        stand: json["STAND"],
-        puntajeTotal: json["Puntaje_total"],
+        calificacionSala: json["Calificacion_SALA"],
+        calificacionStand: json["Calificacion_STAND"],
+        calificacionGlobal: json["Calificacion_global"],
       );
 
   Map<String, dynamic> toJson() => {
         "Folio": folio,
-        "SALA": sala,
-        "STAND": stand,
-        "Puntaje_total": puntajeTotal,
+        "Calificacion_SALA": calificacionSala,
+        "Calificacion_STAND": calificacionStand,
+        "Calificacion_global": calificacionGlobal,
       };
 }

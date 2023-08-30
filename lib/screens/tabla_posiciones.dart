@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:innova_ito/models/models.dart';
-import 'package:innova_ito/screens/screens.dart';
+
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 
@@ -23,37 +23,6 @@ class TablaPosicionesScreen extends StatelessWidget {
   TablaPosicionesScreen({super.key});
 
   List<Tablero> tablero = [];
-
-  Future<Uint8List> generatePdf() async {
-    final pdf = pw.Document();
-    pdf.addPage(pw.Page(
-        pageFormat: PdfPageFormat.a4,
-        build: (pw.Context context) {
-          return pw.Center(
-            child: pw.Text(
-              "This is a sample pdf generated in Flutter",
-              style: const pw.TextStyle(
-                fontSize: 25,
-              ),
-            ),
-          ); // Center
-        }));
-
-    var image = await networkImage('https://picsum.photos/250?image=9');
-    pdf.addPage(pw.Page(
-        pageFormat: PdfPageFormat.a4,
-        build: (pw.Context context) {
-          return pw.Center(
-            child: pw.Image(image),
-          ); // Center
-        }));
-
-    final output = await getTemporaryDirectory();
-    debugPrint("${output.path}/example.pdf");
-    final file = File("${output.path}/example.pdf");
-    await file.writeAsBytes(await pdf.save());
-    return pdf.save();
-  }
 
   Future obtenerPosiciones() async {
     var url = 'https://evarafael.com/Aplicacion/rest/get_proyectos.php';
@@ -170,17 +139,17 @@ class TablaPosicionesScreen extends StatelessWidget {
                                 if (obt) {
                                   for (var calificacion in calificaciones) {
                                     print(
-                                        'Calif: ${calificacion.puntajeTotal}');
+                                        'Calif: ${calificacion.calificacionGlobal}');
                                     print('Nombre: ${calificacion.folio}');
                                     pos = pos + 1;
-                                    String estadoA = double.parse(
-                                                calificacion.puntajeTotal) >=
+                                    String estadoA = double.parse(calificacion
+                                                .calificacionGlobal) >=
                                             70.0
                                         ? '1'
                                         : '2';
                                     await asignarCalificacionProyecto(
                                         calificacion.folio,
-                                        calificacion.puntajeTotal,
+                                        calificacion.calificacionGlobal,
                                         estadoA,
                                         '1',
                                         pos.toString());
