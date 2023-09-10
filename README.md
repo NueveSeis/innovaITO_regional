@@ -26,3 +26,15 @@ para cambiar el splash screen
 '''
 dart run flutter_native_splash:create
 '''
+
+#Prod
+Cambiar nombre de la aplicacion:
+'''
+flutter pub run change_app_package_name:main com.nueve.app.innovaIto
+'''
+
+android aab
+
+'''
+flutter build appbundle
+'''

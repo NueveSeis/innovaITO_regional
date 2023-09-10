@@ -43,7 +43,7 @@ class _RegistroUsuarioAsesorScreenState
   TextEditingController cLicenciatura = TextEditingController();
   TextEditingController cMaestria = TextEditingController();
   TextEditingController cDoctorado = TextEditingController();
-  late String tipoAsesor;
+  String tipoAsesor = '';
   //late String departamentoAdscrito;
   final jobRoleCtrl = TextEditingController();
   bool camposLlenos = true;
@@ -739,13 +739,23 @@ class _RegistroUsuarioAsesorScreenState
                             camposLlenos = _formKey.currentState!.validate();
                             print(camposLlenos);
                           });
-                          if (camposLlenos) {
+                          if (camposLlenos &&
+                              eNacimiento != '' &&
+                              genero != '' &&
+                              valueTipo != '' &&
+                              valueClaveTec != '' &&
+                              valueDepartamento != '' &&
+                              tipoAsesor != '') {
                             idPersona = Generar.idPersona(
                                 cNombres.text.toUpperCase(),
                                 cApellido1.text.toUpperCase(),
                                 cApellido2.text.toUpperCase(),
                                 cCorreo.text.toUpperCase());
-                            contrasena = Generar.contrasenaAleatoria();
+                            do {
+                              contrasena = Generar.contrasenaAleatoria();
+                            } while (
+                                !RegexUtil.contrasena.hasMatch(contrasena));
+                            //contrasena = Generar.contrasenaAleatoria();
                             contrasenaHash = Generar.hashContrasena(contrasena);
                             bool agregado = await existente();
                             if (agregado) {

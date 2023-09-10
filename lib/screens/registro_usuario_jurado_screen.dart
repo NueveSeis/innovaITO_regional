@@ -189,6 +189,8 @@ class RegistroUsuarioJuradoScreen extends ConsumerWidget {
                           ),
                           const SizedBox(height: 20),
                           TextFormField(
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             controller: cApellidoP,
                             style: const TextStyle(
                                 color: AppTema.bluegrey700,
@@ -504,7 +506,9 @@ class RegistroUsuarioJuradoScreen extends ConsumerWidget {
                                 //     (state) =>
                                 //         _formKey.currentState!.validate());
                                 if (_formKey.currentState!.validate() &&
-                                    fecha != DateTime(0000, 00, 00)) {
+                                    fecha != DateTime(0000, 00, 00) &&
+                                    genero != '' &&
+                                    eNacimiento != '') {
                                   String idPersona = Generar.idPersona(
                                       cNombre.text.toUpperCase(),
                                       cApellidoP.text.toUpperCase(),
@@ -521,7 +525,14 @@ class RegistroUsuarioJuradoScreen extends ConsumerWidget {
                                       confirmBtnColor: AppTema.pizazz,
                                     );
                                   } else {
-                                    contrasena = Generar.contrasenaAleatoria();
+                                    do {
+                                      contrasena =
+                                          Generar.contrasenaAleatoria();
+                                    } while (!RegexUtil.contrasena
+                                        .hasMatch(contrasena));
+
+                                    print('Contraseña generada: $contrasena');
+                                    //contrasena = Generar.contrasenaAleatoria();
                                     contrasenaHash =
                                         Generar.hashContrasena(contrasena);
                                     String idju =

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:innova_ito/helpers/helpers.dart';
 import 'package:innova_ito/models/criterioRubrica.dart';
 import 'package:innova_ito/providers/providers.dart';
 
@@ -205,6 +206,12 @@ class EvaluarSalaScreen extends ConsumerWidget {
                                             'Ingrese observaciones si existe',
                                         border: OutlineInputBorder(),
                                       ),
+                                      validator: (value) {
+                                        return (!RegexUtil.datos
+                                                .hasMatch(value ?? ''))
+                                            ? null
+                                            : 'No contiene ningún dato.';
+                                      },
                                     ),
                                     const SizedBox(
                                       height: 4,

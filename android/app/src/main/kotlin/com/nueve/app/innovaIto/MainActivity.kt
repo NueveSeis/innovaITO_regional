@@ -1,4 +1,4 @@
-package com.example.innova_ito
+package com.nueve.app.innovaIto
 
 import io.flutter.embedding.android.FlutterActivity
 

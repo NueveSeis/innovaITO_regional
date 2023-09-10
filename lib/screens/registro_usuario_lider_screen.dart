@@ -108,7 +108,7 @@ class _RegistroUsuarioLiderScreenState
   @override
   Widget build(BuildContext context) {
     //final registroLider = Provider.of<RegistroLiderProv>(context);
-
+    print('fefkefbhhjvfe ${nivel.text}');
     return Scaffold(
         body: Fondo(
             tituloPantalla: 'Registro líder de proyecto',
@@ -208,6 +208,8 @@ class _RegistroUsuarioLiderScreenState
                           ),
                           const SizedBox(height: 20),
                           TextFormField(
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             controller: apellidoP,
                             style: const TextStyle(
                                 color: AppTema.bluegrey700,
@@ -274,11 +276,13 @@ class _RegistroUsuarioLiderScreenState
                                     color: AppTema.grey100, fontSize: 25),
                               )),
                               onPressed: () async {
-                                setState(() {
-                                  camposLlenos =
-                                      _formKey.currentState!.validate();
-                                });
-                                if (camposLlenos) {
+                                bool camposllenos =
+                                    _formKey.currentState!.validate();
+                                // setState(() {
+                                //   camposLlenos =
+                                //       _formKey.currentState!.validate();
+                                // });
+                                if (camposllenos && nivel.text.isNotEmpty) {
                                   FocusScope.of(context)
                                       .requestFocus(FocusNode());
                                   idNivel = await obtenerNivelLider(
@@ -288,7 +292,11 @@ class _RegistroUsuarioLiderScreenState
                                       apellidoP.text.toUpperCase(),
                                       apellidoM.text.toLowerCase(),
                                       correo.text.toUpperCase());
-                                  contrasena = Generar.contrasenaAleatoria();
+                                  do {
+                                    contrasena = Generar.contrasenaAleatoria();
+                                  } while (!RegexUtil.contrasena
+                                      .hasMatch(contrasena));
+                                  //contrasena = Generar.contrasenaAleatoria();
                                   contrasenaHash =
                                       Generar.hashContrasena(contrasena);
                                   //print(contrasenaHash);
