@@ -182,7 +182,7 @@ class _AccesoScreenState extends State<AccesoScreen> {
                             validator: (value) {
                               return RegexUtil.contrasena.hasMatch(value ?? '')
                                   ? null
-                                  : 'No es una contraseña válida ortográfico.';
+                                  : 'No es una contraseña válida.';
                             },
                           ),
                           const SizedBox(
