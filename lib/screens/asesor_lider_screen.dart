@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AsesorLiderScreen extends ConsumerWidget {
   static const String name = 'asesor_lider';
@@ -20,8 +21,7 @@ class AsesorLiderScreen extends ConsumerWidget {
 
   List<DatosAsesor> asesores = [];
   Future<bool> getAsesor(String rfc) async {
-    String url =
-        'https://evarafael.com/Aplicacion/rest/get_asesorWhere.php?RFC=$rfc';
+    String url = '${dotenv.env['HOST_REST']}get_asesorWhere.php?RFC=$rfc';
 
     try {
       var response = await http.post(Uri.parse(url));
@@ -41,7 +41,7 @@ class AsesorLiderScreen extends ConsumerWidget {
   List<ProyectoAsesorWf> asesoWF = [];
   Future<bool> getAsesorWhere(String? idfol) async {
     String url =
-        'https://evarafael.com/Aplicacion/rest/get_proyectoAsesorWhere.php?Folio=$idfol';
+        '${dotenv.env['HOST_REST']}get_proyectoAsesorWhere.php?Folio=$idfol';
 
     try {
       var response = await http.post(Uri.parse(url));
@@ -60,7 +60,7 @@ class AsesorLiderScreen extends ConsumerWidget {
 
   Future<bool> agregarAsesorLider(String foliop, String asesor) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/agregar_asesorProyecto.php'; // Reemplaza con la URL del archivo PHP en tu servidor
+        '${dotenv.env['HOST_REST']}agregar_asesorProyecto.php'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url), body: {
       'Folio': foliop,
       'Id_asesor': asesor,

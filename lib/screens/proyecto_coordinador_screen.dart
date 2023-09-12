@@ -15,6 +15,7 @@ import 'package:open_filex/open_filex.dart';
 
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ProyectoCoordinadorScreen extends ConsumerWidget {
   static const String name = 'proyecto_coordinador';
@@ -24,7 +25,7 @@ class ProyectoCoordinadorScreen extends ConsumerWidget {
 
   Future<bool> getProyectosCoordinador(String id) async {
     String url =
-        'https://evarafael.com/Aplicacion/rest/get_proyectoCoordinador.php?Id_coordinador=$id';
+        '${dotenv.env['HOST_REST']}get_proyectoCoordinador.php?Id_coordinador=$id';
     try {
       var response = await http.post(Uri.parse(url));
       if (response.statusCode == 200) {
@@ -42,8 +43,7 @@ class ProyectoCoordinadorScreen extends ConsumerWidget {
 
   Future<bool> putProyectosCoordinador(
       String folio, String campo1, String valor1) async {
-    String url =
-        'https://evarafael.com/Aplicacion/rest/update_proyectoCoordinador.php';
+    String url = '${dotenv.env['HOST_REST']}update_proyectoCoordinador.php';
     try {
       var response = await http.put(Uri.parse(url),
           body: jsonEncode(<String, dynamic>{
@@ -65,9 +65,9 @@ class ProyectoCoordinadorScreen extends ConsumerWidget {
   // Future<String> createPDF(List<ProyectoCoord> proyecto, int index) async {
   //   final pdf = pw.Document();
   //   final educacion = await networkImage(
-  //       'https://evarafael.com/Aplicacion/rest/logos/educacion.png');
+  //       '${dotenv.env['HOST_REST']}logos/educacion.png');
   //   final tecnm = await networkImage(
-  //       'https://evarafael.com/Aplicacion/rest/logos/tecnm.png');
+  //       '${dotenv.env['HOST_REST']}logos/tecnm.png');
   //   pdf.addPage(
   //     pw.Page(
   //       build: (pw.Context context) {

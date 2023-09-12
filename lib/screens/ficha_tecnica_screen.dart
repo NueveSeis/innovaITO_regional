@@ -10,7 +10,7 @@ import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:quickalert/quickalert.dart';
 //import 'package:flutter_quill/flutter_quill.dart';
 
@@ -48,8 +48,7 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
   String idFichaUnica = '';
 
   Future obtenerAreas(String areaB) async {
-    var url =
-        'https://evarafael.com/Aplicacion/rest/get_area.php?Id_categoria=$areaB';
+    var url = '${dotenv.env['HOST_REST']}get_area.php?Id_categoria=$areaB';
     var response = await http.get(Uri.parse(url));
     areas = areaFromJson(response.body);
     cargando = true;
@@ -57,20 +56,20 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
 
   Future obtenerCategorias() async {
     //final bool catProv = ref.watch(categoriaCargandoProvider);
-    var url = 'https://evarafael.com/Aplicacion/rest/get_categorias.php';
+    var url = '${dotenv.env['HOST_REST']}get_categorias.php';
     var response = await http.get(Uri.parse(url));
     categorias = categoriaFromJson(response.body);
   }
 
   Future obtenerNaturaleza() async {
-    var url = 'https://evarafael.com/Aplicacion/rest/get_naturalezas.php';
+    var url = '${dotenv.env['HOST_REST']}get_naturalezas.php';
     var response = await http.get(Uri.parse(url));
     naturalezas = naturalezaFromJson(response.body);
   }
 
   Future<String> getMatricula(String idpersona) async {
     String url =
-        'https://evarafael.com/Aplicacion/rest/get_estudiante.php?Id_persona=$idpersona';
+        '${dotenv.env['HOST_REST']}get_estudiante.php?Id_persona=$idpersona';
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
       var datos = jsonDecode(response.body);
@@ -86,7 +85,7 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
   }
 
   Future agregarFichaTecnica(String idFichaUnica, String mat) async {
-    var url = 'https://evarafael.com/Aplicacion/rest/agregarFichaTecnica.php';
+    var url = '${dotenv.env['HOST_REST']}agregarFichaTecnica.php';
     await http.post(Uri.parse(url), body: {
       'Id_fichaTecnica': 'F$idFichaUnica',
       'Nombre_corto': cNombreComercial.text,
@@ -110,8 +109,7 @@ class _FichaTecnicaScreenState extends State<FichaTecnicaScreen> {
 
   Future<void> agregarValidacionProyectoC(
       String coor, String fol, dynamic fechaV, dynamic obs, dynamic est) async {
-    var url =
-        'https://evarafael.com/Aplicacion/rest/agregar_validacionProyectoC.php';
+    var url = '${dotenv.env['HOST_REST']}agregar_validacionProyectoC.php';
     var response = await http.post(
       Uri.parse(url),
       body: {

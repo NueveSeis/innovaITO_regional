@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class NaturalezaAdminScreen extends ConsumerWidget {
   static const String name = 'naturaleza_admin';
@@ -16,7 +17,7 @@ class NaturalezaAdminScreen extends ConsumerWidget {
   List<Naturaleza> naturaleza = [];
 
   Future<void> getNaturaleza(WidgetRef ref) async {
-    String url = 'https://evarafael.com/Aplicacion/rest/get_naturalezas.php';
+    String url = '${dotenv.env['HOST_REST']}get_naturalezas.php';
     try {
       var response = await http.post(Uri.parse(url));
       if (response.statusCode == 200) {
@@ -33,7 +34,7 @@ class NaturalezaAdminScreen extends ConsumerWidget {
     String idNat,
     String tipo,
   ) async {
-    var url = 'https://evarafael.com/Aplicacion/rest/agregar_naturaleza.php';
+    var url = '${dotenv.env['HOST_REST']}agregar_naturaleza.php';
     try {
       var response = await http.post(Uri.parse(url),
           body: {'Id_naturalezaTecnica': 'NAT$idNat', 'Tipo': tipo});
@@ -54,7 +55,7 @@ class NaturalezaAdminScreen extends ConsumerWidget {
 
   Future<bool> eliminarNaturaleza(String idNat) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/delete_naturaleza.php?Id_naturalezaTecnica=$idNat'; // Reemplaza con la URL del archivo PHP en tu servidor
+        '${dotenv.env['HOST_REST']}delete_naturaleza.php?Id_naturalezaTecnica=$idNat'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
       //print('Modificado en la db');

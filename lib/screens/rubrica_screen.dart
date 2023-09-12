@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class RubricaScreen extends ConsumerWidget {
   static const String name = 'RubricaScreen';
@@ -17,7 +18,7 @@ class RubricaScreen extends ConsumerWidget {
   List<CriterioRubrica> rubrica = [];
   Future<void> getRubrica(String medio) async {
     String url =
-        'https://evarafael.com/Aplicacion/rest/get_criterioRubrica.php?Medio_evaluacion=$medio';
+        '${dotenv.env['HOST_REST']}get_criterioRubrica.php?Medio_evaluacion=$medio';
     try {
       var response = await http.post(Uri.parse(url));
       if (response.statusCode == 200) {
@@ -34,7 +35,7 @@ class RubricaScreen extends ConsumerWidget {
 
   Future<void> getRubricaSala(String medio) async {
     String url =
-        'https://evarafael.com/Aplicacion/rest/get_criterioRubrica.php?Medio_evaluacion=$medio';
+        '${dotenv.env['HOST_REST']}get_criterioRubrica.php?Medio_evaluacion=$medio';
     try {
       var response = await http.post(Uri.parse(url));
       if (response.statusCode == 200) {
@@ -49,7 +50,7 @@ class RubricaScreen extends ConsumerWidget {
 
   Future<bool> eliminarRubrica(String idrub) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/delete_rubrica.php?Id_rubrica=$idrub'; // Reemplaza con la URL del archivo PHP en tu servidor
+        '${dotenv.env['HOST_REST']}delete_rubrica.php?Id_rubrica=$idrub'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
       // print('Modificado en la db');

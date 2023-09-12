@@ -15,7 +15,7 @@ import 'package:quickalert/quickalert.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-Future<bool> existenteJ(String idPersona) async {
+Future<bool> existenteJGn(String idPersona) async {
   String url = '${dotenv.env['HOST_REST']}existePersona.php';
   var response = await http.post(Uri.parse(url), body: {
     'Id_persona': idPersona,
@@ -29,7 +29,7 @@ Future<bool> existenteJ(String idPersona) async {
   }
 }
 
-Future<bool> agregarJurado(
+Future<bool> agregarJuradoGn(
   BuildContext context,
   String id,
   String nombre,
@@ -79,12 +79,12 @@ Future<bool> agregarJurado(
   }
 }
 
-final fechaSeleccionadaRUJProv = StateProvider<DateTime?>((ref) => null);
+final fechaSeleccionadaRUJGnProv = StateProvider<DateTime?>((ref) => null);
 
-class RegistroUsuarioJuradoScreen extends ConsumerWidget {
-  static const String name = 'registroUsuarioJurado';
+class RegistroUsuarioJuradoGnScreen extends ConsumerWidget {
+  static const String name = 'registroUsuarioJurado_gn';
 
-  RegistroUsuarioJuradoScreen({super.key});
+  RegistroUsuarioJuradoGnScreen({super.key});
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -106,7 +106,7 @@ class RegistroUsuarioJuradoScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cGenero = ref.watch(generoProv);
     final camposLlenos = ref.watch(camposLlenosProv);
-    final fechasRUJ = ref.watch(fechaSeleccionadaRUJProv);
+    final fechasRUJ = ref.watch(fechaSeleccionadaRUJGnProv);
 
     String contrasena = '';
     String contrasenaHash = '';
@@ -139,12 +139,12 @@ class RegistroUsuarioJuradoScreen extends ConsumerWidget {
         fechaSeleccionada = seleccion;
         fecha = DateTime(seleccion.year, seleccion.month, seleccion.day);
         //print(fecha);
-        ref.read(fechaSeleccionadaRUJProv.notifier).update((state) => fecha);
+        ref.read(fechaSeleccionadaRUJGnProv.notifier).update((state) => fecha);
       }
     }
 
     return Scaffold(
-        body: Fondo(
+        body: FondoGn(
             tituloPantalla: 'Registro de jurado',
             fontSize: 20,
             widget: Column(
@@ -515,7 +515,7 @@ class RegistroUsuarioJuradoScreen extends ConsumerWidget {
                                       cApellidoP.text.toUpperCase(),
                                       cApellidoM.text.toUpperCase(),
                                       cCorreo.text.toUpperCase());
-                                  bool result = await existenteJ(idPersona);
+                                  bool result = await existenteJGn(idPersona);
                                   //print('1');
                                   if (result) {
                                     QuickAlert.show(
@@ -538,7 +538,7 @@ class RegistroUsuarioJuradoScreen extends ConsumerWidget {
                                         Generar.hashContrasena(contrasena);
                                     String idju =
                                         const Uuid().v4().substring(0, 8);
-                                    bool agregado = await agregarJurado(
+                                    bool agregado = await agregarJuradoGn(
                                         context,
                                         idPersona,
                                         cNombre.text.toUpperCase(),
@@ -562,8 +562,8 @@ class RegistroUsuarioJuradoScreen extends ConsumerWidget {
                                         confirmBtnText: 'Hecho',
                                         confirmBtnColor: AppTema.pizazz,
                                         onConfirmBtnTap: () {
-                                          context.pushReplacementNamed(
-                                              'inicioLider');
+                                          context
+                                              .pushReplacementNamed('acceso');
                                         },
                                       );
                                     } else {

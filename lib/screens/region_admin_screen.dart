@@ -10,6 +10,7 @@ import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:uuid/uuid.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class RegionAdminScreen extends ConsumerWidget {
   static const String name = 'region_admin';
@@ -18,7 +19,7 @@ class RegionAdminScreen extends ConsumerWidget {
   List<Region> region = [];
 
   Future<void> getRegion(WidgetRef ref) async {
-    String url = 'https://evarafael.com/Aplicacion/rest/get_region.php';
+    String url = '${dotenv.env['HOST_REST']}get_region.php';
     try {
       var response = await http.post(Uri.parse(url));
       if (response.statusCode == 200) {
@@ -35,7 +36,7 @@ class RegionAdminScreen extends ConsumerWidget {
     String idReg,
     String numReg,
   ) async {
-    var url = 'https://evarafael.com/Aplicacion/rest/agregar_region.php';
+    var url = '${dotenv.env['HOST_REST']}agregar_region.php';
     try {
       var response = await http.post(Uri.parse(url),
           body: {'Id_region': 'REG$idReg', 'Numero_region': numReg});
@@ -56,7 +57,7 @@ class RegionAdminScreen extends ConsumerWidget {
 
   Future<bool> eliminarRegion(String idReg) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/delete_region.php?Id_region=$idReg'; // Reemplaza con la URL del archivo PHP en tu servidor
+        '${dotenv.env['HOST_REST']}delete_region.php?Id_region=$idReg'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
       //print('Modificado en la db');

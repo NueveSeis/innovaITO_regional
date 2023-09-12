@@ -10,13 +10,10 @@ import 'package:innova_ito/widgets/widgets.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:open_filex/open_filex.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'package:path_provider/path_provider.dart';
-import 'package:printing/printing.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:innova_ito/helpers/helpers.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class TablaPosicionesScreen extends StatelessWidget {
   static const String name = 'tabla_posiciones';
@@ -25,7 +22,7 @@ class TablaPosicionesScreen extends StatelessWidget {
   List<Tablero> tablero = [];
 
   Future obtenerPosiciones() async {
-    var url = 'https://evarafael.com/Aplicacion/rest/get_proyectos.php';
+    var url = '${dotenv.env['HOST_REST']}get_proyectos.php';
     var response = await http.get(Uri.parse(url));
     tablero = tableroFromJson(response.body);
     tablero.sort((a, b) => double.parse(b.calificacionGlobal)
@@ -37,8 +34,7 @@ class TablaPosicionesScreen extends StatelessWidget {
   List<AsignarCalificacionFinal> calificaciones = [];
 
   Future<bool> obtenerCalificaciones() async {
-    var url =
-        'https://evarafael.com/Aplicacion/rest/get_ObtenerCalificacionFinal.php';
+    var url = '${dotenv.env['HOST_REST']}get_ObtenerCalificacionFinal.php';
 
     try {
       var response = await http.get(Uri.parse(url));
@@ -52,7 +48,7 @@ class TablaPosicionesScreen extends StatelessWidget {
 
   Future<bool> asignarCalificacionProyecto(String folio, String califica,
       String eAcreditacion, String eEvaluacion, String posicion) async {
-    String url = 'https://evarafael.com/Aplicacion/rest/update_proyecto.php';
+    String url = '${dotenv.env['HOST_REST']}update_proyecto.php';
     try {
       var response = await http.post(Uri.parse(url), body: {
         'Folio': folio,

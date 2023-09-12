@@ -49,6 +49,16 @@ final appRouter = GoRouter(
       builder: (context, state) => const RegistroUsuarioAsesorScreen(),
     ),
     GoRoute(
+      path: '/registro_usuario_lider_gn',
+      name: RegistroUsuarioLiderGnScreen.name,
+      builder: (context, state) => const RegistroUsuarioLiderGnScreen(),
+    ),
+    GoRoute(
+      path: '/registro_usuario_asesor_gn',
+      name: RegistroUsuarioAsesorGnScreen.name,
+      builder: (context, state) => const RegistroUsuarioAsesorGnScreen(),
+    ),
+    GoRoute(
       path: '/ficha_tecnica',
       name: FichaTecnicaScreen.name,
       builder: (context, state) => FichaTecnicaScreen(),
@@ -82,11 +92,6 @@ final appRouter = GoRouter(
       path: '/memoria_tecnica',
       name: MemoriaTecnicaScreen.name,
       builder: (context, state) => MemoriaTecnicaScreen(),
-    ),
-    GoRoute(
-      path: '/menu',
-      name: MenuScreen.name,
-      builder: (context, state) => MenuScreen(),
     ),
     GoRoute(
       path: '/tabla_posiciones',
@@ -222,6 +227,11 @@ final appRouter = GoRouter(
       path: '/registroUsuarioJurado',
       name: RegistroUsuarioJuradoScreen.name,
       builder: (context, state) => RegistroUsuarioJuradoScreen(),
+    ),
+    GoRoute(
+      path: '/registroUsuarioJurado_gn',
+      name: RegistroUsuarioJuradoGnScreen.name,
+      builder: (context, state) => RegistroUsuarioJuradoGnScreen(),
     ),
     GoRoute(
       path: '/salaLiderScreen',

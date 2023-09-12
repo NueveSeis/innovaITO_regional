@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class StandScreen extends ConsumerWidget {
   static const String name = 'stand';
@@ -17,7 +18,7 @@ class StandScreen extends ConsumerWidget {
   List<StandHs> stands = [];
 
   Future<void> getStandS() async {
-    String url = 'https://evarafael.com/Aplicacion/rest/get_asignarHStand.php';
+    String url = '${dotenv.env['HOST_REST']}get_asignarHStand.php';
     try {
       var response = await http.post(Uri.parse(url));
       if (response.statusCode == 200) {
@@ -33,7 +34,7 @@ class StandScreen extends ConsumerWidget {
 
   Future<bool> eliminarAsignarHST(String foliop, String idStand) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/delete_asignarHStand.php?Id_stand=$idStand&Folio=$foliop'; // Reemplaza con la URL del archivo PHP en tu servidor
+        '${dotenv.env['HOST_REST']}delete_asignarHStand.php?Id_stand=$idStand&Folio=$foliop'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
       //print('Modificado en la db');

@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:go_router/go_router.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class RequerimientosLiderScreen extends ConsumerWidget {
   static const String name = 'requerimientos_lider';
@@ -18,7 +19,7 @@ class RequerimientosLiderScreen extends ConsumerWidget {
   List<Requerimientos> requerimientos = [];
 
   Future<bool> fetchRequerimientos() async {
-    String url = 'https://evarafael.com/Aplicacion/rest/get_requerimientos.php';
+    String url = '${dotenv.env['HOST_REST']}get_requerimientos.php';
 
     try {
       var response = await http.post(Uri.parse(url));
@@ -38,7 +39,7 @@ class RequerimientosLiderScreen extends ConsumerWidget {
   List<Requerimientos> misReq = [];
   Future<bool> misRequerimientos(String req) async {
     String url =
-        'https://evarafael.com/Aplicacion/rest/get_requerimientosWhere.php?Folio=$req';
+        '${dotenv.env['HOST_REST']}get_requerimientosWhere.php?Folio=$req';
 
     try {
       var response = await http.post(Uri.parse(url));
@@ -57,7 +58,7 @@ class RequerimientosLiderScreen extends ConsumerWidget {
 
   Future<bool> agregarRequerimiento(String foliop, String idReq) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/agregar_requerimientoProyecto.php'; // Reemplaza con la URL del archivo PHP en tu servidor
+        '${dotenv.env['HOST_REST']}agregar_requerimientoProyecto.php'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url), body: {
       'Folio': foliop,
       'Id_requerimientoEspecial': idReq,
@@ -73,7 +74,7 @@ class RequerimientosLiderScreen extends ConsumerWidget {
 
   Future<bool> eliminarRequerimiento(String foliop, String idReq) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/delete_requerimientoProyecto.php?Id_requerimientoEspecial=$idReq&folio=$foliop'; // Reemplaza con la URL del archivo PHP en tu servidor
+        '${dotenv.env['HOST_REST']}delete_requerimientoProyecto.php?Id_requerimientoEspecial=$idReq&folio=$foliop'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
       // print('Modificado en la db');

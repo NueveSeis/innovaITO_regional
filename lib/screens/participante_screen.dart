@@ -10,6 +10,7 @@ import 'package:innova_ito/widgets/widgets.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:go_router/go_router.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ParticipanteScreen extends ConsumerWidget {
   static const String name = 'participantes';
@@ -23,7 +24,7 @@ class ParticipanteScreen extends ConsumerWidget {
   //obtener datos del estudiante
   Future<void> getDatosEstudiante(String folio, WidgetRef ref) async {
     String url =
-        'https://evarafael.com/Aplicacion/rest/get_participanteProyecto.php?Folio=$folio';
+        '${dotenv.env['HOST_REST']}get_participanteProyecto.php?Folio=$folio';
     try {
       var response = await http.post(Uri.parse(url));
       if (response.statusCode == 200) {
@@ -41,8 +42,7 @@ class ParticipanteScreen extends ConsumerWidget {
 
   //obtener forlio del proyecto del lider
   Future<void> getFolioProyecto(String matricula) async {
-    String url =
-        'https://evarafael.com/Aplicacion/rest/get_Folio.php?Matricula=$matricula';
+    String url = '${dotenv.env['HOST_REST']}get_Folio.php?Matricula=$matricula';
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
       folio = jsonDecode(response.body);

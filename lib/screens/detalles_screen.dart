@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:innova_ito/theme/app_tema.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class DetallesScreen extends StatefulWidget {
   static const String name = 'detalles';
@@ -16,8 +17,7 @@ class _DetallesScreenState extends State<DetallesScreen> {
   List lista = [];
 
   Future<void> getProyectos() async {
-    String url =
-        'https://evarafael.com/Aplicacion/rest/verProyectosPendientes.php';
+    String url = '${dotenv.env['HOST_REST']}verProyectosPendientes.php';
     var response = await http.get(Uri.parse(url));
     setState(() {
       lista = json.decode(response.body);

@@ -10,6 +10,7 @@ import 'package:innova_ito/theme/app_tema.dart';
 import 'package:http/http.dart' as http;
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class RecuperarContrasenaScreen extends StatefulWidget {
   static const String name = 'RecuperarContrasena';
@@ -29,7 +30,7 @@ class _RecuperarContrasenaScreenState extends State<RecuperarContrasenaScreen> {
   List<UsuarioData> dataUser = [];
 
   Future acceso() async {
-    String url = 'https://evarafael.com/Aplicacion/rest/login.php';
+    String url = '${dotenv.env['HOST_REST']}login.php';
     var response = await http.post(Uri.parse(url), body: {
       "Nombre_usuario": correo.text,
     });
@@ -54,7 +55,7 @@ class _RecuperarContrasenaScreenState extends State<RecuperarContrasenaScreen> {
   }
 
   Future enviar() async {
-    String url = 'https://evarafael.com/Aplicacion/rest/update_usuario.php';
+    String url = '${dotenv.env['HOST_REST']}update_usuario.php';
     var response = await http.post(Uri.parse(url), body: {
       "id": correo.text,
       "nuevoValor": contrasenaHash,
@@ -82,7 +83,7 @@ class _RecuperarContrasenaScreenState extends State<RecuperarContrasenaScreen> {
   }
 
   Future<void> getUser(String correo) async {
-    String url = 'https://evarafael.com/Aplicacion/rest/get_dataUser.php';
+    String url = '${dotenv.env['HOST_REST']}get_dataUser.php';
     var response = await http.post(Uri.parse(url), body: {
       "Nombre_usuario": correo,
     });

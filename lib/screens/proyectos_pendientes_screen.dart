@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:innova_ito/screens/detalles_screen.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ProyectosPendientesScreen extends StatefulWidget {
   static const String name = 'proyectos';
@@ -19,7 +20,7 @@ class _ProyectosPendientesScreenState extends State<ProyectosPendientesScreen> {
   List lista = [];
 
   Future<void> getProyectos() async {
-    String url = 'https://evarafael.com/Aplicacion/rest/verProyectos.php';
+    String url = '${dotenv.env['HOST_REST']}verProyectos.php';
     var response = await http.get(Uri.parse(url));
     setState(() {
       lista = json.decode(response.body);

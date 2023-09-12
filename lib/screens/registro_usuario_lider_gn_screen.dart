@@ -11,17 +11,17 @@ import 'package:go_router/go_router.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class RegistroUsuarioLiderScreen extends StatefulWidget {
-  static const String name = 'registro_usuario_lider';
-  const RegistroUsuarioLiderScreen({super.key});
+class RegistroUsuarioLiderGnScreen extends StatefulWidget {
+  static const String name = 'registro_usuario_lider_gn';
+  const RegistroUsuarioLiderGnScreen({super.key});
 
   @override
-  State<RegistroUsuarioLiderScreen> createState() =>
-      _RegistroUsuarioLiderScreenState();
+  State<RegistroUsuarioLiderGnScreen> createState() =>
+      _RegistroUsuarioLiderGnScreenState();
 }
 
-class _RegistroUsuarioLiderScreenState
-    extends State<RegistroUsuarioLiderScreen> {
+class _RegistroUsuarioLiderGnScreenState
+    extends State<RegistroUsuarioLiderGnScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController nivel = TextEditingController();
   TextEditingController matricula = TextEditingController();
@@ -110,7 +110,7 @@ class _RegistroUsuarioLiderScreenState
     //final registroLider = Provider.of<RegistroLiderProv>(context);
     print('fefkefbhhjvfe ${nivel.text}');
     return Scaffold(
-        body: Fondo(
+        body: FondoGn(
             tituloPantalla: 'Registro líder de proyecto',
             fontSize: 20,
             widget: Column(
@@ -309,8 +309,7 @@ class _RegistroUsuarioLiderScreenState
                                       confirmBtnText: 'Hecho',
                                       confirmBtnColor: AppTema.pizazz,
                                       onConfirmBtnTap: () {
-                                        context.pushReplacementNamed(
-                                            'registro_usuario');
+                                        context.pushReplacementNamed('acceso');
                                       },
                                     );
                                   } else {

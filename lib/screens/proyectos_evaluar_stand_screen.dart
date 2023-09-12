@@ -6,7 +6,7 @@ import 'package:innova_ito/providers/providers.dart';
 import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/widgets/widgets.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class ProyectoEvaluarStandSreen extends ConsumerWidget {
@@ -17,7 +17,7 @@ class ProyectoEvaluarStandSreen extends ConsumerWidget {
 
   Future<void> getProyectosEvaluar(String idjur) async {
     String url =
-        'https://evarafael.com/Aplicacion/rest/get_evaluacionProJuradoStand.php?Id_jurado=$idjur';
+        '${dotenv.env['HOST_REST']}get_evaluacionProJuradoStand.php?Id_jurado=$idjur';
     try {
       var response = await http.post(Uri.parse(url));
       if (response.statusCode == 200) {

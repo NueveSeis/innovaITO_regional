@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class RequerimientosScreen extends ConsumerWidget {
   static const String name = 'requerimientos';
@@ -18,7 +19,7 @@ class RequerimientosScreen extends ConsumerWidget {
   List<Requerimientos> requerimientos = [];
 
   Future<void> getRequerimientos(WidgetRef ref) async {
-    String url = 'https://evarafael.com/Aplicacion/rest/get_requerimientos.php';
+    String url = '${dotenv.env['HOST_REST']}get_requerimientos.php';
     try {
       var response = await http.post(Uri.parse(url));
       if (response.statusCode == 200) {
@@ -36,7 +37,7 @@ class RequerimientosScreen extends ConsumerWidget {
     String tipo,
     String descripcion,
   ) async {
-    var url = 'https://evarafael.com/Aplicacion/rest/agregar_requerimiento.php';
+    var url = '${dotenv.env['HOST_REST']}agregar_requerimiento.php';
     try {
       var response = await http.post(Uri.parse(url), body: {
         'Id_requerimientoEspecial': 'REQ$idReq',
@@ -60,7 +61,7 @@ class RequerimientosScreen extends ConsumerWidget {
 
   Future<bool> eliminarRequerimiento(String idReq) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/delete_requerimientoEspecial.php?Id_requerimientoEspecial=$idReq'; // Reemplaza con la URL del archivo PHP en tu servidor
+        '${dotenv.env['HOST_REST']}delete_requerimientoEspecial.php?Id_requerimientoEspecial=$idReq'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
       //print('Modificado en la db');

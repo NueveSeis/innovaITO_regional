@@ -7,6 +7,7 @@ import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class SalaLiderScreen extends ConsumerWidget {
   static const String name = 'salaLiderScreen';
@@ -16,7 +17,7 @@ class SalaLiderScreen extends ConsumerWidget {
 
   Future<void> getSala(String? folioid) async {
     String url =
-        'https://evarafael.com/Aplicacion/rest/get_salaLiderWhere.php?Folio=$folioid';
+        '${dotenv.env['HOST_REST']}get_salaLiderWhere.php?Folio=$folioid';
     try {
       var response = await http.post(Uri.parse(url));
       if (response.statusCode == 200) {
@@ -33,7 +34,7 @@ class SalaLiderScreen extends ConsumerWidget {
 
   Future<void> getStand(String? folioid) async {
     String url =
-        'https://evarafael.com/Aplicacion/rest/get_standLiderWhere.php?Folio=$folioid';
+        '${dotenv.env['HOST_REST']}get_standLiderWhere.php?Folio=$folioid';
     try {
       var response = await http.post(Uri.parse(url));
       if (response.statusCode == 200) {

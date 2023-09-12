@@ -12,6 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
   static const String name = 'SeleccionaProyectoJuradoScreen';
@@ -21,7 +22,7 @@ class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
   List<ProyectosSelecJuradoPsj> proyectos = [];
   Future<bool> getProyectos(String idCat) async {
     String url =
-        'https://evarafael.com/Aplicacion/rest/get_proyectosSelectJurado.php?Id_categoria=$idCat';
+        '${dotenv.env['HOST_REST']}get_proyectosSelectJurado.php?Id_categoria=$idCat';
 
     try {
       var response = await http.post(Uri.parse(url));
@@ -41,7 +42,7 @@ class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
   List<ProyectoAsesorWf> asesoWF = [];
   Future<bool> getAsesorWhere(String idfol) async {
     String url =
-        'https://evarafael.com/Aplicacion/rest/get_proyectoAsesorWhere.php?Folio=$idfol';
+        '${dotenv.env['HOST_REST']}get_proyectoAsesorWhere.php?Folio=$idfol';
 
     try {
       var response = await http.post(Uri.parse(url));
@@ -61,7 +62,7 @@ class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
   Future<bool> agregarEvaluacionSala(
       String idEva, String foliop, String idSala, String idJur) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/agregar_evaluacionSala.php'; // Reemplaza con la URL del archivo PHP en tu servidor
+        '${dotenv.env['HOST_REST']}agregar_evaluacionSala.php'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url), body: {
       'Id_evaluacionSala': 'EVA$idEva',
       'Folio': foliop,
@@ -80,7 +81,7 @@ class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
   Future<bool> agregarEvaluacionStand(
       String idEva, String foliop, String idStand, String idJur) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/agregar_evaluacionStand.php'; // Reemplaza con la URL del archivo PHP en tu servidor
+        '${dotenv.env['HOST_REST']}agregar_evaluacionStand.php'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url), body: {
       'Id_evaluacionStand': 'EVAST$idEva',
       'Folio': foliop,
@@ -98,7 +99,7 @@ class SeleccionaProyectoJuradoScreen extends ConsumerWidget {
 
   Future<bool> agregarProyectoJurado(String foliop, String idJur) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/agregarProyectoJurado.php'; // Reemplaza con la URL del archivo PHP en tu servidor
+        '${dotenv.env['HOST_REST']}agregarProyectoJurado.php'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http
         .post(Uri.parse(url), body: {'Folio': foliop, 'Id_jurado': idJur});
     if (response.statusCode == 200) {

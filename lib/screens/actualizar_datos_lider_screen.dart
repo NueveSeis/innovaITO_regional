@@ -12,6 +12,7 @@ import 'package:innova_ito/widgets/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:quickalert/quickalert.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<bool> actualizarLider(
   String id,
@@ -27,7 +28,7 @@ Future<bool> actualizarLider(
   String nivel,
 ) async {
   try {
-    var url = 'https://evarafael.com/Aplicacion/rest/update_lider.php';
+    var url = '${dotenv.env['HOST_REST']}update_lider.php';
     var response = await http.post(Uri.parse(url), body: {
       'Id_persona': id,
       'Telefono': telefono,
@@ -58,7 +59,7 @@ String? promedio = null;
 Future<String?> getEstudianteDatos(ref) async {
   final mat = ref.watch(matriculaProvider);
   String url =
-      'https://evarafael.com/Aplicacion/rest/get_estudianteWhereMatricula.php?Matricula=$mat';
+      '${dotenv.env['HOST_REST']}get_estudianteWhereMatricula.php?Matricula=$mat';
   var response = await http.post(Uri.parse(url));
 
   if (response.statusCode == 200) {

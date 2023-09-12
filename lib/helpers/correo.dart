@@ -29,13 +29,13 @@ class Correo {
 
     try {
       await send(message, smtpServer);
-      QuickAlert.show(
-        context: context,
-        type: QuickAlertType.success,
-        title: 'Agregado correctamente',
-        confirmBtnText: 'Hecho',
-        confirmBtnColor: AppTema.pizazz,
-      );
+      // QuickAlert.show(
+      //   context: context,
+      //   type: QuickAlertType.success,
+      //   title: 'Agregado correctamente',
+      //   confirmBtnText: 'Hecho',
+      //   confirmBtnColor: AppTema.pizazz,
+      // );
       //siAlerta(context);
     } on MailerException catch (e) {
       print(e);

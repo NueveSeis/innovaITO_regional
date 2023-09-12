@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class NivelAdminScreen extends ConsumerWidget {
   static const String name = 'nivel_admin';
@@ -16,7 +17,7 @@ class NivelAdminScreen extends ConsumerWidget {
   List<NivelAcademico> nivelesAcademicos = [];
 
   Future<void> getNivelAdmin(WidgetRef ref) async {
-    String url = 'https://evarafael.com/Aplicacion/rest/get_nivelAcademico.php';
+    String url = '${dotenv.env['HOST_REST']}get_nivelAcademico.php';
     try {
       var response = await http.post(Uri.parse(url));
       if (response.statusCode == 200) {
@@ -34,7 +35,7 @@ class NivelAdminScreen extends ConsumerWidget {
     String nombreNivel,
     String descripcionNivel,
   ) async {
-    var url = 'https://evarafael.com/Aplicacion/rest/agregar_nivel.php';
+    var url = '${dotenv.env['HOST_REST']}agregar_nivel.php';
     try {
       var response = await http.post(Uri.parse(url), body: {
         'Id_nivel': 'NIV$idNiv',
@@ -58,7 +59,7 @@ class NivelAdminScreen extends ConsumerWidget {
 
   Future<bool> eliminarNivel(String idNiv) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/delete_nivel.php?Id_nivel=$idNiv'; // Reemplaza con la URL del archivo PHP en tu servidor
+        '${dotenv.env['HOST_REST']}delete_nivel.php?Id_nivel=$idNiv'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
       //print('Modificado en la db');

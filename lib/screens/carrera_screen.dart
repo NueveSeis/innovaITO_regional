@@ -8,6 +8,7 @@ import 'package:innova_ito/widgets/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class CarreraScreen extends ConsumerWidget {
   static const String name = 'carrera';
@@ -17,7 +18,7 @@ class CarreraScreen extends ConsumerWidget {
 
   Future<void> obtenerCarrera() async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/get_carreraWhereDep.php?Clave_tecnologico=TEC01';
+        '${dotenv.env['HOST_REST']}get_carreraWhereDep.php?Clave_tecnologico=TEC01';
     try {
       var response = await http.post(Uri.parse(url));
       if (response.statusCode == 200) {
@@ -35,7 +36,7 @@ class CarreraScreen extends ConsumerWidget {
     String nombreDep,
     String tec,
   ) async {
-    var url = 'https://evarafael.com/Aplicacion/rest/agregar_departamento.php';
+    var url = '${dotenv.env['HOST_REST']}agregar_departamento.php';
     // Reemplaza con la URL del archivo PHP en tu servidor
     try {
       var response = await http.post(Uri.parse(url), body: {
@@ -60,7 +61,7 @@ class CarreraScreen extends ConsumerWidget {
 
   Future<bool> eliminarCarrera(String idCar) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/delete_carreraWhereDep.php?Id_carrera=$idCar'; // Reemplaza con la URL del archivo PHP en tu servidor
+        '${dotenv.env['HOST_REST']}delete_carreraWhereDep.php?Id_carrera=$idCar'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
       //print('Modificado en la db');

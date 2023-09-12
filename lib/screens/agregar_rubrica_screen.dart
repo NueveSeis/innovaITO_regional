@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AgregarRubricaScreen extends ConsumerWidget {
   static const String name = 'agregar_rubrica';
@@ -22,7 +23,7 @@ class AgregarRubricaScreen extends ConsumerWidget {
   Future<bool> agregarRubrica(
       String id, String descripcion, String medio, String porcentaje) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/agregar_rubrica.php'; // Reemplaza con la URL del archivo PHP en tu servidor
+        '${dotenv.env['HOST_REST']}agregar_rubrica.php'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url), body: {
       'Id_rubrica': 'RUB$id',
       'Descripcion': descripcion,
@@ -45,7 +46,7 @@ class AgregarRubricaScreen extends ConsumerWidget {
       String valorMinCri,
       String porcentajeCri,
       String idRub) async {
-    var url = 'https://evarafael.com/Aplicacion/rest/agregar_criterio.php';
+    var url = '${dotenv.env['HOST_REST']}agregar_criterio.php';
     // Reemplaza con la URL del archivo PHP en tu servidor
     try {
       var response = await http.post(Uri.parse(url), body: {

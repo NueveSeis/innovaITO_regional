@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
 import 'package:innova_ito/models/models.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
+
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class pdf {
   static Future<String> registro(String titulo) async {
@@ -295,8 +295,8 @@ class pdf {
 </head>
 
 <body>
-    <img src="https://evarafael.com/Aplicacion/rest/logos/sep.png" alt="" style="position: absolute; left: 0; top: 10; height: 60px;">
-    <img src="https://evarafael.com/Aplicacion/rest/logos/tecnm.png" alt="Imagen 2"
+    <img src="${dotenv.env['HOST_REST']}logos/sep.png" alt="" style="position: absolute; left: 0; top: 10; height: 60px;">
+    <img src="${dotenv.env['HOST_REST']}logos/tecnm.png" alt="Imagen 2"
         style="position: absolute; right: 0; top: 10;  height: 60px;">
     <br>
     <br>
@@ -403,9 +403,9 @@ class pdf {
 // </head>
 // <body>
 //     <div class="header">
-//     <img src="https://evarafael.com/Aplicacion/rest/logos/sep.png" alt="">
-//         <img src="https://evarafael.com/Aplicacion/rest/logos/tecNM.png" alt="">
-//         <img src="https://evarafael.com/Aplicacion/rest/logos/logo_innovaITO.png" alt="">
+//     <img src="${dotenv.env['HOST_REST']}logos/sep.png" alt="">
+//         <img src="${dotenv.env['HOST_REST']}logos/tecNM.png" alt="">
+//         <img src="${dotenv.env['HOST_REST']}logos/logo_innovaITO.png" alt="">
 
 //     </div>
 
@@ -561,8 +561,8 @@ class pdf {
       </head>
       <body>
           <div class="header">
-              <img src="https://evarafael.com/Aplicacion/rest/logos/tecnm.png" alt="Logo 1" class="logo">
-              <img src="https://evarafael.com/Aplicacion/rest/logos/logo_innova.png" alt="Logo 2" class="logo">
+              <img src="${dotenv.env['HOST_REST']}logos/tecnm.png" alt="Logo 1" class="logo">
+              <img src="${dotenv.env['HOST_REST']}logos/logo_innova.png" alt="Logo 2" class="logo">
           </div>
   ''';
 
@@ -683,8 +683,8 @@ class pdf {
 </head>
 <body>
     <div class="header">
-        <img src="https://evarafael.com/Aplicacion/rest/logos/tecnm.png" alt="Logo 1" class="logo">
-        <img src="https://evarafael.com/Aplicacion/rest/logos/logo_innova.png" alt="Logo 2" class="logo">
+        <img src="${dotenv.env['HOST_REST']}logos/tecnm.png" alt="Logo 1" class="logo">
+        <img src="${dotenv.env['HOST_REST']}logos/logo_innova.png" alt="Logo 2" class="logo">
     </div>
     <h1 style="text-align: center;">Tabla de resultados finales</h1>
     <div class="table-container">
@@ -788,8 +788,8 @@ class pdf {
       </head>
       <body>
           <div class="header">
-              <img src="https://evarafael.com/Aplicacion/rest/logos/tecnm.png" alt="Logo 1" class="logo">
-              <img src="https://evarafael.com/Aplicacion/rest/logos/logo_innova.png" alt="Logo 2" class="logo">
+              <img src="${dotenv.env['HOST_REST']}logos/tecnm.png" alt="Logo 1" class="logo">
+              <img src="${dotenv.env['HOST_REST']}logos/logo_innova.png" alt="Logo 2" class="logo">
           </div>
   ''';
 

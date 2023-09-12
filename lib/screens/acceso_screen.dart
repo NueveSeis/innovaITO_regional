@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/helpers/helpers.dart';
@@ -40,7 +41,7 @@ class _AccesoScreenState extends State<AccesoScreen> {
 
   Future<String> getMatricula(String idpersona) async {
     String url =
-        'https://evarafael.com/Aplicacion/rest/get_estudiante.php?Id_persona=$idpersona';
+        '${dotenv.env['HOST_REST']}get_estudiante.php?Id_persona=$idpersona';
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
       var datos = jsonDecode(response.body);
@@ -53,7 +54,7 @@ class _AccesoScreenState extends State<AccesoScreen> {
 
   Future<String> getAsesor(String idpersona) async {
     String url =
-        'https://evarafael.com/Aplicacion/rest/get_asesor.php?Id_persona=$idpersona';
+        '${dotenv.env['HOST_REST']}get_asesor.php?Id_persona=$idpersona';
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
       var datos = jsonDecode(response.body);
@@ -66,7 +67,7 @@ class _AccesoScreenState extends State<AccesoScreen> {
 
   Future<String> getJurado(String idpersona) async {
     String url =
-        'https://evarafael.com/Aplicacion/rest/get_jurado.php?Id_persona=$idpersona';
+        '${dotenv.env['HOST_REST']}get_jurado.php?Id_persona=$idpersona';
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
       var datos = jsonDecode(response.body);
@@ -81,7 +82,7 @@ class _AccesoScreenState extends State<AccesoScreen> {
 
   Future<bool> getUsuarioLogin(String correo) async {
     String url =
-        'https://evarafael.com/Aplicacion/rest/get_datosUsuario.php?Nombre_usuario=$correo';
+        '${dotenv.env['HOST_REST']}get_datosUsuario.php?Nombre_usuario=$correo';
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
       datosU = datosUsuariosLoginFromJson(response.body);
@@ -93,8 +94,7 @@ class _AccesoScreenState extends State<AccesoScreen> {
 
   //oBTENER FOLIO DEL PROYECTO EN EL QUE PARTICIPA EL ESTUDIANTE
   Future<String> getFolioProyecto(String matricula) async {
-    String url =
-        'https://evarafael.com/Aplicacion/rest/get_Folio.php?Matricula=$matricula';
+    String url = '${dotenv.env['HOST_REST']}get_Folio.php?Matricula=$matricula';
     var response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
@@ -341,15 +341,15 @@ class _AccesoScreenState extends State<AccesoScreen> {
                                 '#fa7a1e', 'Cancelar', false, ScanMode.QR);
                         if (barcodeScanRes == '20230531') {
                           //print(barcodeScanRes);
-                          context.pushNamed('registro_usuario_asesor');
+                          context.pushNamed('registro_usuario_asesor_gn');
                         }
                         if (barcodeScanRes == '202305312') {
                           //print(barcodeScanRes);
-                          context.pushNamed('registro_usuario_lider');
+                          context.pushNamed('registro_usuario_lider_gn');
                         }
                         if (barcodeScanRes == '202305313') {
                           //print(barcodeScanRes);
-                          context.pushNamed('registroUsuarioJurado');
+                          context.pushNamed('registroUsuarioJurado_gn');
                         }
                       }),
                   TextButton(

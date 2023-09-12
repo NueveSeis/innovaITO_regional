@@ -14,6 +14,7 @@ import 'package:http/http.dart' as http;
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class EvaluarStandScreen extends ConsumerWidget {
   static const String name = 'EvaluarStandScreen';
@@ -25,7 +26,7 @@ class EvaluarStandScreen extends ConsumerWidget {
 
   Future<void> getRubrica(String medio) async {
     String url =
-        'https://evarafael.com/Aplicacion/rest/get_criterioRubrica.php?Medio_evaluacion=$medio';
+        '${dotenv.env['HOST_REST']}get_criterioRubrica.php?Medio_evaluacion=$medio';
     try {
       var response = await http.post(Uri.parse(url));
       if (response.statusCode == 200) {
@@ -41,7 +42,7 @@ class EvaluarStandScreen extends ConsumerWidget {
   Future<bool> agregarCalificacion(String idCal, String puntaje, String folio,
       String idCrit, String idJur, String obs, String rec) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/agregarCalificacionJurado.php'; // Reemplaza con la URL del archivo PHP en tu servidor
+        '${dotenv.env['HOST_REST']}agregarCalificacionJurado.php'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url), body: {
       'Id_calificacion': 'CAL$idCal',
       'Puntaje': puntaje,
@@ -63,7 +64,7 @@ class EvaluarStandScreen extends ConsumerWidget {
   Future<bool> updateEvaluacionStand(
       String foliop, String idjur, String eva) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/update_evaluacionStand.php'; // Reemplaza con la URL del archivo PHP en tu servidor
+        '${dotenv.env['HOST_REST']}update_evaluacionStand.php'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url),
         body: {'Folio': foliop, 'Id_jurado': idjur, 'Estado_evaluacion': eva});
     if (response.statusCode == 200) {

@@ -9,15 +9,12 @@ import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 
 import 'package:open_filex/open_filex.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:printing/printing.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
-import 'package:pdf/widgets.dart' as pw;
 import 'package:http/http.dart' as http;
 import 'package:go_router/go_router.dart';
 import 'dart:convert';
-import 'dart:io';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ProyectoAsesorScreen extends ConsumerWidget {
   static const String name = 'proyecto_asesor';
@@ -27,7 +24,7 @@ class ProyectoAsesorScreen extends ConsumerWidget {
 
   Future<bool> getProyectosAsesor(String id) async {
     String url =
-        'https://evarafael.com/Aplicacion/rest/get_proyectoAsesor.php?Id_asesor=$id';
+        '${dotenv.env['HOST_REST']}get_proyectoAsesor.php?Id_asesor=$id';
     try {
       var response = await http.post(Uri.parse(url));
       if (response.statusCode == 200) {
@@ -45,8 +42,7 @@ class ProyectoAsesorScreen extends ConsumerWidget {
 
   Future<bool> putProyectosAsesor(
       String folio, String campo1, String valor1) async {
-    String url =
-        'https://evarafael.com/Aplicacion/rest/update_proyectoAsesor.php';
+    String url = '${dotenv.env['HOST_REST']}update_proyectoAsesor.php';
     try {
       var response = await http.put(Uri.parse(url),
           body: jsonEncode(<String, dynamic>{
@@ -67,7 +63,7 @@ class ProyectoAsesorScreen extends ConsumerWidget {
 
   Future<bool> agregarValidacionCoordinador(String coor, String foliop) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/agregar_validacionProyectoC.php'; // Reemplaza con la URL del archivo PHP en tu servidor
+        '${dotenv.env['HOST_REST']}agregar_validacionProyectoC.php'; // Reemplaza con la URL del archivo PHP en tu servidor
     try {
       var response = await http.post(Uri.parse(url), body: {
         'Id_coordinador': coor,
@@ -88,7 +84,7 @@ class ProyectoAsesorScreen extends ConsumerWidget {
 
   Future<bool> eliminarValidacionC(String idcoor, String foliop) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/delete_validacionProyectoC.php?Id_coordinador=$idcoor&Folio=$foliop'; // Reemplaza con la URL del archivo PHP en tu servidor
+        '${dotenv.env['HOST_REST']}delete_validacionProyectoC.php?Id_coordinador=$idcoor&Folio=$foliop'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
       //print('Modificado en la db');
@@ -102,9 +98,9 @@ class ProyectoAsesorScreen extends ConsumerWidget {
   // Future<String> createPDF(List<ProyectoAsesor> proyecto, int index) async {
   //   final pdf = pw.Document();
   //   final educacion = await networkImage(
-  //       'https://evarafael.com/Aplicacion/rest/logos/educacion.png');
+  //       '${dotenv.env['HOST_REST']}logos/educacion.png');
   //   final tecnm = await networkImage(
-  //       'https://evarafael.com/Aplicacion/rest/logos/tecnm.png');
+  //       '${dotenv.env['HOST_REST']}logos/tecnm.png');
   //   pdf.addPage(
   //     pw.Page(
   //       build: (pw.Context context) {

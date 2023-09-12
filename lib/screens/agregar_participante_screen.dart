@@ -13,37 +13,38 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<List<Genero>> obtenerGenero() async {
-  var url = 'https://evarafael.com/Aplicacion/rest/get_genero.php';
+  var url = '${dotenv.env['HOST_REST']}get_genero.php';
   var response = await http.get(Uri.parse(url));
   List<Genero> lista = generoFromJson(response.body);
   return lista;
 }
 
 Future<List<Expectativa>> obtenerExpectativa() async {
-  var url = 'https://evarafael.com/Aplicacion/rest/get_expectativa.php';
+  var url = '${dotenv.env['HOST_REST']}get_expectativa.php';
   var response = await http.get(Uri.parse(url));
   List<Expectativa> lista = expectativaFromJson(response.body);
   return lista;
 }
 
 Future<List<Semestre>> obtenerSemestre() async {
-  var url = 'https://evarafael.com/Aplicacion/rest/get_semestre.php';
+  var url = '${dotenv.env['HOST_REST']}get_semestre.php';
   var response = await http.get(Uri.parse(url));
   List<Semestre> lista = semestreFromJson(response.body);
   return lista;
 }
 
 Future<List<Nivel>> obtenerNivel() async {
-  var url = 'https://evarafael.com/Aplicacion/rest/get_nivel.php';
+  var url = '${dotenv.env['HOST_REST']}get_nivel.php';
   var response = await http.get(Uri.parse(url));
   List<Nivel> lista = nivelFromJson(response.body);
   return lista;
 }
 
 Future<List<TipoTecnologico>> obtenerTipoTec() async {
-  var url = 'https://evarafael.com/Aplicacion/rest/get_tipoTec.php';
+  var url = '${dotenv.env['HOST_REST']}get_tipoTec.php';
   var response = await http.get(Uri.parse(url));
   List<TipoTecnologico> tipoTec = tipoTecnologicoFromJson(response.body);
   return tipoTec;
@@ -52,7 +53,7 @@ Future<List<TipoTecnologico>> obtenerTipoTec() async {
 Future<List<Tecnologico>> obtenerTecnologico(ref) async {
   final valueTipo = ref.watch(tipoTecProv);
   var url =
-      'https://evarafael.com/Aplicacion/rest/get_tecnologico.php?Id_tipoTec=$valueTipo';
+      '${dotenv.env['HOST_REST']}get_tecnologico.php?Id_tipoTec=$valueTipo';
   var response = await http.get(Uri.parse(url));
   List<Tecnologico> tecnologicoM = tecnologicoFromJson(response.body);
   return tecnologicoM;
@@ -61,7 +62,7 @@ Future<List<Tecnologico>> obtenerTecnologico(ref) async {
 Future<List<Departamento>> obtenerDepartamentos(ref) async {
   final valueClaveTec = ref.watch(tecnologicoProv);
   var url =
-      'https://evarafael.com/Aplicacion/rest/get_departamento.php?Clave_tecnologico=$valueClaveTec';
+      '${dotenv.env['HOST_REST']}get_departamento.php?Clave_tecnologico=$valueClaveTec';
   var response = await http.get(Uri.parse(url));
   List<Departamento> departamento = departamentoFromJson(response.body);
   return departamento;
@@ -69,8 +70,7 @@ Future<List<Departamento>> obtenerDepartamentos(ref) async {
 
 Future<List<Carrera>> obtenerCarrera(ref) async {
   final depto = ref.watch(departamentoProv);
-  var url =
-      'https://evarafael.com/Aplicacion/rest/get_carrera.php?Id_departamento=$depto';
+  var url = '${dotenv.env['HOST_REST']}get_carrera.php?Id_departamento=$depto';
   var response = await http.get(Uri.parse(url));
   List<Carrera> carrera = carreraFromJson(response.body);
   return carrera;
@@ -88,7 +88,7 @@ class AgregarParticipanteScreen extends ConsumerWidget {
   final fechaSeleccionadaAPSProv = StateProvider<DateTime?>((ref) => null);
 
   Future<bool> existente(String idPersona) async {
-    String url = 'https://evarafael.com/Aplicacion/rest/existePersona.php';
+    String url = '${dotenv.env['HOST_REST']}existePersona.php';
     var response = await http.post(Uri.parse(url), body: {
       'Id_persona': idPersona,
     });
@@ -119,7 +119,7 @@ class AgregarParticipanteScreen extends ConsumerWidget {
       String semestre,
       String nivel,
       String folio) async {
-    var url = 'https://evarafael.com/Aplicacion/rest/agregar_participante.php';
+    var url = '${dotenv.env['HOST_REST']}agregar_participante.php';
     await http.post(Uri.parse(url), body: {
       'Id_persona': id,
       'Nombre_persona': nombre,

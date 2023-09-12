@@ -11,6 +11,7 @@ import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final proyectoASProv = StateProvider<String>((ref) => 'SN');
 final futureProyectosASProv =
@@ -22,14 +23,14 @@ final futureSalaASProv = FutureProvider<List<Sala>>((ref) => getSalaAS());
 final fechaSeleccionadaASProv = StateProvider<DateTime?>((ref) => null);
 
 Future<List<AsignacionProyecto>> getProyectosAS() async {
-  var url = 'https://evarafael.com/Aplicacion/rest/get_proyecto.php';
+  var url = '${dotenv.env['HOST_REST']}get_proyecto.php';
   var response = await http.get(Uri.parse(url));
   List<AsignacionProyecto> lista = asignacionProyectoFromJson(response.body);
   return lista;
 }
 
 Future<List<Sala>> getSalaAS() async {
-  var url = 'https://evarafael.com/Aplicacion/rest/get_sala.php';
+  var url = '${dotenv.env['HOST_REST']}get_sala.php';
   var response = await http.get(Uri.parse(url));
   List<Sala> lista = salaFromJson(response.body);
   return lista;
@@ -42,7 +43,7 @@ Future<bool> agregarHSala(
   String hIncio,
   String hFin,
 ) async {
-  var url = 'https://evarafael.com/Aplicacion/rest/agregar_asignarHSala.php';
+  var url = '${dotenv.env['HOST_REST']}agregar_asignarHSala.php';
   // Reemplaza con la URL del archivo PHP en tu servidor
   try {
     var response = await http.post(Uri.parse(url), body: {

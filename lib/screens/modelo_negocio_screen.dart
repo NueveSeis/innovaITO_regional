@@ -12,7 +12,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:open_filex/open_filex.dart';
 
 class ModeloNegocioScreen extends ConsumerWidget {
@@ -21,7 +21,7 @@ class ModeloNegocioScreen extends ConsumerWidget {
 
   Future<bool> uploadPDF(File pdf, String nombre) async {
     var url = Uri.parse(
-        'https://evarafael.com/Aplicacion/rest/upload_modeloNegocios.php'); // Reemplaza con la URL del archivo PHP en tu servidor
+        '${dotenv.env['HOST_REST']}upload_modeloNegocios.php'); // Reemplaza con la URL del archivo PHP en tu servidor
 
     var request = http.MultipartRequest('POST', url);
     request.files.add(await http.MultipartFile.fromPath('file', pdf.path,
@@ -40,7 +40,7 @@ class ModeloNegocioScreen extends ConsumerWidget {
 
   Future<bool> modificarModelo(String foliop, dynamic nombre) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/update_modeloNegocio.php'; // Reemplaza con la URL del archivo PHP en tu servidor
+        '${dotenv.env['HOST_REST']}update_modeloNegocio.php'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url), body: {
       'Folio': foliop,
       'Modelo': nombre,
@@ -56,7 +56,7 @@ class ModeloNegocioScreen extends ConsumerWidget {
 
   Future<bool> eliminarModelo(String foliop) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/delete_modeloNegocio.php'; // Reemplaza con la URL del archivo PHP en tu servidor
+        '${dotenv.env['HOST_REST']}delete_modeloNegocio.php'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url), body: {
       'Folio': foliop,
     });
@@ -72,8 +72,7 @@ class ModeloNegocioScreen extends ConsumerWidget {
   List<Proyecto> proyecto = [];
 
   Future<void> getProyecto(String? folio) async {
-    String url =
-        'https://evarafael.com/Aplicacion/rest/get_proyectoWhere.php?Folio=$folio';
+    String url = '${dotenv.env['HOST_REST']}get_proyectoWhere.php?Folio=$folio';
     try {
       var response = await http.post(Uri.parse(url));
       if (response.statusCode == 200) {
@@ -106,8 +105,7 @@ class ModeloNegocioScreen extends ConsumerWidget {
 
   void eliminarArchivo(String nombreArchivo) async {
     final response = await http.post(
-      Uri.parse(
-          'https://evarafael.com/Aplicacion/rest/delete_archivoSModelo.php'),
+      Uri.parse('${dotenv.env['HOST_REST']}delete_archivoSModelo.php'),
       body: {'nombre_archivo': nombreArchivo},
     );
 
@@ -293,7 +291,7 @@ class ModeloNegocioScreen extends ConsumerWidget {
                                           proyecto.first.modeloNegocio;
                                       //print(rutaArc);
                                       String url =
-                                          'https://evarafael.com/Aplicacion/rest/archivos/modelo/$rutaArc';
+                                          '${dotenv.env['HOST_REST']}archivos/modelo/$rutaArc';
                                       //print(url);
                                       // Get the URL of the file to download.
                                       String rut =

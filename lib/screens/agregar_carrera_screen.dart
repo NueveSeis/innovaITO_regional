@@ -9,6 +9,7 @@ import 'package:innova_ito/widgets/widgets.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final mostrarInputProvider = StateProvider<bool>((ref) => false);
 final selectedCarreraProvider = StateProvider<String>((ref) => '');
@@ -17,7 +18,7 @@ final TextEditingController _carreraController =
 
 Future<List<Departamento>> obtenerDepartamentoAC() async {
   var url =
-      'https://evarafael.com/Aplicacion/rest/get_departamento.php?Clave_tecnologico=TEC01';
+      '${dotenv.env['HOST_REST']}get_departamento.php?Clave_tecnologico=TEC01';
 
   var response = await http.post(Uri.parse(url));
   if (response.statusCode == 200) {
@@ -30,7 +31,7 @@ Future<List<Departamento>> obtenerDepartamentoAC() async {
 }
 
 Future<List<Nivel>> obtenerNivelAC() async {
-  var url = 'https://evarafael.com/Aplicacion/rest/get_nivel.php';
+  var url = '${dotenv.env['HOST_REST']}get_nivel.php';
 
   var response = await http.post(Uri.parse(url));
   if (response.statusCode == 200) {
@@ -44,7 +45,7 @@ Future<List<Nivel>> obtenerNivelAC() async {
 
 Future<bool> agregarCarrareAG(
     String idCarr, String nombreCarr, String idNivel, String idDep) async {
-  var url = 'https://evarafael.com/Aplicacion/rest/agregar_carrera.php';
+  var url = '${dotenv.env['HOST_REST']}agregar_carrera.php';
   // Reemplaza con la URL del archivo PHP en tu servidor
   try {
     var response = await http.post(Uri.parse(url), body: {

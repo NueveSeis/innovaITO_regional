@@ -9,6 +9,7 @@ import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AsignarProyectoJuradoScreen extends ConsumerWidget {
   static const String name = 'AsignarProyectoJuradoScreen';
@@ -16,7 +17,7 @@ class AsignarProyectoJuradoScreen extends ConsumerWidget {
 
   List<ProyectosJuradoAsjs> jurados = [];
   Future<bool> getJurados() async {
-    String url = 'https://evarafael.com/Aplicacion/rest/get_JuradoNumPro.php';
+    String url = '${dotenv.env['HOST_REST']}get_JuradoNumPro.php';
 
     try {
       var response = await http.post(Uri.parse(url));
@@ -36,7 +37,7 @@ class AsignarProyectoJuradoScreen extends ConsumerWidget {
   List<ProyectoAsesorWf> asesoWF = [];
   Future<bool> getAsesorWhere(String idfol) async {
     String url =
-        'https://evarafael.com/Aplicacion/rest/get_proyectoAsesorWhere.php?Folio=$idfol';
+        '${dotenv.env['HOST_REST']}get_proyectoAsesorWhere.php?Folio=$idfol';
 
     try {
       var response = await http.post(Uri.parse(url));
@@ -55,7 +56,7 @@ class AsignarProyectoJuradoScreen extends ConsumerWidget {
 
   Future<bool> agregarAsesorLider(String foliop, String asesor) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/agregar_asesorProyecto.php'; // Reemplaza con la URL del archivo PHP en tu servidor
+        '${dotenv.env['HOST_REST']}agregar_asesorProyecto.php'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url), body: {
       'Folio': foliop,
       'Id_asesor': asesor,

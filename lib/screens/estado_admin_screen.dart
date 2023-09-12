@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class EstadoAdminScreen extends ConsumerWidget {
   static const String name = 'estado_admin';
@@ -16,7 +17,7 @@ class EstadoAdminScreen extends ConsumerWidget {
   List<Estado> estado = [];
 
   Future<void> getEstado(WidgetRef ref) async {
-    String url = 'https://evarafael.com/Aplicacion/rest/get_estado.php';
+    String url = '${dotenv.env['HOST_REST']}get_estado.php';
     try {
       var response = await http.post(Uri.parse(url));
       if (response.statusCode == 200) {
@@ -33,7 +34,7 @@ class EstadoAdminScreen extends ConsumerWidget {
     String idEst,
     String nombre,
   ) async {
-    var url = 'https://evarafael.com/Aplicacion/rest/agregar_estado.php';
+    var url = '${dotenv.env['HOST_REST']}agregar_estado.php';
     try {
       var response = await http.post(Uri.parse(url),
           body: {'Id_estado': 'EST$idEst', 'Nombre_estado': nombre});
@@ -54,7 +55,7 @@ class EstadoAdminScreen extends ConsumerWidget {
 
   Future<bool> eliminarEstado(String idEst) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/delete_estado.php?Id_estado=$idEst'; // Reemplaza con la URL del archivo PHP en tu servidor
+        '${dotenv.env['HOST_REST']}delete_estado.php?Id_estado=$idEst'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
       //print('Modificado en la db');

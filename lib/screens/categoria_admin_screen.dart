@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class CategoriaAdminScreen extends ConsumerWidget {
   static const String name = 'categoria_admin';
@@ -17,7 +18,7 @@ class CategoriaAdminScreen extends ConsumerWidget {
   List<Categoria> categorias = [];
 
   Future<void> getCategoria(WidgetRef ref) async {
-    String url = 'https://evarafael.com/Aplicacion/rest/get_categoria.php';
+    String url = '${dotenv.env['HOST_REST']}get_categoria.php';
     try {
       var response = await http.post(Uri.parse(url));
       if (response.statusCode == 200) {
@@ -34,7 +35,7 @@ class CategoriaAdminScreen extends ConsumerWidget {
     String idCat,
     String nombre,
   ) async {
-    var url = 'https://evarafael.com/Aplicacion/rest/agregar_categoria.php';
+    var url = '${dotenv.env['HOST_REST']}agregar_categoria.php';
     try {
       var response = await http.post(Uri.parse(url),
           body: {'Id_categoria': 'CAT$idCat', 'Nombre_categoria': nombre});
@@ -55,7 +56,7 @@ class CategoriaAdminScreen extends ConsumerWidget {
 
   Future<bool> eliminarCategoria(String idCat) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/delete_categoria.php?Id_categoria=$idCat'; // Reemplaza con la URL del archivo PHP en tu servidor
+        '${dotenv.env['HOST_REST']}delete_categoria.php?Id_categoria=$idCat'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
       //print('Modificado en la db');

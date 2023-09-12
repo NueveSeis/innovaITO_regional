@@ -14,17 +14,17 @@ import 'package:quickalert/quickalert.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class RegistroUsuarioAsesorScreen extends StatefulWidget {
-  static const String name = 'registro_usuario_asesor';
-  const RegistroUsuarioAsesorScreen({super.key});
+class RegistroUsuarioAsesorGnScreen extends StatefulWidget {
+  static const String name = 'registro_usuario_asesor_gn';
+  const RegistroUsuarioAsesorGnScreen({super.key});
 
   @override
-  State<RegistroUsuarioAsesorScreen> createState() =>
-      _RegistroUsuarioAsesorScreenState();
+  State<RegistroUsuarioAsesorGnScreen> createState() =>
+      _RegistroUsuarioAsesorGnScreenState();
 }
 
-class _RegistroUsuarioAsesorScreenState
-    extends State<RegistroUsuarioAsesorScreen> {
+class _RegistroUsuarioAsesorGnScreenState
+    extends State<RegistroUsuarioAsesorGnScreen> {
   @override
   void initState() {
     obtenerTipoTec();
@@ -259,7 +259,7 @@ class _RegistroUsuarioAsesorScreenState
     }
 
     return Scaffold(
-        body: Fondo(
+        body: FondoGn(
       tituloPantalla: 'Registro de asesor',
       fontSize: 25,
       widget: Column(
@@ -767,8 +767,7 @@ class _RegistroUsuarioAsesorScreenState
                                   confirmBtnText: 'Hecho',
                                   confirmBtnColor: AppTema.pizazz,
                                   onConfirmBtnTap: () {
-                                    context.pushReplacementNamed(
-                                        'registro_usuario');
+                                    context.pushReplacementNamed('acceso');
                                   });
                             } else {
                               QuickAlert.show(

@@ -13,6 +13,7 @@ import 'package:innova_ito/theme/app_tema.dart';
 import 'package:innova_ito/ui/input_decorations.dart';
 import 'package:innova_ito/widgets/widgets.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class MemoriaTecnicaScreen extends StatefulWidget {
   static const String name = 'memoria_tecnica';
@@ -37,7 +38,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
   TextEditingController cFuentesC = TextEditingController();
 
   Future<bool> agregarMemoriaTecnica(String id, String folioPro) async {
-    var url = 'https://evarafael.com/Aplicacion/rest/agregarMemoriaTecnica.php';
+    var url = '${dotenv.env['HOST_REST']}agregarMemoriaTecnica.php';
     try {
       var response = await http.post(Uri.parse(url), body: {
         'Id_memoriaTecnica': id,
@@ -70,8 +71,7 @@ class _MemoriaTecnicaScreenState extends State<MemoriaTecnicaScreen> {
 
   String? memoriaProyecto = null;
   Future<String?> getDatosProyecto(String fol) async {
-    String url =
-        'https://evarafael.com/Aplicacion/rest/get_proyectoWhere.php?Folio=$fol';
+    String url = '${dotenv.env['HOST_REST']}get_proyectoWhere.php?Folio=$fol';
     var response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
       var datos = jsonDecode(response.body);

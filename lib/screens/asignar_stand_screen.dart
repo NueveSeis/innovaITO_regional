@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 
 final proyectoASTProv = StateProvider<String>((ref) => 'SN');
@@ -23,14 +23,14 @@ final futureStandASTProv = FutureProvider<List<Stand>>((ref) => getStandAST());
 final fechaSeleccionadaASTProv = StateProvider<DateTime?>((ref) => null);
 
 Future<List<AsignacionProyecto>> getProyectosAST() async {
-  var url = 'https://evarafael.com/Aplicacion/rest/get_proyecto.php';
+  var url = '${dotenv.env['HOST_REST']}get_proyecto.php';
   var response = await http.get(Uri.parse(url));
   List<AsignacionProyecto> lista = asignacionProyectoFromJson(response.body);
   return lista;
 }
 
 Future<List<Stand>> getStandAST() async {
-  var url = 'https://evarafael.com/Aplicacion/rest/get_stand.php';
+  var url = '${dotenv.env['HOST_REST']}get_stand.php';
   var response = await http.get(Uri.parse(url));
   List<Stand> lista = standFromJson(response.body);
   return lista;
@@ -43,7 +43,7 @@ Future<bool> agregarHStand(
   String hIncio,
   String hFin,
 ) async {
-  var url = 'https://evarafael.com/Aplicacion/rest/agregar_asignarHStand.php';
+  var url = '${dotenv.env['HOST_REST']}agregar_asignarHStand.php';
   // Reemplaza con la URL del archivo PHP en tu servidor
   try {
     var response = await http.post(Uri.parse(url), body: {

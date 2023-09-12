@@ -9,6 +9,7 @@ import 'package:innova_ito/widgets/widgets.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:quickalert/quickalert.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class SeleccionCategoriaScreen extends ConsumerWidget {
   static const String name = 'seleccionar_categoria';
@@ -23,28 +24,27 @@ class SeleccionCategoriaScreen extends ConsumerWidget {
   List<Categoria> categorias = [];
   List<Preferencias> pref = [];
   Future obtenerAreas(String areaB) async {
-    var url =
-        'https://evarafael.com/Aplicacion/rest/get_area.php?Id_categoria=$areaB';
+    var url = '${dotenv.env['HOST_REST']}get_area.php?Id_categoria=$areaB';
     var response = await http.get(Uri.parse(url));
     areas = areaFromJson(response.body);
   }
 
   Future obtenerCategorias() async {
-    var url = 'https://evarafael.com/Aplicacion/rest/get_categorias.php';
+    var url = '${dotenv.env['HOST_REST']}get_categorias.php';
     var response = await http.get(Uri.parse(url));
     categorias = categoriaFromJson(response.body);
   }
 
   Future obtenerPreferenciaWhere(String idJurado) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/get_preferenciaWhereJurado.php?Id_jurado=$idJurado';
+        '${dotenv.env['HOST_REST']}get_preferenciaWhereJurado.php?Id_jurado=$idJurado';
     var response = await http.get(Uri.parse(url));
     pref = preferenciasFromJson(response.body);
   }
 
   Future<bool> agregarPreferencia(String idjurado, String idarea) async {
     var url =
-        'https://evarafael.com/Aplicacion/rest/agregar_preferencia.php'; // Reemplaza con la URL del archivo PHP en tu servidor
+        '${dotenv.env['HOST_REST']}agregar_preferencia.php'; // Reemplaza con la URL del archivo PHP en tu servidor
     var response = await http
         .post(Uri.parse(url), body: {'Id_jurado': idjurado, 'Id_area': idarea});
     if (response.statusCode == 200) {
