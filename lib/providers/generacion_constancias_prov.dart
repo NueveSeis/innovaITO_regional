@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/screens/screens.dart';
@@ -6,7 +7,7 @@ import 'package:http/http.dart' as http;
 //* PARA OBTENER LOS TECNOLOGICOS
 
 Future<List<Tecnologico>> obtenerTecnologicoGC() async {
-  final url = 'https://evarafael.com/Aplicacion/rest/get_tecnologicos.php';
+  final url = '${dotenv.env['HOST_REST']}get_tecnologicos.php';
 
   try {
     final response = await http.get(Uri.parse(url));
@@ -30,7 +31,7 @@ final futureTecnologicoProvGC =
 //* PARA OBTENER LOS PROYECTOS
 
 Future<List<ProyectoGc>> obtenerProyectosGC() async {
-  final url = 'https://evarafael.com/Aplicacion/rest/get_proyecto.php';
+  final url = '${dotenv.env['HOST_REST']}get_proyecto.php';
 
   try {
     final response = await http.get(Uri.parse(url));
@@ -56,7 +57,7 @@ final futureProyectosProvGC =
 Future<List<DatosEstudiante>> obtenerParticipantesGC(ref) async {
   final folio = ref.watch(proyectosProvGC);
   final url =
-      'https://evarafael.com/Aplicacion/rest/get_participanteProyecto.php?Folio=$folio';
+      '${dotenv.env['HOST_REST']}get_participanteProyecto.php?Folio=$folio';
 
   try {
     final response = await http.get(Uri.parse(url));
@@ -81,8 +82,7 @@ final futureParticipantesProvGC =
 
 Future<List<ProyectoAsesorGc>> obtenerAsesoresGC(ref) async {
   final folio = ref.watch(proyectosProvGC);
-  final url =
-      'https://evarafael.com/Aplicacion/rest/get_proyectoAsesorGC.php?Folio=$folio';
+  final url = '${dotenv.env['HOST_REST']}get_proyectoAsesorGC.php?Folio=$folio';
 
   try {
     final response = await http.get(Uri.parse(url));
@@ -106,7 +106,7 @@ final futureAsesoresProvGC =
 //* OBTENER LOS SALAS DE LOS PROYECTOS
 
 Future<List<SalaHs>> obtenerSalasGC(ref) async {
-  final url = 'https://evarafael.com/Aplicacion/rest/get_asignarHSala.php';
+  final url = '${dotenv.env['HOST_REST']}get_asignarHSala.php';
 
   try {
     final response = await http.get(Uri.parse(url));
@@ -130,7 +130,7 @@ final futureSalasProvGC =
 //* OBTENER LOS STANDS DE LOS PROYECTOS
 
 Future<List<StandHs>> obtenerStandGC(ref) async {
-  final url = 'https://evarafael.com/Aplicacion/rest/get_asignarHStand.php';
+  final url = '${dotenv.env['HOST_REST']}get_asignarHStand.php';
 
   try {
     final response = await http.get(Uri.parse(url));

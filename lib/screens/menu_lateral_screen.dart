@@ -35,6 +35,7 @@ class _MenuLateralState extends State<MenuLateral> {
               final nombre = ref.watch(nombreUsuarioLogin);
               final rol = ref.watch(nombreRolLogin);
               final iniciales = ref.watch(inicialesUsuario);
+              final etapaEventoNotifier = ref.watch(etapaEventoProv);
 
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,10 +53,13 @@ class _MenuLateralState extends State<MenuLateral> {
                     ),
                     child: Text(
                       'Menú'.toUpperCase(),
-                      style: const TextStyle(color: AppTema.bluegrey700),
+                      style: const TextStyle(
+                          color: AppTema.bluegrey700,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
-                  if (rol.toLowerCase() == 'estudiante lider')
+                  if (etapaEventoNotifier == 'LOCAL' &&
+                      rol.toLowerCase() == 'estudiante lider')
                     ...itemsLider.map(
                       (menu) => MenuLateralItem(
                         menu: menu,
@@ -69,7 +73,8 @@ class _MenuLateralState extends State<MenuLateral> {
                         esActivo: seleccionMenu == menu,
                       ),
                     ),
-                  if (rol.toLowerCase() == 'coordinador local')
+                  if (etapaEventoNotifier == 'LOCAL' &&
+                      rol.toLowerCase() == 'coordinador local')
                     ...itemsCoordinadorLocal.map(
                       (menu) => MenuLateralItem(
                         menu: menu,
@@ -83,7 +88,8 @@ class _MenuLateralState extends State<MenuLateral> {
                         esActivo: seleccionMenu == menu,
                       ),
                     ),
-                  if (rol.toLowerCase() == 'jurado interno')
+                  if (etapaEventoNotifier == 'LOCAL' &&
+                      rol.toLowerCase() == 'jurado interno')
                     ...itemsJuradoInterno.map(
                       (menu) => MenuLateralItem(
                         menu: menu,
@@ -97,7 +103,8 @@ class _MenuLateralState extends State<MenuLateral> {
                         esActivo: seleccionMenu == menu,
                       ),
                     ),
-                  if (rol.toLowerCase() == 'asesor')
+                  if (etapaEventoNotifier == 'LOCAL' &&
+                      rol.toLowerCase() == 'asesor')
                     ...itemsAsesor.map(
                       (menu) => MenuLateralItem(
                         menu: menu,
@@ -111,7 +118,8 @@ class _MenuLateralState extends State<MenuLateral> {
                         esActivo: seleccionMenu == menu,
                       ),
                     ),
-                  if (rol.toLowerCase() == 'administrador')
+                  if (etapaEventoNotifier == 'LOCAL' &&
+                      rol.toLowerCase() == 'administrador')
                     ...itemsAdministrador.map(
                       (menu) => MenuLateralItem(
                         menu: menu,
@@ -125,8 +133,41 @@ class _MenuLateralState extends State<MenuLateral> {
                         esActivo: seleccionMenu == menu,
                       ),
                     ),
-                  if (rol.toLowerCase() == 'sn')
+                  if (etapaEventoNotifier == 'LOCAL' &&
+                      rol.toLowerCase() == 'sn')
                     ...itemsMenu.map(
+                      (menu) => MenuLateralItem(
+                        menu: menu,
+                        press: () {
+                          context.push('/${menu.pantalla.toString()}');
+                          //Navigator.pushNamed(context, menu.pantalla.toString());
+                          setState(() {
+                            seleccionMenu = menu;
+                          });
+                        },
+                        esActivo: seleccionMenu == menu,
+                      ),
+                    ),
+                  //! AQUI VA LA ETAPA REGIONAL
+
+                  if (etapaEventoNotifier == 'REGIONAL' &&
+                      rol.toLowerCase() == 'estudiante lider')
+                    ...itemsLiderRegional.map(
+                      (menu) => MenuLateralItem(
+                        menu: menu,
+                        press: () {
+                          context.push('/${menu.pantalla.toString()}');
+                          //Navigator.pushNamed(context, menu.pantalla.toString());
+                          setState(() {
+                            seleccionMenu = menu;
+                          });
+                        },
+                        esActivo: seleccionMenu == menu,
+                      ),
+                    ),
+                  if (etapaEventoNotifier == 'REGIONAL' &&
+                      rol.toLowerCase() == 'coordinador local')
+                    ...itemsCoordinadorLocalRegional.map(
                       (menu) => MenuLateralItem(
                         menu: menu,
                         press: () {
@@ -147,7 +188,9 @@ class _MenuLateralState extends State<MenuLateral> {
                     ),
                     child: Text(
                       'Ajustes'.toUpperCase(),
-                      style: const TextStyle(color: AppTema.bluegrey700),
+                      style: const TextStyle(
+                          color: AppTema.bluegrey700,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                   ...itemsConfig.map(

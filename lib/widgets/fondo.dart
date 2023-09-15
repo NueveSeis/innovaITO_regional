@@ -58,7 +58,7 @@ class Fondo extends StatelessWidget {
               ),
               child: SingleChildScrollView(child: widget),
             ),
-          )
+          ),
         ])),
       ),
     );

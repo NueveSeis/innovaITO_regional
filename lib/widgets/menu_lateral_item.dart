@@ -52,7 +52,8 @@ class MenuLateralItem extends StatelessWidget {
               ),
               title: Text(
                 menu.titulo,
-                style: const TextStyle(color: AppTema.bluegrey700),
+                style: const TextStyle(
+                    color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
               ),
               onTap: press,
             ),

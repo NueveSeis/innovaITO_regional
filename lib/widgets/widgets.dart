@@ -11,3 +11,4 @@ export 'package:innova_ito/widgets/tarjeta_carrera.dart';
 export 'package:innova_ito/widgets/menu.dart';
 export 'package:innova_ito/widgets/card_posiciones.dart';
 export 'package:innova_ito/widgets/tareas_lider.dart';
+export 'package:innova_ito/widgets/fondo_etapas.dart';

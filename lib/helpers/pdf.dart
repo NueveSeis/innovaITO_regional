@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
+import 'package:innova_ito/helpers/helpers.dart';
+import 'package:innova_ito/models/informacionProyectoER.dart';
 import 'package:innova_ito/models/models.dart';
 
 import 'package:path_provider/path_provider.dart';
@@ -849,5 +851,143 @@ class pdf {
     // Ruta del archivo PDF generado
     String generatedPdfFilePath = generatedPdfFile.path;
     return generatedPdfFilePath;
+  }
+
+  static Future<String> presentaciones(
+      List<InformacionProyectoEr> infoProyectos) async {
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    final targetPath = appDocDir.path;
+    final targetFileName = "descargar_presentaciones";
+
+    String combinedHtml = '''
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Descarga de Presentaciones</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+            }
+            .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0px;
+                background-color: #ffffff;
+                box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .logo {
+                max-height: 70px;
+            }
+            .table-container {
+                margin: 0px;
+                padding: 0; /* Ajuste el padding a 0 */
+                box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                border: 1px solid #e0e0e0;
+            }
+            th, td {
+                padding: 0px 10px;
+                text-align: left;
+                border-bottom: 1px solid #e0e0e0;
+            }
+            th {
+                background-color: #f2f2f2;
+            }
+            td {
+                font-size: 14px;
+            }
+            h1 {
+                font-size: 24px;
+                color: #333333;
+                text-align: center;
+                margin-top: 30px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <img src="${dotenv.env['HOST_REST']}logos/tecnm.png" alt="Logo 1" class="logo">
+            <img src="${dotenv.env['HOST_REST']}logos/logo_innova.png" alt="Logo 2" class="logo">
+        </div>
+        <h1>Descarga de Presentaciones</h1>
+  ''';
+
+    Map<String, List<InformacionProyectoEr>> categoriasProyectos = {};
+
+    for (var dato in infoProyectos) {
+      if (!categoriasProyectos.containsKey(dato.nombreCategoria)) {
+        categoriasProyectos[dato.nombreCategoria] = [];
+      }
+      categoriasProyectos[dato.nombreCategoria]?.add(dato);
+    }
+
+    for (var categoria in categoriasProyectos.keys) {
+      combinedHtml += '''
+        <h1>Categoría: $categoria</h1>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Proyecto</th>
+                        <th>Nombre descriptivo</th>
+                        <th>Categoría</th>
+                        <th>Presentación</th>
+                    </tr>
+                </thead>
+                <tbody>
+    ''';
+
+      for (var dato in categoriasProyectos[categoria]!) {
+        String fileId = extractGoogleDocsFileId(dato.video);
+        String urlDownload =
+            'https://drive.google.com/uc?id=$fileId&export=download';
+
+        combinedHtml += '''
+        <tr>
+          <td>${dato.nombreCorto}</td>
+          <td>${dato.nombreProyecto}</td>
+          <td>${dato.nombreCategoria}</td>
+          <td><a href="$urlDownload" download>Descargar</a></td>
+        </tr>
+      ''';
+      }
+
+      combinedHtml += '''
+                </tbody>
+            </table>
+        </div>
+    ''';
+    }
+
+    combinedHtml += '''
+      </body>
+      </html>
+  ''';
+
+    final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(
+        combinedHtml, targetPath, targetFileName);
+
+    // Ruta del archivo PDF generado
+    String generatedPdfFilePath = generatedPdfFile.path;
+    return generatedPdfFilePath;
+  }
+
+  static String extractGoogleDocsFileId(dynamic url) {
+    if (url == null) {
+      return 'ID no encontrado';
+    }
+
+    Match? match = RegexUtil.idDoc.firstMatch(url);
+    if (match != null && match.groupCount >= 1) {
+      return match.group(1)!;
+    } else {
+      return 'ID no encontrado';
+    }
   }
 }

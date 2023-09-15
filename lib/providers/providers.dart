@@ -7,3 +7,4 @@ export 'package:innova_ito/providers/seleccionar_proyecto.dart';
 export 'package:innova_ito/providers/evaluaciones.dart';
 export 'package:innova_ito/providers/generacion_constancias_prov.dart';
 export 'package:innova_ito/providers/actualizar_datos_lider_prov.dart';
+export 'package:innova_ito/providers/generacion_pdf_regional_prov.dart';

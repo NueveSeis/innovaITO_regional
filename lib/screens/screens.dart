@@ -51,3 +51,6 @@ export 'package:innova_ito/screens/evaluar_sala_screen.dart';
 export 'package:innova_ito/screens/evaluar_stand_screen.dart';
 export 'package:innova_ito/screens/generacion_constancia_screen.dart';
 export 'package:innova_ito/screens/genera_pdf_screen.dart';
+export 'package:innova_ito/screens/inicio_etapas_screen.dart';
+export 'package:innova_ito/screens/subir_presentacion_screen.dart';
+export 'package:innova_ito/screens/genera_pdf_regional_screen.dart';

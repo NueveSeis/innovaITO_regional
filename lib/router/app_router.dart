@@ -6,7 +6,7 @@ import 'package:innova_ito/screens/screens.dart';
 
 // GoRouter configuration
 final appRouter = GoRouter(
-  initialLocation: '/acceso',
+  initialLocation: '/InicioEtapasScreen',
   routes: [
     GoRoute(
       path: '/inicio',
@@ -277,6 +277,21 @@ final appRouter = GoRouter(
       path: '/GeneraPdfScreen',
       name: GeneraPdfScreen.name,
       builder: (context, state) => GeneraPdfScreen(),
+    ),
+    GoRoute(
+      path: '/InicioEtapasScreen',
+      name: InicioEtapasScreen.name,
+      builder: (context, state) => InicioEtapasScreen(),
+    ),
+    GoRoute(
+      path: '/SubirPresentacionScreen',
+      name: SubirPresentacionScreen.name,
+      builder: (context, state) => SubirPresentacionScreen(),
+    ),
+    GoRoute(
+      path: '/GeneraPdfRegionalScreen',
+      name: GeneraPdfRegionalScreen.name,
+      builder: (context, state) => GeneraPdfRegionalScreen(),
     ),
   ],
 );

@@ -11,6 +11,7 @@ class InicioLiderScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final etapaEventoNotifier = ref.watch(etapaEventoProv);
     final rol = ref.watch(nombreRolLogin);
     final folioLider = ref.watch(folioProyectoUsuarioLogin);
     return Scaffold(
@@ -66,7 +67,7 @@ class InicioLiderScreen extends ConsumerWidget {
                               vertical: 12,
                             ),
                             child: Text(
-                              (folioLider ?? 'SIN FOLIO'),
+                              (folioLider ?? 'BIENVENIDO'),
                               style: const TextStyle(
                                 color: AppTema.bluegrey700,
                               ),
@@ -102,7 +103,9 @@ class InicioLiderScreen extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 2),
-              if (rol.toUpperCase() == 'ADMINISTRADOR')
+
+              if (etapaEventoNotifier == 'LOCAL' &&
+                  rol.toUpperCase() == 'ADMINISTRADOR')
                 Expanded(
                   child: Container(
                     width: double.infinity,
@@ -129,7 +132,8 @@ class InicioLiderScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-              if (rol.toLowerCase() == 'estudiante lider')
+              if (etapaEventoNotifier == 'LOCAL' &&
+                  rol.toLowerCase() == 'estudiante lider')
                 Expanded(
                   child: Container(
                     width: double.infinity,
@@ -156,7 +160,8 @@ class InicioLiderScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-              if (rol.toLowerCase() == 'asesor')
+              if (etapaEventoNotifier == 'LOCAL' &&
+                  rol.toLowerCase() == 'asesor')
                 Expanded(
                   child: Container(
                     width: double.infinity,
@@ -183,7 +188,8 @@ class InicioLiderScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-              if (rol.toLowerCase() == 'jurado interno')
+              if (etapaEventoNotifier == 'LOCAL' &&
+                  rol.toLowerCase() == 'jurado interno')
                 Expanded(
                   child: Container(
                     width: double.infinity,
@@ -210,7 +216,8 @@ class InicioLiderScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-              if (rol.toLowerCase() == 'coordinador local')
+              if (etapaEventoNotifier == 'LOCAL' &&
+                  rol.toLowerCase() == 'coordinador local')
                 Expanded(
                   child: Container(
                     width: double.infinity,
@@ -237,7 +244,152 @@ class InicioLiderScreen extends ConsumerWidget {
                       },
                     ),
                   ),
-                )
+                ),
+
+//! AQUI VA LA ETAPA REGIONAL
+
+              if (etapaEventoNotifier == 'REGIONAL' &&
+                  rol.toUpperCase() == 'ADMINISTRADOR')
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      color: AppTema.indigo50,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25),
+                      ),
+                    ),
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                      ),
+                      itemCount: itemsAdministrador.length,
+                      itemBuilder: (context, index) {
+                        return TareasLider(
+                          icono: itemsAdministrador[index].icono,
+                          texto: itemsAdministrador[index].titulo,
+                          ruta1: itemsAdministrador[index].pantalla.toString(),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              if (etapaEventoNotifier == 'REGIONAL' &&
+                  rol.toLowerCase() == 'estudiante lider')
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      color: AppTema.indigo50,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25),
+                      ),
+                    ),
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                      ),
+                      itemCount: itemsLiderRegional.length,
+                      itemBuilder: (context, index) {
+                        return TareasLider(
+                          icono: itemsLiderRegional[index].icono,
+                          texto: itemsLiderRegional[index].titulo,
+                          ruta1: itemsLiderRegional[index].pantalla.toString(),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              if (etapaEventoNotifier == 'REGIONAL' &&
+                  rol.toLowerCase() == 'asesor')
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      color: AppTema.indigo50,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25),
+                      ),
+                    ),
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                      ),
+                      itemCount: itemsAsesor.length,
+                      itemBuilder: (context, index) {
+                        return TareasLider(
+                          icono: itemsAsesor[index].icono,
+                          texto: itemsAsesor[index].titulo,
+                          ruta1: itemsAsesor[index].pantalla.toString(),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              if (etapaEventoNotifier == 'REGIONAL' &&
+                  rol.toLowerCase() == 'jurado interno')
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      color: AppTema.indigo50,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25),
+                      ),
+                    ),
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                      ),
+                      itemCount: itemsJuradoInterno.length,
+                      itemBuilder: (context, index) {
+                        return TareasLider(
+                          icono: itemsJuradoInterno[index].icono,
+                          texto: itemsJuradoInterno[index].titulo,
+                          ruta1: itemsJuradoInterno[index].pantalla.toString(),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              if (etapaEventoNotifier == 'REGIONAL' &&
+                  rol.toLowerCase() == 'coordinador local')
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      color: AppTema.indigo50,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25),
+                      ),
+                    ),
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                      ),
+                      itemCount: itemsCoordinadorLocalRegional.length,
+                      itemBuilder: (context, index) {
+                        return TareasLider(
+                          icono: itemsCoordinadorLocalRegional[index].icono,
+                          texto: itemsCoordinadorLocalRegional[index].titulo,
+                          ruta1: itemsCoordinadorLocalRegional[index]
+                              .pantalla
+                              .toString(),
+                        );
+                      },
+                    ),
+                  ),
+                ),
             ],
           ),
         ),

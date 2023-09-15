@@ -34,4 +34,12 @@ class RegexUtil {
   static final RegExp criterios = RegExp(r'^(?:[1-9][0-9]?|100)$');
 
   static final RegExp constancias = RegExp(r'^[a-zA-Z\s.]+$');
+
+  static final RegExp esLink = RegExp(
+    r'^https?://(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}(/\S*)?$',
+    caseSensitive: false,
+    multiLine: false,
+  );
+
+  static final RegExp idDoc = RegExp(r'/d/([a-zA-Z0-9-_]+)');
 }

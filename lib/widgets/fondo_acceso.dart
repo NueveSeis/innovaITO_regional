@@ -20,10 +20,10 @@ class FondoAcceso extends StatelessWidget {
                   width: double.infinity,
                   height: 250,
                   child: Image.asset(
-                    'assets/imagenes/logo_innovaITO_negro.png',
+                    'assets/imagenes/logo_innovaV2.png',
                   )),
             ),
-            child
+            child,
           ],
         ));
   }

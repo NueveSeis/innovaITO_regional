@@ -1,5 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+final etapaEventoProv = StateProvider(
+  (ref) => "SN",
+);
+
 final idUsuarioLogin = StateProvider(
   (ref) => "SN",
 );

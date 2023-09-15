@@ -322,3 +322,23 @@ List<ModeloMenu> itemsConfig = const [
   ModeloMenu(
       titulo: "Cerrar sesión", icono: Icons.logout_rounded, pantalla: 'acceso'),
 ];
+
+//!    MODELOS PARA LA ETAPA REGIONAL
+
+List<ModeloMenu> itemsLiderRegional = const [
+  ModeloMenu(
+      titulo: "Inicio", icono: Icons.home_rounded, pantalla: 'inicioLider'),
+  ModeloMenu(
+      titulo: "Presentación",
+      icono: Icons.location_pin,
+      pantalla: 'SubirPresentacionScreen'),
+];
+
+List<ModeloMenu> itemsCoordinadorLocalRegional = const [
+  ModeloMenu(
+      titulo: "Inicio", icono: Icons.home_rounded, pantalla: 'inicioLider'),
+  ModeloMenu(
+      titulo: "Generar PDFS",
+      icono: Icons.picture_as_pdf_rounded,
+      pantalla: 'GeneraPdfRegionalScreen'),
+];

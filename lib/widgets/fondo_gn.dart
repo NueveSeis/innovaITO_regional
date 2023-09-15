@@ -58,7 +58,7 @@ class FondoGn extends StatelessWidget {
               ),
               child: SingleChildScrollView(child: widget),
             ),
-          )
+          ),
         ])),
       ),
     );
