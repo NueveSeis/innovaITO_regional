@@ -293,5 +293,10 @@ final appRouter = GoRouter(
       name: GeneraPdfRegionalScreen.name,
       builder: (context, state) => GeneraPdfRegionalScreen(),
     ),
+    GoRoute(
+      path: '/EnviarCuentasRegionalScreen',
+      name: EnviarCuentasRegionalScreen.name,
+      builder: (context, state) => EnviarCuentasRegionalScreen(),
+    ),
   ],
 );
