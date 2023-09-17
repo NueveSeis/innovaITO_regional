@@ -72,9 +72,9 @@ class SubirPresentacionScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     TextEditingController linkPresentacion = TextEditingController();
-    final String? folioProv = ref.watch(folioProyectoUsuarioLogin);
+    final String? folioProv = ref.watch(buscarProyectoRegionalProv);
     return Scaffold(
-      body: Fondo(
+      body: FondoGn(
           tituloPantalla: 'Presentación',
           fontSize: 20,
           widget: Padding(
@@ -101,7 +101,7 @@ class SubirPresentacionScreen extends ConsumerWidget {
                                 height: 50,
                               ),
                               Text(
-                                'No tiene proyecto asignado',
+                                'No se encontró su proyecto',
                                 style: TextStyle(
                                     color: AppTema.bluegrey700,
                                     fontWeight: FontWeight.bold,
@@ -248,6 +248,9 @@ class SubirPresentacionScreen extends ConsumerWidget {
                                       color: AppTema.bluegrey700,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15)),
+                              const SizedBox(
+                                height: 40,
+                              ),
                               const Text(
                                   '¿Desea eliminar el enlace y volverlo a subir?',
                                   textAlign: TextAlign.center,
@@ -258,54 +261,50 @@ class SubirPresentacionScreen extends ConsumerWidget {
                               const SizedBox(
                                 height: 50,
                               ),
-                              Container(
-                                width: 200, // Ancho deseado
-                                height: 50, // Alto deseado
-                                child: ElevatedButton(
-                                  child: Center(
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          'Eliminar enlace',
-                                          style: TextStyle(
-                                            color: AppTema.grey100,
-                                            fontSize: 15,
-                                          ),
+                              ElevatedButton(
+                                child: Center(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        'Eliminar enlace',
+                                        style: TextStyle(
+                                          color: AppTema.grey100,
+                                          fontSize: 15,
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                  onPressed: () async {
-                                    final bool eliminado =
-                                        await eliminarPresentacion(
-                                            folioProv.toString());
+                                ),
+                                onPressed: () async {
+                                  final bool eliminado =
+                                      await eliminarPresentacion(
+                                          folioProv.toString());
 
-                                    if (eliminado) {
-                                      QuickAlert.show(
-                                          context: context,
-                                          type: QuickAlertType.success,
-                                          title: 'Enlace eliminado',
-                                          confirmBtnText: 'Aceptar',
-                                          confirmBtnColor: AppTema.pizazz,
-                                          onConfirmBtnTap: () {
-                                            context.pushReplacementNamed(
-                                                'SubirPresentacionScreen');
-                                          });
-                                    } else {
-                                      QuickAlert.show(
+                                  if (eliminado) {
+                                    QuickAlert.show(
                                         context: context,
-                                        type: QuickAlertType.error,
-                                        title: 'Ocurrió un error',
+                                        type: QuickAlertType.success,
+                                        title: 'Enlace eliminado',
                                         confirmBtnText: 'Aceptar',
                                         confirmBtnColor: AppTema.pizazz,
                                         onConfirmBtnTap: () {
                                           context.pushReplacementNamed(
                                               'SubirPresentacionScreen');
-                                        },
-                                      );
-                                    }
-                                  },
-                                ),
+                                        });
+                                  } else {
+                                    QuickAlert.show(
+                                      context: context,
+                                      type: QuickAlertType.error,
+                                      title: 'Ocurrió un error',
+                                      confirmBtnText: 'Aceptar',
+                                      confirmBtnColor: AppTema.pizazz,
+                                      onConfirmBtnTap: () {
+                                        context.pushReplacementNamed(
+                                            'SubirPresentacionScreen');
+                                      },
+                                    );
+                                  }
+                                },
                               ),
                               const SizedBox(
                                 height: 50,

@@ -5,6 +5,8 @@ import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/screens/screens.dart';
 import 'package:http/http.dart' as http;
 
+final buscarProyectoRegionalProv = StateProvider<String>((ref) => 'SN');
+
 //* PARA OBTENER LOS TECNOLOGICOS
 
 Future<List<InformacionProyectoEr>> obtenerInfoProyectosRegional(ref) async {

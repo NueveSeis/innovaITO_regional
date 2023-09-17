@@ -42,4 +42,6 @@ class RegexUtil {
   );
 
   static final RegExp idDoc = RegExp(r'/d/([a-zA-Z0-9-_]+)');
+
+  static final RegExp folioProyecto = RegExp(r'^\d{5}-\d{2}$');
 }

@@ -36,7 +36,7 @@ class InicioEtapasScreen extends ConsumerWidget {
                     fontWeight: FontWeight.bold),
               ),
               const SizedBox(
-                height: 40,
+                height: 30,
               ),
               // MaterialButton(
               //     shape: RoundedRectangleBorder(
@@ -61,31 +61,73 @@ class InicioEtapasScreen extends ConsumerWidget {
               // const SizedBox(
               //   height: 30,
               // ),
-              MaterialButton(
+              SizedBox(
+                width: 250, // Ancho deseado del botón
+                height: 50, // Altura deseada del botón
+                child: MaterialButton(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25),
                   ),
                   disabledColor: Colors.grey,
                   elevation: 10,
                   color: const Color.fromRGBO(250, 122, 30, 1),
+                  onPressed: () async {
+                    context.pushNamed('BuscarPresentacionScreen');
+                  },
                   child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 15),
-                      child: const Text(
-                        'ETAPA REGIONAL',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
-                      )),
+                    // padding: const EdgeInsets.symmetric(
+                    //   horizontal: 10,
+                    //   vertical: 15,
+                    //),
+                    child: const Text(
+                      'ESTUDIANTE LIDER',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                width: 250, // Ancho deseado del botón
+                height: 50, // Altura deseada del botón
+                child: MaterialButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  disabledColor: Colors.grey,
+                  elevation: 10,
+                  color: const Color.fromRGBO(250, 122, 30, 1),
                   onPressed: () async {
                     ref
                         .read(etapaEventoProv.notifier)
                         .update((state) => 'REGIONAL');
                     context.pushNamed('acceso');
-                  }),
+                  },
+                  child: Container(
+                    // padding: const EdgeInsets.symmetric(
+                    //   horizontal: 10,
+                    //   vertical: 15,
+                    // ),
+                    child: const Text(
+                      'COORDINADOR REGIONAL',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               const SizedBox(
-                height: 40,
+                height: 30,
               ),
               const Text(
                 'Todos los derechos reservados 2023 ©',

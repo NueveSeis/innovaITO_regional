@@ -298,5 +298,10 @@ final appRouter = GoRouter(
       name: EnviarCuentasRegionalScreen.name,
       builder: (context, state) => EnviarCuentasRegionalScreen(),
     ),
+    GoRoute(
+      path: '/BuscarPresentacionScreen',
+      name: BuscarPresentacionScreen.name,
+      builder: (context, state) => BuscarPresentacionScreen(),
+    ),
   ],
 );
