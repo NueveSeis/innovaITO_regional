@@ -14,9 +14,9 @@ String salaLiderToJson(List<SalaLider> data) =>
 class SalaLider {
   String idSala;
   String folio;
-  DateTime fecha;
-  String horaInicio;
-  String horaFinal;
+  dynamic fecha;
+  dynamic horaInicio;
+  dynamic horaFinal;
   String nombreSala;
   String lugar;
 

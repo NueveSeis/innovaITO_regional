@@ -156,7 +156,7 @@ class SubirPresentacionScreen extends ConsumerWidget {
                                         height: 50,
                                       ),
                                       const Text(
-                                        'Recuerde: El archivo debe ser en formato pptx.',
+                                        'Recuerde: El archivo debe estar en Google Drive en formato pptx.',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             color: AppTema.bluegrey700,
@@ -173,6 +173,9 @@ class SubirPresentacionScreen extends ConsumerWidget {
                                             color: AppTema.bluegrey700,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 15),
+                                      ),
+                                      const SizedBox(
+                                        height: 15,
                                       ),
                                       ElevatedButton(
                                         onPressed: () async {

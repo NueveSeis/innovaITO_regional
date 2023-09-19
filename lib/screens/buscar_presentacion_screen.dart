@@ -48,7 +48,7 @@ class BuscarPresentacionScreen extends ConsumerWidget {
     final listo = ref.watch(listoAsesor);
     return Scaffold(
         body: FondoGn(
-            tituloPantalla: 'Presentación',
+            tituloPantalla: 'Buscar proyecto',
             fontSize: 20,
             widget: Padding(
                 padding:
@@ -157,7 +157,7 @@ class BuscarPresentacionScreen extends ConsumerWidget {
                         ? Column(
                             children: [
                               const Text(
-                                'Da clic sobre él proyecto para añadir o modificar su presentación',
+                                'Da clic sobre él proyecto para ver las opciones',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: AppTema.bluegrey700,
@@ -291,7 +291,7 @@ class BuscarPresentacionScreen extends ConsumerWidget {
                         ref
                             .read(buscarProyectoRegionalProv.notifier)
                             .update((state) => proyecto[index].idFichaTecnica);
-                        context.pushNamed('SubirPresentacionScreen');
+                        context.pushNamed('OpcionesLiderRegionalScreen');
                       },
                     ),
                   ],

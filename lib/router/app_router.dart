@@ -303,5 +303,15 @@ final appRouter = GoRouter(
       name: BuscarPresentacionScreen.name,
       builder: (context, state) => BuscarPresentacionScreen(),
     ),
+    GoRoute(
+      path: '/OpcionesLiderRegionalScreen',
+      name: OpcionesLiderRegionalScreen.name,
+      builder: (context, state) => OpcionesLiderRegionalScreen(),
+    ),
+    GoRoute(
+      path: '/SalaLiderRegionalScreen',
+      name: SalaLiderRegionalScreen.name,
+      builder: (context, state) => SalaLiderRegionalScreen(),
+    ),
   ],
 );

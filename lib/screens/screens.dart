@@ -56,3 +56,5 @@ export 'package:innova_ito/screens/subir_presentacion_screen.dart';
 export 'package:innova_ito/screens/genera_pdf_regional_screen.dart';
 export 'package:innova_ito/screens/enviar_cuentas_regional_screen.dart';
 export 'package:innova_ito/screens/buscar_presentacion_screen.dart';
+export 'package:innova_ito/screens/opciones_lider_regional_screen.dart';
+export 'package:innova_ito/screens/sala_lider_regional_screen.dart';

@@ -72,7 +72,9 @@ class InicioEtapasScreen extends ConsumerWidget {
                   elevation: 10,
                   color: const Color.fromRGBO(250, 122, 30, 1),
                   onPressed: () async {
+                    //
                     context.pushNamed('BuscarPresentacionScreen');
+                    //context.pushNamed('OpcionesLiderRegionalScreen');
                   },
                   child: Container(
                     // padding: const EdgeInsets.symmetric(
