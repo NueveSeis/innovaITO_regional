@@ -51,3 +51,4 @@ export 'package:innova_ito/models/asignarCalificacionFinal.dart';
 export 'package:innova_ito/models/proyectoGC.dart';
 export 'package:innova_ito/models/proyectoAsesorGC.dart';
 export 'package:innova_ito/models/personasRegional.dart';
+export 'package:innova_ito/models/datosEstudianteRegional.dart';

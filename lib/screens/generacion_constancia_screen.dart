@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:innova_ito/models/datosEstudianteRegional.dart';
+import 'package:innova_ito/models/proyectoAsesorGC.dart';
+import 'package:innova_ito/models/proyectoGC.dart';
 import 'package:innova_ito/providers/providers.dart';
 
 import 'package:innova_ito/theme/app_tema.dart';
@@ -22,17 +25,25 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
   GeneracionConstanciaScreen({super.key});
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController cdirector = TextEditingController();
-  TextEditingController cCoo = TextEditingController();
-  TextEditingController cCargo = TextEditingController();
+  TextEditingController cdirector =
+      TextEditingController(text: 'M.E. Fernando Toledo Toledo');
+  TextEditingController cCoo =
+      TextEditingController(text: 'M.I. Raquel López Celis');
+  TextEditingController cCargo = TextEditingController(
+      text: 'Jefa del Depto. de Gestión Tecnológica y Vinculación');
 
   String nombreTecnologicoConstancia = '';
   String nombreProyectoConstancia = '';
+  String nombreProyectoCortoConstancia = '';
   String nombreParticipanteConst = '';
   String nombreCategoriaConstancia = '';
 
   final switchEstudianteProvider = StateProvider<bool>((ref) => true);
   final switchAsesorProvider = StateProvider<bool>((ref) => false);
+
+  final switchIndividualProvider = StateProvider<bool>((ref) => true);
+  final switchPorProyectoProvider = StateProvider<bool>((ref) => false);
+  final switchTodosProvider = StateProvider<bool>((ref) => false);
 
   bool camposLlenos = false;
 
@@ -49,6 +60,14 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
 
     final isActiveEstudiante = ref.watch(switchEstudianteProvider);
     final isActiveAsesor = ref.watch(switchAsesorProvider);
+    final isActiveIndividual = ref.watch(switchIndividualProvider);
+    final isActivePorProyecto = ref.watch(switchPorProyectoProvider);
+    final isActiveTodos = ref.watch(switchTodosProvider);
+
+    String _director = 'M.E. Fernando Toledo Toledo';
+    String _nombreEncargado = 'M.I. Raquel López Celis';
+    String _puestoEncargada =
+        'Jefa del Depto. de Gestión Tecnológica y Vinculación';
 
     return Scaffold(
       body: Fondo(
@@ -92,7 +111,7 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
                                   textAlign: TextAlign.start,
                                 ),
                                 isExpanded: true,
-                                value: null,
+                                //value: 'Instituto Tecnológico de Oaxaca',
                                 style: const TextStyle(
                                     color: AppTema.bluegrey700,
                                     fontWeight: FontWeight.bold),
@@ -136,6 +155,10 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
                               hintText: 'Ingrese nombre completo del director',
                               labelText: 'Nombre completo del director',
                             ),
+                            onChanged: (value) {
+                              // Actualiza el valor cuando se modifica el texto.
+                              _director = value;
+                            },
                             validator: (value) {
                               return (!RegexUtil.nombres.hasMatch(value ?? ''))
                                   ? null
@@ -194,206 +217,66 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
                           Container(
                             alignment: Alignment.topLeft,
                             child: const Text(
-                              'Seleccione proyecto',
+                              'Seleccione la forma de generación',
                               style: TextStyle(
                                   color: AppTema.bluegrey700,
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
                           const SizedBox(height: 10),
-                          proyectosGC.when(
-                            data: (data) => DropdownButtonFormField<String>(
-                                hint: const Text(
-                                  'Seleccione una opción',
-                                  overflow: TextOverflow.visible,
-                                  style: TextStyle(
-                                      color: AppTema.bluegrey700,
-                                      fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.start,
-                                ),
-                                isExpanded: true,
-                                value: null,
-                                style: const TextStyle(
-                                    color: AppTema.bluegrey700,
-                                    fontWeight: FontWeight.bold),
-                                items: data.map((itemone) {
-                                  return DropdownMenuItem<String>(
-                                    alignment: Alignment.centerLeft,
-                                    value: itemone.folio,
-                                    child: Text(
-                                      itemone.nombreProyecto,
-                                      overflow: TextOverflow.visible,
-                                    ),
-                                  );
-                                }).toList(),
-                                onChanged: (value) {
-                                  // Buscar el proyecto seleccionado en la lista de 'data'
-                                  final selectedProject = data.firstWhere(
-                                      (itemone) => itemone.folio == value);
-
-                                  // Obtener el nombre del proyecto y el folio del elemento seleccionado
-                                  nombreProyectoConstancia =
-                                      selectedProject.nombreProyecto;
-
-                                  nombreCategoriaConstancia =
-                                      selectedProject.nombreCategoria;
-                                  // Resto del código que quieras ejecutar al seleccionar un proyecto
-                                  ref
-                                      .read(proyectosProvGC.notifier)
-                                      .update((state) => value.toString());
-                                  ref.refresh(futureParticipantesProvGC);
-                                  ref.refresh(futureAsesoresProvGC);
-                                }),
-                            loading: () => const CircularProgressIndicator(),
-                            error: (error, stackTrace) =>
-                                const Text('Error al cargar los proyectos.'),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
                           SwitchListTile.adaptive(
-                              title: const Text('Estudiante'),
+                              title: const Text('Individual'),
                               activeColor: AppTema.pizazz,
-                              value: isActiveEstudiante,
+                              value: isActiveIndividual,
                               onChanged: (value) {
                                 ref
-                                    .read(switchEstudianteProvider.notifier)
+                                    .read(switchIndividualProvider.notifier)
                                     .update((state) => value);
                                 ref
-                                    .read(switchAsesorProvider.notifier)
+                                    .read(switchPorProyectoProvider.notifier)
+                                    .update((state) => !value);
+                                ref
+                                    .read(switchTodosProvider.notifier)
                                     .update((state) => !value);
                               }),
                           const SizedBox(height: 10),
                           SwitchListTile.adaptive(
-                              title: const Text('Asesor'),
+                              title: const Text('Por Proyecto'),
                               activeColor: AppTema.pizazz,
-                              value: isActiveAsesor,
+                              value: isActivePorProyecto,
                               onChanged: (value) {
                                 ref
-                                    .read(switchEstudianteProvider.notifier)
+                                    .read(switchIndividualProvider.notifier)
                                     .update((state) => !value);
                                 ref
-                                    .read(switchAsesorProvider.notifier)
+                                    .read(switchTodosProvider.notifier)
+                                    .update((state) => !value);
+                                ref
+                                    .read(switchPorProyectoProvider.notifier)
                                     .update((state) => value);
                               }),
-                          isActiveEstudiante
-                              ? Column(
-                                  children: [
-                                    const SizedBox(height: 20),
-                                    Container(
-                                      alignment: Alignment.topLeft,
-                                      child: const Text(
-                                        'Seleccione participante',
-                                        style: TextStyle(
-                                            color: AppTema.bluegrey700,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    participantes.when(
-                                      data: (data) => DropdownButtonFormField<
-                                              String>(
-                                          key: const Key("dropdown_1"),
-                                          hint: const Text(
-                                            'Seleccione una opción',
-                                            overflow: TextOverflow.visible,
-                                            style: TextStyle(
-                                                color: AppTema.bluegrey700,
-                                                fontWeight: FontWeight.bold),
-                                            textAlign: TextAlign.start,
-                                          ),
-                                          isExpanded: true,
-                                          //value: va.value,
-                                          style: const TextStyle(
-                                              color: AppTema.bluegrey700,
-                                              fontWeight: FontWeight.bold),
-                                          items: data.map((itemone) {
-                                            return DropdownMenuItem<String>(
-                                              alignment: Alignment.centerLeft,
-                                              value:
-                                                  '${itemone.nombrePersona} ${itemone.apellido1} ${itemone.apellido2}',
-                                              child: Text(
-                                                '${itemone.nombrePersona} ${itemone.apellido1} ${itemone.apellido2}',
-                                                overflow: TextOverflow.visible,
-                                              ),
-                                            );
-                                          }).toList(),
-                                          onChanged: (valueE) {
-                                            nombreParticipanteConst =
-                                                valueE.toString();
-                                            // print(valueE);
-                                            ref
-                                                .read(valueAProvGC.notifier)
-                                                .update((state) => null);
-                                            // ref.refresh(futureDepartamentoProv);
-                                          }),
-                                      loading: () =>
-                                          const CircularProgressIndicator(),
-                                      error: (error, stackTrace) => const Text(
-                                          'Error al cargar los asesores.'),
-                                    )
-                                  ],
-                                )
-                              : Column(
-                                  children: [
-                                    const SizedBox(height: 20),
-                                    Container(
-                                      alignment: Alignment.topLeft,
-                                      child: const Text(
-                                        'Seleccione Asesor',
-                                        style: TextStyle(
-                                            color: AppTema.bluegrey700,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    asesores.when(
-                                      data: (data) => DropdownButtonFormField<
-                                              String>(
-                                          key: const Key("dropdown_2"),
-                                          hint: const Text(
-                                            'Seleccione una opción',
-                                            overflow: TextOverflow.visible,
-                                            style: TextStyle(
-                                                color: AppTema.bluegrey700,
-                                                fontWeight: FontWeight.bold),
-                                            textAlign: TextAlign.start,
-                                          ),
-                                          isExpanded: true,
-                                          // value: va.value,
-                                          style: const TextStyle(
-                                              color: AppTema.bluegrey700,
-                                              fontWeight: FontWeight.bold),
-                                          items: data.map((itemone) {
-                                            return DropdownMenuItem<String>(
-                                              alignment: Alignment.centerLeft,
-                                              value:
-                                                  '${itemone.nombrePersona} ${itemone.apellido1} ${itemone.apellido2}',
-                                              child: Text(
-                                                '${itemone.nombrePersona} ${itemone.apellido1} ${itemone.apellido2}',
-                                                overflow: TextOverflow.visible,
-                                              ),
-                                            );
-                                          }).toList(),
-                                          onChanged: (valueA) {
-                                            nombreParticipanteConst =
-                                                valueA.toString();
-                                            // print(value);
-                                            ref
-                                                .read(valueAProvGC.notifier)
-                                                .update((state) => null);
-                                            // ref.refresh(futureDepartamentoProv);
-                                          }),
-                                      loading: () =>
-                                          const CircularProgressIndicator(),
-                                      error: (error, stackTrace) => const Text(
-                                          'Error al cargar los participantes.'),
-                                    )
-                                  ],
-                                ),
-                          const SizedBox(
-                            height: 20,
-                          ),
+                          const SizedBox(height: 10),
+                          SwitchListTile.adaptive(
+                              title: const Text('Todos'),
+                              activeColor: AppTema.pizazz,
+                              value: isActiveTodos,
+                              onChanged: (value) {
+                                ref
+                                    .read(switchPorProyectoProvider.notifier)
+                                    .update((state) => !value);
+                                ref
+                                    .read(switchIndividualProvider.notifier)
+                                    .update((state) => !value);
+                                ref
+                                    .read(switchTodosProvider.notifier)
+                                    .update((state) => value);
+                              }),
+                          if (isActiveIndividual)
+                            individual(proyectosGC, ref, isActiveEstudiante,
+                                isActiveAsesor, participantes, asesores),
+                          if (isActivePorProyecto)
+                            porProyecto(
+                                proyectosGC, ref, participantes, asesores),
                         ],
                       )),
                 ),
@@ -447,12 +330,11 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
                     ),
                     onPressed: () async {
                       camposLlenos = _formKey.currentState!.validate();
-
+//nombreParticipanteConst.isEmpty ||
                       if (camposLlenos == false ||
                           selectedDateRange == null ||
                           nombreTecnologicoConstancia.isEmpty ||
                           nombreProyectoConstancia.isEmpty ||
-                          nombreParticipanteConst.isEmpty ||
                           nombreCategoriaConstancia.isEmpty) {
                         QuickAlert.show(
                           context: context,
@@ -474,23 +356,82 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
                         final fFin = DateFormat.d()
                             .format(selectedDateRange?.end ?? DateTime.now());
                         // print(
+                        //String ruta = '';
                         //     'Día de inicio: ${DateFormat.d().format(selectedDateRange?.start ?? DateTime.now())}');
-                        String ruta = await pdf.constancia(
-                            nombreTecnologicoConstancia.toUpperCase(),
-                            nombreParticipanteConst.toUpperCase(),
-                            'PARTICIPANTE',
-                            nombreProyectoConstancia.toUpperCase(),
-                            nombreCategoriaConstancia.toUpperCase(),
-                            'LOCAL',
-                            cdirector.text.toUpperCase(),
-                            dia,
-                            mes.toUpperCase(),
-                            ano,
-                            fIni,
-                            fFin,
-                            cCoo.text.toUpperCase(),
-                            cCargo.text.toUpperCase());
-                        OpenFilex.open(ruta);
+
+                        if (isActiveIndividual) {
+                          String ruta = await pdf.constancia(
+                              nombreTecnologicoConstancia.toUpperCase(),
+                              nombreParticipanteConst.toUpperCase(),
+                              'PARTICIPANTE',
+                              nombreProyectoConstancia.toUpperCase(),
+                              nombreCategoriaConstancia.toUpperCase(),
+                              'LOCAL',
+                              cdirector.text.toUpperCase(),
+                              dia,
+                              mes.toUpperCase(),
+                              ano,
+                              fIni,
+                              fFin,
+                              cCoo.text.toUpperCase(),
+                              cCargo.text.toUpperCase());
+
+                          OpenFilex.open(ruta);
+                        }
+
+                        if (isActivePorProyecto) {
+                          List<String> nombresCompletos = [];
+
+                          participantes.when(
+                            data: (data) {
+                              for (var estudiante in data) {
+                                String nombreCompleto =
+                                    '${estudiante.nombrePersona} ${estudiante.apellido1} ${estudiante.apellido2}';
+                                nombresCompletos.add(nombreCompleto);
+                              }
+                            },
+                            loading: () {
+                              // Puedes manejar el estado de carga aquí si es necesario
+                            },
+                            error: (error, stackTrace) {
+                              // Puedes manejar el estado de error aquí si es necesario
+                            },
+                          );
+                          asesores.when(
+                            data: (data) {
+                              for (var estudiante in data) {
+                                String nombreCompleto =
+                                    '${estudiante.nombrePersona} ${estudiante.apellido1} ${estudiante.apellido2}';
+                                nombresCompletos.add(nombreCompleto);
+                              }
+                            },
+                            loading: () {
+                              // Puedes manejar el estado de carga aquí si es necesario
+                            },
+                            error: (error, stackTrace) {
+                              // Puedes manejar el estado de error aquí si es necesario
+                            },
+                          );
+
+                          String ruta = await pdf.constanciasPorEquipo(
+                              nombreProyectoCortoConstancia,
+                              nombresCompletos,
+                              nombreTecnologicoConstancia.toUpperCase(),
+                              'PARTICIPANTE',
+                              nombreProyectoConstancia.toUpperCase(),
+                              nombreCategoriaConstancia.toUpperCase(),
+                              'LOCAL',
+                              cdirector.text.toUpperCase(),
+                              dia,
+                              mes.toUpperCase(),
+                              ano,
+                              fIni,
+                              fFin,
+                              cCoo.text.toUpperCase(),
+                              cCargo.text.toUpperCase());
+
+                          OpenFilex.open(ruta);
+                        }
                       }
                     },
                   ),
@@ -498,6 +439,290 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
               ],
             ),
           )),
+    );
+  }
+
+  Column porProyecto(
+      AsyncValue<List<ProyectoGc>> proyectosGC,
+      WidgetRef ref,
+      AsyncValue<List<DatosEstudianteRegional>> participantes,
+      AsyncValue<List<ProyectoAsesorGc>> asesores) {
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.topLeft,
+          child: const Text(
+            'Seleccione proyecto',
+            style: TextStyle(
+                color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+          ),
+        ),
+        const SizedBox(height: 10),
+        proyectosGC.when(
+          data: (data) => DropdownButtonFormField<String>(
+              hint: const Text(
+                'Seleccione una opción',
+                overflow: TextOverflow.visible,
+                style: TextStyle(
+                    color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.start,
+              ),
+              isExpanded: true,
+              value: null,
+              style: const TextStyle(
+                  color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+              items: data.map((itemone) {
+                return DropdownMenuItem<String>(
+                  alignment: Alignment.centerLeft,
+                  value: itemone.folio,
+                  child: Text(
+                    itemone.nombreCorto,
+                    overflow: TextOverflow.visible,
+                  ),
+                );
+              }).toList(),
+              onChanged: (value) {
+                // Buscar el proyecto seleccionado en la lista de 'data'
+                final selectedProject =
+                    data.firstWhere((itemone) => itemone.folio == value);
+
+                // Obtener el nombre del proyecto y el folio del elemento seleccionado
+                nombreProyectoCortoConstancia = selectedProject.nombreCorto;
+
+                nombreProyectoConstancia = selectedProject.nombreProyecto;
+
+                print(selectedProject.nombreProyecto);
+
+                nombreCategoriaConstancia = selectedProject.nombreCategoria;
+
+                print(selectedProject.nombreCategoria);
+
+                ref
+                    .read(proyectosProvGC.notifier)
+                    .update((state) => value.toString());
+                print(value.toString());
+                ref.refresh(futureParticipantesProvGC);
+                ref.refresh(futureAsesoresProvGC);
+              }),
+          loading: () => const CircularProgressIndicator(),
+          error: (error, stackTrace) =>
+              const Text('Error al cargar los proyectos.'),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+      ],
+    );
+  }
+
+  Column individual(
+      AsyncValue<List<ProyectoGc>> proyectosGC,
+      WidgetRef ref,
+      bool isActiveEstudiante,
+      bool isActiveAsesor,
+      AsyncValue<List<DatosEstudianteRegional>> participantes,
+      AsyncValue<List<ProyectoAsesorGc>> asesores) {
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.topLeft,
+          child: const Text(
+            'Seleccione proyecto',
+            style: TextStyle(
+                color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+          ),
+        ),
+        const SizedBox(height: 10),
+        proyectosGC.when(
+          data: (data) => DropdownButtonFormField<String>(
+              hint: const Text(
+                'Seleccione una opción',
+                overflow: TextOverflow.visible,
+                style: TextStyle(
+                    color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.start,
+              ),
+              isExpanded: true,
+              value: null,
+              style: const TextStyle(
+                  color: AppTema.bluegrey700, fontWeight: FontWeight.bold),
+              items: data.map((itemone) {
+                return DropdownMenuItem<String>(
+                  alignment: Alignment.centerLeft,
+                  value: itemone.folio,
+                  child: Text(
+                    itemone.nombreCorto,
+                    overflow: TextOverflow.visible,
+                  ),
+                );
+              }).toList(),
+              onChanged: (value) {
+                // Buscar el proyecto seleccionado en la lista de 'data'
+                final selectedProject =
+                    data.firstWhere((itemone) => itemone.folio == value);
+
+                // Obtener el nombre del proyecto y el folio del elemento seleccionado
+                nombreProyectoCortoConstancia = selectedProject.nombreCorto;
+
+                nombreProyectoConstancia = selectedProject.nombreProyecto;
+
+                print(selectedProject.nombreProyecto);
+
+                nombreCategoriaConstancia = selectedProject.nombreCategoria;
+
+                print(selectedProject.nombreCategoria);
+
+                ref
+                    .read(proyectosProvGC.notifier)
+                    .update((state) => value.toString());
+                print(value.toString());
+                ref.refresh(futureParticipantesProvGC);
+                ref.refresh(futureAsesoresProvGC);
+              }),
+          loading: () => const CircularProgressIndicator(),
+          error: (error, stackTrace) =>
+              const Text('Error al cargar los proyectos.'),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        SwitchListTile.adaptive(
+            title: const Text('Estudiante'),
+            activeColor: AppTema.pizazz,
+            value: isActiveEstudiante,
+            onChanged: (value) {
+              ref
+                  .read(switchEstudianteProvider.notifier)
+                  .update((state) => value);
+              ref.read(switchAsesorProvider.notifier).update((state) => !value);
+            }),
+        const SizedBox(height: 10),
+        SwitchListTile.adaptive(
+            title: const Text('Asesor'),
+            activeColor: AppTema.pizazz,
+            value: isActiveAsesor,
+            onChanged: (value) {
+              ref
+                  .read(switchEstudianteProvider.notifier)
+                  .update((state) => !value);
+              ref.read(switchAsesorProvider.notifier).update((state) => value);
+            }),
+        isActiveEstudiante
+            ? Column(
+                children: [
+                  const SizedBox(height: 20),
+                  Container(
+                    alignment: Alignment.topLeft,
+                    child: const Text(
+                      'Seleccione participante',
+                      style: TextStyle(
+                          color: AppTema.bluegrey700,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  participantes.when(
+                    data: (data) => DropdownButtonFormField<String>(
+                        key: const Key("dropdown_1"),
+                        hint: const Text(
+                          'Seleccione una opción',
+                          overflow: TextOverflow.visible,
+                          style: TextStyle(
+                              color: AppTema.bluegrey700,
+                              fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.start,
+                        ),
+                        isExpanded: true,
+                        //value: va.value,
+                        style: const TextStyle(
+                            color: AppTema.bluegrey700,
+                            fontWeight: FontWeight.bold),
+                        items: data.map((itemone) {
+                          return DropdownMenuItem<String>(
+                            alignment: Alignment.centerLeft,
+                            value:
+                                '${itemone.nombrePersona} ${itemone.apellido1} ${itemone.apellido2}',
+                            child: Text(
+                              '${itemone.nombrePersona} ${itemone.apellido1} ${itemone.apellido2}',
+                              overflow: TextOverflow.visible,
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (valueE) {
+                          nombreParticipanteConst = valueE.toString();
+                          // print(valueE);
+                          ref
+                              .read(valueAProvGC.notifier)
+                              .update((state) => null);
+                          // ref.refresh(futureDepartamentoProv);
+                        }),
+                    loading: () => const CircularProgressIndicator(),
+                    error: (error, stackTrace) =>
+                        const Text('Error al cargar los participantes.'),
+                  )
+                ],
+              )
+            : Column(
+                children: [
+                  const SizedBox(height: 20),
+                  Container(
+                    alignment: Alignment.topLeft,
+                    child: const Text(
+                      'Seleccione Asesor',
+                      style: TextStyle(
+                          color: AppTema.bluegrey700,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  asesores.when(
+                    data: (data) => DropdownButtonFormField<String>(
+                        key: const Key("dropdown_2"),
+                        hint: const Text(
+                          'Seleccione una opción',
+                          overflow: TextOverflow.visible,
+                          style: TextStyle(
+                              color: AppTema.bluegrey700,
+                              fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.start,
+                        ),
+                        isExpanded: true,
+                        // value: va.value,
+                        style: const TextStyle(
+                            color: AppTema.bluegrey700,
+                            fontWeight: FontWeight.bold),
+                        items: data.map((itemone) {
+                          return DropdownMenuItem<String>(
+                            alignment: Alignment.centerLeft,
+                            value:
+                                '${itemone.nombrePersona} ${itemone.apellido1} ${itemone.apellido2}',
+                            child: Text(
+                              '${itemone.nombrePersona} ${itemone.apellido1} ${itemone.apellido2}',
+                              overflow: TextOverflow.visible,
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (valueA) {
+                          nombreParticipanteConst = valueA.toString();
+                          // print(value);
+                          ref
+                              .read(valueAProvGC.notifier)
+                              .update((state) => null);
+                          // ref.refresh(futureDepartamentoProv);
+                        }),
+                    loading: () => const CircularProgressIndicator(),
+                    error: (error, stackTrace) =>
+                        const Text('Error al cargar los participantes.'),
+                  )
+                ],
+              ),
+        const SizedBox(
+          height: 20,
+        ),
+      ],
     );
   }
 

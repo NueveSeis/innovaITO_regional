@@ -1,5 +1,6 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:innova_ito/models/datosEstudianteRegional.dart';
 import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/screens/screens.dart';
 import 'package:http/http.dart' as http;
@@ -54,16 +55,16 @@ final futureProyectosProvGC =
 
 //* OBTENER LOS PARTICIPANDE DEL PROYECTO
 
-Future<List<DatosEstudiante>> obtenerParticipantesGC(ref) async {
+Future<List<DatosEstudianteRegional>> obtenerParticipantesGC(ref) async {
   final folio = ref.watch(proyectosProvGC);
   final url =
-      '${dotenv.env['HOST_REST']}get_participanteProyecto.php?Folio=$folio';
+      '${dotenv.env['HOST_REST']}get_estudiantesRegional.php?Folio=$folio';
 
   try {
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
-      final participantes = datosEstudianteFromJson(response.body);
+      final participantes = datosEstudianteRegionalFromJson(response.body);
       return participantes;
     } else {
       throw Exception('Error al obtener los participantes');
@@ -75,8 +76,8 @@ Future<List<DatosEstudiante>> obtenerParticipantesGC(ref) async {
 
 final participantesProvGC = StateProvider<String>((ref) => 'SN');
 
-final futureParticipantesProvGC =
-    FutureProvider<List<DatosEstudiante>>((ref) => obtenerParticipantesGC(ref));
+final futureParticipantesProvGC = FutureProvider<List<DatosEstudianteRegional>>(
+    (ref) => obtenerParticipantesGC(ref));
 
 //* OBTENER LOS ASESORES DEL PROYECTO
 
@@ -91,10 +92,10 @@ Future<List<ProyectoAsesorGc>> obtenerAsesoresGC(ref) async {
       final asesores = proyectoAsesorGcFromJson(response.body);
       return asesores;
     } else {
-      throw Exception('Error al obtener los participantes');
+      throw Exception('Error al obtener los asesores');
     }
   } catch (e) {
-    throw Exception('Error al obtener los participantes: $e');
+    throw Exception('Error al obtener los asesores: $e');
   }
 }
 

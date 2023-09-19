@@ -1,18 +1,18 @@
 // To parse this JSON data, do
 //
-//     final proyectoAsesorGc = proyectoAsesorGcFromJson(jsonString);
+//     final datosEstudianteRegional = datosEstudianteRegionalFromJson(jsonString);
 
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
-List<ProyectoAsesorGc> proyectoAsesorGcFromJson(String str) =>
-    List<ProyectoAsesorGc>.from(
-        json.decode(str).map((x) => ProyectoAsesorGc.fromJson(x)));
+List<DatosEstudianteRegional> datosEstudianteRegionalFromJson(String str) =>
+    List<DatosEstudianteRegional>.from(
+        json.decode(str).map((x) => DatosEstudianteRegional.fromJson(x)));
 
-String proyectoAsesorGcToJson(List<ProyectoAsesorGc> data) =>
+String datosEstudianteRegionalToJson(List<DatosEstudianteRegional> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class ProyectoAsesorGc {
+class DatosEstudianteRegional {
   String nombrePersona;
   dynamic apellido1;
   dynamic apellido2;
@@ -21,7 +21,7 @@ class ProyectoAsesorGc {
   dynamic numIne;
   dynamic curp;
 
-  ProyectoAsesorGc({
+  DatosEstudianteRegional({
     required this.nombrePersona,
     required this.apellido1,
     required this.apellido2,
@@ -31,8 +31,8 @@ class ProyectoAsesorGc {
     required this.curp,
   });
 
-  factory ProyectoAsesorGc.fromJson(Map<String, dynamic> json) =>
-      ProyectoAsesorGc(
+  factory DatosEstudianteRegional.fromJson(Map<String, dynamic> json) =>
+      DatosEstudianteRegional(
         nombrePersona: json["Nombre_persona"],
         apellido1: json["Apellido1"],
         apellido2: json["Apellido2"],

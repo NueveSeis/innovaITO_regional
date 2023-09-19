@@ -9,7 +9,8 @@ class RegexUtil {
     r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#\$*\-_+\|./?])[A-Za-z\d@#\$*\-_+\|./?]{8,20}$',
   );
 
-  static final RegExp nombres = RegExp(r'^[a-zA-Z]+(?: [a-zA-Z]+)?$');
+  static final RegExp nombres =
+      RegExp(r'^(?:[A-Z][a-z]+\s)+[A-Z][a-z]+(?:\s[A-Z][a-z]+)*$');
 
   static final RegExp matricula = RegExp(r'^[a-zA-Z0-9]+$');
 

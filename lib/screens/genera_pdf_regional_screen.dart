@@ -88,7 +88,7 @@ class GeneraPdfRegionalScreen extends ConsumerWidget {
                       color: AppTema.grey100,
                       child: Container(
                           child: const Text(
-                        'XXXX',
+                        'X',
                         style:
                             TextStyle(color: AppTema.bluegrey700, fontSize: 25),
                       )),
@@ -125,7 +125,7 @@ class GeneraPdfRegionalScreen extends ConsumerWidget {
                         color: AppTema.grey100,
                         child: Container(
                             child: const Text(
-                          'XXXXXX',
+                          'Constancias',
                           style: TextStyle(
                               color: AppTema.bluegrey700, fontSize: 25),
                         )),

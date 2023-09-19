@@ -853,6 +853,145 @@ class pdf {
     return generatedPdfFilePath;
   }
 
+  // static Future<String> presentaciones(
+  //     List<InformacionProyectoEr> infoProyectos) async {
+  //   Directory appDocDir = await getApplicationDocumentsDirectory();
+  //   final targetPath = appDocDir.path;
+  //   final targetFileName = "descargar_presentaciones";
+
+  //   String combinedHtml = '''
+  //   <!DOCTYPE html>
+  //   <html lang="es">
+  //   <head>
+  //       <meta charset="UTF-8">
+  //       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  //       <title>Descarga de Presentaciones</title>
+  //       <style>
+  //           body {
+  //               font-family: Arial, sans-serif;
+  //           }
+  //           .header {
+  //               display: flex;
+  //               justify-content: space-between;
+  //               align-items: center;
+  //               padding: 0px;
+  //               background-color: #ffffff;
+  //               box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  //           }
+  //           .logo {
+  //               max-height: 70px;
+  //           }
+  //           .table-container {
+  //               margin: 0px;
+  //               padding: 0; /* Ajuste el padding a 0 */
+  //               box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  //           }
+  //           table {
+  //               width: 100%;
+  //               border-collapse: collapse;
+  //               border: 1px solid #e0e0e0;
+  //           }
+  //           th, td {
+  //               padding: 0px 10px;
+  //               text-align: left;
+  //               border-bottom: 1px solid #e0e0e0;
+  //           }
+  //           th {
+  //               background-color: #f2f2f2;
+  //           }
+  //           td {
+  //               font-size: 14px;
+  //           }
+  //           h1 {
+  //               font-size: 24px;
+  //               color: #333333;
+  //               text-align: center;
+  //               margin-top: 30px;
+  //           }
+  //       </style>
+  //   </head>
+  //   <body>
+  //       <div class="header">
+  //           <img src="${dotenv.env['HOST_REST']}logos/tecnm.png" alt="Logo 1" class="logo">
+  //           <img src="${dotenv.env['HOST_REST']}logos/logo_innova.png" alt="Logo 2" class="logo">
+  //       </div>
+  //       <h1>Descarga de Presentaciones</h1>
+  // ''';
+
+  //   Map<String, List<InformacionProyectoEr>> categoriasProyectos = {};
+
+  //   for (var dato in infoProyectos) {
+  //     if (!categoriasProyectos.containsKey(dato.nombreCategoria)) {
+  //       categoriasProyectos[dato.nombreCategoria] = [];
+  //     }
+  //     categoriasProyectos[dato.nombreCategoria]?.add(dato);
+  //   }
+
+  //   for (var categoria in categoriasProyectos.keys) {
+  //     combinedHtml += '''
+  //       <h1>Categoría: $categoria</h1>
+  //       <div class="table-container">
+  //           <table>
+  //               <thead>
+  //                   <tr>
+  //                       <th>Proyecto</th>
+  //                       <th>Nombre descriptivo</th>
+  //                       <th>Categoría</th>
+  //                       <th>Presentación</th>
+  //                   </tr>
+  //               </thead>
+  //               <tbody>
+  //   ''';
+
+  //     for (var dato in categoriasProyectos[categoria]!) {
+  //       String fileId = extractGoogleDocsFileId(dato.video);
+  //       String urlDownload =
+  //           'https://drive.google.com/uc?id=$fileId&export=download';
+
+  //       combinedHtml += '''
+  //       <tr>
+  //         <td>${dato.nombreCorto}</td>
+  //         <td>${dato.nombreProyecto}</td>
+  //         <td>${dato.nombreCategoria}</td>
+  //         <td><a href="$urlDownload" download>Descargar</a></td>
+  //       </tr>
+  //     ''';
+  //     }
+
+  //     combinedHtml += '''
+  //               </tbody>
+  //           </table>
+  //       </div>
+  //   ''';
+  //   }
+
+  //   combinedHtml += '''
+  //     </body>
+  //     </html>
+  // ''';
+
+  //   final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(
+  //       combinedHtml, targetPath, targetFileName);
+
+  //   // Ruta del archivo PDF generado
+  //   String generatedPdfFilePath = generatedPdfFile.path;
+  //   return generatedPdfFilePath;
+  // }
+
+  // static String extractGoogleDocsFileId(dynamic url) {
+  //   if (url == null) {
+  //     return 'ID no encontrado';
+  //   }
+
+  //   Match? match = RegexUtil.idDoc.firstMatch(url);
+  //   if (match != null && match.groupCount >= 1) {
+  //     return match.group(1)!;
+  //   } else {
+  //     return 'ID no encontrado';
+  //   }
+  // }
+
+  //*DESCARGAR PRESENTACIONES
   static Future<String> presentaciones(
       List<InformacionProyectoEr> infoProyectos) async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
@@ -936,8 +1075,8 @@ class pdf {
                     <tr>
                         <th>Proyecto</th>
                         <th>Nombre descriptivo</th>
-                        <th>Categoría</th>
                         <th>Presentación</th>
+                        <th>Visualizar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -952,8 +1091,14 @@ class pdf {
         <tr>
           <td>${dato.nombreCorto}</td>
           <td>${dato.nombreProyecto}</td>
-          <td>${dato.nombreCategoria}</td>
-          <td><a href="$urlDownload" download>Descargar</a></td>
+          <td>
+    ${dato.video == null ? 'Sin presentación' : '<a href="$urlDownload" download>Descargar</a>'}
+  </td>
+        
+  <td>
+    ${dato.video == null ? 'Sin presentación' : '<a href="${dato.video}" download>Ver</a>'}
+  </td>
+
         </tr>
       ''';
       }
@@ -989,5 +1134,93 @@ class pdf {
     } else {
       return 'ID no encontrado';
     }
+  }
+
+//*CONSTANCIAS POR PROYECTO
+
+  static Future<String> constanciasPorEquipo(
+      String nombreCorto,
+      List<String> nombresParticipantes,
+      String tecnologico,
+      String rol,
+      String nombreProyecto,
+      String categoria,
+      String etapa,
+      String nombreDirector,
+      String dia,
+      String mes,
+      String ano,
+      String fechaIni,
+      String fechaFin,
+      String nombreCo,
+      String cargo) async {
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    final targetPath = appDocDir.path;
+    final targetFileName = "Constancias-$nombreCorto";
+
+    String htmlContent = """
+ <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Constancias</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+  """;
+
+    for (var nombreParticipante in nombresParticipantes) {
+      htmlContent += """
+        <div style="page-break-before: always;"></div> <!-- Inicia una nueva página -->
+       
+        <img src="${dotenv.env['HOST_REST']}logos/sep.png" alt="" style="position: absolute; left: 0; top: 10; height: 60px;">
+        <img src="${dotenv.env['HOST_REST']}logos/tecnm.png" alt="Imagen 2" style="position: absolute; right: 0; top: 10;  height: 60px;">
+        <br>
+        <br>
+        <div style="text-align: center; margin-top: 140px;">
+            <br>
+            <h3>EL TECNOLÓGICO NACIONAL DE MÉXICO A TRAVÉS DEL $tecnologico OTORGA EL PRESENTE</h3>
+            <br>
+            <h2>RECONOCIMIENTO</h2>
+            <h2>A</h2>
+            <h2>$nombreParticipante</h2>
+            <br>
+            <h3>POR SU DESTACADA PARTICIPACIÓN EN EL PROYECTO $nombreProyecto, EN LA CATEGORÍA $categoria </h3>
+            <br>
+            
+            <h3>EN EL EVENTO INNOVATEC $ano</h3>
+            <h3>CELEBRADO $fechaIni AL $fechaFin DEL $mes DE $ano</h3>
+            
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 40px;">
+            <div style="text-align: center; position: absolute; left: 0; top: 600; width: 50%;">
+                <h3>$nombreCo</h3>
+                <h3>$cargo</h3>
+            </div>
+            <div style="text-align: center; position: absolute; right: 0; top: 600; width: 50%;">
+                <h3>$nombreDirector</h3>
+                <h3>DIRECTOR DEL $tecnologico</h3>
+            </div>
+        </div>
+  """;
+    }
+
+    htmlContent += """
+        </body>
+        </html>
+  """;
+
+    final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(
+      htmlContent,
+      targetPath,
+      targetFileName,
+    );
+
+    String generatedPdfFilePath = generatedPdfFile.path;
+    return generatedPdfFilePath;
   }
 }
