@@ -71,6 +71,8 @@ class SubirPresentacionScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
     TextEditingController linkPresentacion = TextEditingController();
     final String? folioProv = ref.watch(buscarProyectoRegionalProv);
     return Scaffold(
@@ -126,6 +128,7 @@ class SubirPresentacionScreen extends ConsumerWidget {
                                   height: 50,
                                 ),
                                 Form(
+                                  key: _formKey,
                                   child: Column(
                                     children: [
                                       TextFormField(
@@ -179,44 +182,48 @@ class SubirPresentacionScreen extends ConsumerWidget {
                                       ),
                                       ElevatedButton(
                                         onPressed: () async {
-                                          String url = linkPresentacion.text;
-                                          String fileId =
-                                              extractGoogleDocsFileId(url);
-                                          print(fileId);
-                                          // String urlDownload =
-                                          //     'https://drive.google.com/uc?id=' +
-                                          //         fileId +
-                                          //         '&export=download';
-                                          // await downloadFile(
-                                          //     urlDownload, 'simon');
+                                          if (_formKey.currentState!
+                                              .validate()) {
+                                            String url = linkPresentacion.text;
+                                            String fileId =
+                                                extractGoogleDocsFileId(url);
+                                            print(fileId);
+                                            // String urlDownload =
+                                            //     'https://drive.google.com/uc?id=' +
+                                            //         fileId +
+                                            //         '&export=download';
+                                            // await downloadFile(
+                                            //     urlDownload, 'simon');
 
-                                          bool modificado =
-                                              await modificarPresentacion(
-                                                  folioProv.toString(), url);
-                                          if (modificado) {
-                                            QuickAlert.show(
+                                            bool modificado =
+                                                await modificarPresentacion(
+                                                    folioProv.toString(), url);
+                                            if (modificado) {
+                                              QuickAlert.show(
+                                                  context: context,
+                                                  type: QuickAlertType.success,
+                                                  title:
+                                                      'Enlace subido con exito',
+                                                  confirmBtnText: 'Aceptar',
+                                                  confirmBtnColor:
+                                                      AppTema.pizazz,
+                                                  onConfirmBtnTap: () {
+                                                    context.pushReplacementNamed(
+                                                        'SubirPresentacionScreen');
+                                                  });
+                                            } else {
+                                              QuickAlert.show(
                                                 context: context,
-                                                type: QuickAlertType.success,
-                                                title:
-                                                    'Enlace subido con exito',
+                                                type: QuickAlertType.error,
+                                                title: 'Ocurrió un error',
                                                 confirmBtnText: 'Aceptar',
                                                 confirmBtnColor: AppTema.pizazz,
                                                 onConfirmBtnTap: () {
                                                   context.pushReplacementNamed(
                                                       'SubirPresentacionScreen');
-                                                });
-                                          } else {
-                                            QuickAlert.show(
-                                              context: context,
-                                              type: QuickAlertType.error,
-                                              title: 'Ocurrió un error',
-                                              confirmBtnText: 'Aceptar',
-                                              confirmBtnColor: AppTema.pizazz,
-                                              onConfirmBtnTap: () {
-                                                context.pushReplacementNamed(
-                                                    'SubirPresentacionScreen');
-                                              },
-                                            );
+                                                },
+                                              );
+                                            }
                                           }
                                         },
                                         child: const Text(
