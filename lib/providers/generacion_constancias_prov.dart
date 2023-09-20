@@ -151,3 +151,30 @@ final standProvGC = StateProvider<String>((ref) => 'SN');
 
 final futureStandProvGC =
     FutureProvider<List<StandHs>>((ref) => obtenerStandGC(ref));
+
+//* PROYECTOS PARTICIPANTE Y ASESORES
+
+Future<List<InfoConstanciaTodos>> obtenerInfoConstanciaTodos(ref) async {
+  final folio = ref.watch(proyectosProvGC);
+  final url =
+      '${dotenv.env['HOST_REST']}get_infoConstanciaTodos.php?Folio=$folio';
+
+  try {
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      final info = infoConstanciaTodosFromJson(response.body);
+      return info;
+    } else {
+      throw Exception('Error al obtener la información');
+    }
+  } catch (e) {
+    throw Exception('Error al obtener la información: $e');
+  }
+}
+
+final infoConstanciaTodosProvGC = StateProvider<String>((ref) => 'SN');
+
+final futureInfoConstanciaTodosProvGC =
+    FutureProvider<List<InfoConstanciaTodos>>(
+        (ref) => obtenerInfoConstanciaTodos(ref));

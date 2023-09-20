@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:innova_ito/models/datosEstudianteRegional.dart';
+import 'package:innova_ito/models/models.dart';
 import 'package:innova_ito/models/proyectoAsesorGC.dart';
 import 'package:innova_ito/models/proyectoGC.dart';
 import 'package:innova_ito/providers/providers.dart';
@@ -54,6 +55,7 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
     final proyectosGC = ref.watch(futureProyectosProvGC);
     final participantes = ref.watch(futureParticipantesProvGC);
     final asesores = ref.watch(futureAsesoresProvGC);
+    final infoTodos = ref.watch(futureInfoConstanciaTodosProvGC);
     final nombreCoordinador = ref.watch(nombreUsuarioLogin);
     final va = ref.watch(valueAProvGC);
     final ve = ref.watch(valueEProvGC);
@@ -63,6 +65,8 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
     final isActiveIndividual = ref.watch(switchIndividualProvider);
     final isActivePorProyecto = ref.watch(switchPorProyectoProvider);
     final isActiveTodos = ref.watch(switchTodosProvider);
+
+    List<InfoConstanciaTodos> informacionTodos = [];
 
     String _director = 'M.E. Fernando Toledo Toledo';
     String _nombreEncargado = 'M.I. Raquel López Celis';
@@ -277,6 +281,27 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
                           if (isActivePorProyecto)
                             porProyecto(
                                 proyectosGC, ref, participantes, asesores),
+                          if (isActiveTodos)
+                            Container(
+                              child: FutureBuilder<List<InfoConstanciaTodos>>(
+                                future: obtenerInfoConstanciaTodos(ref),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    // Manejar el estado de carga
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  } else if (snapshot.hasError) {
+                                    // Manejar el estado de error
+                                    return Text('Error: ${snapshot.error}');
+                                  } else {
+                                    // Mostrar los datos en un widget
+                                    informacionTodos = snapshot.data ?? [];
+                                    return SizedBox(); // Reemplaza YourCustomWidget con el widget adecuado
+                                  }
+                                },
+                              ),
+                            ),
                         ],
                       )),
                 ),
@@ -331,11 +356,10 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
                     onPressed: () async {
                       camposLlenos = _formKey.currentState!.validate();
 //nombreParticipanteConst.isEmpty ||
-                      if (camposLlenos == false ||
-                          selectedDateRange == null ||
-                          nombreTecnologicoConstancia.isEmpty ||
-                          nombreProyectoConstancia.isEmpty ||
-                          nombreCategoriaConstancia.isEmpty) {
+//nombreProyectoConstancia.isEmpty ||
+//nombreTecnologicoConstancia.isEmpty ||
+                      //                        nombreCategoriaConstancia.isEmpty
+                      if (camposLlenos == false || selectedDateRange == null) {
                         QuickAlert.show(
                           context: context,
                           type: QuickAlertType.warning,
@@ -358,6 +382,35 @@ class GeneracionConstanciaScreen extends ConsumerWidget {
                         // print(
                         //String ruta = '';
                         //     'Día de inicio: ${DateFormat.d().format(selectedDateRange?.start ?? DateTime.now())}');
+
+                        if (isActiveTodos) {
+                          infoTodos.when(
+                            data: (data) async {
+                              List<InfoConstanciaTodos> dataList = data;
+                              String ruta = await pdf.constanciasTodos(
+                                  informacionTodos,
+                                  nombreTecnologicoConstancia.toUpperCase(),
+                                  'PARTICIPANTE',
+                                  'LOCAL',
+                                  cdirector.text.toUpperCase(),
+                                  dia,
+                                  mes.toUpperCase(),
+                                  ano,
+                                  fIni,
+                                  fFin,
+                                  cCoo.text.toUpperCase(),
+                                  cCargo.text.toUpperCase());
+
+                              OpenFilex.open(ruta);
+                            },
+                            loading: () {
+                              // Puedes manejar el estado de carga aquí si es necesario
+                            },
+                            error: (error, stackTrace) {
+                              // Puedes manejar el estado de error aquí si es necesario
+                            },
+                          );
+                        }
 
                         if (isActiveIndividual) {
                           String ruta = await pdf.constancia(

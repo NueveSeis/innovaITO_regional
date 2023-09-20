@@ -39,7 +39,7 @@ class InformacionProyectoEr {
         idArea: json["Id_area"],
         nombreCategoria: json["Nombre_categoria"],
         nombreNivel: json["Nombre_nivel"],
-        video: json["video"],
+        video: json["Video"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -49,6 +49,6 @@ class InformacionProyectoEr {
         "Id_area": idArea,
         "Nombre_categoria": nombreCategoria,
         "Nombre_nivel": nombreNivel,
-        "video": video,
+        "Video": video,
       };
 }

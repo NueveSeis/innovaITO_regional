@@ -341,8 +341,8 @@ List<ModeloMenu> itemsCoordinadorLocalRegional = const [
       titulo: "Generar PDFS",
       icono: Icons.picture_as_pdf_rounded,
       pantalla: 'GeneraPdfRegionalScreen'),
-  ModeloMenu(
-      titulo: "Enviar cuentas",
-      icono: Icons.email_outlined,
-      pantalla: 'EnviarCuentasRegionalScreen'),
+  // ModeloMenu(
+  //     titulo: "Enviar cuentas",
+  //     icono: Icons.email_outlined,
+  //     pantalla: 'EnviarCuentasRegionalScreen'),
 ];

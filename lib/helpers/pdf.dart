@@ -996,7 +996,7 @@ class pdf {
       List<InformacionProyectoEr> infoProyectos) async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     final targetPath = appDocDir.path;
-    final targetFileName = "descargar_presentaciones";
+    final targetFileName = "presentaciones";
 
     String combinedHtml = '''
     <!DOCTYPE html>
@@ -1083,6 +1083,7 @@ class pdf {
     ''';
 
       for (var dato in categoriasProyectos[categoria]!) {
+        print(dato.video);
         String fileId = extractGoogleDocsFileId(dato.video);
         String urlDownload =
             'https://drive.google.com/uc?id=$fileId&export=download';
@@ -1213,6 +1214,93 @@ class pdf {
         </body>
         </html>
   """;
+
+    final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(
+      htmlContent,
+      targetPath,
+      targetFileName,
+    );
+
+    String generatedPdfFilePath = generatedPdfFile.path;
+    return generatedPdfFilePath;
+  }
+
+//*CONSTANCIA TODOS
+
+  static Future<String> constanciasTodos(
+      List<InfoConstanciaTodos> constanciasInfoList,
+      String tecnologico,
+      String rol,
+      String etapa,
+      String nombreDirector,
+      String dia,
+      String mes,
+      String ano,
+      String fechaIni,
+      String fechaFin,
+      String nombreCo,
+      String cargo) async {
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    final targetPath = appDocDir.path;
+
+    String htmlContent = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Constancias</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+  """;
+
+    for (var constanciaInfo in constanciasInfoList) {
+      print('si');
+      htmlContent += """
+        <div style="page-break-before: always;"></div> <!-- Inicia una nueva página -->
+       
+        <img src="${dotenv.env['HOST_REST']}logos/sep.png" alt="" style="position: absolute; left: 0; top: 10; height: 60px;">
+        <img src="${dotenv.env['HOST_REST']}logos/tecnm.png" alt="Imagen 2" style="position: absolute; right: 0; top: 10;  height: 60px;">
+        <br>
+        <br>
+        <div style="text-align: center; margin-top: 140px;">
+            <br>
+            <h3>EL TECNOLÓGICO NACIONAL DE MÉXICO A TRAVÉS DEL ${tecnologico} OTORGA EL PRESENTE</h3>
+            <br>
+            <h2>RECONOCIMIENTO</h2>
+            <h2>A</h2>
+            <h2>${constanciaInfo.nombrePersona} ${constanciaInfo.apellido1} ${constanciaInfo.apellido2}</h2>
+            <br>
+            <h3>POR SU DESTACADA PARTICIPACIÓN EN EL PROYECTO ${constanciaInfo.nombreProyecto}, EN LA CATEGORÍA ${constanciaInfo.nombreCategoria} </h3>
+            <br>
+            
+            <h3>EN EL EVENTO INNOVATEC ${ano}</h3>
+            <h3>CELEBRADO ${fechaIni} AL ${fechaFin} DEL ${mes} DE ${ano}</h3>
+            
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 40px;">
+            <div style="text-align: center; position: absolute; left: 0; top: 600; width: 50%;">
+                <h3>${nombreCo}</h3>
+                <h3>${cargo}</h3>
+            </div>
+            <div style="text-align: center; position: absolute; right: 0; top: 600; width: 50%;">
+                <h3>${nombreDirector}</h3>
+                <h3>DIRECTOR DEL ${tecnologico}</h3>
+            </div>
+        </div>
+  """;
+    }
+
+    htmlContent += """
+        </body>
+        </html>
+  """;
+
+    final targetFileName = "Constancias-TODOS";
 
     final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(
       htmlContent,
